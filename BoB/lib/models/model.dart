@@ -11,7 +11,7 @@ class User {
   User(this.email, this.password1, this.name, this.phone, this.qaType, this.qaAnswer);
 
   User.fromJson(Map<dynamic, dynamic> json)
-      : email = json['email'], password1 = json['password1'], name = json['name'], phone = json['phone'], qaType = json['qaType'], qaAnswer = json['qaAnswer'];
+      : email = json['email'], password1 = json['password1'], name = json['name'], phone = json['phone'], qaType = (json['qaType']), qaAnswer = (json['qaAnswer']);
 
   Map<String, dynamic> toJson() => {
     "email": email,

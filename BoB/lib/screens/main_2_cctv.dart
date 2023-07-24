@@ -12,7 +12,10 @@ class MainCCTVState extends State<Main_Cctv>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('2'),
+      body: Column(
+        children: [
+        ],
+      )
     );
   }
 }
