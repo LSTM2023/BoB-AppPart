@@ -38,7 +38,7 @@ class _Splash extends State<Splash>{
                   decoration: const BoxDecoration(
                     color: Color(0xfffa625f),
                   ),
-                  child : const Column(
+                  child : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //Image.asset('assets/images/baby.png', width: 150),
