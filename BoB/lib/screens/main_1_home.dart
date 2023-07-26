@@ -59,6 +59,7 @@ class MainHomeState extends State<Main_Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffFFFFFF),
       appBar: AppBar(
         backgroundColor: const Color(0xfffcd3c2),
         elevation: 0.0,
@@ -137,13 +138,13 @@ class MainHomeState extends State<Main_Home> {
                 padding: const EdgeInsets.all(13),
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 15),
                 decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    color: const Color(0xffF9F8F8),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: const [
                       BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 5,
-                        spreadRadius: 1,
+                        color: Color(0x512F2229),
+                        blurRadius: 1,
+                        spreadRadius: 0,
                       )
                     ]
                 ),
@@ -210,13 +211,13 @@ class MainHomeState extends State<Main_Home> {
                         margin: const EdgeInsets.fromLTRB(20, 0, 5, 10),
                         padding: const EdgeInsets.all(13),
                         decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Color(0xffF9F8F8),
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: const [
                               BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 5,
-                                spreadRadius: 1,
+                                color: Color(0x512F2229),
+                                blurRadius: 1,
+                                spreadRadius: 0,
                               )
                             ]
                         ),
@@ -281,13 +282,13 @@ class MainHomeState extends State<Main_Home> {
                                   padding: const EdgeInsets.all(18),
                                   height: 110,
                                   decoration: BoxDecoration(
-                                      color: Colors.grey[200],
+                                      color: Color(0xffF9F8F8),
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: const [
                                         BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 5,
-                                          spreadRadius: 1,
+                                          color: Color(0x512F2229),
+                                          blurRadius: 1,
+                                          spreadRadius: 0,
                                         )
                                       ]
                                   ),
@@ -327,13 +328,13 @@ class MainHomeState extends State<Main_Home> {
                                   width: double.infinity,
                                   height: 110,
                                   decoration: BoxDecoration(
-                                      color: Colors.grey[200],
+                                      color: const Color(0xffF9F8F8),
                                       borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
+                                      boxShadow: const [
                                         BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 5,
-                                          spreadRadius: 1,
+                                          color: Color(0x512F2229),
+                                          blurRadius: 1,
+                                          spreadRadius: 0,
                                         )
                                       ]
                                   ),
@@ -382,7 +383,7 @@ class MainHomeState extends State<Main_Home> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        drawRecordButton(context, '모유', Icons.water_drop_outlined, Colors.red, const Color(0xfffFFD2D2), 0),
+                        drawRecordButton(context, '모유', Icons.water_drop_outlined, Colors.red, const Color(0xffFFD2D2), 0),
                         drawRecordButton(context, '젖병', Icons.water_drop, Colors.orange, const Color(0xffFFE0D2), 1),
                         drawRecordButton(context, '이유식', Icons.rice_bowl_rounded, const Color(0xfffacc00), const Color(0xffFFF2D2), 2),
                         drawRecordButton(context, '기저귀', Icons.baby_changing_station, Colors.green, const Color(0xffE6FFD2), 3),
