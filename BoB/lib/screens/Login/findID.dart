@@ -33,7 +33,7 @@ class _Login_findID extends State<Login_findID>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: renderAppbar('아이디 찾기', true),
+      appBar: renderAppbar('아이디 찾기', true, 0xffF9F8F8),
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
         child: Column(
@@ -44,6 +44,7 @@ class _Login_findID extends State<Login_findID>{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextFormField(
+                        decoration: formDecoration('핸드폰 번호를 입력해주세요'),
                         inputFormatters: [
                           MultiMaskedTextInputFormatter(
                               masks: ['xxx-xxxx-xxxx', 'xxx-xxx-xxxx'], separator: '-')
@@ -51,18 +52,11 @@ class _Login_findID extends State<Login_findID>{
                         autofocus: true,
                         keyboardType: TextInputType.number,
                         controller: phoneController,
-                        decoration: formDecoration('핸드폰 번호를 입력해주세요'),
                       ),
                       const SizedBox(height: 20),
                       //Text('질문'),
                       DropDownTextField(
-                        textFieldDecoration: const InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: Colors.grey)
-                            ),
-                            hintText: '설정한 질문 유형을 선택해주세요'
-                        ),
+                        textFieldDecoration: formDecoration('설정한 질문 유형을 선택해주세요'),
                         controller: _cnt,
                         clearOption: false,
                         validator: (value) {

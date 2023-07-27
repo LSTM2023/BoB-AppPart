@@ -9,7 +9,9 @@ import '../../models/validate.dart';
 import '../BaseWidget.dart';
 import './findID.dart';
 import './findPassword.dart';
+import './signUp.dart';
 import '../MyPage/AddBaby.dart';
+import '../../widgets/form.dart';
 
 class LoginInit extends StatefulWidget{
   @override
@@ -31,78 +33,106 @@ class _LoginInit extends State<LoginInit>{
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.fromLTRB(20, 150, 20, 0),
+        color: const Color(0xfff9f8f8),
+        margin: const EdgeInsets.fromLTRB(20, 158, 20, 0),
         child: Expanded(
           child: SingleChildScrollView(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: (){
-                      setState(() {
-                        is_off = !is_off;
-                      });
-                    },
-                    child: const Icon(Icons.ac_unit,size: 100),
-                  ),
-                  SizedBox(height: 20,),
-                  Offstage(
-                    offstage: !is_off,
-                    child: const Text('로고를 클릭해주세요'),
-                  ),
-                  Offstage(
-                      offstage: is_off,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 40),
-                          getLoginForm(idController, "아이디 또는 이메일을 입력해주세요.", false, TextInputType.emailAddress),
-                          const SizedBox(height: 15),
-                          getLoginForm(passController, "비밀번호를 입력해주세요.", true, TextInputType.text),
-                          const SizedBox(height: 30),
-                          ElevatedButton(
-                              onPressed: _isValid()? _login : null,
-                              style:ElevatedButton.styleFrom(
-                                  elevation: 0.2,
-                                  padding: const EdgeInsets.all(20),
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: const Color(0xfffa625f),
-                                  minimumSize: const Size.fromHeight(55),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0))
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: (){
+                    setState(() {
+                      is_off = !is_off;
+                    });
+                  },
+                  child: const Icon(Icons.circle_outlined,size: 158),
+                ),
+                const SizedBox(height: 50),
+                Offstage(
+                    offstage: is_off,
+                    child: Column(
+                      children: [
+                        getLoginForm(idController, "아이디 또는 이메일을 입력해주세요.", false, TextInputType.emailAddress),
+                        const SizedBox(height: 15),
+                        getLoginForm(passController, "비밀번호를 입력해주세요.", true, TextInputType.text),
+                        const SizedBox(height: 23),
+                        ElevatedButton(
+                            onPressed: _isValid()? _login : null,
+                            style:ElevatedButton.styleFrom(
+                                foregroundColor: Color(0xFFFB8665),
+                                elevation: 0.2,
+                                padding: const EdgeInsets.all(20),
+                                //foregroundColor: Colors.white,
+                                //backgroundColor: Color.fromRGBO(251, 134, 101, 1),
+                                minimumSize: const Size.fromHeight(55),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0))
+                            ),
+                            child: Text('로그인')
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          height: 16,
+                          child:Row(
+                            children: [
+                              makeText('계정을 잊으셨나요? ', Color(0xCC512F22), 12),
+                              TextButton(
+                                  onPressed: (){
+                                    Get.to(()=>const Login_findID());
+                                  },
+                                  style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
+                                  child: makeText('아이디 찾기 ', Color(0xfffb8665), 12)
                               ),
-                              child: Text('로그인')
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
-                              Text('계정을 잊으셨나요? '),
-                              TextButton(onPressed: (){
-                                Get.to(()=>const Login_findID());
-                              }, child: Text('아이디 찾기')),
-                              Text('또는'),
-                              TextButton(onPressed: (){
-                                Get.to(()=>const Login_findPass());
-                              }, child: Text('비밀번호 찾기')),
-
+                              makeText('또는', Color(0xCC512F22), 12),
+                              TextButton(
+                                  onPressed: (){
+                                    Get.to(()=>const Login_findPass());
+                                  },
+                                  style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
+                                  child: makeText('비밀번호 찾기 ', Color(0xfffb8665), 12)
+                              ),
                             ],
                           ),
-                          Row(
+                        ),
+                        const SizedBox(height: 5),
+                        SizedBox(
+                          height: 16,
+                          child: Row(
                             children: [
-                              Text('아직 회원이 아니신가요? '),
-                              TextButton(onPressed: (){}, child: Text('회원가입'))
+                              makeText('아직 회원이 아니신가요?', Color(0xCC512F22), 12),
+                              const SizedBox(width: 4),
+                              TextButton(onPressed: (){
+                                Get.to(()=>SignUp());
+                              }, style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
+                                  child: makeText('회원가입', Color(0xfffb8665), 12)
+                              )
                             ],
-                          )
-                        ],
-                      )
-                  )
-                ],
-              ),
+                          ),
+                        ),
+                        const SizedBox(height: 53),
+                        makeText('간편 로그인', Color(0xFF512F22), 12),
+                        const SizedBox(height: 10),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.access_time_filled_outlined, size: 32),
+                            SizedBox(width: 9.5),
+                            Icon(Icons.access_time_filled_outlined, size: 32),
+                            SizedBox(width: 9.5),
+                            Icon(Icons.access_time_filled_outlined, size: 32)
+                          ],
+                        )
+                      ],
+                    )
+                )
+              ],
             ),
           ),
         )
       )
     );
   }
+
   // 로그인 폼 입력값 형식 체크
   bool _isValid(){
     return (validateEmail(idController.text.trim()) && validatePassword(passController.text.trim()));
@@ -115,8 +145,9 @@ class _LoginInit extends State<LoginInit>{
       placeholder: title,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(width: 0.5)
+        //color: Color(0x512F224D),
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(width: 0.5)
       ),
       onChanged: (val){
         setState(() {});

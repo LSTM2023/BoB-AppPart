@@ -34,7 +34,7 @@ class _Login_findPass extends State<Login_findPass>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: renderAppbar('비밀번호 찾기', true),
+      appBar: renderAppbar('비밀번호 찾기', true, 0xffF9F8F8),
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
         child: Column(
@@ -51,13 +51,7 @@ class _Login_findPass extends State<Login_findPass>{
                       const SizedBox(height: 20),
                       //Text('질문'),
                       DropDownTextField(
-                        textFieldDecoration: const InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: Colors.grey)
-                            ),
-                          hintText: '설정한 질문 유형을 선택해주세요'
-                        ),
+                        textFieldDecoration: formDecoration('설정한 질문 유형을 선택해주세요'),
                         controller: _cnt,
                         clearOption: false,
                         validator: (value) {

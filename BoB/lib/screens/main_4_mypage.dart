@@ -17,7 +17,7 @@ class MainMyPageState extends State<MainMyPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: renderAppbar('My Page', false),
+      appBar: renderAppbar('My Page', false, 0xffffffff),
       body: getSettingScreen('로그아웃', const Icon(Icons.logout),() => logout()),
     );
   }

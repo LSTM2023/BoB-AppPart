@@ -10,7 +10,7 @@ class _AddBaby extends State<AddBaby>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: renderAppbar('add baby', false),
+      appBar: renderAppbar('add baby', false, 0xffffffff),
       body: Text(''),
     );
   }

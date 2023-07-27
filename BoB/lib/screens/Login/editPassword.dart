@@ -26,7 +26,7 @@ class _EditPassword extends State<EditPassword>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: renderAppbar('비밀번호 재설정', true),
+      appBar: renderAppbar('비밀번호 재설정', true, 0xffF9F8F8),
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
         child: Column(
