@@ -42,6 +42,8 @@ dependencies:
   kakao_flutter_sdk: ^1.5.0
   multi_masked_formatter: ^1.0.0
   jwt_decode: ^0.3.1
+  intl:
+  flutter_mjpeg:
 
 dev_dependencies:
   flutter_test:
