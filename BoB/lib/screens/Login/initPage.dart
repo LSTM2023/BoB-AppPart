@@ -12,6 +12,7 @@ import './findPassword.dart';
 import './signUp.dart';
 import '../MyPage/AddBaby.dart';
 import '../../widgets/form.dart';
+import './findLoginInfo.dart';
 
 class LoginInit extends StatefulWidget{
   @override
@@ -46,7 +47,9 @@ class _LoginInit extends State<LoginInit>{
                       is_off = !is_off;
                     });
                   },
-                  child: const Icon(Icons.circle_outlined,size: 158),
+                  child: Center(
+                    child: const Icon(Icons.circle_outlined,size: 158),
+                  ),
                 ),
                 const SizedBox(height: 50),
                 Offstage(
@@ -60,15 +63,14 @@ class _LoginInit extends State<LoginInit>{
                         ElevatedButton(
                             onPressed: _isValid()? _login : null,
                             style:ElevatedButton.styleFrom(
-                                foregroundColor: Color(0xFFFB8665),
+                                foregroundColor: Colors.white,
                                 elevation: 0.2,
                                 padding: const EdgeInsets.all(20),
-                                //foregroundColor: Colors.white,
-                                //backgroundColor: Color.fromRGBO(251, 134, 101, 1),
+                                backgroundColor: Color.fromRGBO(251, 134, 101, 1),
                                 minimumSize: const Size.fromHeight(55),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0))
                             ),
-                            child: Text('로그인')
+                            child: const Text('로그인')
                         ),
                         const SizedBox(height: 16),
                         SizedBox(
@@ -78,7 +80,7 @@ class _LoginInit extends State<LoginInit>{
                               makeText('계정을 잊으셨나요? ', Color(0xCC512F22), 12),
                               TextButton(
                                   onPressed: (){
-                                    Get.to(()=>const Login_findID());
+                                    Get.to(()=> FindLoginInfo(0));
                                   },
                                   style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
                                   child: makeText('아이디 찾기 ', Color(0xfffb8665), 12)
@@ -86,7 +88,7 @@ class _LoginInit extends State<LoginInit>{
                               makeText('또는', Color(0xCC512F22), 12),
                               TextButton(
                                   onPressed: (){
-                                    Get.to(()=>const Login_findPass());
+                                    Get.to(()=> FindLoginInfo(1));
                                   },
                                   style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
                                   child: makeText('비밀번호 찾기 ', Color(0xfffb8665), 12)
@@ -112,14 +114,14 @@ class _LoginInit extends State<LoginInit>{
                         const SizedBox(height: 53),
                         makeText('간편 로그인', Color(0xFF512F22), 12),
                         const SizedBox(height: 10),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.access_time_filled_outlined, size: 32),
+                            socialLoginButton('naver'),
                             SizedBox(width: 9.5),
-                            Icon(Icons.access_time_filled_outlined, size: 32),
+                            socialLoginButton('kakao'),
                             SizedBox(width: 9.5),
-                            Icon(Icons.access_time_filled_outlined, size: 32)
+                            socialLoginButton('google'),
                           ],
                         )
                       ],
@@ -132,7 +134,21 @@ class _LoginInit extends State<LoginInit>{
       )
     );
   }
-
+  InkWell socialLoginButton(String title){
+    return InkWell(
+      onTap: (){},
+      child: Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            border: Border.all(color: Color(0x4F512F22))
+        ),
+        padding: EdgeInsets.all(8),
+        child: Image.asset('assets/icon/$title.png', width: 10.89, height: 9.6),
+      ),
+    );
+  }
   // 로그인 폼 입력값 형식 체크
   bool _isValid(){
     return (validateEmail(idController.text.trim()) && validatePassword(passController.text.trim()));

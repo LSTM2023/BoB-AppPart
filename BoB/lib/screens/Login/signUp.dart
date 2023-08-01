@@ -1,10 +1,13 @@
-import 'package:bob/models/model.dart';
+import 'package:bob/screens/Login/initPage.dart';
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
+
 import '../../widgets/appbar.dart';
 import '../../widgets/form.dart';
-import 'package:get/get.dart';
+import '../../services/backend.dart';
+import '../../models/validate.dart';
 import './editPassword.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
 
 class SignUp extends StatefulWidget{
   const SignUp({super.key});
@@ -19,7 +22,8 @@ class _SignUp extends State<SignUp>{
   late TextEditingController nickNameCtr;
   late TextEditingController phoneCtr;
   late TextEditingController answerCtr;
-
+  bool _isDuplicateCheck = false;
+  bool passwordVisible = true;
   @override
   void initState() {
     _cnt = SingleValueDropDownController();
@@ -61,10 +65,12 @@ class _SignUp extends State<SignUp>{
                       Row(
                         children: [
                           Expanded(
-                            child: makeTextFormField('아이디를 입력해주세요', idCtr)
+                            child: makeTextFormField('id', idCtr, TextInputType.emailAddress)
                           ),
                           const SizedBox(width: 10),
-                          ElevatedButton(onPressed: (){},
+                          ElevatedButton(onPressed: (){
+                            duplicateCheck();
+                          },
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
                                 foregroundColor: Color(0x99512f22),
@@ -78,32 +84,30 @@ class _SignUp extends State<SignUp>{
                       const SizedBox(height: 30),
                       makeText('비밀번호', Color(0xFF512F22), 14),
                       const SizedBox(height: 10),
-                      makeTextFormField('비밀번호는 8~16자를 입력해주세요.', passCtr),
+                      makePWFormField('pw', passCtr, passwordVisible),
                       const SizedBox(height: 10),
-                      makeTextFormField('비밀번호 재입력.', passCheckCtr),
+                      makePWFormField('pw_check', passCheckCtr, passwordVisible),
                       const SizedBox(height: 30),
                       makeText('닉네임', Color(0xFF512F22), 14),
                       const SizedBox(height: 10),
-                      makeTextFormField('닉네임을 입력해주세요', nickNameCtr),
+                      makeTextFormField('nickname', nickNameCtr, TextInputType.name),
                       const SizedBox(height: 30),
                       makeText('휴대폰 번호', Color(0xFF512F22), 14),
                       const SizedBox(height: 10),
-                      makeTextFormField('휴대폰번호를 입력해주세요', phoneCtr),
+                      makeTextFormField('phone', phoneCtr, TextInputType.phone),
                       const SizedBox(height: 30),
                       makeText('질문 & 답변', Color(0xFF512F22), 14),
                       const SizedBox(height: 10),
                       makeDropDownField(_cnt, '설정한 질문 유형을 선택해주세요'),
                       const SizedBox(height: 10),
-                      makeTextFormField('답변', answerCtr),
+                      makeTextFormField('qa_answer', answerCtr, TextInputType.text),
                       const SizedBox(height: 30),
                     ],
                   ),
                 )
               ),
               ElevatedButton(
-                  onPressed: (){
-                    Get.to(()=> EditPassword());
-                  },
+                  onPressed: () => _register(),
                   style:ElevatedButton.styleFrom(
                       elevation: 0.2,
                       padding: const EdgeInsets.all(20),
@@ -142,14 +146,49 @@ class _SignUp extends State<SignUp>{
       dropDownItemCount: 6,
     );
   }
-  SizedBox makeTextFormField(String str, TextEditingController controller){
-    return SizedBox(
-      height: 50,
-      child: TextFormField(
-        controller: controller,
-        decoration: formDecoration(str),
-      ),
-    );
+  // 중복 검사
+  void duplicateCheck() async{
+    String email = idCtr.text.trim();
+    // 1. validation
+    if(!validateEmail(email)){
+      Get.snackbar('', '아이디 형식을 지켜주세요', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      return;
+    }
+    // 2. check
+    String responseData = await emailOverlapService(email);
+    if(responseData == "True"){
+      _isDuplicateCheck = true;
+      Get.snackbar('중복 검사', '사용 가능한 아이디 입니다.', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+    }else{
+      Get.snackbar('중복 검사', '중복된 아이디 입니다.', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+    }
   }
+  String? vaild_all(String email, String pass, String nickname, String phone, String qa_answer){
+    if(!validateEmail(email)) return '아이디 형식을 지켜주세요';
+    if(!_isDuplicateCheck)  return 'ID 중복체크 해주세요.';
+    if(!validatePassword(pass)) return '비밀번호 형식이 맞지 않습니다';
+    if(pass != passCheckCtr.text.trim()) return '비밀번호 확인이랑 맞지 않습니다';
+    if(!validateNickname(nickname)) return '비밀번호 확인이랑 맞지 않습니다';
+    if(!validatePhone(phone)) return '휴대폰 번호가 올바르지 않습니다';
+    if(!validateQaAnswer(qa_answer)) return '질문&답변을 확인해주세요.';
 
+    return null;
+  }
+  void _register() async{
+    String email = idCtr.text.trim();
+    String pass = passCtr.text.trim();
+    String nickname = nickNameCtr.text.trim();
+    String phone = phoneCtr.text.trim();
+    String qaAnswer = answerCtr.text.trim();
+
+    String? vaildResult = vaild_all(email, pass, nickname, phone, qaAnswer);
+    if(vaildResult == null){
+      var response = await registerService(email, pass, nickname, phone, _cnt.dropDownValue?.value, qaAnswer);
+      //print(response);
+      Get.snackbar('회원가입 성공', '회원가입에 성공하였습니다. 횐영합니다 \u{1F606}');
+      Get.to(() => LoginInit());
+    }else{
+      Get.snackbar("입력을 확인해주세요", vaildResult);
+    }
+  }
 }

@@ -13,12 +13,12 @@ loginService(id, pass) async{
 }
 
 // 회원가입 서비스
-registerService(email, pass, name, phone) async{
-  print({"email": email, "password1": pass, "password2": pass, "name": name, "phone": phone, "qaType" : 0, "qaAnswer": "--"});
+registerService(email, pass, name, phone, qaType, qaAnswer) async{
+  print({"email": email, "password1": pass, "password2": pass, "name": name, "phone": phone, "qaType" : qaType, "qaAnswer": qaAnswer});
   Response response = await dio.post('$PATH/api/user/registration/',
-      data: {"email": email, "password1": pass, "password2": pass, "name": name, "phone": phone}
+      data: {"email": email, "password1": pass, "password2": pass, "name": name, "phone": phone, "qaType" : qaType, "qaAnswer": qaAnswer}
   );
-  return response;
+  return response.statusCode;
 }
 
 getMyBabies() async{
@@ -77,7 +77,18 @@ refresh() async{
   await updateTokenInfo(newAccessToken);
   return "Bearer ${newAccessToken}";
 }
-
+// 중복 검사 서비스
+emailOverlapService(id) async{
+  try{
+    Response response = await dio.post('${PATH}/api/user/exist/', data: {'email' : id});
+    return response.data;
+  }catch(e){
+    dio.options.headers['Authorization'] = await refresh();
+    Response response = await dio.post('${PATH}/api/user/exist/', data: {'email' : id});
+    return response.data;
+  }
+}
+/*    HOME PAGE   */
 //// 1. home page
 lifesetService(int babyId, int mode, String content) async{
   try{
