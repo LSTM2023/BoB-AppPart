@@ -2,6 +2,59 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <plist version="1.0">
+    				<!-- other codes -->
+            <key>CFBundleURLTypes</key>
+            <array>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>[UrlScheme]</string>
+                    </array>
+                </dict>
+            </array>
+
+            <key>LSApplicationQueriesSchemes</key>
+            <array>
+                <string>naversearchapp</string>
+                <string>naversearchthirdlogin</string>
+            </array>
+            <key>naverServiceAppUrlScheme</key>
+            <string>[UrlScheme]</string>
+            <key>naverConsumerKey</key>
+            <string>[ConsumerKey]</string>
+            <key>naverConsumerSecret</key>
+            <string>[ConsumerSecret]</string>
+            <key>naverServiceAppName</key>
+            <string>[ServiceAppName]</string>
+
+            <!-- http allows configurations -->
+            <key>NSAppTransportSecurity</key>
+            <dict>
+               <key>NSAllowsArbitraryLoads</key>
+               <true/>
+               <key>NSExceptionDomains</key>
+               <dict>
+                  <key>naver.com</key>
+                  <dict>
+                     <key>NSExceptionRequiresForwardSecrecy</key>
+                     <false/>
+                     <key>NSIncludesSubdomains</key>
+                     <true/>
+                  </dict>
+                  <key>naver.net</key>
+                  <dict>
+                     <key>NSExceptionRequiresForwardSecrecy</key>
+                     <false/>
+                     <key>NSIncludesSubdomains</key>
+                     <true/>
+                  </dict>
+               </dict>
+            </dict>
+        </dict>
+    </plist>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

@@ -44,6 +44,7 @@ dependencies:
   jwt_decode: ^0.3.1
   intl:
   flutter_mjpeg:
+  flutter_naver_login: ^1.8.0
 
 dev_dependencies:
   flutter_test:

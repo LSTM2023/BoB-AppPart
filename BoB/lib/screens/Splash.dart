@@ -38,7 +38,7 @@ class _Splash extends State<Splash>{
                   decoration: const BoxDecoration(
                     color: Color(0xfffa625f),
                   ),
-                  child : Column(
+                  child : const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //Image.asset('assets/images/baby.png', width: 150),
@@ -76,6 +76,7 @@ class _Splash extends State<Splash>{
   }
   Future getInitInfo() async{
     var autoLogin = await storage.read(key: 'login');
+    print(autoLogin);
     if(autoLogin != null){
       // 자동 login
       Login loginInfo = Login.fromJson(jsonDecode(autoLogin));

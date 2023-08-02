@@ -1,5 +1,6 @@
 import 'package:bob/models/model.dart';
 import 'package:bob/screens/Login/initPage.dart';
+import 'package:bob/services/login_platform.dart';
 import 'package:bob/services/storage.dart';
 import 'package:bob/widgets/appbar.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class MainMyPageState extends State<MainMyPage>{
 }
 logout() async{
   await deleteLogin();
+  LoginPlatform _loginPlatform = LoginPlatform.none;
   Get.offAll(LoginInit());
 }
 Container getSettingScreen(title, icon, func){

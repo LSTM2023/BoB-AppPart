@@ -1,11 +1,13 @@
-import 'package:bob/models/model.dart';
+import 'package:bob/models/model.dart' as MODEL;
 import 'package:bob/services/backend.dart';
 import 'package:bob/services/storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import '../../models/validate.dart';
+import '../../services/login_platform.dart';
 import '../BaseWidget.dart';
 import './findID.dart';
 import './findPassword.dart';
@@ -30,6 +32,7 @@ class _LoginInit extends State<LoginInit>{
     passController = TextEditingController();
   }
   bool is_off = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,8 +50,8 @@ class _LoginInit extends State<LoginInit>{
                       is_off = !is_off;
                     });
                   },
-                  child: Center(
-                    child: const Icon(Icons.circle_outlined,size: 158),
+                  child: const Center(
+                    child: Icon(Icons.circle_outlined,size: 158),
                   ),
                 ),
                 const SizedBox(height: 50),
@@ -134,21 +137,88 @@ class _LoginInit extends State<LoginInit>{
       )
     );
   }
+  _after_socialLogin(String email, String nickName, String phone) async {
+    String responseData = await emailOverlapService(email);
+    if(responseData == "False"){   // 존재하는 아이디 // 2. 있으면, login 정보 받아와
+      print('존재하는 ID 존재 -> 있는 ID 로그인');
+      await post_login(email, 'naver123!@#');
+    }else{        // 존재 X는 아이디  // 2. 없으면, 회원가입 진행
+      print('존재하지 않는 ID');
+      var response = await registerService(email, 'naver123!@#', nickName, phone, 0, "");
+      await post_login(email, 'naver123!@#');
+    }
+  }
+  post_login(String email, String pw) async{
+    var loginData = await loginService(email, pw);
+    if(loginData != null){
+      String token = loginData['access_token'];   // response의 token키에 담긴 값을 token 변수에 담아서
+      Map<dynamic, dynamic> payload = Jwt.parseJwt(token);
+      MODEL.User userInfo = MODEL.User(loginData['email'], pw, loginData['name'], loginData['phone'],0, "");
+      MODEL.Login loginInfo = MODEL.Login(token, loginData['refresh_token'], payload['user_id'],loginData['email'], pw);
+      await writeLogin(loginInfo);
+      print('---------------');
+      // 2. babyList 가져오기
+      List<MODEL.Baby> MyBabies = [];
+      List<dynamic> babyList = await getMyBabies();
+      print('---------------');
+      for(int i=0; i<babyList.length;i++){
+        // 2. 아기 등록
+        MODEL.Baby_relation relation = MODEL.Baby_relation.fromJson(babyList[i]);
+        var baby = await getBaby(babyList[i]['baby']);
+        baby['relationInfo'] = relation.toJson();
+        MyBabies.add(MODEL.Baby.fromJson(baby));
+      }
+      Get.snackbar('로그인 성공', '환영합니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      if(MyBabies.isEmpty){
+        Get.to(()=> AddBaby());
+      }
+      else{
+        Get.to(()=> BaseWidget(userInfo, MyBabies));
+      }
+    }
+    else{
+      Get.snackbar('로그인 실패', '등록된 사용자가 아닙니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+    }
+  }
+
+  _signWithNaver() async {
+    print('naver login');
+    final NaverLoginResult result = await FlutterNaverLogin.logIn();
+    if (result.status == NaverLoginStatus.loggedIn) {
+      // 1. 해당 정보가 있는지 확인 -> duplicate
+      _after_socialLogin(result.account.email, result.account.name, result.account.mobile);
+    }
+  }
+  _signWithKakao() async {
+    print('kakao login');
+  }
+  _signWithGoogle() async {
+    print('google login');
+  }
   InkWell socialLoginButton(String title){
     return InkWell(
-      onTap: (){},
+      onTap: (){
+        if(title=='naver') {
+          _signWithNaver();
+        } else if(title == 'google') {
+          _signWithGoogle();
+        } else if(title == 'kakao'){
+          _signWithKakao();
+        }
+      },
       child: Container(
         width: 32,
         height: 32,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            border: Border.all(color: Color(0x4F512F22))
+            border: Border.all(color: const Color(0x4F512F22))
         ),
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Image.asset('assets/icon/$title.png', width: 10.89, height: 9.6),
       ),
     );
   }
+
   // 로그인 폼 입력값 형식 체크
   bool _isValid(){
     return (validateEmail(idController.text.trim()) && validatePassword(passController.text.trim()));
@@ -171,37 +241,7 @@ class _LoginInit extends State<LoginInit>{
     );
   }
   void _login() async{
-    var loginData = await loginService(idController.text.trim(), passController.text.trim());
-    if(loginData != null){
-      print('USER');
-      String token = loginData['access_token'];   // response의 token키에 담긴 값을 token 변수에 담아서
-      Map<dynamic, dynamic> payload = Jwt.parseJwt(token);
-      User userInfo = User(loginData['email'], passController.text.trim(), loginData['name'], loginData['phone'],0, "");
-      Login loginInfo = Login(token, loginData['refresh_token'], payload['user_id'],loginData['email'], passController.text);
-      await writeLogin(loginInfo);
-      // 2. babyList 가져오기
-      List<Baby> MyBabies = [];
-      List<dynamic> babyList = await getMyBabies();
-      for(int i=0; i<babyList.length;i++){
-        // 2. 아기 등록
-        Baby_relation relation = Baby_relation.fromJson(babyList[i]);
-        var baby = await getBaby(babyList[i]['baby']);
-        baby['relationInfo'] = relation.toJson();
-        MyBabies.add(Baby.fromJson(baby));
-      }
-      Get.snackbar('로그인 성공', '환영합니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
-      if(MyBabies.isEmpty){
-        Get.to(()=> AddBaby());
-      }
-      else{
-        Get.to(()=> BaseWidget(userInfo, MyBabies));
-      }
-
-    }
-    else{
-      Get.snackbar('로그인 실패', '등록된 사용자가 아닙니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
-      passController.clear();
-    }
+    await post_login(idController.text.trim(), passController.text.trim());
   }
   @override
   void dispose() {

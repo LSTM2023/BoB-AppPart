@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: asn1lib
-      sha256: "21afe4333076c02877d14f4a89df111e658a6d466cbfc802eb705eb91bd5adfd"
+      sha256: b74e3842a52c61f8819a1ec8444b4de5419b41a7465e69d4aa681445377398b0
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.4.1"
   async:
     dependency: transitive
     description:
@@ -166,6 +166,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.4"
+  flutter_naver_login:
+    dependency: "direct main"
+    description:
+      name: flutter_naver_login
+      sha256: "69d62da60e866b09894f2d632d7d1cb36eee17164b9e46e33d86ebee4b91cd42"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.8.0"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -364,10 +372,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: "0a217c6c989d21039f1498c3ed9f3ed71b354e69873f13a8dfc3c9fe76f1b452"
+      sha256: "5e4a9cd06d447758280a8ac2405101e0e2094d2a1dbdd3756aec3fe7775ba593"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.0.1"
   matcher:
     dependency: transitive
     description:
@@ -641,10 +649,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: f2add6fa510d3ae152903412227bda57d0d5a8da61d2c39c1fb022c9429a41c0
+      sha256: "5a751eddf9db89b3e5f9d50c20ab8612296e4e8db69009788d6c8b060a84191c"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.6"
+    version: "4.1.4"
   xdg_directories:
     dependency: transitive
     description:
@@ -654,5 +662,5 @@ packages:
     source: hosted
     version: "1.0.1"
 sdks:
-  dart: ">=3.0.0 <4.0.0"
+  dart: ">=3.0.0-0 <4.0.0"
   flutter: ">=3.3.0"
