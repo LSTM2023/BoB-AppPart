@@ -76,7 +76,14 @@ class MainDiaryState extends State<MainDiary> {
                   ],
                 ))),
         resizeToAvoidBottomInset: false,
-        body: diaryList(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              diaryList(),
+
+            ],
+          ),
+        )
     );
   }
 
@@ -142,6 +149,177 @@ class MainDiaryState extends State<MainDiary> {
               ),
             ),
           ),
+      const SizedBox(height: 20),
+      FutureBuilder<Diary>(
+        future: DatabaseHelper.instance.getDiary(selectedDay),
+        builder: (BuildContext context, AsyncSnapshot<Diary> snapshot) {
+          if (!snapshot.hasData) {
+            return SizedBox(
+              child: FutureBuilder<bool>(
+                future: DatabaseHelper.instance.isDiary(selectedDay),
+                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                  if (snapshot.hasData) {
+                    return const SizedBox(height: 0);
+                  }
+                  return SizedBox(
+                    height: 120,
+                    width: MediaQuery.of(context).size.width-32,
+                    child: TextButton(
+                      style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Color(0xFFF9F8F8)),
+                        elevation: MaterialStatePropertyAll(6),
+                        shadowColor: MaterialStatePropertyAll(Color(0x1B512F22)),
+                      ),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return SingleChildScrollView(
+                                child: AlertDialog(
+                                  content: Form(
+                                    key: _formKey,
+                                    child: writeDiary(selectedDay),
+                                  ),
+                                  backgroundColor: const Color(0xFFF9F8F8),
+                                ),
+                              );
+                            }
+                        );
+                      },
+                      child: const Icon(
+                        Icons.add,
+                        color: Color(0xFF512F22),
+                        size: 32,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+          return snapshot.data == null
+              ? const Center(child: Text('No Today Diary'))
+              : SizedBox(
+                height: 400,
+                child: Expanded(
+            child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 5),
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(snapshot.data!.title, style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 10),
+                        Text(snapshot.data!.date, style: const TextStyle(
+                            fontSize: 13, color: Colors.blueGrey)),
+                        const SizedBox(height: 10, width: double.infinity,),
+                        Center(
+                          child: snapshot.data!.image == null ? const SizedBox(
+                            height: 10, width: double.infinity,) : Image.file(
+                              File(snapshot.data!.image ?? 'default'),
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 2),),
+                        const SizedBox(height: 10, width: double.infinity,),
+                        Text(snapshot.data!.content,
+                            style: const TextStyle(fontSize: 16)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(onPressed: (() async {
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext context) {
+                                    return SingleChildScrollView(
+                                      child: AlertDialog(
+                                        content: Form(
+                                          key: _formKey,
+                                          child: updateDiary(
+                                              selectedDay, snapshot.data),
+                                        ),
+                                        insetPadding: const EdgeInsets.fromLTRB(
+                                            15, 30, 15, 30),
+                                        backgroundColor: const Color(0xfffffdfd),
+                                      ),
+                                    );
+                                  }
+                              );
+                            }), style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                side: const BorderSide(
+                                  color: Color(0xffdf8570),
+                                  width: 0.5,
+                                )
+                            ),
+                                child: Text('modify'.tr, style: TextStyle(
+                                    color: Color(0xffdf8570)))),
+                            const SizedBox(width: 10),
+                            ElevatedButton(
+                                onPressed: () {
+                                  showDialog(context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                            content: Text('q_delete'.tr),
+                                            actions: [
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                      backgroundColor: Colors
+                                                          .white,
+                                                      side: const BorderSide(
+                                                        color: Color(0xffdf8570),
+                                                        width: 0.5,
+                                                      )),
+                                                  onPressed: () =>
+                                                      Navigator.of(context).pop(),
+                                                  child: Text('cancel'.tr,
+                                                      style: const TextStyle(
+                                                          color: Color(
+                                                              0xffdf8570)))),
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                      backgroundColor: Colors
+                                                          .white,
+                                                      side: const BorderSide(
+                                                        color: Color(0xffdf8570),
+                                                        width: 0.5,
+                                                      )),
+                                                  onPressed: (() async {
+                                                    setState(() {
+                                                      DatabaseHelper.instance
+                                                          .remove(selectedDay);
+                                                    });
+                                                    Navigator.of(context).pop();
+                                                  }),
+                                                  child: Text('delete'.tr,
+                                                      style: const TextStyle(
+                                                          color: Color(
+                                                              0xffdf8570)))),
+                                            ],
+                                          ));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    side: const BorderSide(
+                                      color: Color(0xffdf8570),
+                                      width: 0.5,
+                                    )
+                                ),
+                                child: Text('delete'.tr, style: const TextStyle(
+                                    color: Color(0xffdf8570)))),
+                          ],
+                        ),
+                      ]
+                  )
+            ),
+          ),
+              );
+        }
+      )
         ],
       ),
     );
