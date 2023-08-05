@@ -11,7 +11,10 @@
                     <string>Editor</string>
                     <key>CFBundleURLSchemes</key>
                     <array>
-                        <string>[UrlScheme]</string>
+                        <!-- google login -->
+                        <string>com.googleusercontent.apps.947458006623-30u2ipkdk0pkeofam53945qp8qhq1coe</string>
+                        <!-- kakao login -->
+                        <string>8e9bc1047c7add0a7a08665270df5693</string>
                     </array>
                 </dict>
             </array>

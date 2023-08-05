@@ -49,6 +49,9 @@ dependencies:
   table_calendar: ^3.0.8
   image_picker:
   easy_localization:
+  google_sign_in: ^6.1.4
+  kakao_flutter_sdk_user: ^1.5.0
+  http: ^0.13.6
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:bob/models/model.dart' as MODEL;
 import 'package:bob/services/backend.dart';
 import 'package:bob/services/storage.dart';
@@ -15,6 +17,9 @@ import './signUp.dart';
 import '../MyPage/AddBaby.dart';
 import '../../widgets/form.dart';
 import './findLoginInfo.dart';
+import 'package:http/http.dart' as http;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 class LoginInit extends StatefulWidget{
   @override
@@ -32,7 +37,12 @@ class _LoginInit extends State<LoginInit>{
     passController = TextEditingController();
   }
   bool is_off = true;
-
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,10 +180,10 @@ class _LoginInit extends State<LoginInit>{
       }
       Get.snackbar('로그인 성공', '환영합니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
       if(MyBabies.isEmpty){
-        Get.to(()=> AddBaby());
+        Get.offAll(()=> AddBaby());
       }
       else{
-        Get.to(()=> BaseWidget(userInfo, MyBabies));
+        Get.offAll(()=> BaseWidget(userInfo, MyBabies));
       }
     }
     else{
@@ -191,9 +201,38 @@ class _LoginInit extends State<LoginInit>{
   }
   _signWithKakao() async {
     print('kakao login');
+    try {
+      bool isInstalled = await isKakaoTalkInstalled();
+
+      OAuthToken token = isInstalled
+          ? await UserApi.instance.loginWithKakaoTalk()
+          : await UserApi.instance.loginWithKakaoAccount();
+
+      final url = Uri.https('kapi.kakao.com', '/v2/user/me');
+
+      final response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer ${token.accessToken}'
+        },
+      );
+
+      final profileInfo = json.decode(response.body);
+      print(profileInfo.toString());
+
+    } catch (error) {
+      print('카카오톡으로 로그인 실패 $error');
+    }
   }
+
   _signWithGoogle() async {
     print('google login');
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    if(googleUser != null){
+      _after_socialLogin(googleUser.email, googleUser.displayName.toString(), '010-5555-6666');
+    }else{
+      Get.snackbar('login', '로그인에 실패하였습니다');
+    }
   }
   InkWell socialLoginButton(String title){
     return InkWell(
