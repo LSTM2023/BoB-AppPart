@@ -2,62 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <plist version="1.0">
-    				<!-- other codes -->
-            <key>CFBundleURLTypes</key>
-            <array>
-                <dict>
-                    <key>CFBundleTypeRole</key>
-                    <string>Editor</string>
-                    <key>CFBundleURLSchemes</key>
-                    <array>
-                        <!-- google login -->
-                        <string>com.googleusercontent.apps.947458006623-30u2ipkdk0pkeofam53945qp8qhq1coe</string>
-                        <!-- kakao login -->
-                        <string>8e9bc1047c7add0a7a08665270df5693</string>
-                    </array>
-                </dict>
-            </array>
-
-            <key>LSApplicationQueriesSchemes</key>
-            <array>
-                <string>naversearchapp</string>
-                <string>naversearchthirdlogin</string>
-            </array>
-            <key>naverServiceAppUrlScheme</key>
-            <string>[UrlScheme]</string>
-            <key>naverConsumerKey</key>
-            <string>[ConsumerKey]</string>
-            <key>naverConsumerSecret</key>
-            <string>[ConsumerSecret]</string>
-            <key>naverServiceAppName</key>
-            <string>[ServiceAppName]</string>
-
-            <!-- http allows configurations -->
-            <key>NSAppTransportSecurity</key>
-            <dict>
-               <key>NSAllowsArbitraryLoads</key>
-               <true/>
-               <key>NSExceptionDomains</key>
-               <dict>
-                  <key>naver.com</key>
-                  <dict>
-                     <key>NSExceptionRequiresForwardSecrecy</key>
-                     <false/>
-                     <key>NSIncludesSubdomains</key>
-                     <true/>
-                  </dict>
-                  <key>naver.net</key>
-                  <dict>
-                     <key>NSExceptionRequiresForwardSecrecy</key>
-                     <false/>
-                     <key>NSIncludesSubdomains</key>
-                     <true/>
-                  </dict>
-               </dict>
-            </dict>
-        </dict>
-    </plist>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -78,8 +24,17 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -99,9 +54,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 </dict>
 </plist>

@@ -52,6 +52,9 @@ dependencies:
   google_sign_in: ^6.1.4
   kakao_flutter_sdk_user: ^1.5.0
   http: ^0.13.6
+  omni_datetime_picker: ^1.0.2
+  horizontal_picker: ^1.2.0
+  flutter_holo_date_picker: ^1.1.0
 
 dev_dependencies:
   flutter_test:

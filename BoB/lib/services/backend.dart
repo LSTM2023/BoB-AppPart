@@ -101,3 +101,15 @@ lifesetService(int babyId, int mode, String content) async{
     return response.data;
   }
 }
+// 성장기록
+growthService(int babyId, double height, double weight, String date) async{
+  try{
+    dio.options.headers['Authorization'] = await getToken();
+    Response response = await dio.post('${PATH}/api/growth/set/',data: {"baby": babyId, "height" : height, "weight":weight, "date":date});
+    return response.data;
+  }on DioError catch (e) {
+    dio.options.headers['Authorization'] = await refresh();
+    Response response = await dio.post('${PATH}/api/growth/set/',data: {"baby": babyId, "height" : height, "weight":weight, "date":date});
+    return response.data;
+  }
+}

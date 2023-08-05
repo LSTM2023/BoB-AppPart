@@ -1,4 +1,10 @@
 import 'package:bob/models/model.dart';
+import 'package:bob/screens/HomePage/RecordBottomSheet/babyFood_bottom_sheet.dart';
+import 'package:bob/screens/HomePage/RecordBottomSheet/diaper_bottom_sheet.dart';
+import 'package:bob/screens/HomePage/RecordBottomSheet/feedingBottle_bottom_sheet.dart';
+import 'package:bob/screens/HomePage/RecordBottomSheet/feeding_bottom_sheet.dart';
+import 'package:bob/screens/HomePage/RecordBottomSheet/growthRecord_bottom_sheet.dart';
+import 'package:bob/screens/HomePage/RecordBottomSheet/sleep_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/Stopwatch/stopwatch.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,12 +18,7 @@ class Main_Home extends StatefulWidget {
   final getCurrentBabyFunction;
   final changeCurrentBabyFunction;
 
-  const Main_Home(this.userinfo,
-      {Key? key,
-      this.getBabiesFunction,
-      this.getCurrentBabyFunction,
-      this.changeCurrentBabyFunction})
-      : super(key: key);
+  const Main_Home(this.userinfo, {Key? key, this.getBabiesFunction, this.getCurrentBabyFunction, this.changeCurrentBabyFunction}) : super(key: key);
 
   @override
   State<Main_Home> createState() => MainHomeState();
@@ -31,10 +32,30 @@ class MainHomeState extends State<Main_Home> {
   String _feeding = '-';        // 모유
   String _feedingBottle = '-';  // 젖병
   String _babyfood = '-';       // 이유식
-  final String _diaper = '-';         // 기저귀
+  String _diaper = '-';         // 기저귀
   String _sleep = '-';          // 수면
 
   bool timerClosed = true;
+
+  void addLifeRecord(int type, String val){
+    setState(() {
+      if(type==0){
+        _feeding = val;
+      }
+      else if(type==1){
+        _feedingBottle = val;
+      }
+      else if(type==2){
+        _babyfood = val;
+      }
+      else if(type==3){
+        _diaper = val;
+      }
+      else{
+        _sleep = val;
+      }
+    });
+  }
 
   String nextVaccineDate = '';
   String nextMedicalCheckUpDate = '';
@@ -48,11 +69,6 @@ class MainHomeState extends State<Main_Home> {
     // TODO: implement initState
     super.initState();
     currentBaby = widget.getCurrentBabyFunction();
-    String _feeding = '-';        // 모유
-    String _feedingBottle = '-';  // 젖병
-    String _babyfood = '-';       // 이유식
-    String _diaper = '-';         // 기저귀
-    String _sleep = '-';          // 수면
 
   }
 
@@ -61,7 +77,7 @@ class MainHomeState extends State<Main_Home> {
     return Scaffold(
       backgroundColor: const Color(0xffFFFFFF),
       appBar: AppBar(
-        backgroundColor: const Color(0xfffcd3c2),
+        backgroundColor: const Color(0xffffccbf),
         elevation: 0.0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
@@ -116,7 +132,7 @@ class MainHomeState extends State<Main_Home> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Color(0xfffcd3c2), Color(0xffffe4d8)]),
+                      colors: [Color(0xffffccbf), Color(0xffffe1c9)]),
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(40),
                       bottomRight: Radius.circular(40)),
@@ -127,8 +143,8 @@ class MainHomeState extends State<Main_Home> {
                       spreadRadius: 3,
                     )
                   ]),
-              child: const Center(
-                  // child: drawBaby(currentBaby.name, currentBaby.birth),
+              child: Center(
+                  child: drawBaby(currentBaby.name, currentBaby.birth),
                   ),
             ),
             const SizedBox(height: 10),
@@ -139,12 +155,12 @@ class MainHomeState extends State<Main_Home> {
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 15),
                 decoration: BoxDecoration(
                     color: const Color(0xffF9F8F8),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: const [
                       BoxShadow(
-                        color: Color(0x512F2229),
-                        blurRadius: 1,
-                        spreadRadius: 0,
+                        color: Color(0x29512F22),
+                        blurRadius: 6,
+                        spreadRadius: 3,
                       )
                     ]
                 ),
@@ -211,13 +227,13 @@ class MainHomeState extends State<Main_Home> {
                         margin: const EdgeInsets.fromLTRB(20, 0, 5, 10),
                         padding: const EdgeInsets.all(13),
                         decoration: BoxDecoration(
-                            color: Color(0xffF9F8F8),
+                            color: const Color(0xffF9F8F8),
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: const [
                               BoxShadow(
-                                color: Color(0x512F2229),
-                                blurRadius: 1,
-                                spreadRadius: 0,
+                                color: Color(0x29512F22),
+                                blurRadius: 6,
+                                spreadRadius: 3,
                               )
                             ]
                         ),
@@ -231,20 +247,20 @@ class MainHomeState extends State<Main_Home> {
                                 const Text('성장 기록',style: TextStyle(fontSize: 19)),
                                 IconButton(
                                     onPressed: () {
-                                      // showModalBottomSheet(
-                                      //     shape: const RoundedRectangleBorder(
-                                      //         borderRadius: BorderRadius.only(
-                                      //             topRight: Radius.circular(20),
-                                      //             topLeft: Radius.circular(20)
-                                      //         )
-                                      //     ),
-                                      //     backgroundColor: Colors.grey[100],
-                                      //     isScrollControlled: true,
-                                      //     context: context,
-                                      //     builder: ( BuildContext context ) {
-                                      //       return GrowthRecordBottomSheet(currentBaby.relationInfo.BabyId);
-                                      //     }
-                                      // );
+                                      showModalBottomSheet(
+                                          shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(20),
+                                                  topLeft: Radius.circular(20)
+                                              )
+                                          ),
+                                          backgroundColor: Colors.grey[100],
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: ( BuildContext context ) {
+                                            return GrowthRecordBottomSheet(currentBaby.relationInfo.BabyId);
+                                          }
+                                      );
                                     },
                                     icon: const Icon(Icons.add_circle_outline, size: 25, color: Colors.black54)
                                 ),
@@ -282,13 +298,13 @@ class MainHomeState extends State<Main_Home> {
                                   padding: const EdgeInsets.all(18),
                                   height: 110,
                                   decoration: BoxDecoration(
-                                      color: Color(0xffF9F8F8),
+                                      color: const Color(0xffF9F8F8),
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: const [
                                         BoxShadow(
-                                          color: Color(0x512F2229),
-                                          blurRadius: 1,
-                                          spreadRadius: 0,
+                                          color: Color(0x29512F22),
+                                          blurRadius: 6,
+                                          spreadRadius: 3,
                                         )
                                       ]
                                   ),
@@ -332,9 +348,9 @@ class MainHomeState extends State<Main_Home> {
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: const [
                                         BoxShadow(
-                                          color: Color(0x512F2229),
-                                          blurRadius: 1,
-                                          spreadRadius: 0,
+                                          color: Color(0x29512F22),
+                                          blurRadius: 6,
+                                          spreadRadius: 3,
                                         )
                                       ]
                                   ),
@@ -383,11 +399,11 @@ class MainHomeState extends State<Main_Home> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        drawRecordButton(context, '모유', Icons.water_drop_outlined, Colors.red, const Color(0xffFFD2D2), 0),
-                        drawRecordButton(context, '젖병', Icons.water_drop, Colors.orange, const Color(0xffFFE0D2), 1),
-                        drawRecordButton(context, '이유식', Icons.rice_bowl_rounded, const Color(0xfffacc00), const Color(0xffFFF2D2), 2),
-                        drawRecordButton(context, '기저귀', Icons.baby_changing_station, Colors.green, const Color(0xffE6FFD2), 3),
-                        drawRecordButton(context, '수면', Icons.nights_stay_sharp, Colors.blueAccent, const Color(0xffD2F8FF), 4)
+                        drawRecordButton(context, '모유', Icons.water_drop_outlined, Colors.red, const Color(0xffFFC8C8), 0),
+                        drawRecordButton(context, '젖병', Icons.water_drop, Colors.orange, const Color(0xffFFD9C8), 1),
+                        drawRecordButton(context, '이유식', Icons.rice_bowl_rounded, const Color(0xfffacc00), const Color(0xffFFF0C8), 2),
+                        drawRecordButton(context, '기저귀', Icons.baby_changing_station, Colors.green, const Color(0xffE0FFC8), 3),
+                        drawRecordButton(context, '수면', Icons.nights_stay_sharp, Colors.blueAccent, const Color(0xffC8F7FF), 4)
                       ],
                     ),
                   ],
@@ -472,32 +488,65 @@ class MainHomeState extends State<Main_Home> {
 
   //기록 버튼 클릭 시
   record_with_ModalBottomSheet(BuildContext rootContext, int tapMode){
-    // showModalBottomSheet(
-    //     shape: const RoundedRectangleBorder(
-    //         borderRadius: BorderRadius.only(
-    //             topRight: Radius.circular(20),
-    //             topLeft: Radius.circular(20)
-    //         )
-    //     ),
-    //     backgroundColor: Colors.grey[50],
-    //     isScrollControlled: true,
-    //     context: rootContext,
-    //     builder: (BuildContext context) {
-    //       if(tapMode==0){
-    //         return FeedingBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
-    //       }else if(tapMode==1){
-    //         return FeedingBottleBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
-    //       }
-    //       else if(tapMode==2){
-    //         return BabyFoodBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
-    //       }
-    //       else if(tapMode==3){
-    //         return DiaperBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
-    //       }
-    //       else{
-    //         return SleepBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
-    //       }
-    //     }
-    // );
+    showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20)
+            )
+        ),
+        backgroundColor: Colors.grey[50],
+        isScrollControlled: true,
+        context: rootContext,
+        builder: (BuildContext context) {
+          if(tapMode==0){
+            return FeedingBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+          }else if(tapMode==1){
+            return FeedingBottleBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+          }
+          else if(tapMode==2){
+            return BabyFoodBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+          }
+          else if(tapMode==3){
+            return DiaperBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+          }
+          else{
+            return SleepBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+          }
+        }
+    );
   }
+}
+
+Widget drawBaby(String name, DateTime birth){
+  final now = DateTime.now();
+  return Container(
+      padding: const EdgeInsets.only(left: 20),
+      child: Column(
+          children:[
+            Row(
+              children: [
+                Image.asset('assets/icon/google.png',scale: 9,),
+                const SizedBox(width: 30),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(name,style: const TextStyle(color: Color(0xff512F22), fontSize: 35,fontWeight: FontWeight.w600)),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${birth.year}.${birth.month}.${birth.day}',
+                      style: const TextStyle(color: Color(0xff512F22), fontSize: 17),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      'D+ ${DateTime(now.year, now.month, now.day).difference(birth).inDays+2}',
+                      style: const TextStyle(color: Color(0xff512F22), fontSize: 17),
+                    ),
+                  ],
+                )
+              ],
+            )
+          ]
+      )
+  );
 }
