@@ -25,5 +25,7 @@ Widget bottomNavBar(_selectedIndex, _onItemTapped){
     onTap: _onItemTapped,
     unselectedItemColor: Colors.grey,
     selectedItemColor: const Color(0xfffa625f),
+    selectedLabelStyle: TextStyle(fontFamily: 'NanumSquareRound', fontSize: 10),
+    unselectedLabelStyle: TextStyle(fontFamily: 'NanumSquareRound', fontSize: 10),
   );
 }
