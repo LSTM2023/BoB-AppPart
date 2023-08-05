@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bob/models/model.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/babyFood_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/diaper_bottom_sheet.dart';
@@ -6,6 +8,7 @@ import 'package:bob/screens/HomePage/RecordBottomSheet/feeding_bottom_sheet.dart
 import 'package:bob/screens/HomePage/RecordBottomSheet/growthRecord_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/sleep_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/Stopwatch/stopwatch.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -17,16 +20,14 @@ class Main_Home extends StatefulWidget {
   final getBabiesFunction;
   final getCurrentBabyFunction;
   final changeCurrentBabyFunction;
-
   const Main_Home(this.userinfo, {Key? key, this.getBabiesFunction, this.getCurrentBabyFunction, this.changeCurrentBabyFunction}) : super(key: key);
-
   @override
   State<Main_Home> createState() => MainHomeState();
 }
 
 class MainHomeState extends State<Main_Home> {
   GlobalKey<StopwatchState> _stopwatchKey = GlobalKey();
-
+  late List<Baby> activeBabies;
   late Baby currentBaby;
 
   String _feeding = '-';        // 모유
@@ -68,6 +69,7 @@ class MainHomeState extends State<Main_Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    activeBabies = widget.getBabiesFunction(true);
     currentBaby = widget.getCurrentBabyFunction();
 
   }
@@ -77,6 +79,7 @@ class MainHomeState extends State<Main_Home> {
     return Scaffold(
       backgroundColor: const Color(0xffFFFFFF),
       appBar: AppBar(
+        title: const Text("BoB", style: TextStyle(color: Color(0xff512F22), fontSize: 20),),
         backgroundColor: const Color(0xffffccbf),
         elevation: 0.0,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -90,37 +93,45 @@ class MainHomeState extends State<Main_Home> {
                   const SizedBox(height: 40),
                   // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
                   // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
+                  const Text('아기 리스트', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23)),
+                  const Text('클릭하면 해당 아기를 관리할 수 있습니다.', style: TextStyle(color: Colors.grey, fontSize: 12)),
                   const SizedBox(height: 20),
                   Expanded(
                     child: ListView(
                       children: [
-                        // SingleChildScrollView(
-                        //   child:ExpansionTile(
-                        //       initiallyExpanded: true,
-                        //       title: Text('relation0'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                        //       children: getDrawerDatas(0, context, const Color(0xfffa625f))
-                        //   ),
-                        // ),
-                        // SingleChildScrollView(
-                        //   child:ExpansionTile(
-                        //       initiallyExpanded: true,
-                        //       title: Text('relation1'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                        //       children: getDrawerDatas(1, context, Colors.blueAccent)
-                        //   ),
-                        // ),
-                        // SingleChildScrollView(
-                        //   child:ExpansionTile(
-                        //       initiallyExpanded: true,
-                        //       title: Text('relation2'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                        //       children: getDrawerDatas(2, context, Colors.grey)
-                        //   ),
-                        // ),
+                        SingleChildScrollView(
+                          child:ExpansionTile(
+                              initiallyExpanded: true,
+                              // title: Text('relation0'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              title: const Text('부모', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              children: getDrawerDatas(0, context, const Color(0xfffa625f))
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          child:ExpansionTile(
+                              initiallyExpanded: true,
+                              // title: Text('relation1'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              title: const Text('가족', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              children: getDrawerDatas(1, context, Colors.blueAccent)
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          child:ExpansionTile(
+                              initiallyExpanded: true,
+                              // title: Text('relation2'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              title: const Text('베이비시터', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              children: getDrawerDatas(2, context, Colors.grey)
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 20),
                 ],
-              ))),
+              )
+          )
+      ),
+      //drawer 구현
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -147,7 +158,6 @@ class MainHomeState extends State<Main_Home> {
                   child: drawBaby(currentBaby.name, currentBaby.birth),
                   ),
             ),
-            const SizedBox(height: 10),
             GestureDetector(
               onTap: () {},
               child: Container(
@@ -167,45 +177,46 @@ class MainHomeState extends State<Main_Home> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('생활 기록', style: TextStyle(fontSize: 19, color: Colors.black)),
+                    const Text('생활 기록', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontWeight: FontWeight.w600)),
                     const SizedBox(height: 20),
                     Row(
                       children: [
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('모유', style: TextStyle(fontSize: 17, color: Colors.grey[800])),
-                            Text(_feeding, style: TextStyle(fontSize: 20, color: Colors.grey[800]))
+                            const Text('모유', style: TextStyle(fontSize: 16, color: Color(0xff512F22))),
+                            Text(_feeding, style: const TextStyle(fontSize: 15, color: Color(0xff512F22)))
                           ],
                         )),
                         const SizedBox(width: 30),
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('젖병', style: TextStyle(fontSize: 17, color: Colors.grey[800])),
-                            Text(_feedingBottle, style: TextStyle(fontSize: 20, color: Colors.grey[800]))
+                            const Text('젖병', style: TextStyle(fontSize: 16, color: Color(0xff512F22))),
+                            Text(_feedingBottle, style: const TextStyle(fontSize: 15, color: Color(0xff512F22)))
                           ],
                         ),)
                       ],
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('기저귀', style: TextStyle(fontSize: 17, color: Colors.grey[600])),
-                            Text(_diaper, style: TextStyle(fontSize: 20, color: Colors.grey[800]))
+                            const Text('기저귀', style: TextStyle(fontSize: 16, color: Color(0xff512F22))),
+                            Text(_diaper, style: const TextStyle(fontSize: 15, color: Color(0xff512F22)))
                           ],
                         )),
                         const SizedBox(width: 30),
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('수면', style: TextStyle(fontSize: 17, color: Colors.grey[600])),
-                            Text(_sleep, style: TextStyle(fontSize: 20, color: Colors.grey[800]))
+                            const Text('수면', style: TextStyle(fontSize: 16, color: Color(0xff512F22))),
+                            Text(_sleep, style: const TextStyle(fontSize: 15, color: Color(0xff512F22)))
                           ],
-                        ))
+                        )),
+                        const SizedBox(height: 25),
                       ],
                     ),
                   ],
@@ -213,6 +224,7 @@ class MainHomeState extends State<Main_Home> {
               ),
             ),
             //생활 기록 box
+            const SizedBox(height: 3),
             Row(
               children: [
                 Expanded(
@@ -244,7 +256,7 @@ class MainHomeState extends State<Main_Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // Text('grow_record'.tr,style: const TextStyle(fontSize: 22)),
-                                const Text('성장 기록',style: TextStyle(fontSize: 19)),
+                                const Text('성장 기록',style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontWeight: FontWeight.w600)),
                                 IconButton(
                                     onPressed: () {
                                       showModalBottomSheet(
@@ -268,14 +280,14 @@ class MainHomeState extends State<Main_Home> {
                             ),
                             const Text('2023.05.06 갱신', style: TextStyle(color:Colors.grey, fontSize: 12)),
                             const SizedBox(height: 10),
-                            Column(
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text('키', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                                Center(child: Text('90cm', style: TextStyle(fontSize: 18))),
+                              children: [
+                                Text('키', style: TextStyle(fontSize: 16)),
+                                Center(child: Text('90cm', style: TextStyle(fontSize: 17))),
                                 SizedBox(height: 25),
-                                Text('몸무게', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                                Center(child: Text('10kg', style: TextStyle(fontSize: 18))),
+                                Text('몸무게', style: TextStyle(fontSize: 16)),
+                                Center(child: Text('10kg', style: TextStyle(fontSize: 17))),
                               ],
                             )
                           ],
@@ -312,7 +324,7 @@ class MainHomeState extends State<Main_Home> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         // Text('vaccination'.tr, style: const TextStyle(fontSize: 22, color: Colors.black)),
-                                        const Text('예방 접종', style: TextStyle(fontSize: 18, color: Colors.black)),
+                                        const Text('예방 접종', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontWeight: FontWeight.w600)),
                                         // Text(
                                         //   'next_vaccination'.tr,
                                         //   style: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -358,7 +370,7 @@ class MainHomeState extends State<Main_Home> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         // Text('medical_checkup'.tr, style: const TextStyle(fontSize: 22, color: Colors.black)),
-                                        const Text('건강 검진', style: TextStyle(fontSize: 22, color: Colors.black)),
+                                        const Text('건강 검진', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontWeight: FontWeight.w600)),
                                         const Text(
                                           '다음 건강 검진',
                                           style: TextStyle(fontSize: 12, color: Colors.grey),
@@ -416,6 +428,61 @@ class MainHomeState extends State<Main_Home> {
     );
   }
 
+  //Drawer 데이터
+  List<InkWell> getDrawerDatas(int relation, BuildContext context, Color color){
+    List<InkWell> datas = [];
+    for(int i=0; i<activeBabies.length; i++){
+      Baby b = activeBabies[i];
+      if(b.relationInfo.relation == relation){
+        datas.add(
+            InkWell(
+                onTap: (){
+                  setState(() {
+                    widget.changeCurrentBabyFunction(i);
+                    currentBaby = widget.getCurrentBabyFunction();
+                  });
+                  Navigator.pop(context);
+                },
+                child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 5,
+                        )
+                      ],
+                      border: Border(
+                        left: BorderSide(
+                            color: color,
+                            width: 3.0
+                        ),
+                      ),
+                      color: Colors.white,
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.fromLTRB(2,10,2,10),
+                    child: Row(
+                      children: [
+                        Text(b.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            children: [
+                              // Text('${DateFormat('yyyy-MM-dd').format(b.birth)}, ${b.getGenderString()=='F' ? "genderF".tr : "genderM".tr}'),
+                              Text('${DateFormat('yyyy-MM-dd').format(b.birth)}, ${b.getGenderString()=='F' ? "여자" : "남자"}'),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                )
+            )
+        );
+      }
+    }
+    return datas;
+  }
+
   //기록 버튼 롱 클릭 시
   InkWell drawRecordButton(BuildContext rootContext, String type, IconData iconData, Color background, Color color, int tapMode){
     return InkWell(
@@ -435,7 +502,7 @@ class MainHomeState extends State<Main_Home> {
                             onPressed: () async {
                               var content = {"type": 0, "startTime": now, "endTime": now, "memo": null};
                               var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
-                              print(result);
+                              log(result);
                               Get.back();
                             },
                             child: const Text('대변', style: TextStyle(color: Colors.black),)
@@ -445,7 +512,7 @@ class MainHomeState extends State<Main_Home> {
                           onPressed: () async{
                             var content = {"type": 1, "startTime": now, "endTime": now, "memo": null};
                             var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
-                            print(result);
+                            log(result);
                             Get.back();
                           },
                           child: const Text('소변',style: TextStyle(color: Colors.black)),

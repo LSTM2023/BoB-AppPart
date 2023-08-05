@@ -109,3 +109,42 @@ class Baby {
     'relationInfo': relationInfo
   };
 }
+
+class lifeRecord{
+  final int babyId;
+  final int mode;   // 0:수유, 1:젖병 2:이유식 3:기저귀 4:수면
+  final String content;
+  lifeRecord(this.babyId, this.mode, this.content);
+  makeContent(mode, extra, sTime, eTime, memo){
+    var data;
+    if(mode==0) {
+      data = {"side": extra[0], "startTime": sTime, "endTime": eTime, "memo": memo};
+    }else if(mode ==1){
+      data = {"type":extra[0], "amount":extra[1], "memo": memo, "startTime":sTime, "endTime":eTime};
+    }else if(mode ==2){
+      data = {"amount":extra[0], "startTime":sTime, "endTime":eTime, "memo": memo};
+    }else if(mode ==3){
+      data = {"type": extra[0], "startTime":sTime, "endTime":eTime, "memo": memo};
+    }else if(mode ==4){
+      data = {"startTime":sTime, "endTime":eTime, "memo": memo};
+    }
+  }
+}
+
+class GrowthRecord{
+  final int babyId;
+  final double height;
+  final double weight;
+  late DateTime date;
+  GrowthRecord(this.babyId, this.height, this.weight, this.date);
+
+  GrowthRecord.fromJson(Map<dynamic, dynamic> json)
+      : babyId = json['babyId'], height = json['height'], weight = json['weight'], date = DateTime.parse(json['date']);
+
+  Map<String, dynamic> toJson() => {
+    "babyId": babyId,
+    "height": height,
+    "weight": weight,
+    "date": date
+  };
+}

@@ -130,7 +130,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       titleText: '측정 날짜를 선택해주세요',
                       cancelText: '취소',
                       confirmText: '확인',
-                      itemTextStyle: const TextStyle(color: Colors.pinkAccent),
+                      itemTextStyle: const TextStyle(color: Color(0xffef8671)),
                       textColor: Colors.black
                     );
                     ymdtController.text = '${DateFormat('yyyy-MM-dd').format(datePicked!)}';
