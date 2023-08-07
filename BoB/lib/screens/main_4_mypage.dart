@@ -6,6 +6,7 @@ import 'package:bob/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class MainMyPage extends StatefulWidget{
   final User userinfo;
@@ -16,7 +17,7 @@ class MainMyPage extends StatefulWidget{
   State<MainMyPage> createState() => MainMyPageState();
 }
 class MainMyPageState extends State<MainMyPage>{
-
+  CarouselController carouselController = CarouselController();
   List<String> languageList = ['한국어', '영어'];
   List<Color> colorList = [Color(0xffFB8665), Color(0xff22513E), Color(0xff222551)];
   int cLanIdx = 0;
@@ -27,7 +28,6 @@ class MainMyPageState extends State<MainMyPage>{
   @override
   void initState() {
     activateBabies = widget.getBabiesFuction(true);
-    activateBabies = activateBabies+ activateBabies;
     disActivateBabies = widget.getBabiesFuction(false);
     //log('MyPage : ${activateBabies.length} | ${disActivateBabies.length}');
     super.initState();
@@ -40,80 +40,41 @@ class MainMyPageState extends State<MainMyPage>{
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
-          padding: const EdgeInsets.fromLTRB(16, 42, 16, 42),
+          padding: const EdgeInsets.fromLTRB(25.5, 42, 25.5, 42),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 24,
-                  margin: const EdgeInsets.only(left: 12, bottom: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('아기 관리', style: TextStyle(color: Color(0xff512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
-                        IconButton(
-                            padding: EdgeInsets.all(0),
-                            onPressed: (){
-                            },
-                            icon: const Icon(Icons.add_circle_outline_rounded, size: 16, color: Color(0xff512F22))
-                        )
-                      ],
-                    )
-              ),
+              const Text('아기 관리', style: TextStyle(color: Color(0xff512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
               const SizedBox(height: 10),
-              SizedBox(
-                height: 148,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: activateBabies.length,
-                    itemBuilder: (BuildContext context, int index){
-                      int seed = Random().nextInt(5); // 0 ~ 4 랜덤
-                      return drawBaby(activateBabies[index]!, seed);
+              Container(
+                //margin: const EdgeInsets.all(15),
+                child: CarouselSlider.builder(
+                  itemCount: activateBabies.length+1,
+                  options: CarouselOptions(
+                    enlargeCenterPage: true,
+                    height: 230,
+                    reverse: false,
+                    aspectRatio: 5.0,
+                  ),
+                  itemBuilder: (context, i, id){
+                    if(i < activateBabies.length) {
+                      return drawAddBaby(0);
+                    }else{
+                      return drawBaby(activateBabies[0], 0);
                     }
-                )
-              ),
-              const SizedBox(height: 48),
-              Container(
-                height: 166,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF9F8F8),
-                  borderRadius: BorderRadius.circular(6),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x29512F22),
-                      spreadRadius: 0,
-                      blurRadius: 6.0,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
+                  },
                 ),
               ),
-              const SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF9F8F8),
-                  borderRadius: BorderRadius.circular(6),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x29512F22),
-                      spreadRadius: 0,
-                      blurRadius: 6.0,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 12),
-                    drawSettingScreen('로그아웃', const Icon(Icons.logout),() => logout()),
-                    drawDivider(),
-                    drawSettingScreen('회원정보 수정', Icons.add, (){}),
-                    drawDivider(),
-                    drawLanguageScreen(),
-                    const SizedBox(height: 12),
-                  ],
-                ),
-              ),
+              const SizedBox(height: 86),
+              drawSettingScreen('양육자/베이비시터 초대', Icons.favorite,() => logout()),
+              drawDivider(),
+              drawLanguageScreen(),
+              drawDivider(),
+              drawSettingScreen('회원정보 수정', Icons.settings, (){}),
+              drawDivider(),
+              drawSettingScreen('로그아웃', Icons.logout,() => logout()),
+              drawDivider(),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -128,15 +89,11 @@ class MainMyPageState extends State<MainMyPage>{
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
+            const Row(
               children: [
-                Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(border: Border.all(width: 1, color: Color(0xff707070)),),
-                ),
-                const SizedBox(width: 20),
-                const Text('언어', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+                Icon(Icons.language, size:18, color: Color(0xFFFB8665)),
+                SizedBox(width: 20),
+                Text('언어', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
               ],
             ),
             Text(languageList[cLanIdx], style: const TextStyle(color: Color(0x99512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
@@ -144,11 +101,10 @@ class MainMyPageState extends State<MainMyPage>{
         )
     );
   }
-
   Container drawBaby(Baby baby, int seed){
     return Container(
-        height: 130,
-        width: 110,
+        height: 230,
+        width: double.infinity,
         margin: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
           color: const Color(0xFFF9F8F8),
@@ -162,19 +118,161 @@ class MainMyPageState extends State<MainMyPage>{
             ),
           ],
         ),
-        child:Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/image/baby${seed%5}.png', width: 80),
+            Container(
+              height: 100,
+              width: 100,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: const Color(0xCCFFFFFF),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(0xffC1C1C1),
+                    width: 0.5,
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x29000000),
+                      offset: Offset(0, 3),
+                      blurRadius: 6,
+                    )
+                  ]
+              ),
+              child: Image.asset('assets/image/baby${seed%5}.png', width: 70),
+            ),
             const SizedBox(height: 12),
-            Text(baby.name, style: TextStyle(color: colorList[seed%3], fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+            Text(baby.name, style: TextStyle(color: colorList[seed%3], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+            const SizedBox(height: 13),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(left: 41, right: 41),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                      height: 12,
+                      child: Row(
+                        children: [
+                          Text('생일 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          Text('2022년 04월 28일생', style: TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                        ],
+                      )
+                  ),
+                  const SizedBox(height: 5),
+                  SizedBox(
+                      height: 12,
+                      child: Row(
+                        children: [
+                          const Text('성별 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          Text(baby.birth=='F'?'여자':'남자', style: const TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                        ],
+                      )
+                  )
+                ],
+              ),
+            )
+
           ],
+        )
+    );
+  }
+  Container drawAddBaby(int seed){
+    return Container(
+        height: 230,
+        width: double.infinity,
+        margin: const EdgeInsets.only(right: 10),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF9F8F8),
+          borderRadius: BorderRadius.circular(6),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x29512F22),
+              spreadRadius: 0,
+              blurRadius: 6.0,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: (){
+                Get.bottomSheet(
+                  Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      const Center(
+                        child: Text(
+                          'Bottom Sheet',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const Text('Close'),
+                      ),
+                    ],
+                  ),
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                );
+              },
+              child: Container(
+                height: 100,
+                width: 100,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: const Color(0xCCFFFFFF),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: const Color(0xffC1C1C1),
+                      width: 0.5,
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x29000000),
+                        offset: Offset(0, 3),
+                        blurRadius: 6,
+                      )
+                    ]
+                ),
+                child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
+              )
+            ),
+            const SizedBox(height: 12),
+            Text('추가', style: TextStyle(color: colorList[seed%3], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+            const SizedBox(height: 13),
+             Container(
+                width: double.infinity,
+                padding: EdgeInsets.only(left: 41, right: 41),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('생일 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                    SizedBox(height: 5),
+                    Text('성별 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  ],
+                ),
+            )
+            ],
         )
     );
   }
 }
 
-InkWell drawSettingScreen( title, icon,  func){
+InkWell drawSettingScreen( title, IconData icon,  func){
   return InkWell(
     onTap: func,
     child: Container(
@@ -184,11 +282,12 @@ InkWell drawSettingScreen( title, icon,  func){
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
+            Icon(icon, size:18, color: const Color(0xFFFB8665)),
+            /*Container(
               height: 30,
               width: 30,
               decoration: BoxDecoration(border: Border.all(width: 1, color: Color(0xff707070)),),
-            ),
+            )*/
             const SizedBox(width: 20),
             Text(title, style: const TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,))
           ],

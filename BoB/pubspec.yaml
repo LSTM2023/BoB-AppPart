@@ -55,6 +55,8 @@ dependencies:
   omni_datetime_picker: ^1.0.2
   horizontal_picker: ^1.2.0
   flutter_holo_date_picker: ^1.1.0
+  carousel_slider: ^4.2.1
+  scaled_list: ^2.0.0
 
 dev_dependencies:
   flutter_test:
