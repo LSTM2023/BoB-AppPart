@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
+import './MyPage/AddBaby.dart';
+import '../widgets/form.dart';
 
 class MainMyPage extends StatefulWidget{
   final User userinfo;
@@ -24,6 +26,7 @@ class MainMyPageState extends State<MainMyPage>{
   late List<Baby> activateBabies;
   late List<Baby> disActivateBabies;
   String selectedLanguageMode = '한국어';
+  // to add
 
   @override
   void initState() {
@@ -75,6 +78,7 @@ class MainMyPageState extends State<MainMyPage>{
               drawSettingScreen('로그아웃', Icons.logout,() => logout()),
               drawDivider(),
               const SizedBox(height: 20),
+
             ],
           ),
         ),
@@ -180,6 +184,7 @@ class MainMyPageState extends State<MainMyPage>{
         )
     );
   }
+
   Container drawAddBaby(int seed){
     return Container(
         height: 230,
@@ -202,32 +207,7 @@ class MainMyPageState extends State<MainMyPage>{
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
-              onTap: (){
-                Get.bottomSheet(
-                  Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      const Center(
-                        child: Text(
-                          'Bottom Sheet',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                      OutlinedButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: const Text('Close'),
-                      ),
-                    ],
-                  ),
-                  backgroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                );
-              },
+              onTap: () => openAddBabyScreen(),
               child: Container(
                 height: 100,
                 width: 100,
@@ -255,8 +235,8 @@ class MainMyPageState extends State<MainMyPage>{
             const SizedBox(height: 13),
              Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(left: 41, right: 41),
-                child: Column(
+                padding: const EdgeInsets.only(left: 41, right: 41),
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -268,6 +248,24 @@ class MainMyPageState extends State<MainMyPage>{
             )
             ],
         )
+    );
+  }
+  openAddBabyScreen(){
+
+
+    showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20)
+            )
+        ),
+        backgroundColor: Colors.grey[50],
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return AddBabyBottomSheet();
+        }
     );
   }
 }

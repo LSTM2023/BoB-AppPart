@@ -35,6 +35,8 @@ Map<String, String> title2hint = {
   'nickname':'닉네임을 입력해주세요',
   'phone':'휴대폰 번호를 입력해주세요',
   'qa_answer':'답변',
+  'babyName' : '아기의 이름 또는 별명을 입력해주세요.',
+  'babyBirth' : '아기의 생일을 입력해 주세요.'
 };
 SizedBox makeTextFormField(String title, TextEditingController controller, TextInputType kType){
   return SizedBox(
