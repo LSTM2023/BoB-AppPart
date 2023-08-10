@@ -23,12 +23,35 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <!-- Redirect URI, "kakao${YOUR_NATIVE_APP_KEY}://oauth" 형식 -->
+                <data android:scheme="kakao8e9bc1047c7add0a7a08665270df5693" android:host="oauth"/>
             </intent-filter>
+        </activity>
+        <activity
+           android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
+           android:exported="true">
+           <intent-filter android:label="flutter_web_auth">
+               <action android:name="android.intent.action.VIEW" />
+               <category android:name="android.intent.category.DEFAULT" />
+               <category android:name="android.intent.category.BROWSABLE" />
+
+               <!-- Redirect URI, "kakao${YOUR_NATIVE_APP_KEY}://oauth" 형식 -->
+               <data android:scheme="8e9bc1047c7add0a7a08665270df5693" android:host="oauth"/>
+           </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+           android:name="com.naver.sdk.clientId"
+           android:value="@string/client_id" />
+        <meta-data
+           android:name="com.naver.sdk.clientSecret"
+           android:value="@string/client_secret" />
+       <meta-data
+           android:name="com.naver.sdk.clientName"
+           android:value="@string/client_name" />
     </application>
 </manifest>
