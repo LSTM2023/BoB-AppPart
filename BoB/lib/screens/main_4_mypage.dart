@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
+import './MyPage/Invitation.dart';
+import './MyPage/AddBaby.dart';
 
 class MainMyPage extends StatefulWidget{
   final User userinfo;
@@ -34,7 +36,6 @@ class MainMyPageState extends State<MainMyPage>{
   }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: homeAppbar('My Page'),
       body: SingleChildScrollView(
@@ -58,15 +59,15 @@ class MainMyPageState extends State<MainMyPage>{
                   ),
                   itemBuilder: (context, i, id){
                     if(i < activateBabies.length) {
-                      return drawAddBaby(0);
+                      return drawBaby(activateBabies[i], 0);
                     }else{
-                      return drawBaby(activateBabies[0], 0);
+                      return drawAddBaby(0);
                     }
                   },
                 ),
               ),
               const SizedBox(height: 86),
-              drawSettingScreen('양육자/베이비시터 초대', Icons.favorite,() => logout()),
+              drawSettingScreen('양육자/베이비시터 초대', Icons.favorite,() => invitation()),
               drawDivider(),
               drawLanguageScreen(),
               drawDivider(),
@@ -102,6 +103,7 @@ class MainMyPageState extends State<MainMyPage>{
     );
   }
   Container drawBaby(Baby baby, int seed){
+    print('>>. ${baby.gender}');
     return Container(
         height: 230,
         width: double.infinity,
@@ -141,7 +143,7 @@ class MainMyPageState extends State<MainMyPage>{
                     )
                   ]
               ),
-              child: Image.asset('assets/image/baby${seed%5}.png', width: 70),
+              child: Image.asset('assets/image/baby${baby.gender==0?0:1}.png', width: 70),
             ),
             const SizedBox(height: 12),
             Text(baby.name, style: TextStyle(color: colorList[seed%3], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
@@ -153,12 +155,12 @@ class MainMyPageState extends State<MainMyPage>{
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                       height: 12,
                       child: Row(
                         children: [
                           Text('생일 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                          Text('2022년 04월 28일생', style: TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          Text('${baby.birth.year}년 ${baby.birth.month}월 ${baby.birth.day}일생', style: TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ],
                       )
                   ),
@@ -168,7 +170,7 @@ class MainMyPageState extends State<MainMyPage>{
                       child: Row(
                         children: [
                           const Text('성별 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                          Text(baby.birth=='F'?'여자':'남자', style: const TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          Text(baby.gender==1?'남자':'여자', style: const TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ],
                       )
                   )
@@ -202,31 +204,22 @@ class MainMyPageState extends State<MainMyPage>{
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
-              onTap: (){
-                Get.bottomSheet(
-                  Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      const Center(
-                        child: Text(
-                          'Bottom Sheet',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                      OutlinedButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: const Text('Close'),
-                      ),
-                    ],
-                  ),
-                  backgroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              onTap: () async {
+                await showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            topLeft: Radius.circular(20)
+                        )
+                    ),
+                    backgroundColor: const Color(0xffF9F8F8),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AddBabyBottomSheet();
+                    }
                 );
+                await widget.reloadBabiesFunction();
               },
               child: Container(
                 height: 100,
@@ -255,8 +248,8 @@ class MainMyPageState extends State<MainMyPage>{
             const SizedBox(height: 13),
              Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(left: 41, right: 41),
-                child: Column(
+                padding: const EdgeInsets.only(left: 41, right: 41),
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -269,6 +262,10 @@ class MainMyPageState extends State<MainMyPage>{
             ],
         )
     );
+  }
+  invitation() async{
+    await Get.to(() => Invitation(activateBabies, disActivateBabies));
+    await widget.reloadBabiesFunction();
   }
 }
 
@@ -305,6 +302,8 @@ Padding drawDivider(){
       )
   );
 }
+
+
 
 logout() async{
   await deleteLogin();
