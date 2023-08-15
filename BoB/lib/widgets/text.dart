@@ -17,7 +17,7 @@ Text text(String str, String weight, double size, Color color){
   );
 }
 
-Text TextBase(String str, String weight, double size){
+Text textBase(String str, String weight, double size){
   return Text(
       str,
       style: TextStyle(

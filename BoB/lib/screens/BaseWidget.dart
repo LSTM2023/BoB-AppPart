@@ -56,7 +56,6 @@ class _BaseWidget extends State<BaseWidget>{
     });
   }
   getBabies(bool isActive){
-    print('call getBabiesFuction : $isActive');
     if(isActive) {
       return activeBabies;
     } else {
@@ -92,8 +91,8 @@ class _BaseWidget extends State<BaseWidget>{
       MainMyPage(widget.userinfo, key: _mypageKey, getBabiesFuction: getBabies, reloadBabiesFunction: reloadBabies)
     ];
     return DefaultTabController(
-        length: 3,
-        initialIndex: 1, // 가운데에 있는 홈버튼을 기본값으로 설정
+        length: 4,
+        initialIndex: activeBabies.length==0?3:0,
         child: WillPopScope(
           onWillPop: () async => false,
           child: Scaffold(

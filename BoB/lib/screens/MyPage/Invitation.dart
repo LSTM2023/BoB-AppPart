@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:bob/models/model.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:get/get.dart';
+import '../../services/backend.dart';
 import './InvitationNew.dart';
+import 'package:badges/badges.dart' as badges;
 
 class Invitation extends StatefulWidget{
   final List<Baby> activebabies;
@@ -32,7 +34,7 @@ class _Invitation extends State<Invitation> {
               isScrollControlled: true,
               context: context,
               builder: (BuildContext context) {
-                return InvitationBottomSheet();
+                return InvitationBottomSheet(widget.activebabies);
               }
           );
         },
@@ -96,7 +98,7 @@ class _Invitation extends State<Invitation> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextBase(baby.name, 'extra-bold', 12),
+          textBase(baby.name, 'extra-bold', 12),
           OutlinedButton(
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.fromLTRB(9, 4, 9, 4),
@@ -108,6 +110,29 @@ class _Invitation extends State<Invitation> {
                 side: const BorderSide(width: 1.5, color: Color(0xFFFB8665)),
               ),
               onPressed: (){
+                Get.dialog(
+                  AlertDialog(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                    title: text('초대 수락','extra-bold', 16, const Color(0xFFFB8665)),
+                    content: textBase('초대를 수락하시겠습니까?', 'bold', 12),
+                    actions: [
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size.fromHeight(50),
+                              backgroundColor: const Color(0xFFFB8665),
+                              foregroundColor: Colors.white
+                          ),
+                          onPressed: () async{
+                            // 1. 초대 수락하는 API 보내기
+                            var result = await acceptInvitationService(baby.relationInfo.BabyId);
+                            Navigator.pop(context);
+                            Get.back();
+                          },
+                          child: text('수락','extra-bold', 14, Colors.white)
+                      )
+                    ],
+                  ),
+                );
               },
               child: text('수락', 'bold', 10, const Color(0xFFFB8665))
           )

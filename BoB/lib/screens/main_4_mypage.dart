@@ -3,13 +3,14 @@ import 'package:bob/screens/Login/initPage.dart';
 import 'package:bob/services/login_platform.dart';
 import 'package:bob/services/storage.dart';
 import 'package:bob/widgets/appbar.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import './MyPage/Invitation.dart';
 import './MyPage/AddBaby.dart';
-
+import 'package:badges/badges.dart' as badges;
 class MainMyPage extends StatefulWidget{
   final User userinfo;
   final getBabiesFuction; // 아기 불러오는 fuction
@@ -31,8 +32,12 @@ class MainMyPageState extends State<MainMyPage>{
   void initState() {
     activateBabies = widget.getBabiesFuction(true);
     disActivateBabies = widget.getBabiesFuction(false);
-    //log('MyPage : ${activateBabies.length} | ${disActivateBabies.length}');
     super.initState();
+    if(activateBabies.length==0 && disActivateBabies.length==0){
+      WidgetsBinding.instance.addPostFrameCallback((_){
+        openAddBabyScreen();
+      });
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -47,24 +52,21 @@ class MainMyPageState extends State<MainMyPage>{
             children: [
               const Text('아기 관리', style: TextStyle(color: Color(0xff512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
               const SizedBox(height: 10),
-              Container(
-                //margin: const EdgeInsets.all(15),
-                child: CarouselSlider.builder(
-                  itemCount: activateBabies.length+1,
-                  options: CarouselOptions(
-                    enlargeCenterPage: true,
-                    height: 230,
-                    reverse: false,
-                    aspectRatio: 5.0,
-                  ),
-                  itemBuilder: (context, i, id){
-                    if(i < activateBabies.length) {
-                      return drawBaby(activateBabies[i], 0);
-                    }else{
-                      return drawAddBaby(0);
-                    }
-                  },
+              CarouselSlider.builder(
+                itemCount: activateBabies.length+1,
+                options: CarouselOptions(
+                  enlargeCenterPage: true,
+                  height: 230,
+                  reverse: false,
+                  aspectRatio: 5.0,
                 ),
+                itemBuilder: (context, i, id){
+                  if(i < activateBabies.length) {
+                    return drawBaby(activateBabies[i], 0);
+                  }else{
+                    return drawAddBaby(0);
+                  }
+                },
               ),
               const SizedBox(height: 86),
               drawSettingScreen('양육자/베이비시터 초대', Icons.favorite,() => invitation()),
@@ -75,7 +77,10 @@ class MainMyPageState extends State<MainMyPage>{
               drawDivider(),
               drawSettingScreen('로그아웃', Icons.logout,() => logout()),
               drawDivider(),
+              drawSettingScreen('서비스 탈퇴', Icons.ac_unit,(){}),
+              drawDivider(),
               const SizedBox(height: 20),
+
             ],
           ),
         ),
@@ -103,7 +108,6 @@ class MainMyPageState extends State<MainMyPage>{
     );
   }
   Container drawBaby(Baby baby, int seed){
-    print('>>. ${baby.gender}');
     return Container(
         height: 230,
         width: double.infinity,
@@ -146,7 +150,16 @@ class MainMyPageState extends State<MainMyPage>{
               child: Image.asset('assets/image/baby${baby.gender==0?0:1}.png', width: 70),
             ),
             const SizedBox(height: 12),
-            Text(baby.name, style: TextStyle(color: colorList[seed%3], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+            badges.Badge(
+              position: badges.BadgePosition.topEnd(top: -13, end: -20),
+                badgeContent: text(baby.relationInfo.getRelationString(), 'normal', 6, Colors.white),
+                badgeStyle: badges.BadgeStyle(
+                  shape: badges.BadgeShape.square,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  badgeColor: colorList[baby.relationInfo.relation],
+                ),
+                child: Text(baby.name, style: TextStyle(color: colorList[baby.relationInfo.relation], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+            ),
             const SizedBox(height: 13),
             Container(
               width: double.infinity,
@@ -204,44 +217,28 @@ class MainMyPageState extends State<MainMyPage>{
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
-              onTap: () async {
-                await showModalBottomSheet(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            topLeft: Radius.circular(20)
+                onTap: () => openAddBabyScreen(),
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: const Color(0xCCFFFFFF),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xffC1C1C1),
+                        width: 0.5,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x29000000),
+                          offset: Offset(0, 3),
+                          blurRadius: 6,
                         )
-                    ),
-                    backgroundColor: const Color(0xffF9F8F8),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AddBabyBottomSheet();
-                    }
-                );
-                await widget.reloadBabiesFunction();
-              },
-              child: Container(
-                height: 100,
-                width: 100,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: const Color(0xCCFFFFFF),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xffC1C1C1),
-                      width: 0.5,
-                    ),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x29000000),
-                        offset: Offset(0, 3),
-                        blurRadius: 6,
-                      )
-                    ]
-                ),
-                child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
-              )
+                      ]
+                  ),
+                  child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
+                )
             ),
             const SizedBox(height: 12),
             Text('추가', style: TextStyle(color: colorList[seed%3], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
@@ -263,13 +260,30 @@ class MainMyPageState extends State<MainMyPage>{
         )
     );
   }
+  openAddBabyScreen() async{
+    await showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20)
+            )
+        ),
+        backgroundColor: const Color(0xffF9F8F8),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return AddBabyBottomSheet();
+        }
+    );
+    await widget.reloadBabiesFunction();
+  }
   invitation() async{
     await Get.to(() => Invitation(activateBabies, disActivateBabies));
     await widget.reloadBabiesFunction();
   }
 }
 
-InkWell drawSettingScreen( title, IconData icon,  func){
+InkWell drawSettingScreen(String title, IconData icon, dynamic func){
   return InkWell(
     onTap: func,
     child: Container(
@@ -280,11 +294,6 @@ InkWell drawSettingScreen( title, IconData icon,  func){
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(icon, size:18, color: const Color(0xFFFB8665)),
-            /*Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(border: Border.all(width: 1, color: Color(0xff707070)),),
-            )*/
             const SizedBox(width: 20),
             Text(title, style: const TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,))
           ],
@@ -303,10 +312,7 @@ Padding drawDivider(){
   );
 }
 
-
-
 logout() async{
   await deleteLogin();
-  LoginPlatform _loginPlatform = LoginPlatform.none;
   Get.offAll(LoginInit());
 }

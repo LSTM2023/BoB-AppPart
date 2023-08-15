@@ -6,36 +6,30 @@ Widget bottomNavBar(_selectedIndex, _onItemTapped){
     items: [
       BottomNavigationBarItem(
         //icon: FaIcon(FontAwesomeIcons.cameraRetro),
-        icon: SvgPicture.asset(
-          'assets/icon/ic_home.svg',
-          color: _selectedIndex==0?Color(0xffFB8665):Color(0xff512F22),
-          height: 24,
-          width: 24,
-        ), //Icon(Icons.home_outlined, size: 20,),
+        icon: Image.asset('assets/icon/Home_A.png', height: 24, width: 24,),
+        activeIcon: Image.asset('assets/icon/Home_B.png', height: 24, width: 24),//Icon(Icons.home_outlined, size: 20,),
         label: '홈',
       ),
       BottomNavigationBarItem(
-          icon: Icon( Icons.camera, size: 20,color: _selectedIndex==1?Color(0xffFB8665):Color(0xff512F22),),
+          icon: Image.asset('assets/icon/HomeCam_A.png', height: 24, width: 24,),
+          activeIcon: Image.asset('assets/icon/HomeCam_B.png', height: 24, width: 24),
           label: '홈캠'
       ),
       BottomNavigationBarItem(
         //icon: FaIcon(FontAwesomeIcons.cameraRetro),
-        icon: SvgPicture.asset(
-          'assets/icon/ic_calendar.svg',
-          color: _selectedIndex==2?Color(0xffFB8665):Color(0xff512F22),
-          height: 24,
-          width: 24,
-        ), //Icon(Icons.home_outlined, size: 20,),
+        icon: Image.asset('assets/icon/Calendar_A.png', height: 24, width: 24),
+        activeIcon: Image.asset('assets/icon/Calendar_B.png', height: 24, width: 24),//Icon(Icons.home_outlined, size: 20,),
         label: '일기',
       ),
       BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline, size: 20,color: _selectedIndex==3?Color(0xffFB8665):Color(0xff512F22),),
-          label: '마이 자취'
+          icon: Image.asset('assets/icon/MyPage_A.png', height: 24, width: 24),
+          activeIcon: Image.asset('assets/icon/MyPage_B.png', height: 24, width: 24),
+          label: '마이페이지'
       )
     ],
     currentIndex: _selectedIndex,
     onTap: _onItemTapped,
+    selectedItemColor: Color(0xffFB8665),
     selectedLabelStyle: const TextStyle(fontFamily: 'NanumSquareRound', fontSize: 10),
-    unselectedLabelStyle: const TextStyle(fontFamily: 'NanumSquareRound', fontSize: 10),
   );
 }

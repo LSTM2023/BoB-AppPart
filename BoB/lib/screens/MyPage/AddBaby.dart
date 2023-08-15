@@ -160,6 +160,7 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
     if(bNameClr.text.isEmpty && bNameClr.text.length < 5){
       return;
     }
+    print(bNameClr.text);
     //print({"baby_name":bNameClr.text, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
     var response = await setBabyService({"baby_name":bNameClr.text, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
     if(response['result'] == 'success'){
