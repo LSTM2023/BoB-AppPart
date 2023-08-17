@@ -1,5 +1,6 @@
 import 'package:bob/models/model.dart';
 import 'package:bob/screens/Login/initPage.dart';
+import 'package:bob/screens/MyPage/withdraw.dart';
 import 'package:bob/services/login_platform.dart';
 import 'package:bob/services/storage.dart';
 import 'package:bob/widgets/appbar.dart';
@@ -11,6 +12,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import './MyPage/Invitation.dart';
 import './MyPage/AddBaby.dart';
 import 'package:badges/badges.dart' as badges;
+
+import 'MyPage/modifyUserInfo.dart';
 class MainMyPage extends StatefulWidget{
   final User userinfo;
   final getBabiesFuction; // 아기 불러오는 fuction
@@ -73,11 +76,11 @@ class MainMyPageState extends State<MainMyPage>{
               drawDivider(),
               drawLanguageScreen(),
               drawDivider(),
-              drawSettingScreen('회원정보 수정', Icons.settings, (){}),
+              drawSettingScreen('회원정보 수정', Icons.settings, ()=>modifyUserInfo()),
               drawDivider(),
               drawSettingScreen('로그아웃', Icons.logout,() => logout()),
               drawDivider(),
-              drawSettingScreen('서비스 탈퇴', Icons.ac_unit,(){}),
+              drawSettingScreen('서비스 탈퇴', Icons.ac_unit,()=>withdraw()),
               drawDivider(),
               const SizedBox(height: 20),
 
@@ -260,7 +263,7 @@ class MainMyPageState extends State<MainMyPage>{
         )
     );
   }
-  openAddBabyScreen() async{
+  openAddBabyScreen() async {
     await showModalBottomSheet(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -277,9 +280,33 @@ class MainMyPageState extends State<MainMyPage>{
     );
     await widget.reloadBabiesFunction();
   }
-  invitation() async{
+  invitation() async {
     await Get.to(() => Invitation(activateBabies, disActivateBabies));
     await widget.reloadBabiesFunction();
+  }
+  modifyUserInfo() async {
+    var modifyInfo = await Get.to(() => ModifyUser(widget.userinfo));
+    if(modifyInfo != null){
+      setState((){
+        widget.userinfo.modifyUserInfo(modifyInfo['pass'], modifyInfo['name'], modifyInfo['phone']);
+      });
+    }
+  }
+  withdraw() {
+    showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20)
+            )
+        ),
+        backgroundColor: const Color(0xffF9F8F8),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return WithdrawBottomSheet();
+        }
+    );
   }
 }
 

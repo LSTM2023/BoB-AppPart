@@ -44,6 +44,28 @@ acceptInvitationService(int babyId) async{
     return response.data;
   }
 }
+// 회원 삭제 API
+deleteUserService() async{
+  try{
+    dio.options.headers['Authorization'] = await getToken();
+    Response response = await dio.get('$PATH/api/user/remove/');
+    return response.statusCode;
+  }on DioException{
+    return 405;
+  }
+}
+// 회원 정보 수정
+editUserService(data) async{
+  try{
+    dio.options.headers['Authorization'] = await refresh(); //await getToken();
+    Response response = await dio.post('$PATH/api/user/edit/', data: data);
+    return response.data;
+  }catch(e){
+    dio.options.headers['Authorization'] = await refresh();
+    Response response = await dio.post('$PATH/api/user/edit/', data: data);
+    return response.data;
+  }
+}
 getMyBabies() async{
   try{
     dio.options.headers['Authorization'] = await getToken();
