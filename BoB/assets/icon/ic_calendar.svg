@@ -1,0 +1,8 @@
+<svg id="ic_calendar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <path id="패스_383" data-name="패스 383" d="M0,0H24V24H0Z" fill="none"/>
+  <rect id="사각형_604" data-name="사각형 604" width="16" height="16" rx="2" transform="translate(4 5)" fill="none" stroke="#512f22" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <line id="선_18" data-name="선 18" y2="4" transform="translate(16 3)" fill="none" stroke="#512f22" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <line id="선_19" data-name="선 19" y2="4" transform="translate(8 3)" fill="none" stroke="#512f22" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <line id="선_20" data-name="선 20" x2="16" transform="translate(4 11)" fill="none" stroke="#512f22" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <line id="선_21" data-name="선 21" x2="4" transform="translate(10 16)" fill="none" stroke="#512f22" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+</svg>

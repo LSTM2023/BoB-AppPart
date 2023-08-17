@@ -21,19 +21,19 @@ PreferredSize homeAppbar(String title){
   return PreferredSize(
       preferredSize: const Size.fromHeight(55),
       child: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.green, // <-- SEE HERE
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Color(0xFFFFCCBF), // <-- SEE HERE
           statusBarIconBrightness: Brightness.light,
         ),
-          title: const Align(
+          title: Align(
             alignment: Alignment.centerRight,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('BoB', style: TextStyle(color:Color(0xFFFB8665), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound', fontSize: 20)),
-                SizedBox(width: 5),
-                Text('마이페이지', style: TextStyle(color:Color(0xFF512F22), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound', fontSize: 20))
+                const Text('BoB', style: TextStyle(color:Color(0xFFFB8665), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound', fontSize: 20)),
+                const SizedBox(width: 10),
+                Text(title, style: const TextStyle(color:Color(0xFF512F22), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound', fontSize: 18))
               ],
             )
           ),

@@ -8,6 +8,10 @@ import 'package:bob/screens/HomePage/RecordBottomSheet/feeding_bottom_sheet.dart
 import 'package:bob/screens/HomePage/RecordBottomSheet/growthRecord_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/sleep_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/Stopwatch/stopwatch.dart';
+import 'package:bob/screens/HomePage/StopwatchBottomSheet/babyFood_stopwatch_sheet.dart';
+import 'package:bob/screens/HomePage/StopwatchBottomSheet/feedingBottle_stopwatch_sheet.dart';
+import 'package:bob/screens/HomePage/StopwatchBottomSheet/feeding_stopwatch_sheet.dart';
+import 'package:bob/screens/HomePage/StopwatchBottomSheet/sleep_stopwatch_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -58,12 +62,19 @@ class MainHomeState extends State<Main_Home> {
     });
   }
 
+  closeOffset(){
+    setState(() {
+      timerClosed = true;
+    });
+  }
+
   String nextVaccineDate = '';
   String nextMedicalCheckUpDate = '';
 
-  List<Color> timerBackgroundColors= [const Color(0xffffdbd9),const Color(0xfffae2be),const Color(0xfffff7d4), const Color(0xffedfce6), const Color(0xffe6eafc)];
-  Color timerBackgroundColor = const Color(0xffffdbd9);
+  List<Color> timerBackgroundColors= [const Color(0xffFFEFEF),const Color(0xfffae2be),const Color(0xfffff7d4), const Color(0xffedfce6), const Color(0xffe6eafc)];
+  Color timerBackgroundColor = const Color(0xffFFEFEF);
   int timerType = 0;
+  late StopWatch stopWatchWidget;
 
   @override
   void initState() {
@@ -71,6 +82,7 @@ class MainHomeState extends State<Main_Home> {
     super.initState();
     activeBabies = widget.getBabiesFunction(true);
     currentBaby = widget.getCurrentBabyFunction();
+    stopWatchWidget = StopWatch(currentBaby, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
 
   }
 
@@ -398,29 +410,60 @@ class MainHomeState extends State<Main_Home> {
             Container(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                 margin: const EdgeInsets.only(left: 10, right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 3, 0, 1),
                       child: Text('버튼을 길게 누르면 타이머가 작동합니다.',
                         style: TextStyle(color: Colors.grey[500]),
                       ),
                     ),
-                    const SizedBox(height: 1),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        drawRecordButton(context, '모유', Icons.water_drop_outlined, Colors.red, const Color(0xffFFC8C8), 0),
-                        drawRecordButton(context, '젖병', Icons.water_drop, Colors.orange, const Color(0xffFFD9C8), 1),
-                        drawRecordButton(context, '이유식', Icons.rice_bowl_rounded, const Color(0xfffacc00), const Color(0xffFFF0C8), 2),
-                        drawRecordButton(context, '기저귀', Icons.baby_changing_station, Colors.green, const Color(0xffE0FFC8), 3),
-                        drawRecordButton(context, '수면', Icons.nights_stay_sharp, Colors.blueAccent, const Color(0xffC8F7FF), 4)
-                      ],
-                    ),
                   ],
                 )
             ),
+            Offstage(
+              offstage: !timerClosed,
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                margin: const EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    drawRecordButton(context, '모유', Icons.water_drop_outlined, Colors.red, const Color(0xffFFC8C8), 0),
+                    drawRecordButton(context, '젖병', Icons.water_drop, Colors.orange, const Color(0xffFFD9C8), 1),
+                    drawRecordButton(context, '이유식', Icons.rice_bowl_rounded, const Color(0xfffacc00), const Color(0xffFFF0C8), 2),
+                    drawRecordButton(context, '기저귀', Icons.baby_changing_station, Colors.green, const Color(0xffE0FFC8), 3),
+                    drawRecordButton(context, '수면', Icons.nights_stay_sharp, Colors.blueAccent, const Color(0xffC8F7FF), 4)
+                  ],
+                ),
+              ),
+            ),
+            Offstage(
+                offstage: timerClosed,
+                child: Container(
+                    height: 60,
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: timerBackgroundColors
+                        ),
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 5,
+                          )
+                        ]
+                    ),
+                    child: stopWatchWidget
+                )
+            ),
+            //타이머 구현
           ],
         ),
       ),
@@ -582,6 +625,50 @@ class MainHomeState extends State<Main_Home> {
           }
         }
     );
+  }
+
+  //타이머 종료 시 bottomsheet
+  showTimerBottomSheet(int type, DateTime startTime, DateTime endTime){
+    if(type == 0){        // 모유
+      Get.bottomSheet(
+          Container(
+              color: Colors.white,
+              child: FeedingStopwatchBottomSheet(
+                  currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
+          ),
+          isScrollControlled: true
+      );
+    }
+    else if(type == 1) {    // 젖병
+      Get.bottomSheet(
+          Container(
+              color: Colors.white,
+              child: FeedingBottleStopwatchBottomSheet(
+                  currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
+          ),
+          isScrollControlled: true
+      );
+    }
+    else if(type == 2) {    // 이유식
+      Get.bottomSheet(
+          Container(
+              color: Colors.white,
+              child: BabyFoodStopwatchBottomSheet(
+                  currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
+          ),
+          isScrollControlled: true
+      );
+    }
+    else{                 // 수면
+      Get.bottomSheet(
+          Container(
+            color: Colors.white,
+            child: SleepStopwatchBottomSheet(
+                currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord),
+          ),
+          isScrollControlled: true
+      );
+    }
   }
 }
 

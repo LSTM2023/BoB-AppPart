@@ -1,4 +1,5 @@
 import 'package:bob/models/model.dart';
+import 'package:bob/services/backend.dart';
 import 'package:bob/widgets/bottomNav.dart';
 import 'package:flutter/material.dart';
 import './main_1_home.dart';
@@ -55,7 +56,6 @@ class _BaseWidget extends State<BaseWidget>{
     });
   }
   getBabies(bool isActive){
-    print('call getBabiesFuction : $isActive');
     if(isActive) {
       return activeBabies;
     } else {
@@ -68,7 +68,7 @@ class _BaseWidget extends State<BaseWidget>{
   reloadBabies() async{
     activeBabies.clear();
     disactiveBabies.clear();
-    /*List<dynamic> babyRelationList = await getMyBabies();
+    List<dynamic> babyRelationList = await getMyBabies();
     for(int i=0; i < babyRelationList.length; i++){
       var baby = await getBaby(babyRelationList[i]['baby']);
       baby['relationInfo'] = (Baby_relation.fromJson(babyRelationList[i])).toJson();
@@ -79,7 +79,7 @@ class _BaseWidget extends State<BaseWidget>{
           disactiveBabies.add(Baby.fromJson(baby));
         }
       });
-    }*/
+    }
   }
 
   @override
@@ -91,8 +91,8 @@ class _BaseWidget extends State<BaseWidget>{
       MainMyPage(widget.userinfo, key: _mypageKey, getBabiesFuction: getBabies, reloadBabiesFunction: reloadBabies)
     ];
     return DefaultTabController(
-        length: 3,
-        initialIndex: 1, // 가운데에 있는 홈버튼을 기본값으로 설정
+        length: 4,
+        initialIndex: activeBabies.length==0?3:0,
         child: WillPopScope(
           onWillPop: () async => false,
           child: Scaffold(

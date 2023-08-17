@@ -156,6 +156,10 @@
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+<<<<<<< Updated upstream
+=======
+				BuildIndependentTargetsInParallel = YES;
+>>>>>>> Stashed changes
 				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {

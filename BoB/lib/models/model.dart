@@ -96,7 +96,7 @@ class Baby {
   Baby(this.name, this.birth, this.gender, this.relationInfo);
 
   Baby.fromJson(Map<dynamic, dynamic> json)
-      : name = json['baby_name'], birth = DateTime.parse(json['birth']), gender = (json['gender']=='M'?0:1), relationInfo = Baby_relation.fromJson(json['relationInfo']);
+      : name = json['baby_name'], birth = DateTime.parse(json['birth']), gender = (json['gender']=='F'?0:1), relationInfo = Baby_relation.fromJson(json['relationInfo']);
   getGenderString(){
     if(gender==0) return 'F';
     if(gender==1) return 'M';

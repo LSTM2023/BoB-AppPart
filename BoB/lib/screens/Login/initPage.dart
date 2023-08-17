@@ -180,7 +180,7 @@ class _LoginInit extends State<LoginInit>{
       }
       Get.snackbar('로그인 성공', '환영합니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
       if(MyBabies.isEmpty){
-        Get.offAll(()=> AddBaby());
+        Get.offAll(()=> BaseWidget(userInfo, MyBabies));
       }
       else{
         Get.offAll(()=> BaseWidget(userInfo, MyBabies));
