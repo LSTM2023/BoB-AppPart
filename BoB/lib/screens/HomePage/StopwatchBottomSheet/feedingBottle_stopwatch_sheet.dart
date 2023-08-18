@@ -45,7 +45,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('젖병 수유', style: TextStyle(fontSize: 35, color: Colors.deepOrangeAccent)),
+                  const Text('젖병 수유', style: TextStyle(fontSize: 35, color: Colors.deepOrangeAccent, fontFamily: 'NanumSquareRound')),
                   IconButton(
                       onPressed: (){
                         Navigator.pop(context);
@@ -62,9 +62,9 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                 children: [
                   Row(
                     children: [
-                      const Text('수유 시간', style: TextStyle(fontSize: 17, color: Colors.grey)),
+                      const Text('수유 시간', style: TextStyle(fontSize: 17, color: Colors.grey, fontFamily: 'NanumSquareRound')),
                       const SizedBox(width: 20),
-                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: TextStyle(fontSize: 24)),
+                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: const TextStyle(fontSize: 24, fontFamily: 'NanumSquareRound')),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -73,7 +73,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                     decoration: InputDecoration(
                         floatingLabelBehavior:FloatingLabelBehavior.always, // labelText위치
                         labelText: '수유량 (ml)',
-                        labelStyle: TextStyle(fontSize: 25),
+                        labelStyle: const TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),
                         suffixIcon: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
                           mainAxisSize: MainAxisSize.min,
@@ -107,7 +107,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                     keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 10),
-                  const Text('수유 타입', style: TextStyle(fontSize: 17, color: Colors.black)),
+                  const Text('수유 타입', style: TextStyle(fontSize: 17, color: Colors.black, fontFamily: 'NanumSquareRound')),
                   Padding(
                     padding: const EdgeInsets.only(top:10, bottom:10),
                     child: Row(
@@ -126,7 +126,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                             ),
                             child: const Padding(
                                 padding: EdgeInsets.all(10),
-                                child: Text('모유',style: TextStyle(fontSize: 16))
+                                child: Text('모유',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound'))
                             ),
                           ),
                         ),
@@ -142,7 +142,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                                 foregroundColor: Colors.black,
                                 backgroundColor: !isSelect ? const Color(0xfff7a972) : null,
                               ),
-                              child: const Padding(padding:EdgeInsets.all(10), child:Text('분유',style: TextStyle(fontSize: 16))),
+                              child: const Padding(padding:EdgeInsets.all(10), child:Text('분유',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound'))),
 
                             )
                         )
@@ -155,11 +155,11 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                       child: TextFormField(
                         controller: memoController,
                         maxLines: 1,
-                        style: const TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
                         decoration: const InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.always,
                             labelText: '메모',
-                            labelStyle: TextStyle(fontSize: 24, color:Colors.black),
+                            labelStyle: TextStyle(fontSize: 24, color:Colors.black, fontFamily: 'NanumSquareRound'),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Colors.grey)
@@ -200,7 +200,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                             color: Colors.orangeAccent,
                           )
                       ),
-                      child: const Text('확인',style: TextStyle(fontSize: 20)),
+                      child: const Text('확인',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
                     ),
                   )
                 ],

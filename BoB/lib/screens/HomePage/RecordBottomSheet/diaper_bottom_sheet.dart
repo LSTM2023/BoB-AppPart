@@ -42,13 +42,14 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 15),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('기저귀',
                     style: TextStyle(
                         fontSize: 35,
-                        color: Colors.green
+                        color: Colors.green,
+                      fontFamily: 'NanumSquareRound',
                     ),
                   ),
                 ],
@@ -56,13 +57,14 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
             ),
             Container(
               padding: const EdgeInsets.only(left: 25, top: 5),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('배소변',
                     style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.black
+                      fontSize: 17,
+                      color: Colors.black,
+                      fontFamily: 'NanumSquareRound',
                     ),
                   ),
                 ],
@@ -80,7 +82,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                       isSelect = true;
                     });
                   },
-                  child: Text('배변',style: TextStyle(fontSize: 20),),
+                  child: Text('배변',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
                   style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: isSelect ? Colors.green[300] : null,
@@ -93,7 +95,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                       isSelect = false;
                     });
                   },
-                  child: Text('소변',style: TextStyle(fontSize: 20),),
+                  child: Text('소변',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
                   style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: !isSelect ? Colors.green[300] : null,
@@ -166,7 +168,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                         controller: ymdtController,
                         decoration: const InputDecoration(
                             labelText: '배변 시간을 입력하세요',
-                            labelStyle: TextStyle(fontSize: 18),
+                            labelStyle: TextStyle(fontSize: 18, fontFamily: 'NanumSquareRound'),
                             suffixIcon: Icon(Icons.add_alarm_sharp),
                             filled: false, //색 지정
                             enabledBorder:OutlineInputBorder(
@@ -201,11 +203,11 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                     child: TextFormField(
                       controller: memoController,
                       maxLines: 2,
-                      style: TextStyle(fontSize: 24),
+                      style: const TextStyle(fontSize: 24, fontFamily: 'NanumSquareRound'),
                       decoration: const InputDecoration(
                           floatingLabelBehavior:FloatingLabelBehavior.always, // labelText위치
                           labelText: '메모',
-                          labelStyle: TextStyle(fontSize: 30),
+                          labelStyle: TextStyle(fontSize: 30, fontFamily: 'NanumSquareRound'),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(color: Colors.green)
@@ -230,11 +232,11 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('취소',style: TextStyle(fontSize: 25),),
+                      child: Text('취소',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound')),
                       style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.black,
                           minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10))
                           )
                       ),
@@ -254,7 +256,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                         widget.timeDiaper(3, diaperTime);
                         Navigator.pop(context);
                       },
-                      child: Text('확인',style: TextStyle(fontSize: 25),),
+                      child: Text('확인',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
                       style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.black,
                           backgroundColor: !isSelect ? Colors.green[300] : null,
