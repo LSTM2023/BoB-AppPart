@@ -22,6 +22,181 @@ class _AddBaby extends State<AddBaby>{
     );
   }
 }
+
+class BabyBottomSheet extends StatefulWidget {
+  final Baby baby;
+  const BabyBottomSheet(this.baby, {super.key});
+  @override
+  State<BabyBottomSheet> createState() => _BabyBottomSheet();
+}
+class _BabyBottomSheet extends State<BabyBottomSheet>{
+  late TextEditingController bNameClr;
+  late List<bool> genderSelected;
+  late DateTime birth;
+  @override
+  void initState() {
+    if(widget.baby != null){
+      bNameClr = TextEditingController(text: widget.baby.name);
+      genderSelected = [widget.baby.gender==0, widget.baby.gender==1];
+      birth = widget.baby.birth;
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          left: 28, right: 28
+      ),
+      child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 50),
+              Center(
+                  child: InkWell(
+                      onTap: ()=>_BabyService(),
+                      child: Container(
+                        height: 141,
+                        width: 141,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: const Color(0xCCFFFFFF),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: const Color(0xffC1C1C1),
+                              width: 0.5,
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x29000000),
+                                offset: Offset(0, 3),
+                                blurRadius: 6,
+                              )
+                            ]
+                        ),
+                        child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
+                      )
+                  )
+              ),
+              const SizedBox(height: 66),
+              const Text('아기 이름', style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              const SizedBox(height: 10),
+              makeTextFormField('babyName', bNameClr, TextInputType.text),
+              const SizedBox(height: 20),
+              const Text('생일', style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              const SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(
+                    width: 1.5,
+                    color: const Color(0x4D512F22),
+                  ),
+                ),
+                child: CupertinoButton(
+                    onPressed: () => _showDialog(
+                      CupertinoDatePicker(
+                        initialDateTime: birth,
+                        mode: CupertinoDatePickerMode.date,
+                        use24hFormat: true,
+                        // This is called when the user changes the date.
+                        onDateTimeChanged: (DateTime newDate) {
+                          setState(() => birth = newDate);
+                        },
+                      ),
+                    ),
+                    child: text('${birth.year}.${birth.month}.${birth.day}', 'bold', 14, Color(0x99512F22))
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text('성별', style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              const SizedBox(height: 10),
+              ToggleButtons(
+                  borderRadius: BorderRadius.circular(8.0),
+                  selectedColor : Colors.white,
+                  fillColor: const Color(0xfffb8665),
+                  color: Colors.grey,
+                  onPressed: (int idx){
+                    setState(() {
+                      genderSelected = [idx == 0, idx == 1];
+                    });
+                  },
+                  isSelected: genderSelected,
+                  children: const [
+                    SizedBox(
+                        width: 174,
+                        child: Center(
+                            child: Text('남아', style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                        )
+                    ),
+                    SizedBox(
+                        width: 174,
+                        child: Center(
+                            child: Text('여아', style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                        )
+                    ),
+                  ]
+              ),
+              const SizedBox(height: 28),
+            ],
+          )
+      ),
+    );
+  }
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => Container(
+          height: 216,
+          padding: const EdgeInsets.only(top: 6.0),
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          color: CupertinoColors.systemBackground.resolveFrom(context),
+          child: SafeArea(
+            top: false,
+            child: child,
+          ),
+        ));
+  }
+  void _BabyService() async{
+    String bName = bNameClr.text.trim();
+    // validate
+    if(bName.isEmpty && bName.length < 5){
+      return;
+    }
+    if(widget.baby != null){
+      // modify
+      print(await editBabyService(widget.baby.relationInfo.BabyId, bName, (genderSelected[1]==true?'F':'M')));
+      //var response = await editBabyService(widget.baby.relationInfo.BabyId, bName, (genderSelected[1]==true?'F':'M'));
+      //if(response == 200){
+        //Get.back();
+      //}
+    }else{
+      // new
+      var response = await setBabyService({"baby_name":bName, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
+      if(response['result'] == 'success'){
+        Get.back();
+      }
+    }
+  }
+  void _registerBaby() async{
+    // validate
+    if(bNameClr.text.isEmpty && bNameClr.text.length < 5){
+      return;
+    }
+    print(bNameClr.text);
+    //print({"baby_name":bNameClr.text, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
+    var response = await setBabyService({"baby_name":bNameClr.text, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
+    if(response['result'] == 'success'){
+      Get.back();
+    }
+    return;
+  }
+}
 class AddBabyBottomSheet extends StatefulWidget {
   const AddBabyBottomSheet({super.key});
   @override

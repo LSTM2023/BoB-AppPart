@@ -110,6 +110,30 @@ setBabyService(data) async{
     return response.data;
   }
 }
+// 아기 정보 수정
+editBabyService(int bId, String bName, String bGender) async{
+  try{
+    dio.options.headers['Authorization'] = await getToken(); //await getToken();
+    Response response = await dio.post('$PATH/api/baby/modify/', data: {"babyid":bId, "baby_name": bName, "gender":bGender});
+    return response.statusCode;
+  }catch(e){
+    dio.options.headers['Authorization'] = await refresh();
+    Response response = await dio.post('$PATH/api/baby/modify/', data: {"babyid":bId, "baby_name": bName, "gender":bGender});
+    return response.statusCode;
+  }
+}
+// 아기 삭제
+deleteBabyService(int babyID) async{
+  try{
+    dio.options.headers['Authorization'] = await getToken();
+    Response response = await dio.get('$PATH/api/baby/$babyID/delete/');
+    return response.statusCode;
+  }catch(e) {
+    dio.options.headers['Authorization'] = await refresh();
+    Response response = await dio.get('$PATH/api/baby/$babyID/delete/');
+    return response.statusCode;
+  }
+}
 // 토큰 갱신
 refresh() async{
   var refreshDio = Dio();   // 토큰 갱신 요청을 담당할 dio 객체

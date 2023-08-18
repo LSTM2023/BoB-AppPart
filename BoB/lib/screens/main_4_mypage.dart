@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../services/backend.dart';
 import './MyPage/Invitation.dart';
 import './MyPage/AddBaby.dart';
 import 'package:badges/badges.dart' as badges;
@@ -110,8 +111,8 @@ class MainMyPageState extends State<MainMyPage>{
         )
     );
   }
-  Container drawBaby(Baby baby, int seed){
-    return Container(
+  Widget drawBaby(Baby baby, int seed){
+    Container content = Container(
         height: 230,
         width: double.infinity,
         margin: const EdgeInsets.only(right: 10),
@@ -155,13 +156,13 @@ class MainMyPageState extends State<MainMyPage>{
             const SizedBox(height: 12),
             badges.Badge(
               position: badges.BadgePosition.topEnd(top: -13, end: -20),
-                badgeContent: text(baby.relationInfo.getRelationString(), 'normal', 6, Colors.white),
-                badgeStyle: badges.BadgeStyle(
-                  shape: badges.BadgeShape.square,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  badgeColor: colorList[baby.relationInfo.relation],
-                ),
-                child: Text(baby.name, style: TextStyle(color: colorList[baby.relationInfo.relation], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+              badgeContent: text(baby.relationInfo.getRelationString(), 'normal', 6, Colors.white),
+              badgeStyle: badges.BadgeStyle(
+                shape: badges.BadgeShape.square,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                badgeColor: colorList[baby.relationInfo.relation],
+              ),
+              child: Text(baby.name, style: TextStyle(color: colorList[baby.relationInfo.relation], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
             ),
             const SizedBox(height: 13),
             Container(
@@ -197,8 +198,78 @@ class MainMyPageState extends State<MainMyPage>{
           ],
         )
     );
+    if(baby.relationInfo.relation == 0){
+      return Stack(
+        children: [
+          content,
+          Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              height: 20,
+              child: FloatingActionButton(
+                elevation: 0,
+                backgroundColor: Color(0xffB4B4B4),
+                onPressed: (){
+                  Get.dialog(
+                      AlertDialog(
+                        title: text('warning', 'extra-bold', 18, Color(0xffFB8665)),
+                        content: textBase('한 번 삭제한 내용은 복구가 불가능합니다.\n 정말로 삭제하시겠습니까?', 'bold', 14),
+                        actions: [
+                          TextButton(
+                              onPressed: ()=> deleteBaby(baby.relationInfo.BabyId),
+                              child: textBase('삭제', 'bold', 14)
+                          ),
+                          TextButton(
+                              onPressed: (){
+                                Get.back();
+                              },
+                              child: textBase('취소', 'bold', 14)
+                          )
+                        ],
+                      ),
+                      barrierDismissible: false
+                  );
+                },
+                child: const Icon(Icons.delete, size:12),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              height: 20,
+              child: FloatingActionButton(
+                elevation: 0,
+                backgroundColor: colorList[baby.relationInfo.relation],
+                onPressed: () async {
+                    await showModalBottomSheet(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                topLeft: Radius.circular(20)
+                            )
+                        ),
+                        backgroundColor: const Color(0xffF9F8F8),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return BabyBottomSheet(baby);
+                        }
+                    );
+                    await widget.reloadBabiesFunction();
+                },
+                child: const Icon(Icons.edit, size:12),
+              ),
+            ),
+          ],
+        )
+        ],
+      );
+    }else{
+      return content;
+    }
   }
-  Container drawAddBaby(int seed){
+  Widget drawAddBaby(int seed){
     return Container(
         height: 230,
         width: double.infinity,
@@ -246,20 +317,20 @@ class MainMyPageState extends State<MainMyPage>{
             const SizedBox(height: 12),
             Text('추가', style: TextStyle(color: colorList[seed%3], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
             const SizedBox(height: 13),
-             Container(
-                width: double.infinity,
-                padding: const EdgeInsets.only(left: 41, right: 41),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('생일 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                    SizedBox(height: 5),
-                    Text('성별 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                  ],
-                ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(left: 41, right: 41),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('생일 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  SizedBox(height: 5),
+                  Text('성별 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                ],
+              ),
             )
-            ],
+          ],
         )
     );
   }
@@ -307,6 +378,15 @@ class MainMyPageState extends State<MainMyPage>{
           return WithdrawBottomSheet();
         }
     );
+  }
+  deleteBaby(int targetBabyID) async {
+    var re = await deleteBabyService(targetBabyID);
+    if(re != 200){
+      Get.snackbar('warning', '삭제하지 못했습니다');
+      return;
+    }
+    Get.back();
+    await widget.reloadBabiesFunction();
   }
 }
 
