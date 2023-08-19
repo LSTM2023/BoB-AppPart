@@ -11,6 +11,7 @@ import 'package:bob/screens/HomePage/StopwatchBottomSheet/babyFood_stopwatch_she
 import 'package:bob/screens/HomePage/StopwatchBottomSheet/feedingBottle_stopwatch_sheet.dart';
 import 'package:bob/screens/HomePage/StopwatchBottomSheet/feeding_stopwatch_sheet.dart';
 import 'package:bob/screens/HomePage/StopwatchBottomSheet/sleep_stopwatch_sheet.dart';
+import 'package:bob/screens/HomePage/baby_growthStatistics.dart';
 import 'package:bob/screens/HomePage/baby_medicalCheckup.dart';
 import 'package:bob/screens/HomePage/baby_vaccination.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -44,6 +45,8 @@ class MainHomeState extends State<Main_Home> {
 
   List<Vaccine> myBabyvaccineList = [];
   late List<MedicalCheckUp> myBabyMedicalCheckList;
+
+  late List<GrowthRecord> myBabyGrowthRecordList = [];
 
   void addLifeRecord(int type, String val){
     setState(() {
@@ -252,8 +255,8 @@ class MainHomeState extends State<Main_Home> {
                     )
                   ]),
               child: Center(
-                  child: drawBaby(currentBaby.name, currentBaby.birth),
-                  ),
+                child: drawBaby(currentBaby.name, currentBaby.birth),
+              ),
             ),
             GestureDetector(
               onTap: () {},
@@ -328,8 +331,8 @@ class MainHomeState extends State<Main_Home> {
                     flex:1,
                     child: GestureDetector(
                       onTap: () {
-                        // Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList)
-                        // );
+                        Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList)
+                        );
                       },
                       child: Container(
                         height: 235,
