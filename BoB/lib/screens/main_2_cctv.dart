@@ -1,10 +1,10 @@
 import 'package:bob/models/model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mjpeg/flutter_mjpeg.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 
-class Main_Cctv extends StatefulWidget{
+class Main_Cctv extends StatefulWidget {
   final User userinfo;
   final getMyBabyFuction;
   const Main_Cctv(this.userinfo, {super.key, this.getMyBabyFuction});
@@ -12,15 +12,27 @@ class Main_Cctv extends StatefulWidget{
   State<Main_Cctv> createState() => MainCCTVState();
 }
 class MainCCTVState extends State<Main_Cctv>{
-  bool _isPlaying = false;
-  late Baby baby;
+  late VlcPlayerController _videoPlayerController;
+
+  Future<void> initializePlayer() async {}
 
   @override
   void initState() {
     super.initState();
     baby = widget.getMyBabyFuction();
-    print(baby.name);
+    _videoPlayerController = VlcPlayerController.network(
+      'https://media.w3.org/2010/05/sintel/trailer.mp4',
+      autoPlay: false,
+      options: VlcPlayerOptions(),
+    );
   }
+  @override
+  void dispose() async {
+    super.dispose();
+    await _videoPlayerController.stopRendererScanning();
+  }
+  late Baby baby;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,44 +130,16 @@ class MainCCTVState extends State<Main_Cctv>{
             Container(height: 31),
             Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                Center(
                   child: ClipRRect(
                     borderRadius : BorderRadius.circular(5.0),
-                    child: Mjpeg(
-                      isLive: _isPlaying,
-                      error: (context, error, stack) {
-                        return Text(error.toString(),
-                            style: const TextStyle(color: Color(0xffdf8570)));
-                      },
-                      stream:
-                      'http://203.249.22.164:5000/video_feed', //'http://192.168.1.37:8081',
+                    child: VlcPlayer(
+                      controller: _videoPlayerController,
+                      aspectRatio: 16 / 9,
+                      placeholder: const Center(child: CircularProgressIndicator()),
                     ),
                   ),
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          if (_isPlaying) {
-                            setState(() {
-                              _isPlaying = false;
-                            });
-                          } else {
-                            setState(() {
-                              _isPlaying = true;
-                            });
-                          }
-                        },
-                        child: Icon(
-                            _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                            size: 28.53,
-                            color: Color(0xFF512F22)),
-                      ),
-                    ],
-                  ),
               ],
             ),
           ],

@@ -218,7 +218,7 @@ class MainMyPageState extends State<MainMyPage>{
                         content: textBase('한 번 삭제한 내용은 복구가 불가능합니다.\n 정말로 삭제하시겠습니까?', 'bold', 14),
                         actions: [
                           TextButton(
-                              onPressed: ()=> deleteBaby(baby.relationInfo.BabyId),
+                              onPressed: ()=> {}, // deleteBaby(baby.relationInfo.BabyId),
                               child: textBase('삭제', 'bold', 14)
                           ),
                           TextButton(
@@ -242,20 +242,20 @@ class MainMyPageState extends State<MainMyPage>{
                 elevation: 0,
                 backgroundColor: colorList[baby.relationInfo.relation],
                 onPressed: () async {
-                    await showModalBottomSheet(
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                topLeft: Radius.circular(20)
-                            )
-                        ),
-                        backgroundColor: const Color(0xffF9F8F8),
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return BabyBottomSheet(baby);
-                        }
-                    );
+                    // await showModalBottomSheet(
+                    //     shape: const RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.only(
+                    //             topRight: Radius.circular(20),
+                    //             topLeft: Radius.circular(20)
+                    //         )
+                    //     ),
+                    //     backgroundColor: const Color(0xffF9F8F8),
+                    //     isScrollControlled: true,
+                    //     context: context,
+                    //     builder: (BuildContext context) {
+                    //       return BabyBottomSheet(baby);
+                    //     }
+                    // );
                     await widget.reloadBabiesFunction();
                 },
                 child: const Icon(Icons.edit, size:12),
@@ -379,15 +379,15 @@ class MainMyPageState extends State<MainMyPage>{
         }
     );
   }
-  deleteBaby(int targetBabyID) async {
-    var re = await deleteBabyService(targetBabyID);
-    if(re != 200){
-      Get.snackbar('warning', '삭제하지 못했습니다');
-      return;
-    }
-    Get.back();
-    await widget.reloadBabiesFunction();
-  }
+  // deleteBaby(int targetBabyID) async {
+  //   var re = await deleteBabyService(targetBabyID);
+  //   if(re != 200){
+  //     Get.snackbar('warning', '삭제하지 못했습니다');
+  //     return;
+  //   }
+  //   Get.back();
+  //   await widget.reloadBabiesFunction();
+  // }
 }
 
 InkWell drawSettingScreen(String title, IconData icon, dynamic func){
