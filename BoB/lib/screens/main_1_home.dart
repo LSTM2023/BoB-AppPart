@@ -14,6 +14,7 @@ import 'package:bob/screens/HomePage/StopwatchBottomSheet/sleep_stopwatch_sheet.
 import 'package:bob/screens/HomePage/baby_growthStatistics.dart';
 import 'package:bob/screens/HomePage/baby_medicalCheckup.dart';
 import 'package:bob/screens/HomePage/baby_vaccination.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -193,9 +194,10 @@ class MainHomeState extends State<Main_Home> {
                   const SizedBox(height: 40),
                   // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
                   // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
-                  const Text('아기 리스트', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound', fontSize: 23)),
-                  const Text('클릭하면 해당 아기를 관리할 수 있습니다.', style: TextStyle(color: Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
-                  const SizedBox(height: 20),
+                  textBase('아기 리스트', 'extra-bold', 20),
+                  const SizedBox(height: 8),
+                  textBase('클릭하면 해당 아기를 관리할 수 있습니다.', 'bold', 12),
+                  const SizedBox(height: 29),
                   Expanded(
                     child: ListView(
                       children: [
@@ -203,7 +205,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation0'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: const Text('부모', style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                              title: textBase('부모', 'extra-bold', 14),
                               children: getDrawerDatas(0, context, const Color(0xfffa625f))
                           ),
                         ),
@@ -211,7 +213,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation1'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: const Text('가족', style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                              title: textBase('가족', 'extra-bold', 14),
                               children: getDrawerDatas(1, context, Colors.blueAccent)
                           ),
                         ),
@@ -219,7 +221,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation2'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: const Text('베이비시터', style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                              title: textBase('베이비시터', 'extra-bold', 14),
                               children: getDrawerDatas(2, context, Colors.grey)
                           ),
                         ),
@@ -576,6 +578,7 @@ class MainHomeState extends State<Main_Home> {
                   Navigator.pop(context);
                 },
                 child: Container(
+                  height: 36,
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -586,7 +589,7 @@ class MainHomeState extends State<Main_Home> {
                       border: Border(
                         left: BorderSide(
                             color: color,
-                            width: 3.0
+                            width: 6.0
                         ),
                       ),
                       color: Colors.white,
@@ -594,16 +597,15 @@ class MainHomeState extends State<Main_Home> {
                     padding: const EdgeInsets.all(10),
                     margin: const EdgeInsets.fromLTRB(2,10,2,10),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(b.name, style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound', fontSize: 20)),
-                        Expanded(
-                          flex: 3,
-                          child: Column(
-                            children: [
-                              // Text('${DateFormat('yyyy-MM-dd').format(b.birth)}, ${b.getGenderString()=='F' ? "genderF".tr : "genderM".tr}'),
-                              Text('${DateFormat('yyyy-MM-dd').format(b.birth)}, ${b.getGenderString()=='F' ? "여자" : "남자"}'),
-                            ],
-                          ),
+                        textBase(b.name, 'extra-bold', 12),
+                        Row(
+                          children: [
+                            text(b.getGenderString()=='F' ? "여자" : "남자", 'bold', 10, Color(0x99512f22)),
+                            SizedBox(width: 6),
+                            textBase(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 10)
+                          ],
                         )
                       ],
                     )

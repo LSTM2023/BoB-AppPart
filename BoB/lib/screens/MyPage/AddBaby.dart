@@ -37,7 +37,7 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
   void initState() {
     if(widget.baby != null){
       bNameClr = TextEditingController(text: widget.baby.name);
-      genderSelected = [widget.baby.gender==0, widget.baby.gender==1];
+      genderSelected = [widget.baby.gender==1, widget.baby.gender==0];
       birth = widget.baby.birth;
     }
   }
@@ -168,33 +168,11 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
     if(bName.isEmpty && bName.length < 5){
       return;
     }
-    if(widget.baby != null){
-      // modify
-      print(await editBabyService(widget.baby.relationInfo.BabyId, bName, (genderSelected[1]==true?'F':'M')));
-      //var response = await editBabyService(widget.baby.relationInfo.BabyId, bName, (genderSelected[1]==true?'F':'M'));
-      //if(response == 200){
-        //Get.back();
-      //}
-    }else{
-      // new
-      var response = await setBabyService({"baby_name":bName, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
-      if(response['result'] == 'success'){
-        Get.back();
-      }
-    }
-  }
-  void _registerBaby() async{
-    // validate
-    if(bNameClr.text.isEmpty && bNameClr.text.length < 5){
-      return;
-    }
-    print(bNameClr.text);
-    //print({"baby_name":bNameClr.text, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
-    var response = await setBabyService({"baby_name":bNameClr.text, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
-    if(response['result'] == 'success'){
+    // modify
+    var response = await editBabyService(widget.baby.relationInfo.BabyId, bName, (genderSelected[1]==true?'F':'M'));
+    if(response == 200){
       Get.back();
     }
-    return;
   }
 }
 class AddBabyBottomSheet extends StatefulWidget {
@@ -331,12 +309,11 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
   }
 
   void _registerBaby() async{
+    String bName = bNameClr.text.trim();
     // validate
-    if(bNameClr.text.isEmpty && bNameClr.text.length < 5){
+    if(bName.isEmpty && bName.length < 5){
       return;
     }
-    print(bNameClr.text);
-    //print({"baby_name":bNameClr.text, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
     var response = await setBabyService({"baby_name":bNameClr.text, "birth":DateFormat('yyyy-MM-dd').format(birth), "gender":(genderSelected[1]==true?'F':'M'),"ip":null});
     if(response['result'] == 'success'){
       Get.back();

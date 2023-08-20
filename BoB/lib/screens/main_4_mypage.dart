@@ -242,20 +242,19 @@ class MainMyPageState extends State<MainMyPage>{
                 elevation: 0,
                 backgroundColor: colorList[baby.relationInfo.relation],
                 onPressed: () async {
-                    // await showModalBottomSheet(
-                    //     shape: const RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.only(
-                    //             topRight: Radius.circular(20),
-                    //             topLeft: Radius.circular(20)
-                    //         )
-                    //     ),
-                    //     backgroundColor: const Color(0xffF9F8F8),
-                    //     isScrollControlled: true,
-                    //     context: context,
-                    //     builder: (BuildContext context) {
-                    //       return BabyBottomSheet(baby);
-                    //     }
-                    // );
+                     await showModalBottomSheet(
+                         shape: const RoundedRectangleBorder(
+                             borderRadius: BorderRadius.only(
+                                 topRight: Radius.circular(20),
+                                 topLeft: Radius.circular(20)
+                             )
+                         ),
+                         backgroundColor: const Color(0xffF9F8F8),
+                         isScrollControlled: true,
+                         context: context,
+                         builder: (BuildContext context) {
+                           return BabyBottomSheet(baby);
+                         });
                     await widget.reloadBabiesFunction();
                 },
                 child: const Icon(Icons.edit, size:12),
