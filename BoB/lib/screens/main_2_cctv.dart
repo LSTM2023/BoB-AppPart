@@ -13,6 +13,7 @@ class Main_Cctv extends StatefulWidget {
 }
 class MainCCTVState extends State<Main_Cctv>{
   late VlcPlayerController _videoPlayerController;
+  bool _isPlaying = false;
 
   Future<void> initializePlayer() async {}
 
@@ -21,7 +22,7 @@ class MainCCTVState extends State<Main_Cctv>{
     super.initState();
     baby = widget.getMyBabyFuction();
     _videoPlayerController = VlcPlayerController.network(
-      'https://media.w3.org/2010/05/sintel/trailer.mp4',
+      'rtsp://203.249.22.164:8080/unicast',
       autoPlay: false,
       options: VlcPlayerOptions(),
     );
@@ -139,6 +140,26 @@ class MainCCTVState extends State<Main_Cctv>{
                       placeholder: const Center(child: CircularProgressIndicator()),
                     ),
                   ),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(padding:const EdgeInsets.fromLTRB(50,0,50,0)),
+                  onPressed: () {
+                    if (_isPlaying) {
+                      setState(() {
+                        _videoPlayerController.pause();
+                        _isPlaying = false;
+                      });
+                    } else {
+                      setState(() {
+                        _videoPlayerController.play();
+                        _isPlaying = true;
+                      });
+                    }
+                  },
+                  child: Icon(
+                      _isPlaying ? Icons.pause : Icons.play_arrow,
+                      size: 28,
+                      color: Color(0xffdf8570)),
                 ),
               ],
             ),
