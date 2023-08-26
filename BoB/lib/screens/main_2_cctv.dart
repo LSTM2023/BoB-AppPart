@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
+import 'package:tcp_socket_connection/tcp_socket_connection.dart';
 
 class Main_Cctv extends StatefulWidget {
   final User userinfo;
@@ -15,11 +16,15 @@ class MainCCTVState extends State<Main_Cctv>{
   late VlcPlayerController _videoPlayerController;
   bool _isPlaying = false;
 
+  TcpSocketConnection socketConnection = TcpSocketConnection("203.249.22.164", 8081);
+  String temp = "";
+
   Future<void> initializePlayer() async {}
 
   @override
   void initState() {
     super.initState();
+    startConnection();
     baby = widget.getMyBabyFuction();
     _videoPlayerController = VlcPlayerController.network(
       'rtsp://203.249.22.164:8080/unicast',
@@ -27,6 +32,22 @@ class MainCCTVState extends State<Main_Cctv>{
       options: VlcPlayerOptions(),
     );
   }
+
+  void messageReceived(String msg){
+    setState(() {
+      temp = msg;
+      print(msg);
+    });
+    socketConnection.sendMessage("MessageIsReceived :D ");
+  }
+
+  void startConnection() async {
+    socketConnection.enableConsolePrint(true);    //use this to see in the console what's happening
+    if(await socketConnection.canConnect(5000, attempts: 10)){   //check if it's possible to connect to the endpoint
+      await socketConnection.connect(5000, messageReceived, attempts: 10);
+    }
+  }
+
   @override
   void dispose() async {
     super.dispose();
@@ -161,6 +182,9 @@ class MainCCTVState extends State<Main_Cctv>{
                       size: 28,
                       color: Color(0xffdf8570)),
                 ),
+                Center(
+                  child: Text('Temp and Humid : ' + temp)
+                )
               ],
             ),
           ],
