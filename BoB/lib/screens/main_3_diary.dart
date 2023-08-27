@@ -57,24 +57,6 @@ class MainDiaryState extends State<MainDiary> {
             ),
           ),
         ),
-        drawer: Drawer(
-            child: Container(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 40),
-                    // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
-                    // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: ListView(
-                        children: [],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ))),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Column(

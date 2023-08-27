@@ -43,8 +43,8 @@ class MainCCTVState extends State<Main_Cctv>{
 
   void startConnection() async {
     socketConnection.enableConsolePrint(true);    //use this to see in the console what's happening
-    if(await socketConnection.canConnect(5000, attempts: 10)){   //check if it's possible to connect to the endpoint
-      await socketConnection.connect(5000, messageReceived, attempts: 10);
+    if(await socketConnection.canConnect(5000, attempts: 3)){   //check if it's possible to connect to the endpoint
+      await socketConnection.connect(5000, messageReceived, attempts: 3);
     }
   }
 
@@ -57,63 +57,11 @@ class MainCCTVState extends State<Main_Cctv>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      appBar: AppBar(
-        backgroundColor: Color(0xD9FFE1C7),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[Color(0xFFFFCCBF), Color(0xD9FFE1C7)],
-            )
-          )
-        ),
-        elevation: 4.0,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: Colors.black),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(15),
-          ),
-        ),
-        title: Align(
-          alignment: Alignment.centerRight,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text('BoB '.tr, style: const TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
-              Text('HomeCam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
-            ],
-          ),
-        ),
-      ),
-      drawer: Drawer(
-          child: Container(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 40),
-                  // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
-                  // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView(
-                      children: [
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ))),
-      body: viewCCTV(),
-    );
+    return viewCCTV();
   }
 
   Widget viewCCTV() {
-    String week = baby.relationInfo.Access_week.toRadixString(2);
+    String week = baby.relationInfo.Access_week.toRadixString(2);;
     for (int i=week.length; i<7; i++) {
       week = '0$week';
     }
@@ -144,17 +92,16 @@ class MainCCTVState extends State<Main_Cctv>{
         realE = 6;
         break;
     }
-    if (baby.relationInfo.relation == 0 || week[realE] == 1 && hour.compareTo(baby.relationInfo.Access_startTime) == -1 && hour.compareTo(baby.relationInfo.Access_endTime) == 1) {
-      return Column(
+    if (baby.relationInfo.relation == 0 || week[realE] == '1' && hour.compareTo(baby.relationInfo.Access_startTime) == -1 && hour.compareTo(baby.relationInfo.Access_endTime) == 1) {
+      return Scaffold(
+        backgroundColor: const Color(0xFFFFFFFF),
+        body: Column(
           children: [
-            Container(height: 26),
-            Text(DateFormat('yyyy.MM.dd').format(DateTime.now()), style: const TextStyle(color: Color(0xFFFB8665), fontSize: 18)),
-            Container(height: 31),
             Column(
               children: [
                 Center(
                   child: ClipRRect(
-                    borderRadius : BorderRadius.circular(5.0),
+                    borderRadius : BorderRadius.circular(10.0),
                     child: VlcPlayer(
                       controller: _videoPlayerController,
                       aspectRatio: 16 / 9,
@@ -162,32 +109,51 @@ class MainCCTVState extends State<Main_Cctv>{
                     ),
                   ),
                 ),
-                TextButton(
-                  style: TextButton.styleFrom(padding:const EdgeInsets.fromLTRB(50,0,50,0)),
-                  onPressed: () {
-                    if (_isPlaying) {
-                      setState(() {
-                        _videoPlayerController.pause();
-                        _isPlaying = false;
-                      });
-                    } else {
-                      setState(() {
-                        _videoPlayerController.play();
-                        _isPlaying = true;
-                      });
-                    }
-                  },
-                  child: Icon(
-                      _isPlaying ? Icons.pause : Icons.play_arrow,
-                      size: 28,
-                      color: Color(0xffdf8570)),
-                ),
-                Center(
-                  child: Text('Temp and Humid : ' + temp)
-                )
               ],
             ),
           ],
+        ),
+        bottomNavigationBar: BottomAppBar(
+          height: 200,
+          child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('BoB '.tr, style: const TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
+                    Text('HomeCam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
+                  ],
+                ),
+                Row(
+                    children: [
+                      Container(
+                          child: Text("온도 : " + temp)
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(padding:const EdgeInsets.fromLTRB(50,0,50,0)),
+                        onPressed: () {
+                          if (_isPlaying) {
+                            setState(() {
+                              _videoPlayerController.pause();
+                              _isPlaying = false;
+                            });
+                          } else {
+                            setState(() {
+                              _videoPlayerController.play();
+                              _isPlaying = true;
+                            });
+                          }
+                        },
+                        child: Icon(
+                            _isPlaying ? Icons.pause : Icons.play_arrow,
+                            size: 28,
+                            color: Color(0xffdf8570)),
+                      ),
+                    ]
+                )
+              ]
+          ),
+        ),
       );
     }
     else {
@@ -219,15 +185,18 @@ class MainCCTVState extends State<Main_Cctv>{
           }
         }
       };
-      return Center(
-        child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('main2_notAccessTitle'.tr, style: const TextStyle(fontSize: 20)),
-              Text('${'main2_accessWeek'.tr} : $accessDay', style: const TextStyle(fontSize: 20)),
-              Text('${'main2_accessTime'.tr} : ${baby.relationInfo.Access_startTime} ~ ${baby.relationInfo.Access_endTime}', style: const TextStyle(fontSize: 20))
-            ]
+      return Scaffold(
+        backgroundColor: const Color(0xFFFFFFFF),
+        body: Center(
+          child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('main2_notAccessTitle'.tr, style: const TextStyle(fontSize: 20)),
+                Text('${'main2_accessWeek'.tr} : $accessDay', style: const TextStyle(fontSize: 20)),
+                Text('${'main2_accessTime'.tr} : ${baby.relationInfo.Access_startTime} ~ ${baby.relationInfo.Access_endTime}', style: const TextStyle(fontSize: 20))
+              ]
+          ),
         ),
       );
     }
