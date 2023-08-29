@@ -23,3 +23,9 @@ bool validateQaAnswer(String answer){
   if(answer.isEmpty) return false;
   return true;
 }
+bool validateName(String name){
+  if(name.isEmpty || name.length<3) {
+    return false;
+  }
+  return true;
+}

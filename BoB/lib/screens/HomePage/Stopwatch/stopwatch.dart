@@ -85,7 +85,7 @@ class StopwatchState extends State<StopWatch> {
                 displayTime,
                 style: const TextStyle(
                     fontSize: 18,
-                    fontFamily: 'Helvetica',
+                    fontFamily: 'NanumSquareRound',
                     fontWeight: FontWeight.w600
                 ),
               );

@@ -12,7 +12,7 @@ class BabyFoodStopwatchBottomSheet extends StatefulWidget {
   final int babyId;
   final DateTime startT;
   final DateTime endT;
-  final Function(int mode, String data) changeRecord;
+  final Function(int mode, String data, DateTime date) changeRecord;
 
   const BabyFoodStopwatchBottomSheet(this.babyId, this.startT, this.endT, {Key? key, required this.changeRecord}) : super(key: key);
   //final String feedingTime;
@@ -46,7 +46,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('이유식', style: TextStyle(fontSize: 35, color: Colors.yellow[700])),
+                  Text('이유식', style: TextStyle(fontSize: 35, color: Colors.yellow[700], fontFamily: 'NanumSquareRound')),
                   IconButton(
                       onPressed: (){
                         Get.back();
@@ -63,9 +63,9 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                 children: [
                   Row(
                     children: [
-                      const Text('이유식 시간', style: TextStyle(fontSize: 17, color: Colors.grey)),
+                      const Text('이유식 시간', style: TextStyle(fontSize: 17, color: Colors.grey, fontFamily: 'NanumSquareRound')),
                       const SizedBox(width: 20),
-                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: TextStyle(fontSize: 24)),
+                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: const TextStyle(fontSize: 24, fontFamily: 'NanumSquareRound')),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -74,7 +74,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                     decoration: InputDecoration(
                         floatingLabelBehavior:FloatingLabelBehavior.always, // labelText위치
                         labelText: '수유량 (ml)',
-                        labelStyle: TextStyle(fontSize: 25),
+                        labelStyle: const TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),
                         suffixIcon: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
                           mainAxisSize: MainAxisSize.min,
@@ -113,11 +113,11 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                       child: TextFormField(
                         controller: memoController,
                         maxLines: 3,
-                        style: const TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
                         decoration: const InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.always,
                             labelText: '메모',
-                            labelStyle: TextStyle(fontSize: 24, color:Colors.black),
+                            labelStyle: TextStyle(fontSize: 24, color:Colors.black, fontFamily: 'NanumSquareRound'),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Colors.grey)
@@ -142,7 +142,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                         var result = await lifesetService(widget.babyId, 2, content.toString());
                         print(result);
                         Duration diff = (DateTime.now()).difference(widget.endT);
-                        widget.changeRecord(2, getlifeRecordPharse(diff));
+                        widget.changeRecord(2, getlifeRecordPharse(diff), widget.endT);
                         Navigator.pop(context);
                       },
                       style: OutlinedButton.styleFrom(
@@ -156,7 +156,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                             color: Color(0xfffa8e00),
                           )
                       ),
-                      child: const Text('확인',style: TextStyle(fontSize: 20)),
+                      child: const Text('확인',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
                     ),
                   )
                 ],

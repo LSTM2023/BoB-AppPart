@@ -1,3 +1,4 @@
+import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -7,7 +8,7 @@ import '../../../services/backend.dart';
 class FeedingBottomSheet extends StatefulWidget {
 
   final int babyId;
-  final void Function(int mode, String data) timeFeeding;
+  final void Function(int mode, String data, DateTime date) timeFeeding;
   const FeedingBottomSheet (this.babyId, this.timeFeeding, {Key? key}) : super(key: key);
   //final String feedingTime;
 
@@ -46,7 +47,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('수유', style: TextStyle(fontSize: 35, color: Color(0xfff77b72))),
+                  const Text('수유', style: TextStyle(fontSize: 35, color: Color(0xfff77b72), fontFamily: 'NanumSquareRound')),
                   IconButton(
                       onPressed: (){
                         Navigator.pop(context);
@@ -61,7 +62,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('수유 방향', style: TextStyle(fontSize: 17, color: Colors.black)),
+                  const Text('수유 방향', style: TextStyle(fontSize: 17, color: Colors.black, fontFamily: 'NanumSquareRound')),
                   Padding(
                     padding: const EdgeInsets.only(top:10, bottom:10),
                     child: Row(
@@ -80,7 +81,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                             ),
                             child: const Padding(
                                 padding: EdgeInsets.all(5),
-                                child: Text('왼쪽',style: TextStyle(fontSize: 20))
+                                child: Text('왼쪽',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'))
                             ),
                           ),
                         ),
@@ -97,7 +98,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                                 foregroundColor: Colors.black,
                                 backgroundColor: !isSelect ? const Color(0xfff77b72) : null,
                               ),
-                              child: const Padding(padding:EdgeInsets.all(5), child:Text('오른쪽',style: TextStyle(fontSize: 20))),
+                              child: const Padding(padding:EdgeInsets.all(5), child:Text('오른쪽',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'))),
 
                             )
                         )
@@ -164,7 +165,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                           controller: ymdtController,
                           decoration: const InputDecoration(
                               labelText: '수유 시간을 입력하세요',
-                              labelStyle: TextStyle(fontSize: 18),
+                              labelStyle: TextStyle(fontSize: 18, fontFamily: 'NanumSquareRound'),
                               suffixIcon: Icon(Icons.add_alarm_sharp),
                               filled: false, //색 지정
                               enabledBorder:OutlineInputBorder(
@@ -196,11 +197,11 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                       child: TextFormField(
                         controller: memoController,
                         maxLines: 2,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'),
                         decoration: const InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.always,
                             labelText: '메모',
-                            labelStyle: TextStyle(fontSize: 30, color:Colors.black),
+                            labelStyle: TextStyle(fontSize: 30, color:Colors.black, fontFamily: 'NanumSquareRound'),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Color(0xfff77b72))
@@ -229,8 +230,8 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                         var content = {"side": side, "startTime": startTime, "endTime": endTime, "memo": memo};
                         var result = await lifesetService(widget.babyId, 0, content.toString());
 
-                        String feedingTime = '${DateTime.now().difference(dateTimeList![1]).inMinutes}분 전';
-                        widget.timeFeeding(0, feedingTime);
+                        Duration feedingTime = DateTime.now().difference(dateTimeList![1]);
+                        widget.timeFeeding(0, getlifeRecordPharse(feedingTime), dateTimeList![1]);
                         Navigator.pop(context);
                       },
                       style: OutlinedButton.styleFrom(
@@ -244,7 +245,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                             color: Colors.red,
                           )
                       ),
-                      child: const Text('확인',style: TextStyle(fontSize: 20)),
+                      child: const Text('확인',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
                     ),
                   )
                 ],

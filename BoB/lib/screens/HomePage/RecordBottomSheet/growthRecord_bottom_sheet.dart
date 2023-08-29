@@ -46,13 +46,14 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 10),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('키, 몸무게 입력해주세요',
                     style: TextStyle(
                       fontSize: 32,
                       color: Colors.black,
+                      fontFamily: 'NanumSquareRound'
                     ),
                   ),
                 ],
@@ -79,8 +80,8 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         });
                       },
                     ),
-                    (height==null) ? Text('스크롤하여 키를 선택해 주세요',style: TextStyle(fontSize: 22, color: Colors.grey)) :
-                    Text('${height.toString()} cm',style: TextStyle(fontSize: 22),),
+                    (height==null) ? const Text('스크롤하여 키를 선택해 주세요',style: TextStyle(fontSize: 22, color: Colors.grey, fontFamily: 'NanumSquareRound')) :
+                    Text('${height.toString()} cm',style: const TextStyle(fontSize: 22, fontFamily: 'NanumSquareRound'),),
                   ],
                 ),
               ),
@@ -108,8 +109,8 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         });
                       },
                     ),
-                    (weight==null) ? Text('스크롤하여 몸무게를 선택해 주세요',style: TextStyle(fontSize: 22, color: Colors.grey)) :
-                    Text('${weight.toString()} kg',style: TextStyle(fontSize: 22),),
+                    (weight==null) ? const Text('스크롤하여 몸무게를 선택해 주세요',style: TextStyle(fontSize: 22, color: Colors.grey, fontFamily: 'NanumSquareRound')) :
+                    Text('${weight.toString()} kg',style: const TextStyle(fontSize: 22, fontFamily: 'NanumSquareRound'),),
                   ],
                 ),
               ),
@@ -130,7 +131,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       titleText: '측정 날짜를 선택해주세요',
                       cancelText: '취소',
                       confirmText: '확인',
-                      itemTextStyle: const TextStyle(color: Color(0xffef8671)),
+                      itemTextStyle: const TextStyle(color: Color(0xffef8671), fontFamily: 'NanumSquareRound'),
                       textColor: Colors.black
                     );
                     ymdtController.text = '${DateFormat('yyyy-MM-dd').format(datePicked!)}';
@@ -143,7 +144,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         controller: ymdtController,
                         decoration: const InputDecoration(
                             labelText: '측정 날짜를 선택해주세요',
-                            labelStyle: TextStyle(fontSize: 18),
+                            labelStyle: TextStyle(fontSize: 18, fontFamily: 'NanumSquareRound'),
                             suffixIcon: Icon(Icons.add_alarm_sharp),
                             filled: false, //색 지정
                             enabledBorder:OutlineInputBorder(
@@ -177,7 +178,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('취소',style: TextStyle(fontSize: 25),),
+                      child: Text('취소',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
                       style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.black,
                           minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
@@ -198,7 +199,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         Navigator.pop(context);
                         print(result);
                       },
-                      child: Text('확인',style: TextStyle(fontSize: 25),),
+                      child: Text('확인',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
                       style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.black,
                           minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),

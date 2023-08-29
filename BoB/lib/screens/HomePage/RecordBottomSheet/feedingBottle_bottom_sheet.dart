@@ -1,3 +1,4 @@
+import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -7,7 +8,7 @@ import '../../../services/backend.dart';
 class FeedingBottleBottomSheet extends StatefulWidget {
 
   final int babyId;
-  final void Function(int mode, String data) timeFeedingBottle;
+  final void Function(int mode, String data, DateTime date) timeFeedingBottle;
 
   const FeedingBottleBottomSheet (this.babyId, this.timeFeedingBottle, {Key? key}) : super(key: key);
   //final String feedingTime;
@@ -45,13 +46,14 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 15),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('젖병',
                     style: TextStyle(
-                        fontSize: 35,
-                        color: Color(0xffE59E57),
+                      fontSize: 35,
+                      color: Color(0xffE59E57),
+                      fontFamily: 'NanumSquareRound',
                     ),
                   ),
                 ],
@@ -62,13 +64,14 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
             ),
             Container(
               padding: const EdgeInsets.only(left: 25, top: 5),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('수유 타입',
                     style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.black
+                      fontSize: 17,
+                      color: Colors.black,
+                      fontFamily: 'NanumSquareRound',
                     ),
                   ),
                 ],
@@ -83,7 +86,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                       isSelect = true;
                     });
                   },
-                  child: Text('모유',style: TextStyle(fontSize: 20),),
+                  child: Text('모유',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'),),
                   style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: isSelect ? Colors.orange[300] : null,
@@ -96,7 +99,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                       isSelect = false;
                     });
                   },
-                  child: Text('분유',style: TextStyle(fontSize: 20),),
+                  child: Text('분유',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'),),
                   style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: !isSelect ? Colors.orange[300] : null,
@@ -112,11 +115,11 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
               width: MediaQuery.of(context).size.width*0.9,
               child: TextFormField(
                 controller: amountController,
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'),
                 decoration: InputDecoration(
                     floatingLabelBehavior:FloatingLabelBehavior.always, // labelText위치
                     labelText: '수유량 (ml)',
-                    labelStyle: TextStyle(fontSize: 23),
+                    labelStyle: TextStyle(fontSize: 23, fontFamily: 'NanumSquareRound'),
                     suffixIcon: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
                       mainAxisSize: MainAxisSize.min,
@@ -212,7 +215,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                         controller: ymdtController,
                         decoration: const InputDecoration(
                             labelText: '수유 시간을 입력하세요',
-                            labelStyle: TextStyle(fontSize: 18),
+                            labelStyle: TextStyle(fontSize: 18, fontFamily: 'NanumSquareRound'),
                             suffixIcon: Icon(Icons.add_alarm_sharp),
                             filled: false, //색 지정
                             enabledBorder:OutlineInputBorder(
@@ -247,11 +250,11 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                     child: TextFormField(
                       controller: memoController,
                       maxLines: 2,
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'),
                       decoration: const InputDecoration(
                           floatingLabelBehavior:FloatingLabelBehavior.always, // labelText위치
                           labelText: '메모',
-                          labelStyle: TextStyle(fontSize: 30, color:Colors.black),
+                          labelStyle: TextStyle(fontSize: 30, color:Colors.black, fontFamily: 'NanumSquareRound'),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(color: Colors.orange)
@@ -276,7 +279,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('취소',style: TextStyle(fontSize: 25),),
+                      child: Text('취소',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
                       style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.black,
                           minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
@@ -296,11 +299,11 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                         var content = {"type": type, "amount": amount, "startTime": startTime, "endTime": endTime, "memo": memo,};
                         var result = await lifesetService(widget.babyId, 1, content.toString());
 
-                        String feedingBottleTime = '${DateTime.now().difference(dateTimeList![1]).inMinutes}분 전';
-                        widget.timeFeedingBottle(1, feedingBottleTime);
+                        Duration feedingBottleTime = DateTime.now().difference(dateTimeList![1]);
+                        widget.timeFeedingBottle(1, getlifeRecordPharse(feedingBottleTime), dateTimeList![1]);
                         Navigator.pop(context);
                       },
-                      child: Text('확인',style: TextStyle(fontSize: 25),),
+                      child: Text('확인',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
                       style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.black,
                           backgroundColor: Colors.orange[300],

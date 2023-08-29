@@ -12,7 +12,7 @@ class SleepStopwatchBottomSheet extends StatefulWidget {
   final int babyId;
   final DateTime startT;
   final DateTime endT;
-  final Function(int mode, String data) changeRecord;
+  final Function(int mode, String data, DateTime date) changeRecord;
   const SleepStopwatchBottomSheet(this.babyId, this.startT, this.endT, {Key? key, required this.changeRecord}) : super(key: key);
   //final String feedingTime;
 
@@ -44,7 +44,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('수면', style: TextStyle(fontSize: 35, color: Colors.blue)),
+                  const Text('수면', style: TextStyle(fontSize: 35, color: Colors.blue, fontFamily: 'NanumSquareRound')),
                   IconButton(
                       onPressed: (){
                         Get.back();
@@ -61,9 +61,9 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                 children: [
                   Row(
                     children: [
-                      const Text('수면 시간', style: TextStyle(fontSize: 17, color: Colors.grey)),
+                      const Text('수면 시간', style: TextStyle(fontSize: 17, color: Colors.grey, fontFamily: 'NanumSquareRound')),
                       const SizedBox(width: 20),
-                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: TextStyle(fontSize: 24)),
+                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: const TextStyle(fontSize: 24, fontFamily: 'NanumSquareRound')),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -72,11 +72,11 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                       child: TextFormField(
                         controller: memoController,
                         maxLines: 3,
-                        style: const TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
                         decoration: const InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.always,
                             labelText: '메모',
-                            labelStyle: TextStyle(fontSize: 24, color:Colors.black),
+                            labelStyle: TextStyle(fontSize: 24, color:Colors.black, fontFamily: 'NanumSquareRound'),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Colors.grey)
@@ -101,7 +101,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                         var result = await lifesetService(widget.babyId, 4, content.toString());
                         print(result);
                         Duration diff = (DateTime.now()).difference(widget.endT);
-                        widget.changeRecord(4, getlifeRecordPharse(diff));
+                        widget.changeRecord(4, getlifeRecordPharse(diff), widget.endT);
                         Navigator.pop(context);
                       },
                       style: OutlinedButton.styleFrom(
@@ -115,7 +115,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                             color: Colors.blue,
                           )
                       ),
-                      child: const Text('확인',style: TextStyle(fontSize: 20)),
+                      child: const Text('확인',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
                     ),
                   )
                 ],

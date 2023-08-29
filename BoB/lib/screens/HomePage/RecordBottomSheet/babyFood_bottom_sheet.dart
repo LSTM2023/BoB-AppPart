@@ -1,3 +1,4 @@
+import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -7,7 +8,7 @@ import '../../../services/backend.dart';
 class BabyFoodBottomSheet extends StatefulWidget {
 
   final int babyId;
-  final void Function(int mode, String id) timeBabyFood;
+  final void Function(int mode, String id, DateTime date) timeBabyFood;
 
   const BabyFoodBottomSheet (this.babyId, this.timeBabyFood, {Key? key}) : super(key: key);
   //final String feedingTime;
@@ -52,6 +53,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                     style: TextStyle(
                       fontSize: 35,
                       color: Color(0xfff3a415),
+                      fontFamily: 'NanumSquareRound',
                     ),
                   ),
                 ],
@@ -69,11 +71,11 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                 width: MediaQuery.of(context).size.width*0.9,
                 child: TextFormField(
                   controller: amountController,
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound',),
                   decoration: InputDecoration(
                       floatingLabelBehavior:FloatingLabelBehavior.always, // labelText위치
                       labelText: '이유식 양 (ml)',
-                      labelStyle: TextStyle(fontSize: 23),
+                      labelStyle: const TextStyle(fontSize: 23, fontFamily: 'NanumSquareRound',),
                       suffixIcon: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
                         mainAxisSize: MainAxisSize.min,
@@ -172,7 +174,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                         controller: ymdtController,
                         decoration: const InputDecoration(
                             labelText: '이유식 시간을 입력하세요',
-                            labelStyle: TextStyle(fontSize: 18),
+                            labelStyle: TextStyle(fontSize: 18, fontFamily: 'NanumSquareRound',),
                             suffixIcon: Icon(Icons.add_alarm_sharp),
                             filled: false, //색 지정
                             enabledBorder:OutlineInputBorder(
@@ -207,11 +209,11 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                     child: TextFormField(
                       controller: memoController,
                       maxLines: 2,
-                      style: TextStyle(fontSize: 24),
+                      style: const TextStyle(fontSize: 24, fontFamily: 'NanumSquareRound'),
                       decoration: const InputDecoration(
                           floatingLabelBehavior:FloatingLabelBehavior.always, // labelText위치
                           labelText: '메모',
-                          labelStyle: TextStyle(fontSize: 30),
+                          labelStyle: TextStyle(fontSize: 30, fontFamily: 'NanumSquareRound',),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(color: Colors.orangeAccent)
@@ -226,7 +228,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Row(
@@ -236,11 +238,11 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('취소',style: TextStyle(fontSize: 25),),
+                      child: Text('취소',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound',)),
                       style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.black,
                           minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10))
                           )
                       ),
@@ -256,11 +258,11 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                         var content = {"amount": amount, "startTime": startTime, "endTime": endTime, "memo": memo,};
                         var result = await lifesetService(widget.babyId, 2, content.toString());
 
-                        String babyFoodTime = '${DateTime.now().difference(dateTimeList![1]).inMinutes}분 전';
-                        widget.timeBabyFood(2, babyFoodTime);
+                        Duration babyFoodTime = DateTime.now().difference(dateTimeList![1]);
+                        widget.timeBabyFood(2, getlifeRecordPharse(babyFoodTime), dateTimeList![1]);
                         Navigator.pop(context);
                       },
-                      child: Text('확인',style: TextStyle(fontSize: 25),),
+                      child: const Text('확인',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
                       style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.black,
                           minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
