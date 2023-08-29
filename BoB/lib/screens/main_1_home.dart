@@ -14,6 +14,7 @@ import 'package:bob/screens/HomePage/StopwatchBottomSheet/sleep_stopwatch_sheet.
 import 'package:bob/screens/HomePage/baby_growthStatistics.dart';
 import 'package:bob/screens/HomePage/baby_medicalCheckup.dart';
 import 'package:bob/screens/HomePage/baby_vaccination.dart';
+import 'package:bob/widgets/pharse.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,12 @@ class MainHomeState extends State<Main_Home> {
   String _diaper = '-';         // 기저귀
   String _sleep = '-';          // 수면
 
+  DateTime? last_feeding;          // 모유
+  DateTime? last_feedingBottle ;   // 젖병
+  DateTime? last_babyfood;         // 이유식
+  DateTime? last_diaper;           // 기저귀
+  DateTime? last_sleep ;           // 수면
+
   bool timerClosed = true;
 
   List<Vaccine> myBabyvaccineList = [];
@@ -49,22 +56,27 @@ class MainHomeState extends State<Main_Home> {
 
   late List<GrowthRecord> myBabyGrowthRecordList = [];
 
-  void addLifeRecord(int type, String val){
+  void addLifeRecord(int type, String val, DateTime lastDate){
     setState(() {
       if(type==0){
         _feeding = val;
+        last_feeding = lastDate;
       }
       else if(type==1){
         _feedingBottle = val;
+        last_feedingBottle = lastDate;
       }
       else if(type==2){
         _babyfood = val;
+        last_babyfood = lastDate;
       }
       else if(type==3){
         _diaper = val;
+        last_diaper = lastDate;
       }
       else{
         _sleep = val;
+        last_sleep = lastDate;
       }
     });
   }
@@ -279,7 +291,37 @@ class MainHomeState extends State<Main_Home> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('생활 기록', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('생활 기록', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
+                        IconButton(
+                            constraints: const BoxConstraints(),
+                            padding: const EdgeInsets.only(right: 8),
+                            onPressed: () {
+                              setState(() {
+                                if(last_feeding != null){
+                                  _feeding = getlifeRecordPharse(DateTime.now().difference(last_feeding!));
+                                }if(last_feedingBottle != null){
+                                  _feedingBottle = getlifeRecordPharse(DateTime.now().difference(last_feedingBottle!));
+                                }if(last_babyfood != null){
+                                  _babyfood = getlifeRecordPharse(DateTime.now().difference(last_babyfood!));
+                                }if(last_diaper != null){
+                                  _diaper = getlifeRecordPharse(DateTime.now().difference(last_diaper!));
+                                }if(last_sleep != null){
+                                  _sleep = getlifeRecordPharse(DateTime.now().difference(last_sleep!));
+                                }
+                                // _feeding = '${DateTime.now().difference(last_feeding).inMinutes}분 전';
+                                // _feedingBottle = '${DateTime.now().difference(last_feedingBottle).inMinutes}분 전';
+                                // _babyfood = '${DateTime.now().difference(last_babyfood).inMinutes}분 전';
+                                // _diaper = '${DateTime.now().difference(last_diaper).inMinutes}분 전';
+                                // _sleep = '${DateTime.now().difference(last_sleep).inMinutes}분 전';
+                              });
+                            },
+                            icon: const Icon(Icons.refresh_outlined, size: 24, color: Color(0xff512F22))
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 20),
                     Row(
                       children: [

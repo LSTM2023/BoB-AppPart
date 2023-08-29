@@ -12,7 +12,7 @@ class BabyFoodStopwatchBottomSheet extends StatefulWidget {
   final int babyId;
   final DateTime startT;
   final DateTime endT;
-  final Function(int mode, String data) changeRecord;
+  final Function(int mode, String data, DateTime date) changeRecord;
 
   const BabyFoodStopwatchBottomSheet(this.babyId, this.startT, this.endT, {Key? key, required this.changeRecord}) : super(key: key);
   //final String feedingTime;
@@ -142,7 +142,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                         var result = await lifesetService(widget.babyId, 2, content.toString());
                         print(result);
                         Duration diff = (DateTime.now()).difference(widget.endT);
-                        widget.changeRecord(2, getlifeRecordPharse(diff));
+                        widget.changeRecord(2, getlifeRecordPharse(diff), widget.endT);
                         Navigator.pop(context);
                       },
                       style: OutlinedButton.styleFrom(

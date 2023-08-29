@@ -1,3 +1,4 @@
+import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -7,7 +8,7 @@ import '../../../services/backend.dart';
 class FeedingBottomSheet extends StatefulWidget {
 
   final int babyId;
-  final void Function(int mode, String data) timeFeeding;
+  final void Function(int mode, String data, DateTime date) timeFeeding;
   const FeedingBottomSheet (this.babyId, this.timeFeeding, {Key? key}) : super(key: key);
   //final String feedingTime;
 
@@ -229,8 +230,8 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                         var content = {"side": side, "startTime": startTime, "endTime": endTime, "memo": memo};
                         var result = await lifesetService(widget.babyId, 0, content.toString());
 
-                        String feedingTime = '${DateTime.now().difference(dateTimeList![1]).inMinutes}분 전';
-                        widget.timeFeeding(0, feedingTime);
+                        Duration feedingTime = DateTime.now().difference(dateTimeList![1]);
+                        widget.timeFeeding(0, getlifeRecordPharse(feedingTime), dateTimeList![1]);
                         Navigator.pop(context);
                       },
                       style: OutlinedButton.styleFrom(

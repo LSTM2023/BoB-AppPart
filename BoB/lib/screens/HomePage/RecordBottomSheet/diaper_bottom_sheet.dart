@@ -1,3 +1,4 @@
+import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -7,7 +8,7 @@ import '../../../services/backend.dart';
 class DiaperBottomSheet extends StatefulWidget {
 
   final int babyId;
-  final void Function(int mode, String id) timeDiaper;
+  final void Function(int mode, String id, DateTime date) timeDiaper;
   const DiaperBottomSheet (this.babyId, this.timeDiaper, {Key? key}) : super(key: key);
   //final String feedingTime;
 
@@ -252,8 +253,9 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                         var content = {"type": type, "startTime": startTime, "endTime": endTime, "memo": memo};
                         var result = await lifesetService(widget.babyId, 3, content.toString());
 
-                        String diaperTime = '${DateTime.now().difference(dateTimeList![1]).inMinutes}분 전';
-                        widget.timeDiaper(3, diaperTime);
+                        Duration diaperTime = DateTime.now().difference(dateTimeList![1]);
+                        widget.timeDiaper(3, getlifeRecordPharse(diaperTime), dateTimeList![1]);
+                        print(diaperTime);
                         Navigator.pop(context);
                       },
                       child: Text('확인',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),

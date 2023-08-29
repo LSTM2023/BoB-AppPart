@@ -11,7 +11,7 @@ class FeedingStopwatchBottomSheet extends StatefulWidget {
   final int babyId;
   final DateTime startT;
   final DateTime endT;
-  final Function(int mode, String data) changeRecord;
+  final Function(int mode, String data, DateTime date) changeRecord;
 
   const FeedingStopwatchBottomSheet(this.babyId, this.startT, this.endT, {Key? key, required this.changeRecord}) : super(key: key);
   //final String feedingTime;
@@ -142,7 +142,7 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                         var content = {"side": side, "startTime": widget.startT.toString(), "endTime": widget.endT.toString(), "memo": memo};
                         var result = await lifesetService(widget.babyId, 0, content.toString());
                         Duration diff = (DateTime.now()).difference(widget.endT);
-                        widget.changeRecord(0, getlifeRecordPharse(diff));
+                        widget.changeRecord(0, getlifeRecordPharse(diff), widget.endT);
                         Navigator.pop(context);
                       },
                       style: OutlinedButton.styleFrom(

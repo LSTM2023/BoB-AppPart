@@ -1,3 +1,4 @@
+import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -7,7 +8,7 @@ import '../../../services/backend.dart';
 class SleepBottomSheet extends StatefulWidget {
 
   final int babyId;
-  final void Function(int mode, String id) timeSleep;
+  final void Function(int mode, String id, DateTime date) timeSleep;
   const SleepBottomSheet (this.babyId, this.timeSleep, {Key? key}) : super(key: key);
   //final String feedingTime;
 
@@ -201,8 +202,8 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                         var content = {"startTime": startTime, "endTime": endTime, "memo": memo};
                         var result = await lifesetService(widget.babyId, 4, content.toString());
 
-                        String sleepTime = '${DateTime.now().difference(dateTimeList![1]).inMinutes}분 전';
-                        widget.timeSleep(4, sleepTime);
+                        Duration sleepTime = DateTime.now().difference(dateTimeList![1]);
+                        widget.timeSleep(4, getlifeRecordPharse(sleepTime), dateTimeList![1]);
                         Navigator.pop(context);
                       },
                       child: Text('확인',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
