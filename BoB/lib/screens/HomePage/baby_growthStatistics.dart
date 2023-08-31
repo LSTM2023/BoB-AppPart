@@ -1,7 +1,5 @@
-import 'dart:developer';
-import 'dart:ffi';
-import 'dart:math';
 import 'package:bob/models/model.dart';
+import 'package:bob/screens/HomePage/baby_avg_growthStatistics.dart';
 import 'package:bob/services/backend.dart';
 import 'package:bob/widgets/appbar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -78,9 +76,9 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xffffc8c7),
+        backgroundColor: const Color(0xffffc8c7),
         elevation: 0.0,
         iconTheme : const IconThemeData(color: Colors.black),
         title: const Text('성장 통계', style: TextStyle(color: Colors.black,fontSize: 20, fontFamily: 'NanumSquareRound')),
@@ -94,12 +92,12 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: const Text('키')
+                    child: const Text('키', style: TextStyle(fontFamily: 'NanumSquareRound'))
                 ),
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: const Text('몸무게')
+                    child: const Text('몸무게', style: TextStyle(fontFamily: 'NanumSquareRound'))
                 )
               ],
               labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'),
@@ -278,6 +276,28 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                 );
               }
               },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 20),
+                child: FloatingActionButton.extended(
+                  backgroundColor: const Color(0xfff9f8f8),
+                  label: const Column(
+                    children: [
+                      Text("표준 성장", style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
+                      Text("도표 확인", style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))
+                    ],
+                  ),
+                  onPressed: () {
+                    showDialog(context: context, builder: (context){
+                      return BabyAvgGrowthStatistics();
+                    });
+                  },
+                ),
+              ),
+            ],
           )
         ],
       ),
