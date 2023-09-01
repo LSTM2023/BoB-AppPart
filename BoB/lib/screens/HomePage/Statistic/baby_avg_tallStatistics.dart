@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-
-class BabyAvgGrowthStatistics extends StatefulWidget {
-  const BabyAvgGrowthStatistics({Key? key}) : super(key: key);
+class BabyAvgTallStatistics extends StatefulWidget {
+  const BabyAvgTallStatistics({Key? key}) : super(key: key);
 
   @override
-  State<BabyAvgGrowthStatistics> createState() => _BabyAvgGrowthStatisticsState();
+  State<BabyAvgTallStatistics> createState() => _BabyAvgTallStatistics();
 }
 
-class _BabyAvgGrowthStatisticsState extends State<BabyAvgGrowthStatistics> {
-
-
-
-
+class _BabyAvgTallStatistics extends State<BabyAvgTallStatistics> {
 
 
   @override
@@ -40,6 +35,20 @@ class _BabyAvgGrowthStatisticsState extends State<BabyAvgGrowthStatistics> {
                     Data1
                   ),
                 ),
+                Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Column(
+                        children: [
+                          Text("남아 ---", style: TextStyle(color: Colors.blue),),
+                          Text("여아 ---", style: TextStyle(color: Colors.red),),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),

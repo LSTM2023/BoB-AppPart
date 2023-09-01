@@ -1,5 +1,6 @@
 import 'package:bob/models/model.dart';
-import 'package:bob/screens/HomePage/baby_avg_growthStatistics.dart';
+import 'package:bob/screens/HomePage/Statistic/baby_avg_tallStatistics.dart';
+import 'package:bob/screens/HomePage/Statistic/baby_avg_weightStatistics.dart';
 import 'package:bob/services/backend.dart';
 import 'package:bob/widgets/appbar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -292,7 +293,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                   ),
                   onPressed: () {
                     showDialog(context: context, builder: (context){
-                      return BabyAvgGrowthStatistics();
+                      return BabyAvgTallStatistics();
                     });
                   },
                 ),
@@ -395,6 +396,28 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                   );
                 }
               },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 20),
+                  child: FloatingActionButton.extended(
+                    backgroundColor: const Color(0xfff9f8f8),
+                    label: const Column(
+                      children: [
+                        Text("표준 성장", style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
+                        Text("도표 확인", style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))
+                      ],
+                    ),
+                    onPressed: () {
+                      showDialog(context: context, builder: (context){
+                        return BabyAvgWeightStatistics();
+                      });
+                    },
+                  ),
+                ),
+              ],
             )
           ],
         ),

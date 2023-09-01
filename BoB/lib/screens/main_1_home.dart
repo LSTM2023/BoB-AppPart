@@ -11,7 +11,7 @@ import 'package:bob/screens/HomePage/StopwatchBottomSheet/babyFood_stopwatch_she
 import 'package:bob/screens/HomePage/StopwatchBottomSheet/feedingBottle_stopwatch_sheet.dart';
 import 'package:bob/screens/HomePage/StopwatchBottomSheet/feeding_stopwatch_sheet.dart';
 import 'package:bob/screens/HomePage/StopwatchBottomSheet/sleep_stopwatch_sheet.dart';
-import 'package:bob/screens/HomePage/baby_growthStatistics.dart';
+import 'package:bob/screens/HomePage/Statistic/baby_growthStatistics.dart';
 import 'package:bob/screens/HomePage/baby_medicalCheckup.dart';
 import 'package:bob/screens/HomePage/baby_vaccination.dart';
 import 'package:bob/widgets/pharse.dart';
@@ -294,7 +294,7 @@ class MainHomeState extends State<Main_Home> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('생활 기록', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
+                        const Text('생활 기록', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
                         IconButton(
                             constraints: const BoxConstraints(),
                             padding: const EdgeInsets.only(right: 8),
