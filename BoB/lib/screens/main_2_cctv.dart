@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bob/models/model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +19,7 @@ class MainCCTVState extends State<Main_Cctv>{
   bool _isPlaying = false;
 
   TcpSocketConnection socketConnection = TcpSocketConnection("203.249.22.164", 8081);
-  String temp = "";
+  Map temp = {"Temp": "-", "Humid": "-"};
 
   Future<void> initializePlayer() async {}
 
@@ -35,10 +37,9 @@ class MainCCTVState extends State<Main_Cctv>{
 
   void messageReceived(String msg){
     setState(() {
-      temp = msg;
+      temp = json.decode(msg);
       print(msg);
     });
-    socketConnection.sendMessage("MessageIsReceived :D ");
   }
 
   void startConnection() async {
@@ -126,11 +127,25 @@ class MainCCTVState extends State<Main_Cctv>{
                 ),
                 Row(
                     children: [
-                      Container(
-                          child: Text("온도 : " + temp)
+                      Column(
+                        children: [
+                          Text("온도", style: TextStyle(fontSize: 14)),
+                          Text(temp['Temp'], style: TextStyle(fontSize: 28))
+                        ],
                       ),
+                      Column(
+                        children: [
+                          Text("습도", style: TextStyle(fontSize: 14)),
+                          Text(temp['Humid'], style: TextStyle(fontSize: 28))
+                        ],
+                      ),
+                      const VerticalDivider(thickness: 1.0),
                       TextButton(
-                        style: TextButton.styleFrom(padding:const EdgeInsets.fromLTRB(50,0,50,0)),
+                        style: TextButton.styleFrom(
+                          padding:const EdgeInsets.fromLTRB(50,0,50,0),
+                          backgroundColor: Colors.pink,
+                          shape: CircleBorder(),
+                        ),
                         onPressed: () {
                           if (_isPlaying) {
                             setState(() {
