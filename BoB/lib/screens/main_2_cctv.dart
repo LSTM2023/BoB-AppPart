@@ -98,75 +98,96 @@ class MainCCTVState extends State<Main_Cctv>{
         backgroundColor: const Color(0xFFFFFFFF),
         body: Column(
           children: [
-            Column(
-              children: [
-                Center(
-                  child: ClipRRect(
-                    borderRadius : BorderRadius.circular(10.0),
-                    child: VlcPlayer(
-                      controller: _videoPlayerController,
-                      aspectRatio: 16 / 9,
-                      placeholder: const Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
+            SizedBox(height: 50),
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: ClipRRect(
+                borderRadius : BorderRadius.circular(8.0),
+                child: VlcPlayer(
+                  controller: _videoPlayerController,
+                  aspectRatio: 4 / 3,
+                  placeholder: const Center(child: CircularProgressIndicator()),
                 ),
-              ],
+              ),
             ),
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          height: 200,
-          child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('BoB '.tr, style: const TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
-                    Text('HomeCam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
-                  ],
-                ),
-                Row(
+        bottomNavigationBar: ClipRRect(
+          borderRadius : BorderRadius.circular(30.0),
+          child: BottomAppBar(
+            elevation: 6,
+            color: const Color(0xFFF9F8F8),
+            padding: const EdgeInsets.all(24),
+            height: 170,
+            child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Column(
-                        children: [
-                          Text("온도", style: TextStyle(fontSize: 14)),
-                          Text(temp['Temp'], style: TextStyle(fontSize: 28))
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text("습도", style: TextStyle(fontSize: 14)),
-                          Text(temp['Humid'], style: TextStyle(fontSize: 28))
-                        ],
-                      ),
-                      const VerticalDivider(thickness: 1.0),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding:const EdgeInsets.fromLTRB(50,0,50,0),
-                          backgroundColor: Colors.pink,
-                          shape: CircleBorder(),
+                      Text('BoB '.tr, style: const TextStyle(color: Color(0xFFFB8665), fontSize: 24)),
+                      Text('HomeCam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 24)),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 36),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text("온도", style: TextStyle(fontSize: 18, color: Color(0xFF512F22))),
+                            SizedBox(height: 16),
+                            Text(temp['Temp']+'°C', style: const TextStyle(fontSize: 28, color: Color(0xFF512F22)))
+                          ],
                         ),
-                        onPressed: () {
-                          if (_isPlaying) {
-                            setState(() {
-                              _videoPlayerController.pause();
-                              _isPlaying = false;
-                            });
-                          } else {
-                            setState(() {
-                              _videoPlayerController.play();
-                              _isPlaying = true;
-                            });
-                          }
-                        },
-                        child: Icon(
-                            _isPlaying ? Icons.pause : Icons.play_arrow,
-                            size: 28,
-                            color: Color(0xffdf8570)),
-                      ),
-                    ]
-                )
-              ]
+                        SizedBox(width: 30),
+                        Container(width: 1, height: 64, color: Color(0xFF512F22)),
+                        SizedBox(width: 30),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text("습도", style: TextStyle(fontSize: 18, color: Color(0xFF512F22))),
+                            SizedBox(height: 16),
+                            Text(temp['Humid']+'%', style: const TextStyle(fontSize: 28, color: Color(0xFF512F22)))
+                          ],
+                        ),
+                        Expanded(
+                          child: Container(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                fixedSize: const Size(64, 64),
+                                elevation: 6,
+                                backgroundColor: const Color(0xFFFB8665),
+                                shape: const CircleBorder(),
+                              ),
+                              onPressed: () {
+                                if (_isPlaying) {
+                                  setState(() {
+                                    _videoPlayerController.pause();
+                                    _isPlaying = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _videoPlayerController.play();
+                                    _isPlaying = true;
+                                  });
+                                }
+                              },
+                              child: Icon(
+                                  _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                                  size: 40,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ]
+                  )
+                ]
+            ),
           ),
         ),
       );
