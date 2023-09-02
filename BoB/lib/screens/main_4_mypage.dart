@@ -24,6 +24,11 @@ class MainMyPage extends StatefulWidget{
   State<MainMyPage> createState() => MainMyPageState();
 }
 class MainMyPageState extends State<MainMyPage>{
+  // 앱에서 지원하는 언어 리스트 변수
+  final supportedLocales = [
+    Locale('en', 'US'),
+    Locale('ko', 'KR')
+  ];
   CarouselController carouselController = CarouselController();
   List<String> languageList = ['한국어', '영어'];
   List<Color> colorList = [Color(0xffFB8665), Color(0xff22513E), Color(0xff222551)];
@@ -218,7 +223,7 @@ class MainMyPageState extends State<MainMyPage>{
                         content: textBase('한 번 삭제한 내용은 복구가 불가능합니다.\n 정말로 삭제하시겠습니까?', 'bold', 14),
                         actions: [
                           TextButton(
-                              onPressed: ()=> {}, // deleteBaby(baby.relationInfo.BabyId),
+                              onPressed: ()=> deleteBaby(baby.relationInfo.BabyId),
                               child: textBase('삭제', 'bold', 14)
                           ),
                           TextButton(
@@ -378,15 +383,15 @@ class MainMyPageState extends State<MainMyPage>{
         }
     );
   }
-  // deleteBaby(int targetBabyID) async {
-  //   var re = await deleteBabyService(targetBabyID);
-  //   if(re != 200){
-  //     Get.snackbar('warning', '삭제하지 못했습니다');
-  //     return;
-  //   }
-  //   Get.back();
-  //   await widget.reloadBabiesFunction();
-  // }
+  deleteBaby(int targetBabyID) async {
+     var re = await deleteBabyService(targetBabyID);
+     if(re != 200){
+       Get.snackbar('warning', '삭제하지 못했습니다');
+       return;
+     }
+     Get.back();
+     await widget.reloadBabiesFunction();
+  }
 }
 
 InkWell drawSettingScreen(String title, IconData icon, dynamic func){

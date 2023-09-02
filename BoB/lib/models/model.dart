@@ -169,13 +169,25 @@ class MedicalCheckUp {
   late DateTime checkUpDate;    // 검진 완료일
   late bool isInoculation = false;    // 접종 여부
 
+  MedicalCheckUp(this.ID, this.title, this.checkTiming){
+    isInoculation = false;
+  }
+  setCheckPeriod(DateTime birth){
+    if(checkTiming[0] == 1){
+      checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month, birth.day + checkTiming[1]))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month, birth.day + checkTiming[2]))}';
+    }else{
+      checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[1], birth.day))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[2], birth.day))}';
+    }
+    //print(isInoculation);
+  }
+  /*
   MedicalCheckUp(this.ID, this.title, this.checkTiming, DateTime birth){
     if(checkTiming[0] == 1){
       checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month, birth.day + checkTiming[1]))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month, birth.day + checkTiming[2]))}';
     }else{
       checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[1], birth.day))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[2], birth.day))}';
     }
-  }
+  }*/
   String checkTimingToString(){
     return '생후 ${checkTiming[1]}~${checkTiming[2]}${checkTiming[0]==0?'개월':'일'}';
   }

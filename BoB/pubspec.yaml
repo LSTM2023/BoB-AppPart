@@ -48,7 +48,7 @@ dependencies:
   sqflite:
   table_calendar: ^3.0.8
   image_picker:
-  easy_localization:
+  easy_localization: ^3.0.3
   google_sign_in: ^6.1.4
   kakao_flutter_sdk_user: ^1.5.0
   http: ^0.13.6
@@ -91,6 +91,7 @@ flutter:
   assets:
     - assets/icon/
     - assets/image/
+    - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

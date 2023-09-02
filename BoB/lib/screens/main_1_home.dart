@@ -20,6 +20,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import '../models/medicalList.dart';
 import '../services/backend.dart';
 
 class Main_Home extends StatefulWidget {
@@ -53,7 +54,6 @@ class MainHomeState extends State<Main_Home> {
 
   List<Vaccine> myBabyvaccineList = [];
   late List<MedicalCheckUp> myBabyMedicalCheckList;
-
   late List<GrowthRecord> myBabyGrowthRecordList = [];
 
   void addLifeRecord(int type, String val, DateTime lastDate){
@@ -93,7 +93,10 @@ class MainHomeState extends State<Main_Home> {
   late StopWatch stopWatchWidget;
 
   String nextVaccineDate = '';
-  String nextMedicalCheckUpDate = '';
+
+  late Future _medicalCheckUp;
+  String nextMedicalCheckDate = '-';
+  String nextVaccineCheckDate = '-';
 
   @override
   void initState() {
@@ -102,11 +105,12 @@ class MainHomeState extends State<Main_Home> {
     activeBabies = widget.getBabiesFunction(true);
     currentBaby = widget.getCurrentBabyFunction();
     stopWatchWidget = StopWatch(currentBaby, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
-    loadMyBabyVaccineInfo();
-    loadMyBabyMedicalCheckInfo();
+
+    _medicalCheckUp = loadMyBabyMedicalInfo();
   }
-  loadMyBabyVaccineInfo(){
-    myBabyvaccineList = [
+
+  Future<void> loadMyBabyMedicalInfo() async{
+    myBabyvaccineList =  [
       Vaccine(ID: 0, title: '결핵 경피용', times: 'BCG 1회/기타', recommendationDate: '2023.01.20 ~ 2023.02.19', detail: '생후 4주 이내 접종, 민간의료기관, 유료'),
       Vaccine(ID: 1, title: '결핵 피내용', times: 'BCG 1회/기타', recommendationDate: '2023.01.20 ~ 2023.02.19', detail: '생후 4주 이내 접종, 민간의료기관, 유료'),
       Vaccine(ID: 2, title: 'B형 간염', times: 'HepB 1차/국가', recommendationDate: '2023.01.20', detail: '생후 12시간 이내 접종(모체가 양성일 경우 HBIG와 함께 접종)'), // 2
@@ -153,38 +157,53 @@ class MainHomeState extends State<Main_Home> {
       Vaccine(ID: 43, title: '일본뇌염 사백신', times: 'IJEV(사백신) 추가 5차/국가', recommendationDate: '2035.01.20', detail: '총 5회 접종, 5차 접종'),
       Vaccine(ID: 44, title: '인유두종 바이러스 감염증', times: 'HPV 1차/국가', recommendationDate: '2035.01.20 ~ 2036.01.19', detail: '자궁경부암백신, 여아만 해당\n만 12세에 6개월 간격으로 2회 접종')
     ];
-    for(int i=0; i<myBabyvaccineList.length; i++){
-      if(!myBabyvaccineList[i].isInoculation){
-        setState(() {
-          nextVaccineDate = myBabyvaccineList[i].title;
-        });
-        return;
-      }
-    }
-  }
-  loadMyBabyMedicalCheckInfo(){
     myBabyMedicalCheckList = [
-      MedicalCheckUp(0, '1차 건강검진',[1, 14, 35], currentBaby.birth),
-      MedicalCheckUp(1, '2차 건강검진',[0, 4, 6], currentBaby.birth),
-      MedicalCheckUp(2, '3차 건강검진',[0, 9, 12], currentBaby.birth),
-      MedicalCheckUp(3, '4차 건강검진',[0, 18, 24], currentBaby.birth),
-      MedicalCheckUp(4, '1차 구강검진',[0, 18, 24], currentBaby.birth),
-      MedicalCheckUp(5, '5차 건강검진',[0, 30, 36], currentBaby.birth),
-      MedicalCheckUp(6, '2차 구강검진',[0, 30, 41], currentBaby.birth),
-      MedicalCheckUp(7, '6차 건강검진',[0, 42, 48], currentBaby.birth),
-      MedicalCheckUp(8, '3차 구강검진',[0, 42, 53], currentBaby.birth),
-      MedicalCheckUp(9, '7차 건강검진',[0, 54, 60], currentBaby.birth),
-      MedicalCheckUp(10, '4차 구강검진',[0, 54, 65], currentBaby.birth),
-      MedicalCheckUp(11, '8차 건강검진',[0, 66, 71], currentBaby.birth)
-    ];
-    for(int i=0; i<myBabyMedicalCheckList.length; i++){
-      if(!myBabyMedicalCheckList[i].isInoculation){
-        setState(() {
-          nextMedicalCheckUpDate = myBabyMedicalCheckList[i].title;
-        });
-        return;
+      MedicalCheckUp(0, '1차 건강검진',[1, 14, 35]),
+      MedicalCheckUp(1, '2차 건강검진',[0, 4, 6]),
+      MedicalCheckUp(2, '3차 건강검진',[0, 9, 12]),
+      MedicalCheckUp(3, '4차 건강검진',[0, 18, 24]),
+      MedicalCheckUp(4, '1차 구강검진',[0, 18, 24]),
+      MedicalCheckUp(5, '5차 건강검진',[0, 30, 36]),
+      MedicalCheckUp(6, '2차 구강검진',[0, 30, 41]),
+      MedicalCheckUp(7, '6차 건강검진',[0, 42, 48]),
+      MedicalCheckUp(8, '3차 구강검진',[0, 42, 53]),
+      MedicalCheckUp(9, '7차 건강검진',[0, 54, 60]),
+      MedicalCheckUp(10, '4차 구강검진',[0, 54, 65]),
+      MedicalCheckUp(11, '8차 건강검진',[0, 66, 71])
+    ];  // loading
+    for(int i=0; i< myBabyMedicalCheckList.length; i++){
+      myBabyMedicalCheckList[i].setCheckPeriod(currentBaby.birth);
+    }
+    int nextMedicalDate = 50;
+    int nextVaccineDate = 0;
+    List<dynamic> data = await vaccineCheckByIdService(currentBaby.relationInfo.BabyId); // 임시로 - 같이 사용
+    for(int i=0; i<data.length; i++){
+      int mode = data[i]['mode'];
+      // 예외 처리
+      if(mode<50) {
+        //print('vaccin : + ' + nextVaccineDate.toString());
+        myBabyvaccineList[mode].isInoculation = true;
+        myBabyvaccineList[mode].inoculationDate= DateTime.parse(data[i]['date']);
+        nextVaccineDate += 1;
+      }
+      else{
+        //print('medical : + ' + nextMedicalDate.toString());
+        myBabyMedicalCheckList[mode-50].isInoculation = true;
+        myBabyMedicalCheckList[mode-50].checkUpDate = DateTime.parse(data[i]['date']);
+        nextMedicalDate += 1;
       }
     }
+    setState(() {
+      if((nextMedicalDate-50) < myBabyMedicalCheckList.length)
+        nextMedicalCheckDate = myBabyMedicalCheckList[nextMedicalDate-50].title;
+      else
+        nextMedicalCheckDate = '완료';
+
+      if(nextVaccineDate < myBabyvaccineList.length)
+        nextVaccineCheckDate = myBabyvaccineList[nextVaccineDate].title;
+      else
+        nextVaccineCheckDate = '완료';
+    });
   }
 
   @override
@@ -446,9 +465,11 @@ class MainHomeState extends State<Main_Home> {
                         margin: const EdgeInsets.fromLTRB(10, 0, 20, 10),
                         child: Column(
                           children: [
+                            //예방 접종 페이지 이동
                             GestureDetector(
-                                onTap: () {
-                                  Get.to(() => BabyVaccination(currentBaby, myBabyvaccineList));
+                                onTap: () async{
+                                  await Get.to(() => BabyVaccination(currentBaby, myBabyvaccineList));
+                                  await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(18),
@@ -467,33 +488,23 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        // Text('vaccination'.tr, style: const TextStyle(fontSize: 22, color: Colors.black)),
-                                        const Text('예방 접종', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
-                                        // Text(
-                                        //   'next_vaccination'.tr,
-                                        //   style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                        // ),
-                                        const SizedBox(height: 5,),
-                                        const Text(
-                                          '다음 예방 접종',
-                                          style: TextStyle(fontSize: 12, color: Colors.grey, fontFamily: 'NanumSquareRound'),
-                                        ),
-                                        const SizedBox(height: 5),
+                                        textBase('예방 접종', 'extra-bold', 14),
+                                        const SizedBox(height: 6),
+                                        text('다음 예방접종', 'bold', 8, Color(0xcc512f22)),
+                                        const SizedBox(height: 16),
                                         Center(
-                                            child: Text(
-                                              nextVaccineDate,
-                                              style: const TextStyle(fontSize: 18, color: Color(0xfffa625f), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'),
-                                            )
+                                            child: text(nextVaccineCheckDate, 'extra-bold', 15, const Color(0xccfb8665))
                                         )
                                       ]
                                   ),
                                 )
                             ),
-                            //예방 접종 페이지 이동
                             const SizedBox(height: 15),
+                            //건강 검진 페이지 이동
                             GestureDetector(
-                                onTap: () {
-                                  Get.to(()=>BabyMedicalCheckup(currentBaby, myBabyMedicalCheckList));
+                                onTap: () async{
+                                  await Get.to(()=>BabyMedicalCheckup(currentBaby, myBabyMedicalCheckList));
+                                  await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(18),
@@ -513,25 +524,18 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        // Text('medical_checkup'.tr, style: const TextStyle(fontSize: 22, color: Colors.black)),
-                                        const Text('건강 검진', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
-                                        const SizedBox(height: 5),
-                                        const Text(
-                                          '다음 건강 검진',
-                                          style: TextStyle(fontSize: 12, color: Colors.grey, fontFamily: 'NanumSquareRound'),
-                                        ),
-                                        const SizedBox(height: 5),
+                                        textBase('건강 검진', 'extra-bold', 14),
+                                        const SizedBox(height: 6),
+                                        text('다음 건강 검진', 'bold', 8, Color(0xcc512f22)),
+                                        const SizedBox(height: 16),
                                         Center(
-                                            child: Text(
-                                              nextMedicalCheckUpDate,
-                                              style: const TextStyle(fontSize: 18, color: Color(0xfffa625f), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'),
-                                            )
+                                          child: text(nextMedicalCheckDate, 'extra-bold', 15, const Color(0xccfb8665)
+                                          )
                                         )
                                       ]
                                   ),
                                 )
                             )
-                            //건강 검진 페이지 이동
                           ],
                         )
                     )
@@ -539,7 +543,6 @@ class MainHomeState extends State<Main_Home> {
                 //예방 접종, 건강 검진 구현
               ],
             ),
-            //성장 기록, 예방 접종, 검강 검진
             Container(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                 margin: const EdgeInsets.only(left: 10, right: 10),
@@ -616,6 +619,7 @@ class MainHomeState extends State<Main_Home> {
                   setState(() {
                     widget.changeCurrentBabyFunction(i);
                     currentBaby = widget.getCurrentBabyFunction();
+                    _medicalCheckUp = loadMyBabyMedicalInfo();
                   });
                   Navigator.pop(context);
                 },

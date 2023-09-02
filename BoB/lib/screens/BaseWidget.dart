@@ -92,7 +92,7 @@ class _BaseWidget extends State<BaseWidget>{
     ];
     return DefaultTabController(
         length: 4,
-        initialIndex: activeBabies.length==0?3:0,
+        initialIndex: activeBabies.isEmpty?3:0,
         child: WillPopScope(
           onWillPop: () async => false,
           child: Scaffold(
