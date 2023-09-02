@@ -434,11 +434,11 @@ class MainHomeState extends State<Main_Home> {
                                       showModalBottomSheet(
                                           shape: const RoundedRectangleBorder(
                                               borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(20),
-                                                  topLeft: Radius.circular(20)
+                                                  topRight: Radius.circular(25),
+                                                  topLeft: Radius.circular(25)
                                               )
                                           ),
-                                          backgroundColor: Color(0xffF9F8F8),
+                                          backgroundColor: const Color(0xffF9F8F8),
                                           isScrollControlled: true,
                                           context: context,
                                           builder: ( BuildContext context ) {
@@ -446,7 +446,7 @@ class MainHomeState extends State<Main_Home> {
                                           }
                                       );
                                     },
-                                    icon: const Icon(Icons.add_circle_outline, size: 25, color: Colors.black54)
+                                    icon: const Icon(Icons.add_circle_outline, size: 24, color: Color(0xff512F22))
                                 ),
                               ],
                             ),
