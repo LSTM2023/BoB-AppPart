@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 23.21 20.71">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-1, .cls-3 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        stroke: #5086bc;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.2px;
+      }
+
+      .cls-3 {
+        fill: #5086bc;
+      }
+
+      .cls-4 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" width="23.21" height="20.71"/>
+    </clipPath>
+  </defs>
+  <g id="_레이어_2-2" data-name="레이어 2">
+    <g id="_그룹_122" data-name="그룹 122">
+      <g class="cls-4">
+        <g id="_그룹_121" data-name="그룹 121">
+          <path id="_패스_459" data-name="패스 459" class="cls-2" d="m8.4,18.82c1.37.8,2.92,1.24,4.5,1.29,4.5.14,8.52-2.81,9.71-7.16-2.95,3.01-7.78,3.07-10.79.12-3.01-2.95-3.07-7.78-.12-10.79.67-.69,1.47-1.25,2.36-1.64-.28-.02-.56-.04-.85-.04-5.39,0-9.76,4.37-9.76,9.76,0,.13,0,.26,0,.38.02.61.11,1.21.24,1.8"/>
+          <path id="_패스_460" data-name="패스 460" class="cls-3" d="m6.7,18.46H2.55C1.14,18.46,0,17.32,0,15.91s1.14-2.55,2.55-2.55h4.15c1.41,0,2.55,1.14,2.55,2.55s-1.14,2.55-2.55,2.55m-4.15-3.9c-.75,0-1.35.6-1.35,1.35s.6,1.35,1.35,1.35h4.15c.75,0,1.35-.6,1.35-1.35s-.6-1.35-1.35-1.35H2.55Z"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

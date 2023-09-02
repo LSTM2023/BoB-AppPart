@@ -18,6 +18,7 @@ import 'package:bob/widgets/pharse.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../models/medicalList.dart';
@@ -87,8 +88,15 @@ class MainHomeState extends State<Main_Home> {
     });
   }
 
-  List<Color> timerBackgroundColors= [const Color(0xffFFEFEF),const Color(0xfffae2be),const Color(0xfffff7d4), const Color(0xffedfce6), const Color(0xffe6eafc)];
-  Color timerBackgroundColor = const Color(0xffFFEFEF);
+  // List<Color> timerBackgroundColors= [const Color(0xffFFC8C8),const Color(0xfffae2be),const Color(0xfffff7d4), const Color(0xffedfce6), const Color(0xffe6eafc)];
+  List<Color> timerBackgroundColors1= [const Color(0xffFFEFEF), const Color(0xffFFC8C8)];
+  List<Color> timerBackgroundColors2= [const Color(0xffFFF2EC), const Color(0xffFFD9C8)];
+  List<Color> timerBackgroundColors3= [const Color(0xfffffAEC), const Color(0xffFFF0C8)];
+  List<Color> timerBackgroundColors4= [const Color(0xffF4FFEC), const Color(0xffE0FFC8)];
+  List<Color> timerBackgroundColors5= [const Color(0xffF1FDFF), const Color(0xffC8F7FF)];
+
+  Color timerBackgroundColor = Colors.black;
+
   int timerType = 0;
   late StopWatch stopWatchWidget;
 
@@ -211,7 +219,7 @@ class MainHomeState extends State<Main_Home> {
     return Scaffold(
       backgroundColor: const Color(0xffFFFFFF),
       appBar: AppBar(
-        title: const Text("BoB", style: TextStyle(color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontSize: 20, fontWeight: FontWeight.w700),),
+        title: const Text("BoB", style: TextStyle(color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontSize: 22, fontWeight: FontWeight.bold),),
         backgroundColor: const Color(0xffffccbf),
         elevation: 0.0,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -225,9 +233,9 @@ class MainHomeState extends State<Main_Home> {
                   const SizedBox(height: 40),
                   // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
                   // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
-                  textBase('아기 리스트', 'extra-bold', 20),
+                  textBase('아기 리스트', 'extra-bold', 22),
                   const SizedBox(height: 8),
-                  textBase('클릭하면 해당 아기를 관리할 수 있습니다.', 'bold', 12),
+                  textBase('클릭하면 해당 아기를 관리할 수 있습니다.', 'bold', 13),
                   const SizedBox(height: 29),
                   Expanded(
                     child: ListView(
@@ -236,7 +244,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation0'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('부모', 'extra-bold', 14),
+                              title: textBase('부모', 'extra-bold', 16),
                               children: getDrawerDatas(0, context, const Color(0xfffa625f))
                           ),
                         ),
@@ -244,7 +252,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation1'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('가족', 'extra-bold', 14),
+                              title: textBase('가족', 'extra-bold', 16),
                               children: getDrawerDatas(1, context, Colors.blueAccent)
                           ),
                         ),
@@ -252,7 +260,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation2'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('베이비시터', 'extra-bold', 14),
+                              title: textBase('베이비시터', 'extra-bold', 16),
                               children: getDrawerDatas(2, context, Colors.grey)
                           ),
                         ),
@@ -276,14 +284,14 @@ class MainHomeState extends State<Main_Home> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Color(0xffffccbf), Color(0xffffe1c9)]),
+                      colors: [Color(0xffffccbf), Color(0xffffe1c7)]),
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40)),
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5.0,
+                      color: Color.fromARGB(88, 70, 57, 30),
+                      blurRadius: 4.0,
                       spreadRadius: 3,
                     )
                   ]),
@@ -308,12 +316,11 @@ class MainHomeState extends State<Main_Home> {
                     ]
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('생활 기록', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
+                        const Text('생활 기록', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         IconButton(
                             constraints: const BoxConstraints(),
                             padding: const EdgeInsets.only(right: 8),
@@ -337,26 +344,26 @@ class MainHomeState extends State<Main_Home> {
                                 // _sleep = '${DateTime.now().difference(last_sleep).inMinutes}분 전';
                               });
                             },
-                            icon: const Icon(Icons.refresh_outlined, size: 24, color: Color(0xff512F22))
+                            icon: const Icon(Icons.refresh_outlined, size: 22, color: Color(0xff512F22))
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     Row(
                       children: [
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('모유', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
-                            Text(_feeding, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound'))
+                            const Text('모유', style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text(_feeding, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
                         const SizedBox(width: 30),
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('젖병', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
-                            Text(_feedingBottle, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound'))
+                            const Text('젖병', style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text(_feedingBottle, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         ),)
                       ],
@@ -367,19 +374,19 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('기저귀', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
-                            Text(_diaper, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound'))
+                            const Text('기저귀', style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text(_diaper, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
                         const SizedBox(width: 30),
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('수면', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
-                            Text(_sleep, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound'))
+                            const Text('수면', style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text(_sleep, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
-                        const SizedBox(height: 25),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ],
@@ -419,8 +426,10 @@ class MainHomeState extends State<Main_Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // Text('grow_record'.tr,style: const TextStyle(fontSize: 22)),
-                                const Text('성장 기록',style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
+                                const Text('성장 기록',style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                 IconButton(
+                                    constraints: const BoxConstraints(),
+                                    padding: const EdgeInsets.only(right: 8),
                                     onPressed: () {
                                       showModalBottomSheet(
                                           shape: const RoundedRectangleBorder(
@@ -429,7 +438,7 @@ class MainHomeState extends State<Main_Home> {
                                                   topLeft: Radius.circular(20)
                                               )
                                           ),
-                                          backgroundColor: Colors.grey[100],
+                                          backgroundColor: Color(0xffF9F8F8),
                                           isScrollControlled: true,
                                           context: context,
                                           builder: ( BuildContext context ) {
@@ -441,16 +450,17 @@ class MainHomeState extends State<Main_Home> {
                                 ),
                               ],
                             ),
-                            const Text('2023.05.06 갱신', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
                             const SizedBox(height: 10),
+                            const Text('2023.05.06 갱신', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
+                            const SizedBox(height: 20),
                             const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('키', style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound')),
-                                Center(child: Text('90cm', style: TextStyle(fontSize: 17, fontFamily: 'NanumSquareRound'))),
+                                Text('키', style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                Center(child: Text('90cm', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
                                 SizedBox(height: 25),
-                                Text('몸무게', style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound')),
-                                Center(child: Text('10kg', style: TextStyle(fontSize: 17, fontFamily: 'NanumSquareRound'))),
+                                Text('몸무게', style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                Center(child: Text('10kg', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
                               ],
                             )
                           ],
@@ -472,7 +482,7 @@ class MainHomeState extends State<Main_Home> {
                                   await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(18),
+                                  padding: const EdgeInsets.all(13),
                                   height: 110,
                                   decoration: BoxDecoration(
                                       color: const Color(0xffF9F8F8),
@@ -488,12 +498,15 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        textBase('예방 접종', 'extra-bold', 14),
-                                        const SizedBox(height: 6),
-                                        text('다음 예방접종', 'bold', 8, Color(0xcc512f22)),
+                                        const Text('예방 접종', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        const SizedBox(height: 10),
+                                        const Text(
+                                          '다음 예방 접종',
+                                          style: TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                                        ),
                                         const SizedBox(height: 16),
                                         Center(
-                                            child: text(nextVaccineCheckDate, 'extra-bold', 15, const Color(0xccfb8665))
+                                            child: text(nextVaccineCheckDate, 'extra-bold', 17, const Color(0xccfb8665))
                                         )
                                       ]
                                   ),
@@ -507,8 +520,7 @@ class MainHomeState extends State<Main_Home> {
                                   await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(18),
-                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(13),
                                   height: 110,
                                   decoration: BoxDecoration(
                                       color: const Color(0xffF9F8F8),
@@ -524,12 +536,15 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        textBase('건강 검진', 'extra-bold', 14),
-                                        const SizedBox(height: 6),
-                                        text('다음 건강 검진', 'bold', 8, Color(0xcc512f22)),
+                                        const Text('건강 검진', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        const SizedBox(height: 10),
+                                        const Text(
+                                          '다음 건강 검진',
+                                          style: TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                                        ),
                                         const SizedBox(height: 16),
                                         Center(
-                                          child: text(nextMedicalCheckDate, 'extra-bold', 15, const Color(0xccfb8665)
+                                          child: text(nextMedicalCheckDate, 'extra-bold', 17, const Color(0xccfb8665)
                                           )
                                         )
                                       ]
@@ -545,14 +560,14 @@ class MainHomeState extends State<Main_Home> {
             ),
             Container(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                margin: const EdgeInsets.only(left: 10, right: 10),
+                margin: const EdgeInsets.only(left: 10, right: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 3, 0, 1),
                       child: Text('버튼을 길게 누르면 타이머가 작동합니다.',
-                        style: TextStyle(color: Colors.grey[500], fontFamily: 'NanumSquareRound'),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[400], fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -566,11 +581,11 @@ class MainHomeState extends State<Main_Home> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    drawRecordButton(context, '모유', Icons.water_drop_outlined, Colors.red, const Color(0xffFFC8C8), 0),
-                    drawRecordButton(context, '젖병', Icons.water_drop, Colors.orange, const Color(0xffFFD9C8), 1),
-                    drawRecordButton(context, '이유식', Icons.rice_bowl_rounded, const Color(0xfffacc00), const Color(0xffFFF0C8), 2),
-                    drawRecordButton(context, '기저귀', Icons.baby_changing_station, Colors.green, const Color(0xffE0FFC8), 3),
-                    drawRecordButton(context, '수면', Icons.nights_stay_sharp, Colors.blueAccent, const Color(0xffC8F7FF), 4)
+                    drawRecordButton(context, '모유', 'assets/icon/feeding_icon.svg', Colors.redAccent, const Color(0xffFFC8C8), 0),
+                    drawRecordButton(context, '젖병', 'assets/icon/feedingbottle_icon.svg', Colors.orange, const Color(0xffFFD9C8), 1),
+                    drawRecordButton(context, '이유식', 'assets/icon/babyfood_icon.svg', const Color(0xfffab300), const Color(0xffFFF0C8), 2),
+                    drawRecordButton(context, '기저귀', 'assets/icon/diaper_icon.svg', Colors.green, const Color(0xffE0FFC8), 3),
+                    drawRecordButton(context, '수면', 'assets/icon/sleep_icon.svg', Colors.blueAccent, const Color(0xffC8F7FF), 4)
                   ],
                 ),
               ),
@@ -579,20 +594,18 @@ class MainHomeState extends State<Main_Home> {
                 offstage: timerClosed,
                 child: Container(
                     height: 60,
-                    padding: const EdgeInsets.all(10),
                     margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
-                    width: double.infinity,
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: timerBackgroundColors
+                            colors: timerBackgroundColors1
                         ),
                         borderRadius: BorderRadius.circular(50),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.3),
-                            blurRadius: 5,
+                            blurRadius: 10,
                           )
                         ]
                     ),
@@ -628,8 +641,8 @@ class MainHomeState extends State<Main_Home> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 5,
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 3,
                         )
                       ],
                       border: Border(
@@ -645,12 +658,12 @@ class MainHomeState extends State<Main_Home> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        textBase(b.name, 'extra-bold', 12),
+                        textBase(b.name, 'extra-bold', 14),
                         Row(
                           children: [
-                            text(b.getGenderString()=='F' ? "여자" : "남자", 'bold', 10, Color(0x99512f22)),
-                            SizedBox(width: 6),
-                            textBase(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 10)
+                            text(b.getGenderString()=='F' ? "여자" : "남자", 'bold', 12, Color(0x99512f22)),
+                            const SizedBox(width: 6),
+                            textBase(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 12)
                           ],
                         )
                       ],
@@ -664,7 +677,7 @@ class MainHomeState extends State<Main_Home> {
   }
 
   //기록 버튼 롱 클릭 시
-  InkWell drawRecordButton(BuildContext rootContext, String type, IconData iconData, Color background, Color color, int tapMode){
+  InkWell drawRecordButton(BuildContext rootContext, String type, String iconData, Color background, Color color, int tapMode){
     return InkWell(
         onTap: () => record_with_ModalBottomSheet(rootContext, tapMode),
         onLongPress: (){
@@ -704,7 +717,7 @@ class MainHomeState extends State<Main_Home> {
           }
           else{
             timerType = tapMode;
-            timerBackgroundColor = timerBackgroundColors[tapMode];
+            // timerBackgroundColor = timerBackgroundColor;
             // offstage 보이게
             setState(() {
               timerClosed = false;
@@ -721,12 +734,20 @@ class MainHomeState extends State<Main_Home> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             color: color,
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(88, 70, 57, 30).withOpacity(0.2),
+                blurRadius:5,
+                spreadRadius: 1
+              )
+            ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(iconData, color: background), // <-- Icon
-              Text(type, style: TextStyle(fontSize: 13, color: background, fontFamily: 'NanumSquareRound')), // <-- Text
+              SvgPicture.asset(iconData, color: background ), // <-- Icon
+              const SizedBox(height: 3),
+              Text(type, style: TextStyle(fontSize: 12, color: background, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)), // <-- Text
             ],
           ),
         )
