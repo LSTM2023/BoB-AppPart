@@ -3,10 +3,10 @@ import 'package:bob/screens/HomePage/Statistic/baby_avg_tallStatistics.dart';
 import 'package:bob/screens/HomePage/Statistic/baby_avg_weightStatistics.dart';
 import 'package:bob/services/backend.dart';
 import 'package:bob/widgets/appbar.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
+import 'package:get/get.dart';
 class BabyGrowthStatistics extends StatefulWidget {
   final Baby baby;
   final List<GrowthRecord> growthRecords;
@@ -82,7 +82,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
         backgroundColor: const Color(0xffffc8c7),
         elevation: 0.0,
         iconTheme : const IconThemeData(color: Colors.black),
-        title: const Text('graph_growth'.tr, style: TextStyle(color: Colors.black,fontSize: 20, fontFamily: 'NanumSquareRound')),
+        title: Text('graph_growth'.tr, style: TextStyle(color: Colors.black,fontSize: 20, fontFamily: 'NanumSquareRound')),
       ),
       body: Column(
         children: [
@@ -93,12 +93,12 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: const Text('height'.tr, style: TextStyle(fontFamily: 'NanumSquareRound'))
+                    child: Text('height'.tr, style: TextStyle(fontFamily: 'NanumSquareRound'))
                 ),
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: const Text('weight'.tr, style: TextStyle(fontFamily: 'NanumSquareRound'))
+                    child: Text('weight'.tr, style: TextStyle(fontFamily: 'NanumSquareRound'))
                 )
               ],
               labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'),
@@ -285,7 +285,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                 margin: const EdgeInsets.only(right: 20),
                 child: FloatingActionButton.extended(
                   backgroundColor: const Color(0xfff9f8f8),
-                  label: const Column(
+                  label: Column(
                     children: [
                       Text("standard_growth".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
                       Text("check_diagram".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))
@@ -404,7 +404,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                   margin: const EdgeInsets.only(right: 20),
                   child: FloatingActionButton.extended(
                     backgroundColor: const Color(0xfff9f8f8),
-                    label: const Column(
+                    label: Column(
                       children: [
                         Text("standard_growth".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
                         Text("check_diagram".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))

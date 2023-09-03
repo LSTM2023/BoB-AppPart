@@ -49,7 +49,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('life2'.tr, style: TextStyle(fontSize: 32, color: Color(0xfffF9B58), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
@@ -145,7 +145,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Text('amount_food'.tr, style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                    Text('amount_food'.tr, style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                     const SizedBox(height: 5),
                     GestureDetector(
                       onTap: () {

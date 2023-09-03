@@ -46,7 +46,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('feeding'.tr, style: TextStyle(fontSize: 32, color: Color(0xffFF7A7A), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
@@ -58,7 +58,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('dir_feed'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('dir_feed'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
@@ -76,7 +76,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                               foregroundColor: isSelect ? Colors.white : Colors.grey,
                               backgroundColor: isSelect ? const Color(0xffFF7A7A) : null,
                             ),
-                            child: const Padding(
+                            child: Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Text('left'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                             ),
@@ -96,7 +96,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                                 foregroundColor: !isSelect ? Colors.white : Colors.grey,
                                 backgroundColor: !isSelect ? const Color(0xffFF7A7A) : null,
                               ),
-                              child: const Padding(
+                              child: Padding(
                                   padding:EdgeInsets.all(10),
                                   child:Text('right'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
@@ -162,7 +162,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                       child: AbsorbPointer(
                         child: TextFormField(
                           controller: ymdtController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               labelText: 'enter_feed'.tr,
                               labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                               suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffFF7A7A), size: 22),
@@ -187,7 +187,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   const SizedBox(height: 3),
                   GestureDetector(
                     onTap: () {
@@ -199,7 +199,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                         controller: memoController,
                         maxLines: 4,
                         style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.never,
                             labelText: 'enter_content'.tr,
                             labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),

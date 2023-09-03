@@ -1,12 +1,12 @@
 import 'package:bob/models/model.dart';
 import 'package:bob/widgets/form.dart';
 import 'package:bob/widgets/text.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/appbar.dart';
 import 'package:bob/services/backend.dart';
 import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
 class AddBaby extends StatefulWidget {
   const AddBaby({super.key});
@@ -81,11 +81,11 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
                   )
               ),
               const SizedBox(height: 66),
-              const Text('babyName'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              Text('babyName'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
               const SizedBox(height: 10),
               makeTextFormField('babyName', bNameClr, TextInputType.text),
               const SizedBox(height: 20),
-              const Text('birth'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              Text('birth'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
               const SizedBox(height: 10),
               Container(
                 width: double.infinity,
@@ -112,7 +112,7 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
                 ),
               ),
               const SizedBox(height: 20),
-              const Text('gender'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              Text('gender'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
               const SizedBox(height: 10),
               ToggleButtons(
                   borderRadius: BorderRadius.circular(8.0),
@@ -125,7 +125,7 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
                     });
                   },
                   isSelected: genderSelected,
-                  children: const [
+                  children:  [
                     SizedBox(
                         width: 174,
                         child: Center(
@@ -226,11 +226,11 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
                 )
             ),
             const SizedBox(height: 66),
-            const Text('babyName'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+            Text('babyName'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
             const SizedBox(height: 10),
             makeTextFormField('babyName', bNameClr, TextInputType.text),
             const SizedBox(height: 20),
-            const Text('birth'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+            Text('birth'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
             const SizedBox(height: 10),
             Container(
               width: double.infinity,
@@ -257,7 +257,7 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
               ),
             ),
             const SizedBox(height: 20),
-            const Text('gender'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+            Text('gender'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
             const SizedBox(height: 10),
             ToggleButtons(
                 borderRadius: BorderRadius.circular(8.0),
@@ -270,7 +270,7 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
                   });
                 },
                 isSelected: genderSelected,
-                children: const [
+                children: [
                   SizedBox(
                       width: 174,
                       child: Center(

@@ -9,6 +9,7 @@ import '../BaseWidget.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:bob/widgets/form.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
 class InvitationBottomSheet extends StatefulWidget{
   final List<Baby> babies;
@@ -134,7 +135,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                         });
                       },
                       isSelected: [relationSelected==0,relationSelected==1,relationSelected==2],
-                      children: const [
+                      children: [
                         SizedBox(
                             width: 70,
                             child: Center(

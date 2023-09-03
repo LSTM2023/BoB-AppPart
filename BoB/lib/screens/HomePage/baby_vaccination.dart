@@ -1,10 +1,9 @@
 import 'package:bob/services/storage.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 import 'package:flutter/material.dart';
 import 'package:bob/models/model.dart';
 import 'package:bob/services/backend.dart';
 import 'package:get/get.dart';
-
 import '../../widgets/appbar.dart';
 import '../../widgets/pharse.dart';
 import '../../widgets/text.dart';
