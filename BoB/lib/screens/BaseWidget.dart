@@ -2,6 +2,7 @@ import 'package:bob/models/model.dart';
 import 'package:bob/services/backend.dart';
 import 'package:bob/widgets/bottomNav.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import './main_1_home.dart';
 import './main_2_cctv.dart';
 import './main_3_diary.dart';
@@ -22,6 +23,15 @@ class _BaseWidget extends State<BaseWidget>{
   late List<Baby> disactiveBabies;
   int cIdx = 0;
   int _selectedIndex = 0; // 인덱싱
+
+  // 앱에서 지원하는 언어 리스트 변수
+  final supportedLocales = [
+    Locale('en', 'US'),
+    Locale('ko', 'KR')
+  ];
+
+  String selectedLanguageMode = '한국어';
+
   @override
   void initState() {
     super.initState();
@@ -81,6 +91,15 @@ class _BaseWidget extends State<BaseWidget>{
       });
     }
   }
+  // 다국어처리부
+  changeLanguageMode(String value){
+    if(value == '한국어'){
+      Get.updateLocale(const Locale('ko','KR'));
+    }else{
+      Get.updateLocale(const Locale('en','US'));
+    }
+    selectedLanguageMode = value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +107,9 @@ class _BaseWidget extends State<BaseWidget>{
       Main_Home(widget.userinfo, key : _homepageKey, getBabiesFunction: getBabies,getCurrentBabyFunction: getCurrentBaby, changeCurrentBabyFunction: changeCurrentBaby),
       Main_Cctv(widget.userinfo, key:_cctvKey, getMyBabyFuction: getCurrentBaby),
       const MainDiary(),
-      MainMyPage(widget.userinfo, key: _mypageKey, getBabiesFuction: getBabies, reloadBabiesFunction: reloadBabies)
+      MainMyPage(widget.userinfo, selectedLanguageMode, key: _mypageKey, getBabiesFuction: getBabies, reloadBabiesFunction: reloadBabies, changeLanguage: changeLanguageMode)
     ];
+
     return DefaultTabController(
         length: 4,
         initialIndex: activeBabies.isEmpty?3:0,

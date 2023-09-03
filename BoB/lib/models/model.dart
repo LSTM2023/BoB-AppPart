@@ -192,6 +192,6 @@ class MedicalCheckUp {
     return '생후 ${checkTiming[1]}~${checkTiming[2]}${checkTiming[0]==0?'개월':'일'}';
   }
   String drawDateString(){
-    return '${checkPeriod.substring(0,4)}년 ${checkPeriod.substring(5,7)}월';
+    return '${checkPeriod.substring(0,4)}.${checkPeriod.substring(5,7)}';
   }
 }

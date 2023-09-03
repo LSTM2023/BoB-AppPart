@@ -19,23 +19,21 @@ class MainMyPage extends StatefulWidget{
   final User userinfo;
   final getBabiesFuction; // 아기 불러오는 fuction
   final reloadBabiesFunction;
-  const MainMyPage(this.userinfo, {Key?key, this. getBabiesFuction, this.reloadBabiesFunction}):super(key:key);
+  final changeLanguage;
+  final c_language;
+  const MainMyPage(this.userinfo, this.c_language, {Key?key, this. getBabiesFuction, this.reloadBabiesFunction, this.changeLanguage}):super(key:key);
   @override
   State<MainMyPage> createState() => MainMyPageState();
 }
 class MainMyPageState extends State<MainMyPage>{
-  // 앱에서 지원하는 언어 리스트 변수
-  final supportedLocales = [
-    Locale('en', 'US'),
-    Locale('ko', 'KR')
-  ];
+
   CarouselController carouselController = CarouselController();
-  List<String> languageList = ['한국어', '영어'];
-  List<Color> colorList = [Color(0xffFB8665), Color(0xff22513E), Color(0xff222551)];
-  int cLanIdx = 0;
+
+  //int cLanIdx = 0;
+  List<Color> colorList = [const Color(0xffFB8665), const Color(0xff22513E), const Color(0xff222551)];
   late List<Baby> activateBabies;
   late List<Baby> disActivateBabies;
-  String selectedLanguageMode = '한국어';
+
 
   @override
   void initState() {
@@ -59,7 +57,7 @@ class MainMyPageState extends State<MainMyPage>{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('아기 관리', style: TextStyle(color: Color(0xff512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+              Text('main4_manageBaby'.tr, style: TextStyle(color: Color(0xff512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
               const SizedBox(height: 10),
               CarouselSlider.builder(
                 itemCount: activateBabies.length+1,
@@ -78,15 +76,15 @@ class MainMyPageState extends State<MainMyPage>{
                 },
               ),
               const SizedBox(height: 86),
-              drawSettingScreen('양육자/베이비시터 초대', Icons.favorite,() => invitation()),
+              drawSettingScreen('main4_InviteBabysitter'.tr, Icons.favorite,() => invitation()),
               drawDivider(),
               drawLanguageScreen(),
               drawDivider(),
-              drawSettingScreen('회원정보 수정', Icons.settings, ()=>modifyUserInfo()),
+              drawSettingScreen('main4_modifyUserInfo'.tr, Icons.settings, ()=>modifyUserInfo()),
               drawDivider(),
-              drawSettingScreen('로그아웃', Icons.logout,() => logout()),
+              drawSettingScreen('main4_logout'.tr, Icons.logout,() => logout()),
               drawDivider(),
-              drawSettingScreen('서비스 탈퇴', Icons.ac_unit,()=>withdraw()),
+              drawSettingScreen('main4_withdrawal'.tr, Icons.ac_unit,()=>withdraw()),
               drawDivider(),
               const SizedBox(height: 20),
 
@@ -104,14 +102,28 @@ class MainMyPageState extends State<MainMyPage>{
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Row(
+            Row(
               children: [
-                Icon(Icons.language, size:18, color: Color(0xFFFB8665)),
-                SizedBox(width: 20),
-                Text('언어', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+                const Icon(Icons.language, size:18, color: Color(0xFFFB8665)),
+                const SizedBox(width: 20),
+                textBase('main4_changeLanguage'.tr, 'bold', 10)
               ],
             ),
-            Text(languageList[cLanIdx], style: const TextStyle(color: Color(0x99512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+            DropdownButton(
+              underline: SizedBox.shrink(),
+              value: widget.c_language,
+              items: ['한국어', 'english'].map((String item){
+                return DropdownMenuItem<String>(
+                  child: text(item, 'bold', 10, Color(0x99512F22)),
+                  value: item,
+                );
+              }).toList(),
+              onChanged: (dynamic value) {
+                  setState(() {
+                    widget.changeLanguage(value);
+                  });
+              },
+            ),
           ],
         )
     );
@@ -181,7 +193,7 @@ class MainMyPageState extends State<MainMyPage>{
                       height: 12,
                       child: Row(
                         children: [
-                          Text('생일 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          Text('${'birth'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                           Text('${baby.birth.year}년 ${baby.birth.month}월 ${baby.birth.day}일생', style: TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ],
                       )
@@ -191,7 +203,7 @@ class MainMyPageState extends State<MainMyPage>{
                       height: 12,
                       child: Row(
                         children: [
-                          const Text('성별 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          Text('${'gender'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                           Text(baby.gender==1?'남자':'여자', style: const TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ],
                       )
@@ -319,18 +331,18 @@ class MainMyPageState extends State<MainMyPage>{
                 )
             ),
             const SizedBox(height: 12),
-            Text('추가', style: TextStyle(color: colorList[seed%3], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+            text('New'.tr, 'bold', 12, colorList[seed%3]),
             const SizedBox(height: 13),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.only(left: 41, right: 41),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('생일 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                  SizedBox(height: 5),
-                  Text('성별 : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('${'birth'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 5),
+                  Text('${'gender'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             )

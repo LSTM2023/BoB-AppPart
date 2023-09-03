@@ -5,6 +5,10 @@ import 'package:bob/models/model.dart';
 import 'package:bob/services/backend.dart';
 import 'package:get/get.dart';
 
+import '../../widgets/appbar.dart';
+import '../../widgets/pharse.dart';
+import '../../widgets/text.dart';
+
 class BabyVaccination extends StatefulWidget {
   final Baby baby;
   final List<Vaccine> vaccines;
@@ -68,23 +72,13 @@ class _BabyVaccination extends State<BabyVaccination> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.5,
-          iconTheme : const IconThemeData(color: Colors.black),
-          title: Text('"${widget.baby.name}" 예방 접종', style: TextStyle(color: Colors.black,fontSize: 20)),
-        ),
+        appBar: homeAppbar('예방 접종'),
         body: Container(
+          color: Colors.white,
           padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
           child: Column(
             children: [
-              Row(
-                children: const [
-                  Icon(Icons.error_outline),
-                  SizedBox(width: 10,),
-                  Text('만 12세까지 접종')
-                ],
-              ),
+              getErrorPharse('만 12세까지 접종'),
               Padding(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                   child: Row(
@@ -130,14 +124,7 @@ class _BabyVaccination extends State<BabyVaccination> {
                   }
               ),
               const SizedBox(height: 5),
-              Row(
-                children: const [
-                  SizedBox(width: 10),
-                  Icon(Icons.error_outline),
-                  SizedBox(width: 10,),
-                  Text('기준 : 질병관리청 표준 예방접종 일정표'),
-                ],
-              ),
+              getErrorPharse('기준 : 질병관리청 표준 예방접종 일정표'),
             ],
           ),
         )
@@ -235,6 +222,7 @@ class _BabyVaccination extends State<BabyVaccination> {
       )
     );
   }
+
   Widget chooseDate(String title, int mode){
     return TextButton(
         onPressed: (){
@@ -242,45 +230,46 @@ class _BabyVaccination extends State<BabyVaccination> {
             currentMode = mode;
           });
         },
-        child: Text(
-            title,
-            style: TextStyle(
-                color: (currentMode==mode?Colors.black:Colors.grey),
-                fontSize: 18,
-                fontWeight: (currentMode==mode?FontWeight.bold:FontWeight.normal)
-            )
+        child: text(
+          title, 'bold', 16, (currentMode==mode?Colors.black:Colors.grey)
         )
     );
   }
+
   Widget drawVaccineOne(Vaccine vaccine){
     if(vaccine.isInoculation){
       return Container(
           decoration: BoxDecoration(
-              color: Color(0xffffeeee),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(width: 0.5,color: Color(0xfffa625f))
+              color: const Color(0xffF9F8F8),
+              borderRadius: BorderRadius.circular(6),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x29512F22),
+                  spreadRadius: 0,
+                  blurRadius: 3.0,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+              //border: Border.all(width: 0.5,color: Color(0xfffa625f))
           ),
-          margin: const EdgeInsets.all(5),
-          padding: const EdgeInsets.all(25),
+          margin: const EdgeInsets.all(6),
+          padding: const EdgeInsets.all(15),
           width: double.infinity,
+          height: 100,
           child: Row(
             children: [
-              Column(
-                children: [
-                  Image.asset('assets/image/injection.png',scale: 15, color: const Color(0xfffa625f)),
-                  const SizedBox(height: 5),
-                  const Text('접종완료', style: TextStyle(color: Color(0xfffa625f)))
-                ],
-              ),
+              Image.asset('assets/image/injection_fin.png', width: 60),
               Expanded(
                   child: Container(
-                      padding: EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 22),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(vaccine.title,style: const TextStyle(color:Color(0xfffa625f), fontWeight: FontWeight.bold, fontSize: 16)),
-                          Text(vaccine.times),
-                          Text('접종일 : ${DateFormat.yMMMd().format(vaccine.inoculationDate)}')
+                          text(vaccine.title, 'extra-bold', 14, Color(0xffFB8665)),
+                          const SizedBox(height: 8),
+                          text(vaccine.times, 'bold', 12, Color(0xcc512f22)),
+                          text('접종일 : ${DateFormat.yMMMd().format(vaccine.inoculationDate)}', 'bold', 12, Color(0xcc512f22)),
                         ],
                       )
                   )
@@ -296,31 +285,36 @@ class _BabyVaccination extends State<BabyVaccination> {
           },
           child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(width: 0.5,color: Colors.grey)
+                color: const Color(0xffF9F8F8),
+                borderRadius: BorderRadius.circular(6),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x29512F22),
+                    spreadRadius: 0,
+                    blurRadius: 3.0,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+                //border: Border.all(width: 0.5,color: Color(0xfffa625f))
               ),
-              margin: const EdgeInsets.all(5),
-              padding: const EdgeInsets.all(25),
+              margin: const EdgeInsets.all(6),
+              padding: const EdgeInsets.all(15),
               width: double.infinity,
+              height: 100,
               child: Row(
                 children: [
-                  Column(
-                    children: [
-                      Image.asset('assets/image/injection.png',scale: 15),
-                      const SizedBox(height: 5),
-                      const Text('접종 전'),
-                    ],
-                  ),
+                  Image.asset('assets/image/injection_be.png',width: 60),
                   Expanded(
                       child: Container(
-                          padding: const EdgeInsets.only(left: 30),
+                          padding: const EdgeInsets.only(left: 22),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(vaccine.title,style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                              Text(vaccine.times),
-                              Text('접종 권장일 : ${vaccine.recommendationDate}')
+                              textBase(vaccine.title, 'extra-bold', 14),
+                              const SizedBox(height: 8),
+                              text(vaccine.times, 'bold', 12, const Color(0xcc512f22)),
+                              text('접종 권장일 : ${vaccine.recommendationDate}', 'bold', 12, Color(0xcc512f22)),
                             ],
                           )
                       )

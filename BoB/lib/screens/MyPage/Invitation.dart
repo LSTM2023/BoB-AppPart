@@ -19,7 +19,7 @@ class _Invitation extends State<Invitation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppbar('양육자/베이비시터 초대'),
+      appBar: homeAppbar('main4_InviteBabysitter'.tr),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFFFB8665),
         onPressed: (){
@@ -48,7 +48,7 @@ class _Invitation extends State<Invitation> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 28, bottom: 24),
-              child: text('미수락 초대', 'bold', 14, const Color(0xff512F22))
+              child: text('invitation_notList'.tr, 'bold', 14, const Color(0xff512F22))
             ),
             Expanded(
                 child: ListView.builder(

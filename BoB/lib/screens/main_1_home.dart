@@ -19,10 +19,11 @@ import 'package:bob/widgets/text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../models/medicalList.dart';
 import '../services/backend.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
+import 'package:get/get.dart';
 
 class Main_Home extends StatefulWidget {
   final User userinfo;
@@ -226,7 +227,7 @@ class MainHomeState extends State<Main_Home> {
                   const SizedBox(height: 40),
                   // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
                   // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
-                  textBase('아기 리스트', 'extra-bold', 22),
+                  textBase('babyList', 'extra-bold', 22),
                   const SizedBox(height: 8),
                   textBase('클릭하면 해당 아기를 관리할 수 있습니다.', 'bold', 13),
                   const SizedBox(height: 29),
@@ -313,7 +314,7 @@ class MainHomeState extends State<Main_Home> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('생활 기록', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                        textBase('생활 기록', 'bold', 16),
                         IconButton(
                             constraints: const BoxConstraints(),
                             padding: const EdgeInsets.only(right: 8),
@@ -330,11 +331,6 @@ class MainHomeState extends State<Main_Home> {
                                 }if(last_sleep != null){
                                   _sleep = getlifeRecordPharse(DateTime.now().difference(last_sleep!));
                                 }
-                                // _feeding = '${DateTime.now().difference(last_feeding).inMinutes}분 전';
-                                // _feedingBottle = '${DateTime.now().difference(last_feedingBottle).inMinutes}분 전';
-                                // _babyfood = '${DateTime.now().difference(last_babyfood).inMinutes}분 전';
-                                // _diaper = '${DateTime.now().difference(last_diaper).inMinutes}분 전';
-                                // _sleep = '${DateTime.now().difference(last_sleep).inMinutes}분 전';
                               });
                             },
                             icon: const Icon(Icons.refresh_outlined, size: 22, color: Color(0xff512F22))

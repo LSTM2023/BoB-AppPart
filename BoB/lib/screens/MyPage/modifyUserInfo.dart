@@ -7,6 +7,7 @@ import '../../services/backend.dart';
 import '../../services/storage.dart';
 import '../../widgets/form.dart';
 import '../../widgets/text.dart';
+import 'package:get/get.dart' hide Trans;
 
 class ModifyUser extends StatefulWidget{
   final User userInfo;
@@ -33,14 +34,14 @@ class _ModifyUser extends State<ModifyUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppbar('회원정보 수정'),
+      appBar: homeAppbar('main4_modifyUserInfo'.tr),
       body: Container(
         padding: const EdgeInsets.fromLTRB(16, 46, 16, 50),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              textBase('아이디', 'bold', 14),
+              textBase('login_id'.tr, 'bold', 14),
               const SizedBox(height: 10),
               SizedBox(
                 height: 50,
@@ -50,17 +51,17 @@ class _ModifyUser extends State<ModifyUser> {
                 ),
               ),
               const SizedBox(height: 30),
-              makeText('비밀번호', Color(0xFF512F22), 14),
+              makeText('login_pass'.tr, const Color(0xFF512F22), 14),
               const SizedBox(height: 10),
               makePWFormField('pw', passCtr, passwordVisible),
               const SizedBox(height: 10),
               makePWFormField('pw_check', passCheckCtr, passwordVisible),
               const SizedBox(height: 30),
-              makeText('닉네임', Color(0xFF512F22), 14),
+              makeText('login_nickname'.tr, Color(0xFF512F22), 14),
               const SizedBox(height: 10),
               makeTextFormField('nickname', nickNameCtr, TextInputType.name),
               const SizedBox(height: 30),
-              makeText('휴대폰 번호', Color(0xFF512F22), 14),
+              makeText('login_phone'.tr, Color(0xFF512F22), 14),
               const SizedBox(height: 10),
               makeTextFormField('phone', phoneCtr, TextInputType.phone),
               const SizedBox(height: 100),
@@ -72,7 +73,7 @@ class _ModifyUser extends State<ModifyUser> {
                       foregroundColor: Colors.white
                   ),
                   onPressed: () async => await modifyUserinfo(),
-                  child: text('수정완료','extra-bold', 16, Colors.white)
+                  child: text('login_modified'.tr,'extra-bold', 16, Colors.white)
               )
             ],
           ),
