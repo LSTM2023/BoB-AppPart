@@ -192,7 +192,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text('${widget.baby.name}${'\s growth record'.tr}', style: TextStyle(fontSize: 30, color: Colors.grey[700], fontFamily: 'NanumSquareRound'),),
+          Text('"${widget.baby.name}"${'\'s growth record'.tr}', style: TextStyle(fontSize: 28, color: Colors.grey[700], fontFamily: 'NanumSquareRound'),),
           const SizedBox(height: 20),
           FutureBuilder(
             future: getGrowthFuture,
@@ -224,7 +224,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                 );
               }else{
                 return Container(
-                  height: 600,
+                  height: 560,
                   child: LineChart(
                       LineChartData(
                         minX: minD,
@@ -310,7 +310,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
       child: Container(
         child: Column(
           children: [
-            Text('"${widget.baby.name}"${'\'s weight record'.tr}', style: TextStyle(fontSize: 30, color: Colors.grey[700], fontFamily: 'NanumSquareRound')),
+            Text('"${widget.baby.name}"${'\'s weight record'.tr}', style: TextStyle(fontSize: 28, color: Colors.grey[700], fontFamily: 'NanumSquareRound')),
             const SizedBox(height: 20),
             FutureBuilder(
               future: getGrowthFuture,
@@ -342,7 +342,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                   );
                 }else{
                   return Container(
-                    height: 600,
+                    height: 560,
                     child: LineChart(
                         LineChartData(
                           minX: minD,

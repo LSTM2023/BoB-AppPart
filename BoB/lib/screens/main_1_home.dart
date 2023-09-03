@@ -401,9 +401,28 @@ class MainHomeState extends State<Main_Home> {
                 Expanded(
                     flex:1,
                     child: GestureDetector(
-                      onTap: () {
-                        Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList)
-                        );
+                      onTap: () async{
+                        List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
+                        if(growthRecordList.isEmpty){
+                          Get.snackbar('데이터 오류', '먼저 키, 몸무게를 입력해 주세요', backgroundColor: const Color(0xa3ffffff),snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 3));
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(25),
+                                      topLeft: Radius.circular(25)
+                                  )
+                              ),
+                              backgroundColor: const Color(0xffF9F8F8),
+                              isScrollControlled: true,
+                              context: context,
+                              builder: ( BuildContext context ) {
+                                return GrowthRecordBottomSheet(currentBaby.relationInfo.BabyId);
+                              }
+                          );
+                        }else {
+                          Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList)
+                          );
+                        }
                       },
                       child: Container(
                         height: 235,

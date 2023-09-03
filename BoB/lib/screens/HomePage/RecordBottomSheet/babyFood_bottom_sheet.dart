@@ -208,9 +208,9 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                           controller: memoController,
                           maxLines: 4,
                           style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               floatingLabelBehavior:FloatingLabelBehavior.never,
-                              labelText: 'enter_content',
+                              labelText: 'enter_content'.tr,
                               labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
