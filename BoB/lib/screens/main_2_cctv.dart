@@ -99,14 +99,17 @@ class MainCCTVState extends State<Main_Cctv>{
         body: Column(
           children: [
             SizedBox(height: 50),
-            Container(
-              padding: const EdgeInsets.all(16),
-              child: ClipRRect(
-                borderRadius : BorderRadius.circular(8.0),
-                child: VlcPlayer(
-                  controller: _videoPlayerController,
-                  aspectRatio: 4 / 3,
-                  placeholder: const Center(child: CircularProgressIndicator()),
+            RotatedBox(
+              quarterTurns: 1,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                child: ClipRRect(
+                  borderRadius : BorderRadius.circular(8.0),
+                  child: VlcPlayer(
+                    controller: _videoPlayerController,
+                    aspectRatio: 4 / 3,
+                    placeholder: const Center(child: CircularProgressIndicator()),
+                  ),
                 ),
               ),
             ),
@@ -128,7 +131,7 @@ class MainCCTVState extends State<Main_Cctv>{
                       Text('HomeCam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 24)),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 18),
                   Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
