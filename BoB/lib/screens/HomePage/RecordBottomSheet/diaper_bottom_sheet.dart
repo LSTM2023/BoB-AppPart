@@ -40,209 +40,185 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.45,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.only(left: 25, top: 15),
+              padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('기저귀',
-                    style: TextStyle(
-                        fontSize: 35,
-                        color: Colors.green,
-                      fontFamily: 'NanumSquareRound',
-                    ),
-                  ),
+                  Text('기저귀', style: TextStyle(fontSize: 32, color: Color(0xff50BC58), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(left: 25, top: 5),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              padding: const EdgeInsets.only(left:25, right:25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('배소변',
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.black,
-                      fontFamily: 'NanumSquareRound',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      isSelect = true;
-                    });
-                  },
-                  child: Text('배변',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
-                  style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: isSelect ? Colors.green[300] : null,
-                      minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 30)
-                  ),
-                ),
-                OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      isSelect = false;
-                    });
-                  },
-                  child: Text('소변',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
-                  style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: !isSelect ? Colors.green[300] : null,
-                      minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 30)
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Column(
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    dateTimeList = await showOmniDateTimeRangePicker(
-                      context: context,
-                      startInitialDate: DateTime.now(),
-                      startFirstDate:
-                      DateTime(1600).subtract(const Duration(days: 3652)),
-                      startLastDate: DateTime.now().add(
-                        const Duration(days: 3652),
-                      ),
-                      endInitialDate: DateTime.now(),
-                      endFirstDate:
-                      DateTime(1600).subtract(const Duration(days: 3652)),
-                      endLastDate: DateTime.now().add(
-                        const Duration(days: 3652),
-                      ),
-                      is24HourMode: true,
-                      isShowSeconds: false,
-                      minutesInterval: 1,
-                      secondsInterval: 1,
-                      borderRadius: const BorderRadius.all(Radius.circular(16)),
-                      constraints: const BoxConstraints(
-                        maxHeight: double.infinity,
-                      ),
-                      transitionBuilder: (context, anim1, anim2, child) {
-                        return FadeTransition(
-                          opacity: anim1.drive(
-                            Tween(
-                              begin: 0,
-                              end: 1,
+                  const Text('배소변', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Padding(
+                    padding: EdgeInsets.only(top:5, bottom:8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  isSelect = true;
+                                });
+                              },
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(color: Color(0x4d512F22)),
+                                foregroundColor: isSelect ? Colors.white : Colors.grey,
+                                backgroundColor: isSelect ? const Color(0xff50BC58) : null,
+                              ),
+                              child: const Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text('소변',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                              ),
                             ),
-                          ),
-                          child: child,
-                        );
-                      },
-                      transitionDuration: const Duration(milliseconds: 200),
-                      barrierDismissible: true,
-                      selectableDayPredicate: (dateTime) {
-                        // Disable 25th Feb 2023
-                        if (dateTime == DateTime(2023, 2, 25)) {
-                          return false;
-                        } else {
-                          return true;
-                        }
-                      },
-                    );
-                    ymdtController.text = '${DateFormat('yyyy년 MM월 dd일 HH:mm').format(dateTimeList![0])} ~ '
-                        '${DateFormat('HH:mm').format(dateTimeList![1])}';
-
-                    print("Start dateTime: ${dateTimeList?[0]}");
-                    print("End dateTime: ${dateTimeList?[1]}");
-                  },
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width*0.9,
-                    child: AbsorbPointer(
-                      child: TextFormField(
-                        controller: ymdtController,
-                        decoration: const InputDecoration(
-                            labelText: '배변 시간을 입력하세요',
-                            labelStyle: TextStyle(fontSize: 18, fontFamily: 'NanumSquareRound'),
-                            suffixIcon: Icon(Icons.add_alarm_sharp),
-                            filled: false, //색 지정
-                            enabledBorder:OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: Colors.green)
-                            ),
-                            contentPadding: EdgeInsets.all(10)
                         ),
-                        onSaved: (val) {
-                          yearMonthDayTime = ymdtController.text;
+                        const SizedBox(width: 15),
+                        Expanded(
+                            flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  isSelect = false;
+                                });
+                              },
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(color: Color(0x4d512F22)),
+                                foregroundColor: !isSelect ? Colors.white : Colors.grey,
+                                backgroundColor: !isSelect ? const Color(0xff50BC58) : null,
+                              ),
+                              child: const Padding(
+                                  padding:EdgeInsets.all(10),
+                                  child:Text('대변',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  GestureDetector(
+                    onTap: () async {
+                      dateTimeList = await showOmniDateTimeRangePicker(
+                        context: context,
+                        startInitialDate: DateTime.now(),
+                        startFirstDate:
+                        DateTime(1600).subtract(const Duration(days: 3652)),
+                        startLastDate: DateTime.now().add(
+                          const Duration(days: 3652),
+                        ),
+                        endInitialDate: DateTime.now(),
+                        endFirstDate:
+                        DateTime(1600).subtract(const Duration(days: 3652)),
+                        endLastDate: DateTime.now().add(
+                          const Duration(days: 3652),
+                        ),
+                        is24HourMode: true,
+                        isShowSeconds: false,
+                        minutesInterval: 1,
+                        secondsInterval: 1,
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        constraints: const BoxConstraints(
+                          maxHeight: double.infinity,
+                        ),
+                        transitionBuilder: (context, anim1, anim2, child) {
+                          return FadeTransition(
+                            opacity: anim1.drive(
+                              Tween(
+                                begin: 0,
+                                end: 1,
+                              ),
+                            ),
+                            child: child,
+                          );
                         },
-                        validator: (val) {
-                          if (val == null || val.isEmpty) {
-                            return 'Year-Month-Date is necessary';
+                        transitionDuration: const Duration(milliseconds: 200),
+                        barrierDismissible: true,
+                        selectableDayPredicate: (dateTime) {
+                          // Disable 25th Feb 2023
+                          if (dateTime == DateTime(2023, 2, 25)) {
+                            return false;
+                          } else {
+                            return true;
                           }
-                          return null;
                         },
+                      );
+                      ymdtController.text = '${DateFormat('yyyy년 MM월 dd일 HH:mm').format(dateTimeList![0])} ~ '
+                          '${DateFormat('HH:mm').format(dateTimeList![1])}';
+
+                      print("Start dateTime: ${dateTimeList?[0]}");
+                      print("End dateTime: ${dateTimeList?[1]}");
+                    },
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width*0.9,
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          controller: ymdtController,
+                          decoration: const InputDecoration(
+                              labelText: '배변 시간을 입력하세요',
+                              labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                              suffixIcon: Icon(Icons.access_time_filled, color: Color(0xff50BC58), size: 22),
+                              filled: false, //색 지정
+                              enabledBorder:OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(color: Color(0x4d512F22))
+                              ),
+                              contentPadding: EdgeInsets.all(12)
+                          ),
+                          onSaved: (val) {
+                            yearMonthDayTime = ymdtController.text;
+                          },
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Year-Month-Date is necessary';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    // FocusScope.of(context).unfocus();
-                    Navigator.pop(context);
-                  },
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width*0.9,
-                    child: TextFormField(
-                      controller: memoController,
-                      maxLines: 2,
-                      style: const TextStyle(fontSize: 24, fontFamily: 'NanumSquareRound'),
-                      decoration: const InputDecoration(
-                          floatingLabelBehavior:FloatingLabelBehavior.always, // labelText위치
-                          labelText: '메모',
-                          labelStyle: TextStyle(fontSize: 30, fontFamily: 'NanumSquareRound'),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(color: Colors.green)
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(color: Colors.orangeAccent)
-                          ),
-                          contentPadding: EdgeInsets.all(12)
+                  const SizedBox(height: 15),
+                  const Text('메모', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 3),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: TextFormField(
+                        controller: memoController,
+                        maxLines: 4,
+                        style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
+                        decoration: const InputDecoration(
+                            floatingLabelBehavior:FloatingLabelBehavior.never,
+                            labelText: '내용을 입력해주세요.',
+                            labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(color: Color(0x4d512F22))
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(color: Color(0x4d512F22))
+                            ),
+                            contentPadding: EdgeInsets.only(left: 10, bottom: 20,)
+                        ),
+                        keyboardType: TextInputType.text,   //키보드 타입
                       ),
-                      keyboardType: TextInputType.text,   //키보드 타입
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('취소',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound')),
-                      style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.black,
-                          minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          )
-                      ),
-                    ),
-                    OutlinedButton(
+                  const SizedBox(height: 20),
+                  Container(
+                    width: double.infinity,
+                    child: OutlinedButton(
                       onPressed: () async{
                         print(widget.babyId);
                         int type = isSelect? 0 : 1;   //0:배변, 1:소변
@@ -258,22 +234,19 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                         print(diaperTime);
                         Navigator.pop(context);
                       },
-                      child: Text('확인',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
                       style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.black,
-                          backgroundColor: !isSelect ? Colors.green[300] : null,
-                          minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          ),
-                          side: BorderSide(
-                            color: Colors.green,
-                          )
+                        backgroundColor: const Color(0xff50BC58),
+                        foregroundColor: const Color(0xe6ffffff),
+                        minimumSize: Size((MediaQuery.of(context).size.width)*0.9, 50),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30))
+                        ),
                       ),
-                    )
-                  ],
-                )
-              ],
+                      child: const Text('등 록',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
         ),

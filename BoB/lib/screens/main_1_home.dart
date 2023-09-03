@@ -734,7 +734,7 @@ class MainHomeState extends State<Main_Home> {
                 topLeft: Radius.circular(20)
             )
         ),
-        backgroundColor: Colors.grey[50],
+        backgroundColor: const Color(0xffF9F8F8),
         isScrollControlled: true,
         context: rootContext,
         builder: (BuildContext context) {
