@@ -2,6 +2,8 @@ import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
+import 'package:get/get.dart';
 
 import '../../../services/backend.dart';
 
@@ -50,7 +52,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('이유식', style: TextStyle(fontSize: 32, color: Color(0xfffF9B58), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
+                  Text('life2'.tr, style: TextStyle(fontSize: 32, color: Color(0xfffF9B58), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
                 ],
               ),
             ),
@@ -119,7 +121,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                           child: TextFormField(
                             controller: ymdtController,
                             decoration: const InputDecoration(
-                                labelText: '이유식 시간을 입력하세요',
+                                labelText: 'enter_food'.tr,
                                 labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                 suffixIcon: Icon(Icons.access_time_filled, color: Color(0xfffF9B58), size: 22,),
                                 filled: false, //색 지정
@@ -143,7 +145,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Text('이유식 양(ml)', style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                    const Text('amount_food'.tr, style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                     const SizedBox(height: 5),
                     GestureDetector(
                       onTap: () {
@@ -157,7 +159,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                           style: const TextStyle(fontSize: 16, color: Color(0x99512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
                               floatingLabelBehavior:FloatingLabelBehavior.never, // labelText위치
-                              labelText: '이유식 양 (ml)',
+                              labelText: 'amount_food'.tr,
                               labelStyle: const TextStyle(color: Color(0x4d512F22), fontSize: 23, fontFamily: 'NanumSquareRound'),
                               suffixIcon: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
@@ -194,7 +196,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Text('메모', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                    const Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                     const SizedBox(height: 3),
                     GestureDetector(
                       onTap: () {
@@ -208,7 +210,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                           style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
                           decoration: const InputDecoration(
                               floatingLabelBehavior:FloatingLabelBehavior.never,
-                              labelText: '내용을 입력해주세요.',
+                              labelText: 'enter_content',
                               labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -250,7 +252,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                               borderRadius: BorderRadius.all(Radius.circular(30))
                           ),
                         ),
-                        child: const Text('등 록',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                        child: const Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                       ),
                     )
                   ],

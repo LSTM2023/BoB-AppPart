@@ -2,6 +2,8 @@ import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
+import 'package:get/get.dart';
 
 import '../../../services/backend.dart';
 
@@ -50,7 +52,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('젖병', style: TextStyle(fontSize: 32, color: Color(0xffffb1a2), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('life1'.tr, style: TextStyle(fontSize: 32, color: Color(0xffffb1a2), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -59,7 +61,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('수유 타입', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const Text('type_feed'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
@@ -79,7 +81,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                               ),
                               child: const Padding(
                                   padding: EdgeInsets.all(10),
-                                  child: Text('모유',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                                  child: Text('life0'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                               ),
                             ),
                         ),
@@ -99,7 +101,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                               ),
                               child: const Padding(
                                   padding:EdgeInsets.all(10),
-                                  child:Text('분유',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                                  child:Text('powdered_milk'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
                         )
                       ],
@@ -164,7 +166,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                         child: TextFormField(
                           controller: ymdtController,
                           decoration: const InputDecoration(
-                              labelText: '수유 시간을 입력하세요.',
+                              labelText: 'enter_feed'.tr,
                               labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                               suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffffb1a2), size: 22),
                               filled: false, //색 지정
@@ -188,7 +190,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text('수유량(ml)', style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const Text('amount_feed'.tr, style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   const SizedBox(height: 5),
                   SizedBox(
                     width: MediaQuery.of(context).size.width*0.9,
@@ -197,7 +199,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                       style: const TextStyle(fontSize: 16, color: Color(0x99512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
                           floatingLabelBehavior:FloatingLabelBehavior.never, // labelText위치
-                          labelText: '수유량 (ml)',
+                          labelText: 'amount_feed'.tr,
                           labelStyle: const TextStyle(color: Color(0x4d512F22), fontSize: 23, fontFamily: 'NanumSquareRound'),
                           suffixIcon: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
@@ -235,7 +237,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text('메모', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   const SizedBox(height: 3),
                   GestureDetector(
                     onTap: () {
@@ -249,7 +251,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                         style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
                         decoration: const InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.never,
-                            labelText: '내용을 입력해주세요.',
+                            labelText: 'enter_content'.tr,
                             labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -291,7 +293,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: const Text('등 록',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: const Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                     ),
                   )
                 ],

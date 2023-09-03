@@ -81,11 +81,11 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
                   )
               ),
               const SizedBox(height: 66),
-              const Text('아기 이름', style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              const Text('babyName'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
               const SizedBox(height: 10),
               makeTextFormField('babyName', bNameClr, TextInputType.text),
               const SizedBox(height: 20),
-              const Text('생일', style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              const Text('birth'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
               const SizedBox(height: 10),
               Container(
                 width: double.infinity,
@@ -112,7 +112,7 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
                 ),
               ),
               const SizedBox(height: 20),
-              const Text('성별', style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              const Text('gender'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
               const SizedBox(height: 10),
               ToggleButtons(
                   borderRadius: BorderRadius.circular(8.0),
@@ -129,13 +129,13 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
                     SizedBox(
                         width: 174,
                         child: Center(
-                            child: Text('남아', style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                            child: Text('genderM'.tr, style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
                         )
                     ),
                     SizedBox(
                         width: 174,
                         child: Center(
-                            child: Text('여아', style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                            child: Text('genderF'.tr, style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
                         )
                     ),
                   ]
@@ -226,11 +226,11 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
                 )
             ),
             const SizedBox(height: 66),
-            const Text('아기 이름', style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+            const Text('babyName'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
             const SizedBox(height: 10),
             makeTextFormField('babyName', bNameClr, TextInputType.text),
             const SizedBox(height: 20),
-            const Text('생일', style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+            const Text('birth'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
             const SizedBox(height: 10),
             Container(
               width: double.infinity,
@@ -257,7 +257,7 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
               ),
             ),
             const SizedBox(height: 20),
-            const Text('성별', style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+            const Text('gender'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
             const SizedBox(height: 10),
             ToggleButtons(
                 borderRadius: BorderRadius.circular(8.0),
@@ -274,13 +274,13 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
                   SizedBox(
                       width: 174,
                       child: Center(
-                          child: Text('남아', style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                          child: Text('genderM'.tr, style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
                       )
                   ),
                   SizedBox(
                       width: 174,
                       child: Center(
-                          child: Text('여아', style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                          child: Text('genderF'.tr, style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
                       )
                   ),
                 ]
