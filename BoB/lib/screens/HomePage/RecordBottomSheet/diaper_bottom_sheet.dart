@@ -46,7 +46,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('life3'.tr, style: TextStyle(fontSize: 32, color: Color(0xff50BC58), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
@@ -58,7 +58,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Defecation'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('Defecation'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   Padding(
                     padding: EdgeInsets.only(top:5, bottom:8),
                     child: Row(
@@ -76,7 +76,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                                 foregroundColor: isSelect ? Colors.white : Colors.grey,
                                 backgroundColor: isSelect ? const Color(0xff50BC58) : null,
                               ),
-                              child: const Padding(
+                              child: Padding(
                                   padding: EdgeInsets.all(10),
                                   child: Text('life3_1'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                               ),
@@ -96,7 +96,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                                 foregroundColor: !isSelect ? Colors.white : Colors.grey,
                                 backgroundColor: !isSelect ? const Color(0xff50BC58) : null,
                               ),
-                              child: const Padding(
+                              child: Padding(
                                   padding:EdgeInsets.all(10),
                                   child:Text('life3_0'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
@@ -162,7 +162,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                       child: AbsorbPointer(
                         child: TextFormField(
                           controller: ymdtController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               labelText: 'enter_def'.tr,
                               labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                               suffixIcon: Icon(Icons.access_time_filled, color: Color(0xff50BC58), size: 22),
@@ -187,7 +187,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   const SizedBox(height: 3),
                   GestureDetector(
                     onTap: () {
@@ -199,7 +199,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                         controller: memoController,
                         maxLines: 4,
                         style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.never,
                             labelText: 'enter_content'.tr,
                             labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
@@ -244,7 +244,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: const Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                     ),
                   )
                 ],

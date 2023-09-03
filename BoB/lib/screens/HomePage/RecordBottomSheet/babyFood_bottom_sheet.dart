@@ -49,7 +49,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('life2'.tr, style: TextStyle(fontSize: 32, color: Color(0xfffF9B58), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
@@ -120,7 +120,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                         child: AbsorbPointer(
                           child: TextFormField(
                             controller: ymdtController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                                 labelText: 'enter_food'.tr,
                                 labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                 suffixIcon: Icon(Icons.access_time_filled, color: Color(0xfffF9B58), size: 22,),
@@ -145,7 +145,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Text('amount_food'.tr, style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                    Text('amount_food'.tr, style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                     const SizedBox(height: 5),
                     GestureDetector(
                       onTap: () {
@@ -196,7 +196,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                    Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                     const SizedBox(height: 3),
                     GestureDetector(
                       onTap: () {
@@ -252,7 +252,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                               borderRadius: BorderRadius.all(Radius.circular(30))
                           ),
                         ),
-                        child: const Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                        child: Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                       ),
                     )
                   ],

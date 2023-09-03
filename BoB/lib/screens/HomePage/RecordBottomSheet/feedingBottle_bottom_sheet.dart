@@ -49,7 +49,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('life1'.tr, style: TextStyle(fontSize: 32, color: Color(0xffffb1a2), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
@@ -61,7 +61,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('type_feed'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('type_feed'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
@@ -79,7 +79,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                                 foregroundColor: isSelect ? Colors.white : Colors.grey,
                                 backgroundColor: isSelect ? const Color(0xffffb1a2) : null,
                               ),
-                              child: const Padding(
+                              child: Padding(
                                   padding: EdgeInsets.all(10),
                                   child: Text('life0'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                               ),
@@ -99,7 +99,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                                 foregroundColor: !isSelect ? Colors.white : Colors.grey,
                                 backgroundColor: !isSelect ? const Color(0xffffb1a2) : null,
                               ),
-                              child: const Padding(
+                              child: Padding(
                                   padding:EdgeInsets.all(10),
                                   child:Text('powdered_milk'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
@@ -165,7 +165,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                       child: AbsorbPointer(
                         child: TextFormField(
                           controller: ymdtController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               labelText: 'enter_feed'.tr,
                               labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                               suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffffb1a2), size: 22),
@@ -190,7 +190,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text('amount_feed'.tr, style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('amount_feed'.tr, style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   const SizedBox(height: 5),
                   SizedBox(
                     width: MediaQuery.of(context).size.width*0.9,
@@ -237,7 +237,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   const SizedBox(height: 3),
                   GestureDetector(
                     onTap: () {
@@ -249,7 +249,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                         controller: memoController,
                         maxLines: 3,
                         style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.never,
                             labelText: 'enter_content'.tr,
                             labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
@@ -293,7 +293,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: const Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                     ),
                   )
                 ],

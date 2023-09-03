@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
@@ -48,7 +47,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(top: 15),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('enter_hweight'.tr,
@@ -83,7 +82,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         });
                       },
                     ),
-                    (height==null) ? const Text('select_height'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
+                    (height==null) ? Text('select_height'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
                     Text('${height.toString()} cm',style: const TextStyle(color: Color(0xff512F22), fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
                   ],
                 ),
@@ -112,7 +111,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         });
                       },
                     ),
-                    (weight==null) ? const Text('select_weight'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
+                    (weight==null) ? Text('select_weight'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
                     Text('${weight.toString()} kg',style: const TextStyle(color: Color(0xff512F22), fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
                   ],
                 ),
@@ -145,7 +144,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                     child: AbsorbPointer(
                       child: TextFormField(
                         controller: ymdtController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             labelText: 'select_date'.tr,
                             labelStyle: TextStyle(color: Color(0x99512f22), fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                             suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffFB8665)),
