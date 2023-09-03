@@ -42,18 +42,12 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 25, top: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Container(
+              padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text('수유', style: TextStyle(fontSize: 35, color: Color(0xfff77b72), fontFamily: 'NanumSquareRound')),
-                  IconButton(
-                      onPressed: (){
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.close, color:Colors.grey)
-                  )
+                  Text('수유', style: TextStyle(fontSize: 32, color: Color(0xffFF7A7A), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -62,9 +56,9 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('수유 방향', style: TextStyle(fontSize: 17, color: Colors.black, fontFamily: 'NanumSquareRound')),
+                  const Text('수유 방향', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   Padding(
-                    padding: const EdgeInsets.only(top:10, bottom:10),
+                    padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
                       children: [
                         Expanded(
@@ -76,16 +70,17 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                               });
                             },
                             style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: isSelect ? const Color(0xfff77b72) : null,
+                              side: const BorderSide(color: Color(0x4d512F22)),
+                              foregroundColor: isSelect ? Colors.white : Colors.grey,
+                              backgroundColor: isSelect ? const Color(0xffFF7A7A) : null,
                             ),
                             child: const Padding(
-                                padding: EdgeInsets.all(5),
-                                child: Text('왼쪽',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'))
+                                padding: EdgeInsets.all(10),
+                                child: Text('왼쪽',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                             ),
                           ),
                         ),
-                        const SizedBox(width: 15,),
+                        const SizedBox(width: 15),
                         Expanded(
                             flex: 1,
                             child: OutlinedButton(
@@ -95,11 +90,13 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                                 });
                               },
                               style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: !isSelect ? const Color(0xfff77b72) : null,
+                                side: const BorderSide(color: Color(0x4d512F22)),
+                                foregroundColor: !isSelect ? Colors.white : Colors.grey,
+                                backgroundColor: !isSelect ? const Color(0xffFF7A7A) : null,
                               ),
-                              child: const Padding(padding:EdgeInsets.all(5), child:Text('오른쪽',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'))),
-
+                              child: const Padding(
+                                  padding:EdgeInsets.all(10),
+                                  child:Text('오른쪽',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
                         )
                       ],
@@ -165,14 +162,14 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                           controller: ymdtController,
                           decoration: const InputDecoration(
                               labelText: '수유 시간을 입력하세요',
-                              labelStyle: TextStyle(fontSize: 18, fontFamily: 'NanumSquareRound'),
-                              suffixIcon: Icon(Icons.add_alarm_sharp),
+                              labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                              suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffFF7A7A), size: 22),
                               filled: false, //색 지정
                               enabledBorder:OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(color: Color(0xfff77b72))
+                                  borderSide: BorderSide(color: Color(0x4d512F22))
                               ),
-                              contentPadding: EdgeInsets.all(10)
+                              contentPadding: EdgeInsets.all(12)
                           ),
                           onSaved: (val) {
                             yearMonthDayTime = ymdtController.text;
@@ -187,7 +184,9 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 22),
+                  const SizedBox(height: 15),
+                  const Text('메모', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 3),
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
@@ -196,21 +195,21 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                       width: double.infinity,
                       child: TextFormField(
                         controller: memoController,
-                        maxLines: 2,
-                        style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound'),
+                        maxLines: 4,
+                        style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
                         decoration: const InputDecoration(
-                            floatingLabelBehavior:FloatingLabelBehavior.always,
-                            labelText: '메모',
-                            labelStyle: TextStyle(fontSize: 30, color:Colors.black, fontFamily: 'NanumSquareRound'),
+                            floatingLabelBehavior:FloatingLabelBehavior.never,
+                            labelText: '내용을 입력해주세요.',
+                            labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: Color(0xfff77b72))
+                                borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: Color(0xfff77b72))
+                                borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
-                            contentPadding: EdgeInsets.all(12)
+                            contentPadding: EdgeInsets.only(left: 10, bottom: 20,)
                         ),
                         keyboardType: TextInputType.text,   //키보드 타입
                       ),
@@ -235,17 +234,14 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                         Navigator.pop(context);
                       },
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.all(10),
-                          foregroundColor: Colors.red,
-                          //backgroundColor: Color(0xffff9f98),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          ),
-                          side: const BorderSide(
-                            color: Colors.red,
-                          )
+                        backgroundColor: const Color(0xffFF7A7A),
+                        foregroundColor: const Color(0xe6ffffff),
+                        minimumSize: Size((MediaQuery.of(context).size.width)*0.9, 50),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30))
+                        ),
                       ),
-                      child: const Text('확인',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
+                      child: const Text('등 록',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                     ),
                   )
                 ],
