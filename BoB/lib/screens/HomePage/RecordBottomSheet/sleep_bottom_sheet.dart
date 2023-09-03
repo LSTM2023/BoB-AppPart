@@ -2,6 +2,8 @@ import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
+import 'package:get/get.dart';
 
 import '../../../services/backend.dart';
 
@@ -46,7 +48,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('수면', style: TextStyle(fontSize: 32, color: Color(0xff5086BC), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('life4'.tr, style: TextStyle(fontSize: 32, color: Color(0xff5086BC), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -115,7 +117,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                           child: TextFormField(
                             controller: ymdtController,
                             decoration: const InputDecoration(
-                                labelText: '수면 시간을 입력하세요',
+                                labelText: 'enter_sleep'.tr,
                                 labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                 suffixIcon: Icon(Icons.access_time_filled, color: Color(0xff5086BC), size: 22),
                                 filled: false, //색 지정
@@ -139,7 +141,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Text('메모', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                    const Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                     const SizedBox(height: 3),
                     GestureDetector(
                       onTap: () {
@@ -153,7 +155,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                           style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
                           decoration: const InputDecoration(
                               floatingLabelBehavior:FloatingLabelBehavior.never,
-                              labelText: '내용을 입력해주세요.',
+                              labelText: 'enter_content'.tr,
                               labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -194,7 +196,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                               borderRadius: BorderRadius.all(Radius.circular(30))
                           ),
                         ),
-                        child: const Text('등 록',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                        child: const Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                       ),
                     )
                   ],

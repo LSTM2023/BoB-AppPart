@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import '../../../services/backend.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
+import 'package:get/get.dart';
 
 class GrowthRecordBottomSheet extends StatefulWidget {
 
@@ -49,7 +51,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('키, 몸무게 입력',
+                  Text('enter_hweight'.tr,
                     style: TextStyle(
                       fontSize: 22,
                       color: Color(0xff512F22),
@@ -81,7 +83,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         });
                       },
                     ),
-                    (height==null) ? const Text('스크롤하여 키를 선택해 주세요',style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
+                    (height==null) ? const Text('select_height'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
                     Text('${height.toString()} cm',style: const TextStyle(color: Color(0xff512F22), fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
                   ],
                 ),
@@ -110,7 +112,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         });
                       },
                     ),
-                    (weight==null) ? const Text('스크롤하여 몸무게를 선택해 주세요',style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
+                    (weight==null) ? const Text('select_weight'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
                     Text('${weight.toString()} kg',style: const TextStyle(color: Color(0xff512F22), fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
                   ],
                 ),
@@ -129,9 +131,9 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       locale: DateTimePickerLocale.ko,
                       looping: true,
                       backgroundColor: const Color(0xffF9F8F8),
-                      titleText: '측정 날짜를 선택해주세요',
-                      cancelText: '취소',
-                      confirmText: '확인',
+                      titleText: 'select_date'.tr,
+                      cancelText: 'cancel'.tr,
+                      confirmText: 'confirm'.tr,
                       itemTextStyle: const TextStyle(color: Color(0xffFB8665), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                       textColor: const Color(0xff512F22),
                     );
@@ -144,7 +146,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       child: TextFormField(
                         controller: ymdtController,
                         decoration: const InputDecoration(
-                            labelText: '측정 날짜를 선택해주세요',
+                            labelText: 'select_date'.tr,
                             labelStyle: TextStyle(color: Color(0x99512f22), fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                             suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffFB8665)),
                             filled: false, //색 지정
@@ -200,7 +202,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         Navigator.pop(context);
                         print(result);
                       },
-                      child: Text('등 록',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                       style: OutlinedButton.styleFrom(
                         backgroundColor: const Color(0xffFB8665),
                           foregroundColor: const Color(0xe6ffffff),

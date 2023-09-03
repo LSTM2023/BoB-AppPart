@@ -2,6 +2,8 @@ import 'package:bob/widgets/pharse.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
+import 'package:get/get.dart';
 
 import '../../../services/backend.dart';
 
@@ -47,7 +49,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('수유', style: TextStyle(fontSize: 32, color: Color(0xffFF7A7A), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('feeding'.tr, style: TextStyle(fontSize: 32, color: Color(0xffFF7A7A), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -56,7 +58,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('수유 방향', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const Text('dir_feed'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
@@ -76,7 +78,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                             ),
                             child: const Padding(
                                 padding: EdgeInsets.all(10),
-                                child: Text('왼쪽',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                                child: Text('left'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                             ),
                           ),
                         ),
@@ -96,7 +98,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                               ),
                               child: const Padding(
                                   padding:EdgeInsets.all(10),
-                                  child:Text('오른쪽',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                                  child:Text('right'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
                         )
                       ],
@@ -161,7 +163,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                         child: TextFormField(
                           controller: ymdtController,
                           decoration: const InputDecoration(
-                              labelText: '수유 시간을 입력하세요',
+                              labelText: 'enter_feed'.tr,
                               labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                               suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffFF7A7A), size: 22),
                               filled: false, //색 지정
@@ -185,7 +187,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text('메모', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   const SizedBox(height: 3),
                   GestureDetector(
                     onTap: () {
@@ -199,7 +201,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                         style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
                         decoration: const InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.never,
-                            labelText: '내용을 입력해주세요.',
+                            labelText: 'enter_content'.tr,
                             labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -241,7 +243,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: const Text('등 록',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: const Text('register_record',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                     ),
                   )
                 ],
