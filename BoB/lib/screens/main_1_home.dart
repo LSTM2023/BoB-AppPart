@@ -658,7 +658,7 @@ class MainHomeState extends State<Main_Home> {
             // 2. dialog - 대/소변
             Get.dialog(
                 AlertDialog(
-                    backgroundColor: const Color(0xffedfce6),
+                    backgroundColor: const Color(0xffF4FFEC),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -666,20 +666,20 @@ class MainHomeState extends State<Main_Home> {
                             onPressed: () async {
                               var content = {"type": 0, "startTime": now, "endTime": now, "memo": null};
                               var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
-                              log(result);
+                              print(result);
                               Get.back();
                             },
-                            child: const Text('life3_0'.tr, style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound'))
+                            child: const Text('life3_0'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                         ),
-                        const Divider(thickness: 0.2, color: Colors.grey),
+                        const Divider(thickness: 0.3, color: Color(0xff512F22)),
                         TextButton(
                           onPressed: () async{
                             var content = {"type": 1, "startTime": now, "endTime": now, "memo": null};
                             var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
-                            log(result);
+                            print(result);
                             Get.back();
                           },
-                          child: const Text('life3_1'.tr,style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound')),
+                          child: const Text('life3_1'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ),
                       ],
                     )
@@ -760,8 +760,7 @@ class MainHomeState extends State<Main_Home> {
   showTimerBottomSheet(int type, DateTime startTime, DateTime endTime){
     if(type == 0){        // 모유
       Get.bottomSheet(
-          Container(
-              color: Colors.white,
+          SizedBox(
               child: FeedingStopwatchBottomSheet(
                   currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
           ),
@@ -770,8 +769,7 @@ class MainHomeState extends State<Main_Home> {
     }
     else if(type == 1) {    // 젖병
       Get.bottomSheet(
-          Container(
-              color: Colors.white,
+          SizedBox(
               child: FeedingBottleStopwatchBottomSheet(
                   currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
           ),
@@ -780,8 +778,7 @@ class MainHomeState extends State<Main_Home> {
     }
     else if(type == 2) {    // 이유식
       Get.bottomSheet(
-          Container(
-              color: Colors.white,
+          SizedBox(
               child: BabyFoodStopwatchBottomSheet(
                   currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
           ),
@@ -790,8 +787,7 @@ class MainHomeState extends State<Main_Home> {
     }
     else{                 // 수면
       Get.bottomSheet(
-          Container(
-            color: Colors.white,
+          SizedBox(
             child: SleepStopwatchBottomSheet(
                 currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord),
           ),

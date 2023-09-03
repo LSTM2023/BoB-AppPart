@@ -50,7 +50,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('젖병', style: TextStyle(fontSize: 32, color: Color(0xffffb1a2), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('젖병 수유', style: TextStyle(fontSize: 32, color: Color(0xffffb1a2), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
