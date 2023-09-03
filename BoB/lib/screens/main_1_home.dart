@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:bob/screens/HomePage/RecordBottomSheet/babyFood_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/diaper_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/feedingBottle_bottom_sheet.dart';
@@ -98,7 +100,6 @@ class MainHomeState extends State<Main_Home> {
 
   String nextVaccineDate = '';
 
-  late Future _medicalCheckUp;
   String nextMedicalCheckDate = '-';
   String nextVaccineCheckDate = '-';
 
@@ -110,9 +111,18 @@ class MainHomeState extends State<Main_Home> {
     currentBaby = widget.getCurrentBabyFunction();
     stopWatchWidget = StopWatch(currentBaby, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
 
-    _medicalCheckUp = loadMyBabyMedicalInfo();
+    loadMyBabyMedicalInfo();
+    loadLastLifeRecord();
   }
-
+  Future<void> loadLastLifeRecord() async{
+    List<dynamic> datas = await lifeGetService(currentBaby.relationInfo.BabyId);
+    List<DateTime> map = [DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now()];
+    for(int i=0; i<datas.length;i++){
+      var content = datas[i]['content'];
+      content = jsonDecode(content);
+      print(content['type']);
+    }
+  }
   Future<void> loadMyBabyMedicalInfo() async{
     myBabyvaccineList =  [
       Vaccine(ID: 0, title: '결핵 경피용', times: 'BCG 1회/기타', recommendationDate: '2023.01.20 ~ 2023.02.19', detail: '생후 4주 이내 접종, 민간의료기관, 유료'),
@@ -605,7 +615,7 @@ class MainHomeState extends State<Main_Home> {
                   setState(() {
                     widget.changeCurrentBabyFunction(i);
                     currentBaby = widget.getCurrentBabyFunction();
-                    _medicalCheckUp = loadMyBabyMedicalInfo();
+                    loadMyBabyMedicalInfo();
                   });
                   Navigator.pop(context);
                 },

@@ -1,9 +1,13 @@
 import 'package:bob/models/model.dart';
+import 'package:bob/models/validate.dart';
+import 'package:bob/services/backend.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/appbar.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import '../../widgets/form.dart';
 import 'package:multi_masked_formatter/multi_masked_formatter.dart';
+
+import '../../widgets/text.dart';
 
 class Login_findID extends StatefulWidget{
   const Login_findID({super.key});
@@ -86,20 +90,31 @@ class _Login_findID extends State<Login_findID>{
                 )
             ),
             ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  findID();
+                },
                 style:ElevatedButton.styleFrom(
                   elevation: 0.2,
                     padding: const EdgeInsets.all(20),
                     foregroundColor: Colors.white,
-                    backgroundColor: const Color(0xfffa625f),
+                    backgroundColor:  const Color.fromRGBO(251, 134, 101, 1),
                     minimumSize: const Size.fromHeight(55),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0))
                 ),
-                child: Text('아이디 찾기')
+                child: text('아이디 찾기', 'bold', 18, Colors.white)
             )
           ],
         ),
       )
     );
+  }
+  findID() async{
+    String phone = phoneController.text.trim();
+    String answer = answerController.text.trim();
+    if(!validatePhone(phone) || !validateQaAnswer(answer))
+      return;
+    print(phone);
+    var res = await findIDService(phone, answer);
+    print(res);
   }
 }

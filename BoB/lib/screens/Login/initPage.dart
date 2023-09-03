@@ -82,18 +82,10 @@ class _LoginInit extends State<LoginInit>{
                       makeText('계정을 잊으셨나요? ', Color(0xCC512F22), 12),
                       TextButton(
                           onPressed: (){
-                            Get.to(()=> FindLoginInfo(0));
+                            Get.to(()=> Login_findID());
                           },
                           style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
                           child: makeText('아이디 찾기 ', Color(0xfffb8665), 12)
-                      ),
-                      makeText('또는', Color(0xCC512F22), 12),
-                      TextButton(
-                          onPressed: (){
-                            Get.to(()=> FindLoginInfo(1));
-                          },
-                          style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
-                          child: makeText('비밀번호 찾기 ', Color(0xfffb8665), 12)
                       ),
                     ],
                   ),
@@ -120,7 +112,7 @@ class _LoginInit extends State<LoginInit>{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     socialLoginButton('naver'),
-                    SizedBox(width: 9.5),
+                    const SizedBox(width: 9.5),
                     socialLoginButton('google'),
                   ],
                 )
