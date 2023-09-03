@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bob/models/model.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
@@ -97,21 +98,24 @@ class MainCCTVState extends State<Main_Cctv>{
       return Scaffold(
         backgroundColor: const Color(0xFFFFFFFF),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 50),
-            RotatedBox(
-              quarterTurns: 1,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                child: ClipRRect(
-                  borderRadius : BorderRadius.circular(8.0),
-                  child: VlcPlayer(
-                    controller: _videoPlayerController,
-                    aspectRatio: 4 / 3,
-                    placeholder: const Center(child: CircularProgressIndicator()),
+            Expanded(
+                child: RotatedBox(
+                  quarterTurns: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    child: ClipRRect(
+                      borderRadius : BorderRadius.circular(8.0),
+                      child: VlcPlayer(
+                        controller: _videoPlayerController,
+                        aspectRatio: 4 / 3,
+                        placeholder: const Center(child: CircularProgressIndicator()),
+                      ),
+                    ),
                   ),
                 ),
-              ),
             ),
           ],
         ),
@@ -127,11 +131,11 @@ class MainCCTVState extends State<Main_Cctv>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('BoB '.tr, style: const TextStyle(color: Color(0xFFFB8665), fontSize: 24)),
-                      Text('HomeCam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 24)),
+                      Text('BoB '.tr, style: const TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
+                      Text('HomeCam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
                     ],
                   ),
-                  SizedBox(height: 18),
+                  const SizedBox(height: 18),
                   Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -140,9 +144,9 @@ class MainCCTVState extends State<Main_Cctv>{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Text("온도", style: TextStyle(fontSize: 18, color: Color(0xFF512F22))),
+                            textBase("온도", 'bold', 14),
                             SizedBox(height: 16),
-                            Text(temp['Temp']+'°C', style: const TextStyle(fontSize: 28, color: Color(0xFF512F22)))
+                            textBase(temp['Temp']+'°C', 'bold', 28),
                           ],
                         ),
                         SizedBox(width: 30),
@@ -152,7 +156,7 @@ class MainCCTVState extends State<Main_Cctv>{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Text("습도", style: TextStyle(fontSize: 18, color: Color(0xFF512F22))),
+                            const Text("습도", style: TextStyle(fontSize: 14, color: Color(0xFF512F22))),
                             SizedBox(height: 16),
                             Text(temp['Humid']+'%', style: const TextStyle(fontSize: 28, color: Color(0xFF512F22)))
                           ],
@@ -162,7 +166,7 @@ class MainCCTVState extends State<Main_Cctv>{
                             alignment: AlignmentDirectional.centerEnd,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                fixedSize: const Size(64, 64),
+                                fixedSize: const Size(60, 60),
                                 elevation: 6,
                                 backgroundColor: const Color(0xFFFB8665),
                                 shape: const CircleBorder(),
