@@ -194,7 +194,7 @@ class MainMyPageState extends State<MainMyPage>{
                       child: Row(
                         children: [
                           Text('${'birth'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                          Text('${baby.birth.year}년 ${baby.birth.month}월 ${baby.birth.day}일생', style: TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          Text('${baby.birth.year}${'year'.tr} ${baby.birth.month}${'month'.tr} ${baby.birth.day}${'day_birth'.tr}', style: TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ],
                       )
                   ),
@@ -204,7 +204,7 @@ class MainMyPageState extends State<MainMyPage>{
                       child: Row(
                         children: [
                           Text('${'gender'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                          Text(baby.gender==1?'남자':'여자', style: const TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          Text(baby.gender==1?'genderM'.tr:'genderF'.tr, style: const TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ],
                       )
                   )
@@ -232,17 +232,17 @@ class MainMyPageState extends State<MainMyPage>{
                   Get.dialog(
                       AlertDialog(
                         title: text('warning', 'extra-bold', 18, Color(0xffFB8665)),
-                        content: textBase('한 번 삭제한 내용은 복구가 불가능합니다.\n 정말로 삭제하시겠습니까?', 'bold', 14),
+                        content: textBase('once_delete'.tr, 'bold', 14),
                         actions: [
                           TextButton(
                               onPressed: ()=> deleteBaby(baby.relationInfo.BabyId),
-                              child: textBase('삭제', 'bold', 14)
+                              child: textBase('delete'.tr, 'bold', 14)
                           ),
                           TextButton(
                               onPressed: (){
                                 Get.back();
                               },
-                              child: textBase('취소', 'bold', 14)
+                              child: textBase('cancle'.tr, 'bold', 14)
                           )
                         ],
                       ),
@@ -398,7 +398,7 @@ class MainMyPageState extends State<MainMyPage>{
   deleteBaby(int targetBabyID) async {
      var re = await deleteBabyService(targetBabyID);
      if(re != 200){
-       Get.snackbar('warning', '삭제하지 못했습니다');
+       Get.snackbar('warning', 'not_deleted'.tr);
        return;
      }
      Get.back();

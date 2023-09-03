@@ -131,8 +131,8 @@ class MainCCTVState extends State<Main_Cctv>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('BoB '.tr, style: const TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
-                      Text('HomeCam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
+                      Text('BoB ', style: const TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
+                      Text('homecam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
                     ],
                   ),
                   const SizedBox(height: 18),
@@ -144,7 +144,7 @@ class MainCCTVState extends State<Main_Cctv>{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            textBase("온도", 'bold', 14),
+                            textBase('temp'.tr, 'bold', 14),
                             SizedBox(height: 16),
                             textBase(temp['Temp']+'°C', 'bold', 28),
                           ],
@@ -156,7 +156,7 @@ class MainCCTVState extends State<Main_Cctv>{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Text("습도", style: TextStyle(fontSize: 14, color: Color(0xFF512F22))),
+                            const Text('humid'.tr, style: TextStyle(fontSize: 14, color: Color(0xFF512F22))),
                             SizedBox(height: 16),
                             Text(temp['Humid']+'%', style: const TextStyle(fontSize: 28, color: Color(0xFF512F22)))
                           ],

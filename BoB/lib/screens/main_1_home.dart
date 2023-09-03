@@ -199,12 +199,12 @@ class MainHomeState extends State<Main_Home> {
       if((nextMedicalDate-50) < myBabyMedicalCheckList.length)
         nextMedicalCheckDate = myBabyMedicalCheckList[nextMedicalDate-50].title;
       else
-        nextMedicalCheckDate = '완료';
+        nextMedicalCheckDate = 'finish'.tr;
 
       if(nextVaccineDate < myBabyvaccineList.length)
         nextVaccineCheckDate = myBabyvaccineList[nextVaccineDate].title;
       else
-        nextVaccineCheckDate = '완료';
+        nextVaccineCheckDate = 'finish'.tr;
     });
   }
 
@@ -229,7 +229,7 @@ class MainHomeState extends State<Main_Home> {
                   // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
                   textBase('babyList', 'extra-bold', 22),
                   const SizedBox(height: 8),
-                  textBase('클릭하면 해당 아기를 관리할 수 있습니다.', 'bold', 13),
+                  textBase('babyListC'.tr, 'bold', 13),
                   const SizedBox(height: 29),
                   Expanded(
                     child: ListView(
@@ -238,7 +238,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation0'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('부모', 'extra-bold', 16),
+                              title: textBase('relation0'.tr, 'extra-bold', 16),
                               children: getDrawerDatas(0, context, const Color(0xfffa625f))
                           ),
                         ),
@@ -246,7 +246,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation1'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('가족', 'extra-bold', 16),
+                              title: textBase('relation1'.tr, 'extra-bold', 16),
                               children: getDrawerDatas(1, context, Colors.blueAccent)
                           ),
                         ),
@@ -254,7 +254,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation2'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('베이비시터', 'extra-bold', 16),
+                              title: textBase('relation2'.tr, 'extra-bold', 16),
                               children: getDrawerDatas(2, context, Colors.grey)
                           ),
                         ),
@@ -314,7 +314,7 @@ class MainHomeState extends State<Main_Home> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        textBase('생활 기록', 'bold', 16),
+                        textBase('life_record'.tr, 'bold', 16),
                         IconButton(
                             constraints: const BoxConstraints(),
                             padding: const EdgeInsets.only(right: 8),
@@ -343,7 +343,7 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('모유', style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            const Text('life0'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                             Text(_feeding, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
@@ -351,7 +351,7 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('젖병', style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            const Text('life1'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                             Text(_feedingBottle, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         ),)
@@ -363,7 +363,7 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('기저귀', style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            const Text('life3'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                             Text(_diaper, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
@@ -371,7 +371,7 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('수면', style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            const Text('life4'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                             Text(_sleep, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
@@ -415,7 +415,7 @@ class MainHomeState extends State<Main_Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // Text('grow_record'.tr,style: const TextStyle(fontSize: 22)),
-                                const Text('성장 기록',style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                const Text('grow_record'.tr,style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                 IconButton(
                                     constraints: const BoxConstraints(),
                                     padding: const EdgeInsets.only(right: 8),
@@ -440,15 +440,15 @@ class MainHomeState extends State<Main_Home> {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            const Text('2023.05.06 갱신', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
+                            const Text('2023.05.06 ${'new_update'.tr}', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
                             const SizedBox(height: 20),
                             const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('키', style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                Text('height'.tr, style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                 Center(child: Text('90cm', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
                                 SizedBox(height: 25),
-                                Text('몸무게', style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                Text('weight'.tr, style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                 Center(child: Text('10kg', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
                               ],
                             )
@@ -487,10 +487,10 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text('예방 접종', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        const Text('vaccination'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                         const SizedBox(height: 10),
                                         const Text(
-                                          '다음 예방 접종',
+                                          'next_vaccination'.tr,
                                           style: TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(height: 16),
@@ -525,10 +525,10 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text('건강 검진', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        const Text('medical_checkup'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                         const SizedBox(height: 10),
                                         const Text(
-                                          '다음 건강 검진',
+                                          'next_medical_checkup'.tr,
                                           style: TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(height: 16),
@@ -555,7 +555,7 @@ class MainHomeState extends State<Main_Home> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 3, 0, 1),
-                      child: Text('버튼을 길게 누르면 타이머가 작동합니다.',
+                      child: Text('timer_explanation'.tr,
                         style: TextStyle(fontSize: 12, color: Colors.grey[400], fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -570,11 +570,11 @@ class MainHomeState extends State<Main_Home> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    drawRecordButton(context, '모유', 'assets/icon/feeding_icon.svg', Colors.redAccent, const Color(0xffFFC8C8), 0),
-                    drawRecordButton(context, '젖병', 'assets/icon/feedingbottle_icon.svg', Colors.orange, const Color(0xffFFD9C8), 1),
-                    drawRecordButton(context, '이유식', 'assets/icon/babyfood_icon.svg', const Color(0xfffab300), const Color(0xffFFF0C8), 2),
-                    drawRecordButton(context, '기저귀', 'assets/icon/diaper_icon.svg', Colors.green, const Color(0xffE0FFC8), 3),
-                    drawRecordButton(context, '수면', 'assets/icon/sleep_icon.svg', Colors.blueAccent, const Color(0xffC8F7FF), 4)
+                    drawRecordButton(context, 'life0'.tr, 'assets/icon/feeding_icon.svg', Colors.redAccent, const Color(0xffFFC8C8), 0),
+                    drawRecordButton(context, 'life1'.tr, 'assets/icon/feedingbottle_icon.svg', Colors.orange, const Color(0xffFFD9C8), 1),
+                    drawRecordButton(context, 'life2'.tr, 'assets/icon/babyfood_icon.svg', const Color(0xfffab300), const Color(0xffFFF0C8), 2),
+                    drawRecordButton(context, 'life3'.tr, 'assets/icon/diaper_icon.svg', Colors.green, const Color(0xffE0FFC8), 3),
+                    drawRecordButton(context, 'life4'.tr, 'assets/icon/sleep_icon.svg', Colors.blueAccent, const Color(0xffC8F7FF), 4)
                   ],
                 ),
               ),
@@ -632,7 +632,7 @@ class MainHomeState extends State<Main_Home> {
                         textBase(b.name, 'extra-bold', 14),
                         Row(
                           children: [
-                            text(b.getGenderString()=='F' ? "여자" : "남자", 'bold', 12, Color(0x99512f22)),
+                            text(b.getGenderString()=='F' ? 'genderF'.tr : 'genderM'.tr, 'bold', 12, Color(0x99512f22)),
                             const SizedBox(width: 6),
                             textBase(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 12)
                           ],
@@ -669,7 +669,7 @@ class MainHomeState extends State<Main_Home> {
                               log(result);
                               Get.back();
                             },
-                            child: const Text('대변', style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound'))
+                            child: const Text('life3_0'.tr, style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound'))
                         ),
                         const Divider(thickness: 0.2, color: Colors.grey),
                         TextButton(
@@ -679,7 +679,7 @@ class MainHomeState extends State<Main_Home> {
                             log(result);
                             Get.back();
                           },
-                          child: const Text('소변',style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound')),
+                          child: const Text('life3_1'.tr,style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound')),
                         ),
                       ],
                     )
