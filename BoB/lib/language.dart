@@ -295,7 +295,7 @@ class Languages extends Translations{
       'select_weight' : 'Scroll to select weight',
       'select_date' : 'Select date to estimate',
       'type_feed' : 'Feeding type',
-      'powdered_milk' : 'powdered milk',
+      'powdered_milk' : 'dry milk',
       'enter_feed' : 'Enter timestamp',
       'amount_feed' : 'feeding amount(ml)',
       'feeding' : 'Feeding',

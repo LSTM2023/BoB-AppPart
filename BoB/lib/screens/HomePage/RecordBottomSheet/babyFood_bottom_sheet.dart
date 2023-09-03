@@ -43,7 +43,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.45,
+        height: MediaQuery.of(context).size.height * 0.52,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
