@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "381609365581",
+    "firebase_url": "https://lstm-bob-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "lstm-bob",
+    "storage_bucket": "lstm-bob.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381609365581:android:2b0491819ea0684f578c04",
+        "android_client_info": {
+          "package_name": "com.example.bob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "381609365581-m512ep51nqa0gu0th8vhaip5k89dn2fi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrarYFcAeZiLJ4fj8s7kkuhbe34DgACxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "381609365581-m512ep51nqa0gu0th8vhaip5k89dn2fi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "381609365581-k470n89j4fvjsaa4frpti284l4bfq6tv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bob"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
