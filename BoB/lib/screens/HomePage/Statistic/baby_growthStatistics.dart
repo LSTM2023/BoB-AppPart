@@ -82,7 +82,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
         backgroundColor: const Color(0xffffc8c7),
         elevation: 0.0,
         iconTheme : const IconThemeData(color: Colors.black),
-        title: const Text('성장 통계', style: TextStyle(color: Colors.black,fontSize: 20, fontFamily: 'NanumSquareRound')),
+        title: const Text('graph_growth'.tr, style: TextStyle(color: Colors.black,fontSize: 20, fontFamily: 'NanumSquareRound')),
       ),
       body: Column(
         children: [
@@ -93,12 +93,12 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: const Text('키', style: TextStyle(fontFamily: 'NanumSquareRound'))
+                    child: const Text('height'.tr, style: TextStyle(fontFamily: 'NanumSquareRound'))
                 ),
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: const Text('몸무게', style: TextStyle(fontFamily: 'NanumSquareRound'))
+                    child: const Text('weight'.tr, style: TextStyle(fontFamily: 'NanumSquareRound'))
                 )
               ],
               labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'),
@@ -192,7 +192,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text('"${widget.baby.name}"의 성장 기록', style: TextStyle(fontSize: 30, color: Colors.grey[700], fontFamily: 'NanumSquareRound'),),
+          Text('${widget.baby.name}${'\s growth record'.tr}', style: TextStyle(fontSize: 30, color: Colors.grey[700], fontFamily: 'NanumSquareRound'),),
           const SizedBox(height: 20),
           FutureBuilder(
             future: getGrowthFuture,
@@ -287,8 +287,8 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                   backgroundColor: const Color(0xfff9f8f8),
                   label: const Column(
                     children: [
-                      Text("표준 성장", style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
-                      Text("도표 확인", style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))
+                      Text("standard_growth".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
+                      Text("check_diagram".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))
                     ],
                   ),
                   onPressed: () {
@@ -310,7 +310,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
       child: Container(
         child: Column(
           children: [
-            Text('"${widget.baby.name}"의 몸무게 기록', style: TextStyle(fontSize: 30, color: Colors.grey[700], fontFamily: 'NanumSquareRound')),
+            Text('"${widget.baby.name}"${'\'s weight record'.tr}', style: TextStyle(fontSize: 30, color: Colors.grey[700], fontFamily: 'NanumSquareRound')),
             const SizedBox(height: 20),
             FutureBuilder(
               future: getGrowthFuture,
@@ -406,8 +406,8 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                     backgroundColor: const Color(0xfff9f8f8),
                     label: const Column(
                       children: [
-                        Text("표준 성장", style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
-                        Text("도표 확인", style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))
+                        Text("standard_growth".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
+                        Text("check_diagram".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))
                       ],
                     ),
                     onPressed: () {

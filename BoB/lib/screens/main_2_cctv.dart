@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:bob/models/model.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
@@ -156,7 +155,7 @@ class MainCCTVState extends State<Main_Cctv>{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Text('humid'.tr, style: TextStyle(fontSize: 14, color: Color(0xFF512F22))),
+                            Text('humid'.tr, style: TextStyle(fontSize: 14, color: Color(0xFF512F22))),
                             SizedBox(height: 16),
                             Text(temp['Humid']+'%', style: const TextStyle(fontSize: 28, color: Color(0xFF512F22)))
                           ],

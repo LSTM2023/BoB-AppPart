@@ -72,13 +72,13 @@ class _BabyVaccination extends State<BabyVaccination> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: homeAppbar('예방 접종'),
+        appBar: homeAppbar('vaccination'.tr),
         body: Container(
           color: Colors.white,
           padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
           child: Column(
             children: [
-              getErrorPharse('만 12세까지 접종'),
+              getErrorPharse('vaccine_age'.tr),
               Padding(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                   child: Row(
@@ -124,7 +124,7 @@ class _BabyVaccination extends State<BabyVaccination> {
                   }
               ),
               const SizedBox(height: 5),
-              getErrorPharse('기준 : 질병관리청 표준 예방접종 일정표'),
+              getErrorPharse('temperature_vac'.tr),
             ],
           ),
         )

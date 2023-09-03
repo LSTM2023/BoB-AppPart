@@ -1,5 +1,4 @@
-import 'dart:math';
-import 'package:bob/models/model.dart';
+
 import 'package:bob/screens/HomePage/RecordBottomSheet/babyFood_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/diaper_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/feedingBottle_bottom_sheet.dart';
@@ -16,14 +15,17 @@ import 'package:bob/screens/HomePage/baby_medicalCheckup.dart';
 import 'package:bob/screens/HomePage/baby_vaccination.dart';
 import 'package:bob/widgets/pharse.dart';
 import 'package:bob/widgets/text.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'dart:math';
+import 'package:bob/models/model.dart';
+//import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../models/medicalList.dart';
 import '../services/backend.dart';
-import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
+import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
 class Main_Home extends StatefulWidget {
   final User userinfo;
@@ -343,7 +345,7 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('life0'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text('life0'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                             Text(_feeding, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
@@ -351,7 +353,7 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('life1'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text('life1'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                             Text(_feedingBottle, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         ),)
@@ -363,7 +365,7 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('life3'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text('life3'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                             Text(_diaper, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
@@ -371,7 +373,7 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('life4'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text('life4'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                             Text(_sleep, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
@@ -415,7 +417,7 @@ class MainHomeState extends State<Main_Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // Text('grow_record'.tr,style: const TextStyle(fontSize: 22)),
-                                const Text('grow_record'.tr,style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                Text('grow_record'.tr,style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                 IconButton(
                                     constraints: const BoxConstraints(),
                                     padding: const EdgeInsets.only(right: 8),
@@ -440,9 +442,9 @@ class MainHomeState extends State<Main_Home> {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            const Text('2023.05.06 ${'new_update'.tr}', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
+                            Text('2023.05.06 ${'new_update'.tr}', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
                             const SizedBox(height: 20),
-                            const Column(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('height'.tr, style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
@@ -487,9 +489,9 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text('vaccination'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        Text('vaccination'.tr, style: TextStyle(fontSize: 14, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                         const SizedBox(height: 10),
-                                        const Text(
+                                        Text(
                                           'next_vaccination'.tr,
                                           style: TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                         ),
@@ -525,9 +527,9 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text('medical_checkup'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        Text('medical_checkup'.tr, style: TextStyle(fontSize: 14, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                         const SizedBox(height: 10),
-                                        const Text(
+                                        Text(
                                           'next_medical_checkup'.tr,
                                           style: TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                         ),
@@ -669,7 +671,7 @@ class MainHomeState extends State<Main_Home> {
                               print(result);
                               Get.back();
                             },
-                            child: const Text('life3_0'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                            child: Text('life3_0'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                         ),
                         const Divider(thickness: 0.3, color: Color(0xff512F22)),
                         TextButton(
@@ -679,7 +681,7 @@ class MainHomeState extends State<Main_Home> {
                             print(result);
                             Get.back();
                           },
-                          child: const Text('life3_1'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          child: Text('life3_1'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ),
                       ],
                     )
