@@ -88,13 +88,6 @@ class MainHomeState extends State<Main_Home> {
     });
   }
 
-  // List<Color> timerBackgroundColors= [const Color(0xffFFC8C8),const Color(0xfffae2be),const Color(0xfffff7d4), const Color(0xffedfce6), const Color(0xffe6eafc)];
-  List<Color> timerBackgroundColors1= [const Color(0xffFFEFEF), const Color(0xffFFC8C8)];
-  List<Color> timerBackgroundColors2= [const Color(0xffFFF2EC), const Color(0xffFFD9C8)];
-  List<Color> timerBackgroundColors3= [const Color(0xfffffAEC), const Color(0xffFFF0C8)];
-  List<Color> timerBackgroundColors4= [const Color(0xffF4FFEC), const Color(0xffE0FFC8)];
-  List<Color> timerBackgroundColors5= [const Color(0xffF1FDFF), const Color(0xffC8F7FF)];
-
   Color timerBackgroundColor = Colors.black;
 
   int timerType = 0;
@@ -592,25 +585,7 @@ class MainHomeState extends State<Main_Home> {
             ),
             Offstage(
                 offstage: timerClosed,
-                child: Container(
-                    height: 60,
-                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: timerBackgroundColors1
-                        ),
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
-                            blurRadius: 10,
-                          )
-                        ]
-                    ),
-                    child: stopWatchWidget
-                )
+                child: stopWatchWidget
             ),
             //타이머 구현
           ],
