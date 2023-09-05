@@ -47,10 +47,10 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('수면', style: TextStyle(fontSize: 32, color: Color(0xff5086BC), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('life4'.tr, style: const TextStyle(fontSize: 32, color: Color(0xff5086BC), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -61,13 +61,13 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                 children: [
                   Row(
                     children: [
-                      const Text('수면 시간 :', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      Text('sleeping_time'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                       const SizedBox(width: 5),
                       Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}',style: const TextStyle(color: Color(0xff512F22), fontSize: 21, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                     ],
                   ),
                   const SizedBox(height: 15),
-                  const Text('메모', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('memo'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   const SizedBox(height: 5),
                   SizedBox(
                     width: double.infinity,
@@ -75,15 +75,15 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                       controller: memoController,
                       maxLines: 4,
                       style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                           floatingLabelBehavior:FloatingLabelBehavior.never,
-                          labelText: '내용을 입력해주세요.',
-                          labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                          enabledBorder: OutlineInputBorder(
+                          labelText: 'enter_content'.tr,
+                          labelStyle: const TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                          enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(color: Color(0x4d512F22))
                           ),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(color: Color(0x4d512F22))
                           ),
@@ -114,7 +114,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: const Text('등 록',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: Text('registration'.tr,style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                     ),
                   )
                 ],

@@ -74,15 +74,15 @@ class StopwatchState extends State<StopWatch> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           if(timerType==0)
-            drawRecordButton('모유', 'assets/icon/feeding_icon.svg', const Color(0xffff7a7a), const Color(0xb3ffffff), 0),
+            drawRecordButton('life0'.tr, 'assets/icon/feeding_icon.svg', const Color(0xffff7a7a), const Color(0xb3ffffff), 0),
           if(timerType==1)
-            drawRecordButton('젖병', 'assets/icon/feedingbottle_icon.svg', const Color(0xffFF7464), const Color(0xb3FFFFFF), 1),
+            drawRecordButton('life1'.tr, 'assets/icon/feedingbottle_icon.svg', const Color(0xffFF7464), const Color(0xb3FFFFFF), 1),
           if(timerType==2)
-            drawRecordButton('이유식', 'assets/icon/babyfood_icon.svg', const Color(0xffFF9B58), const Color(0xb3ffffff), 2),
+            drawRecordButton('life2'.tr, 'assets/icon/babyfood_icon.svg', const Color(0xffFF9B58), const Color(0xb3ffffff), 2),
           // if(timerType==3)
-          //   drawRecordButton('기저귀', 'assets/icon/diaper_icon.svg', Colors.green, const Color(0xffE0FFC8), 3),
+          //   drawRecordButton('lief3'.tr', 'assets/icon/diaper_icon.svg', Colors.green, const Color(0xffE0FFC8), 3),
           if(timerType==4)
-            drawRecordButton('수면', 'assets/icon/sleep_icon.svg', const Color(0xff5086BC), const Color(0xb3ffffff), 4),
+            drawRecordButton('life4'.tr, 'assets/icon/sleep_icon.svg', const Color(0xff5086BC), const Color(0xb3ffffff), 4),
           Container(
             margin: const EdgeInsets.only(left: 10),
             child: StreamBuilder<int>(

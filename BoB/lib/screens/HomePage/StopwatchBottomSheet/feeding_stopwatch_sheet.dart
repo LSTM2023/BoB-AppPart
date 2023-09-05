@@ -48,10 +48,10 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('수유', style: TextStyle(fontSize: 32, color: Color(0xffFF7A7A), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('life0'.tr, style: const TextStyle(fontSize: 32, color: Color(0xffFF7A7A), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -62,13 +62,13 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                 children: [
                   Row(
                     children: [
-                      const Text('수유 시간 :', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      Text('feeding_time'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                       const SizedBox(width: 5),
                       Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: const TextStyle(color: Color(0xff512F22), fontSize: 21, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                     ],
                   ),
                   const SizedBox(height: 15),
-                  const Text('수유 방향', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('dir_feed'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
@@ -86,9 +86,9 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                               foregroundColor: isSelect ? Colors.white : Colors.grey,
                               backgroundColor: isSelect ? const Color(0xffFF7A7A) : null,
                             ),
-                            child: const Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text('왼쪽',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                            child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Text('left'.tr,style: const TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                             ),
                           ),
                         ),
@@ -106,14 +106,14 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                                 foregroundColor: !isSelect ? Colors.white : Colors.grey,
                                 backgroundColor: !isSelect ? const Color(0xffFF7A7A) : null,
                               ),
-                              child: const Padding(padding:EdgeInsets.all(10), child:Text('오른쪽',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                              child: Padding(padding: const EdgeInsets.all(10), child:Text('right'.tr,style: const TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
                         )
                       ],
                     ),
                   ),
                   const SizedBox(height: 3),
-                  const Text('메모', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  Text('memo'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   const SizedBox(height: 5),
                   SizedBox(
                       width: double.infinity,
@@ -121,19 +121,19 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                         controller: memoController,
                         maxLines: 3,
                         style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.never,
-                            labelText: '내용을 입력해주세요.',
-                            labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                            enabledBorder: OutlineInputBorder(
+                            labelText: 'enter_content'.tr,
+                            labelStyle: const TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                            enabledBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
-                            contentPadding: EdgeInsets.only(left: 10, bottom: 20,)
+                            contentPadding: const EdgeInsets.only(left: 10, bottom: 20,)
                         ),
                         keyboardType: TextInputType.text,   //키보드 타입
                       ),
@@ -159,7 +159,7 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: const Text('등 록',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: Text('registration'.tr,style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                     ),
                   )
                 ],

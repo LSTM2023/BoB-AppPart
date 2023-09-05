@@ -100,8 +100,8 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                                 backgroundColor: !isSelect ? const Color(0xffffb1a2) : null,
                               ),
                               child: Padding(
-                                  padding:EdgeInsets.all(10),
-                                  child:Text('powdered_milk'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                                  padding: const EdgeInsets.all(10),
+                                  child:Text('powdered_milk'.tr ,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
                         )
                       ],

@@ -239,7 +239,7 @@ class MainHomeState extends State<Main_Home> {
                   const SizedBox(height: 40),
                   // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
                   // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
-                  textBase('babyList', 'extra-bold', 22),
+                  textBase('babyList'.tr, 'extra-bold', 22),
                   const SizedBox(height: 8),
                   textBase('babyListC'.tr, 'bold', 13),
                   const SizedBox(height: 29),

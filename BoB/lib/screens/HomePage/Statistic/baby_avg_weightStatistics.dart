@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:get/get.dart';
 
 class BabyAvgWeightStatistics extends StatefulWidget {
   const BabyAvgWeightStatistics({Key? key}) : super(key: key);
@@ -18,37 +19,35 @@ class _BabyAvgWeightStatisticsState extends State<BabyAvgWeightStatistics> {
         contentPadding: EdgeInsets.only(top: 15,right: 5),
         backgroundColor: const Color(0xffF9F8F8),
         //default 패딩값을 없앨 수 있다.
-        content: Container(
-          child: SizedBox(
-            width: 400,
-            height: 650,
-            child: Column(
-              children: [
-                Text('유아 0~72개월 몸무게 백분위 수', style: TextStyle(fontSize: 17, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
-                const SizedBox(height: 20),
-                Container(
-                  height: 550,
-                  width: 330,
-                  child: LineChart(
-                      Data1
-                  ),
+        content: SizedBox(
+          width: 400,
+          height: 650,
+          child: Column(
+            children: [
+              Text('Infant 0~72 months weight percentile'.tr, style: const TextStyle(fontSize: 17, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 550,
+                width: 330,
+                child: LineChart(
+                    Data1
                 ),
-                Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Column(
-                        children: [
-                          Text("남아 ---", style: TextStyle(color: Colors.blue),),
-                          Text("여아 ---", style: TextStyle(color: Colors.red),),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Column(
+                      children: [
+                        Text('male'.tr, style: const TextStyle(color: Colors.blue),),
+                        Text('female'.tr, style: const TextStyle(color: Colors.red),),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         )
     );
