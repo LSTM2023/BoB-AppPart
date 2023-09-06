@@ -30,11 +30,11 @@
 | 팀원                                          | 역할                                     |
 |:--------------------------------------------| :--------------------------------------- |
 | 😆 [노승하(PM)](https://github.com/seungha164) | 애플리케이션 개발 with Flutter |
-| 😎 [김정효](https://github.com/jjanghyo)       | 애플리케이션 개발 with Flutter |
+| :wink: [김정효](https://github.com/jjanghyo)       | 애플리케이션 개발 with Flutter |
 | 😊 [홍찬의](https://github.com/hcu55)          | 애플리케이션 개발 with Flutter |
-| 😊 [임원빈](https://github.com/Mmm2927)        | Backend (Django frameworks, postgresql, Azure, CI/CD) |
-| 😎 [피선우](https://github.com/SunWoo98Pi)     | Pose Estimation(Pytorch), Raspberry Pi      |
-| 😎 민동현          | UI 디자이너 및 영상 제작자 |
+| 😎 [임원빈](https://github.com/Mmm2927)        | Backend (Django frameworks, postgresql, Azure, CI/CD) |
+| :grin: [피선우](https://github.com/SunWoo98Pi)     | Pose Estimation(Pytorch), Raspberry Pi      |
+| :smile: 민동현          | UI 디자이너 및 영상 제작자 |
 
 ---
 ## 🚀 Stacks
