@@ -37,7 +37,18 @@
 | 😊 [홍찬의](https://github.com/hcu55)          | 애플리케이션 개발 with Flutter |
 
 ---
-## 🚀 Technology
-![스킬](https://github.com/Mmm2927/LSTM/assets/75023467/79b17aa1-a06d-4eae-8bd2-226c2c6d8a6d)
+## 🚀 Stacks
+### Infra
+<img src="https://img.shields.io/badge/Raspberry Pi-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white"><img src="https://img.shields.io/badge/Microsoft Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white"><img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white"><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+
+### Database
+<img src="https://img.shields.io/badge/postgresql-4169E1?style=for-the-badge&logo=postgresql&logoColor=white">
+
+### Frameworks
+<img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white"><img src="https://img.shields.io/badge/flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white">
+
+### AI/DL
+<img src="https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white"><img src="https://img.shields.io/badge/yolo-00FFFF?style=for-the-badge&logo=yolo&logoColor=white">
+
 ## 📀 System Structure
 ![시스템 구조도](https://github.com/Mmm2927/LSTM/assets/75023467/a58b6387-e052-4d64-8553-97ff99dde03f)
