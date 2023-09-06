@@ -103,6 +103,9 @@ class MainHomeState extends State<Main_Home> {
   String nextMedicalCheckDate = '-';
   String nextVaccineCheckDate = '-';
 
+  late Future getGrowthRecord;
+  late List<dynamic> getGrowthRecordList = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -110,19 +113,30 @@ class MainHomeState extends State<Main_Home> {
     activeBabies = widget.getBabiesFunction(true);
     currentBaby = widget.getCurrentBabyFunction();
     stopWatchWidget = StopWatch(currentBaby, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
+    getGrowthRecord = getMyGrowthInfo();
 
     loadMyBabyMedicalInfo();
     loadLastLifeRecord();
   }
+
+  Future getMyGrowthInfo() async{
+    List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
+    getGrowthRecordList = growthRecordList;
+
+    // print(getGrowthRecordList);
+    return getGrowthRecordList;
+  }
+
   Future<void> loadLastLifeRecord() async{
     List<dynamic> datas = await lifeGetService(currentBaby.relationInfo.BabyId);
     List<DateTime> map = [DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now()];
     for(int i=0; i<datas.length;i++){
       var content = datas[i]['content'];
-      content = jsonDecode(content);
-      print(content['type']);
+      // content = jsonDecode(content);
+      // print(content['type']);
     }
   }
+
   Future<void> loadMyBabyMedicalInfo() async{
     myBabyvaccineList =  [
       Vaccine(ID: 0, title: '결핵 경피용', times: 'BCG 1회/기타', recommendationDate: '2023.01.20 ~ 2023.02.19', detail: '생후 4주 이내 접종, 민간의료기관, 유료'),
@@ -404,7 +418,7 @@ class MainHomeState extends State<Main_Home> {
                       onTap: () async{
                         List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
                         if(growthRecordList.isEmpty){
-                          Get.snackbar('데이터 오류', '먼저 키, 몸무게를 입력해 주세요', backgroundColor: const Color(0xa3ffffff),snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 3));
+                          Get.snackbar('데이터 오류', '먼저 키, 몸무게를 입력해 주세요', backgroundColor: const Color(0xa3ffffff),snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
                           showModalBottomSheet(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
@@ -420,8 +434,8 @@ class MainHomeState extends State<Main_Home> {
                               }
                           );
                         }else {
-                          Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList)
-                          );
+                          Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList));
+                          await getMyGrowthInfo();
                         }
                       },
                       child: Container(
@@ -471,17 +485,26 @@ class MainHomeState extends State<Main_Home> {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            Text('2023.05.06 ${'new_update'.tr}', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
+                            if(getGrowthRecordList.isEmpty)
+                              Text('first_growth_record'.tr, style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
+                            if(getGrowthRecordList.isNotEmpty)
+                              Text('${getGrowthRecordList.last['date'].toString()} ${'new_update'.tr}', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
                             const SizedBox(height: 20),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('height'.tr, style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                                Center(child: Text('90cm', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
-                                SizedBox(height: 25),
+                                if(getGrowthRecordList.isEmpty)
+                                  Center(child: Text('0cm', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                if(getGrowthRecordList.isNotEmpty)
+                                  Center(child: Text('${getGrowthRecordList.last['height'].toString()}cm', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                  SizedBox(height: 25),
                                 Text('weight'.tr, style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                                Center(child: Text('10kg', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
-                              ],
+                                if(getGrowthRecordList.isEmpty)
+                                  Center(child: Text('0kg', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                if(getGrowthRecordList.isNotEmpty)
+                                  Center(child: Text('${getGrowthRecordList.last['weight'].toString()}kg', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                 ],
                             )
                           ],
                         ),
@@ -518,15 +541,15 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('vaccination'.tr, style: TextStyle(fontSize: 14, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        Text('vaccination'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                         const SizedBox(height: 10),
                                         Text(
                                           'next_vaccination'.tr,
-                                          style: TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                                          style: const TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(height: 16),
                                         Center(
-                                            child: text(nextVaccineCheckDate, 'extra-bold', 17, const Color(0xccfb8665))
+                                            child: text(nextVaccineCheckDate, 'extra-bold', 14, const Color(0xccfb8665))
                                         )
                                       ]
                                   ),
@@ -556,15 +579,15 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('medical_checkup'.tr, style: TextStyle(fontSize: 14, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        Text('medical_checkup'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                         const SizedBox(height: 10),
                                         Text(
                                           'next_medical_checkup'.tr,
-                                          style: TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                                          style: const TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(height: 16),
                                         Center(
-                                          child: text(nextMedicalCheckDate, 'extra-bold', 17, const Color(0xccfb8665)
+                                          child: text(nextMedicalCheckDate, 'extra-bold', 14, const Color(0xccfb8665)
                                           )
                                         )
                                       ]
@@ -635,6 +658,7 @@ class MainHomeState extends State<Main_Home> {
                     widget.changeCurrentBabyFunction(i);
                     currentBaby = widget.getCurrentBabyFunction();
                     loadMyBabyMedicalInfo();
+                    getMyGrowthInfo();
                   });
                   Navigator.pop(context);
                 },
@@ -663,7 +687,7 @@ class MainHomeState extends State<Main_Home> {
                         textBase(b.name, 'extra-bold', 14),
                         Row(
                           children: [
-                            text(b.getGenderString()=='F' ? 'genderF'.tr : 'genderM'.tr, 'bold', 12, Color(0x99512f22)),
+                            text(b.getGenderString()=='F' ? 'genderF'.tr : 'genderM'.tr, 'bold', 12, const Color(0x99512f22)),
                             const SizedBox(width: 6),
                             textBase(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 12)
                           ],
@@ -700,7 +724,7 @@ class MainHomeState extends State<Main_Home> {
                               print(result);
                               Get.back();
                             },
-                            child: Text('life3_0'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                            child: Text('life3_0'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                         ),
                         const Divider(thickness: 0.3, color: Color(0xff512F22)),
                         TextButton(
@@ -710,7 +734,7 @@ class MainHomeState extends State<Main_Home> {
                             print(result);
                             Get.back();
                           },
-                          child: Text('life3_1'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          child: Text('life3_1'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ),
                       ],
                     )

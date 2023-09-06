@@ -43,7 +43,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.6,
+        height: MediaQuery.of(context).size.height * 0.56,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

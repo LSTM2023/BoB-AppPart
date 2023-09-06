@@ -136,7 +136,7 @@ class _BabyVaccination extends State<BabyVaccination> {
           builder: (BuildContext Mcontext, StateSetter setState){
             return AlertDialog(
               content: SizedBox(
-                height: 300,
+                height: 320,
                 child: Column(
                   children: [
                     Row(
@@ -185,9 +185,9 @@ class _BabyVaccination extends State<BabyVaccination> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset('assets/image/injection.png',scale: 15,color: Color(0xfffa625f)),
+                                      Image.asset('assets/image/injection.png',scale: 15,color: Color(0xfffb8665)),
                                       const SizedBox(height: 5,),
-                                      const Text('접종', style: TextStyle(color: Color(0xfffa625f)))
+                                      const Text('접종', style: TextStyle(color: Color(0xfffb8665)))
                                     ],
                                   )
                               )
@@ -202,7 +202,7 @@ class _BabyVaccination extends State<BabyVaccination> {
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.all(10),
                             elevation: 0.5,
-                            backgroundColor: const Color(0xfffa625f),
+                            backgroundColor: const Color(0xfffb8665),
                           ),
                           onPressed: (){
                             if(isSelected[1]){
