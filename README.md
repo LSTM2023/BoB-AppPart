@@ -5,8 +5,7 @@
 
 > 시연 영상: Coming Soon! <br>
 
-
-<img width="232" alt="image" src="https://github.com/LSTM2023/BoB-AppPart/assets/87134427/c8414717-6fb0-4943-a3cb-3fe69925a87b">
+<img width="232" alt="image" src="https://github.com/LSTM2023/BoB-AppPart/assets/87134427/8538e986-f09b-44af-b44a-16a57ada4127">
 
 ## 개발 배경
 
