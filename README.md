@@ -12,7 +12,7 @@
 1. 육아 기록 및 건강 관리가 가능한 스마트 육아 수첩의 필요성
 2. 수면 중 갑작스럽게 사망하는 영아 돌연사 증후군 예방
 
-  &Rightarrow; 생활 기록 및 홈캠을 이용한 수면 자세 판별 기능을 제공하여 부모들의 육아 스트레스를 줄여주는 통합 육아 수첩 애플리케이션을 개발하고자 함
+  &Rightarrow; &nbsp; 생활 기록 및 홈캠을 이용한 수면 자세 판별 기능을 제공하여 부모들의 육아 스트레스를 줄여주는 통합 육아 수첩 애플리케이션을 개발하고자 함
 
 ## 주요 기능
 
@@ -29,19 +29,19 @@
 
 | 팀원                                          | 역할                                     |
 |:--------------------------------------------| :--------------------------------------- |
-| 😆 [노승하(PM)](https://github.com/seungha164) | 애플리케이션 개발 with Flutter |
-| :wink: [김정효](https://github.com/jjanghyo)       | 애플리케이션 개발 with Flutter |
-| 😊 [홍찬의](https://github.com/hcu55)          | 애플리케이션 개발 with Flutter |
-| 😎 [임원빈](https://github.com/Mmm2927)        | Backend (Django frameworks, postgresql, Azure, CI/CD) |
-| :grin: [피선우](https://github.com/SunWoo98Pi)     | Pose Estimation(Pytorch), Raspberry Pi      |
-| :smile: 민동현          | UI 디자이너 및 영상 제작자 |
+| 😆 [노승하(PM)](https://github.com/seungha164) | Frontend App (with Flutter) |
+| :wink: [김정효](https://github.com/jjanghyo)       | Frontend App (with Flutter) |
+| 😊 [홍찬의](https://github.com/hcu55)          | Frontend App (with Flutter) |
+| 😎 [임원빈](https://github.com/Mmm2927)        | Backend (with Django, PostgreSQL, Azure, CI/CD) |
+| :grin: [피선우](https://github.com/SunWoo98Pi)     | AI/DL Pose Estimation (with Ultralytics) & Raspberry Pi |
+| :smile: 민동현          | UI Design & Video Production |
 
 ---
 ## 🚀 Stacks
 ### Infra
 <img src="https://img.shields.io/badge/Raspberry Pi-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white"><img src="https://img.shields.io/badge/Microsoft Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white"><img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white"><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 
-### Database
+### Database(DB)
 <img src="https://img.shields.io/badge/postgresql-4169E1?style=for-the-badge&logo=postgresql&logoColor=white">
 
 ### Frameworks
@@ -51,12 +51,14 @@
 <img src="https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white"><img src="https://img.shields.io/badge/yolo-00FFFF?style=for-the-badge&logo=yolo&logoColor=white">
 
 ## 📀 System Structure
-![시스템 구조도](https://github.com/Mmm2927/LSTM/assets/75023467/a58b6387-e052-4d64-8553-97ff99dde03f)
+![슬라이드2](https://github.com/LSTM2023/BoB-AppPart/assets/99634832/436011b2-dc78-4f4c-a188-738c22bbab09)
+
+
 
 ## :link: Library Licenses
+- V4L2rtspserver : for Home CAM Streaming using RTSP Protocol
+  - https://github.com/mpromonet/v4l2rtspserver
 - Ultralytics : for Deep Learning Pose Estimation
   - https://github.com/ultralytics/ultralytics
-- V4L2rtspserver : for Home CAM Streaming using rtsp protocol
-  - https://github.com/mpromonet/v4l2rtspserver
 - SyRIP : for Fine-Tuning YOLOv8 Pose Estimation Model
   - https://github.com/ostadabbas/Infant-Pose-Estimation
