@@ -9,6 +9,7 @@ import '../BaseWidget.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:bob/widgets/form.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
 class InvitationBottomSheet extends StatefulWidget{
   final List<Baby> babies;
@@ -62,7 +63,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 50),
-              textBase('초대할 ID', 'bold', 14),
+              textBase('invitation2_id'.tr, 'bold', 14),
               const SizedBox(height: 10),
               SizedBox(
                 height: 50,
@@ -72,7 +73,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                         child : TextFormField(
                           controller: idClr,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: formDecoration('아이디를 입력해주세요'),
+                          decoration: formDecoration('invitation2_idDeco'.tr),
                           enabled: targetID.isEmpty,
                         ),
                       ),
@@ -85,9 +86,9 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                 children: [
                   SizedBox(
                     width: 143,
-                    child: textBase('아기 선택', 'bold', 14),
+                    child: textBase('selectBaby'.tr, 'bold', 14),
                   ),
-                  textBase('관계', 'bold', 14),
+                  textBase('relation'.tr, 'bold', 14),
                 ],
               ),
               const SizedBox(height: 10),
@@ -134,23 +135,23 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                         });
                       },
                       isSelected: [relationSelected==0,relationSelected==1,relationSelected==2],
-                      children: const [
+                      children: [
                         SizedBox(
                             width: 70,
                             child: Center(
-                                child: Text('부모', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'))
+                                child: Text('relation0'.tr, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'))
                             )
                         ),
                         SizedBox(
                             width: 70,
                             child: Center(
-                                child: Text('가족', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'))
+                                child: Text('relation1'.tr, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'))
                             )
                         ),
                         SizedBox(
                             width: 90,
                             child: Center(
-                                child: Text('베이비시터', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'))
+                                child: Text('relation2'.tr, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'))
                             )
                         ),
                       ],
@@ -164,14 +165,14 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    textBase('접근 요일 선택', 'bold', 14),
+                    textBase('invitation2_accY'.tr, 'bold', 14),
                     const SizedBox(height: 10),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: getWeek()
                     ),
                     const SizedBox(height: 18),
-                    textBase('접근 시간 선택', 'bold', 14),
+                    textBase('invitation2_accT'.tr, 'bold', 14),
                     const SizedBox(height: 8),
                     Padding(
                         padding: const EdgeInsets.only(left: 27, right: 16),
@@ -200,7 +201,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                                     endTime = "${result.endTime.hour.toString().padLeft(2,'0')}:${result.endTime.minute.toString().padLeft(2,'0')}";
                                   });
                                 },
-                                child: text('시간 선택', 'bold', 12, const Color(0xFFFB8665))
+                                child: text('invitation2_setT'.tr, 'bold', 12, const Color(0xFFFB8665))
                             )
                           ],
                         )
@@ -219,7 +220,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                       minimumSize: const Size.fromHeight(55),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))
                   ),
-                  child: text('초대', 'extra-bold', 16, Colors.white)
+                  child: text('invitation'.tr, 'extra-bold', 16, Colors.white)
               ),
               const SizedBox(height: 20),
             ],
@@ -230,11 +231,11 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
   void invitation() async{
     //String targetemail = idClr.text.trim();
     if(targetID.isEmpty){
-      Get.snackbar('', '초대할 ID를 검색해주세요.', snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+      Get.snackbar('', 'select_id_invi'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
       return;
     }
     if(selectedBabyIdx == -1){
-      Get.snackbar('', '아기를 선택해주세요', snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+      Get.snackbar('', 'select_baby_invi'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
       return;
     }
     Baby invitBaby = widget.babies[selectedBabyIdx];
@@ -254,19 +255,19 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
     String email = idClr.text.trim();
     // 1. validation
     if(!validateEmail(email)){
-      Get.snackbar('', '아이디 형식을 지켜주세요', snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+      Get.snackbar('', 'keep_id'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
       return;
     }
     // 2. check
     String responseData = await emailOverlapService(email);
     print(responseData);
     if(responseData == "True"){
-      Get.snackbar('경고', '존재하지 않는 아이디입니다', snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+      Get.snackbar('경고', 'not_exist_ids'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
     }else{
       setState(() {
         targetID = email;
       });
-      Get.snackbar('검색 완료', '아이디를 찾았습니다', snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+      Get.snackbar('검색 완료', 'find_exist'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
     }
   }
 

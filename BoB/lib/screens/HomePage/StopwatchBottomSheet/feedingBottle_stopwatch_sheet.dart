@@ -33,25 +33,25 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: MediaQuery.of(context).viewInsets,
       child: Container(
-        color: Colors.white,
-        height: 400,
+        decoration: const BoxDecoration(
+            color: Color(0xffF9F8F8),
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20)
+            )
+        ),
+        height: MediaQuery.of(context).size.height * 0.49,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(15),
+            Container(
+              padding: const EdgeInsets.only(left: 25, top: 15, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('젖병 수유', style: TextStyle(fontSize: 35, color: Colors.deepOrangeAccent, fontFamily: 'NanumSquareRound')),
-                  IconButton(
-                      onPressed: (){
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.close, color:Colors.grey)
-                  )
+                  Text('life1'.tr, style: const TextStyle(fontSize: 32, color: Color(0xffffb1a2), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -62,54 +62,15 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                 children: [
                   Row(
                     children: [
-                      const Text('수유 시간', style: TextStyle(fontSize: 17, color: Colors.grey, fontFamily: 'NanumSquareRound')),
-                      const SizedBox(width: 20),
-                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: const TextStyle(fontSize: 24, fontFamily: 'NanumSquareRound')),
+                      Text('feeding_time'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 5),
+                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: const TextStyle(color: Color(0xff512F22), fontSize: 21, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: amountController,
-                    decoration: InputDecoration(
-                        floatingLabelBehavior:FloatingLabelBehavior.always, // labelText위치
-                        labelText: '수유량 (ml)',
-                        labelStyle: const TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),
-                        suffixIcon: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                                padding: EdgeInsets.zero,
-                                constraints: BoxConstraints(),
-                                onPressed: () {
-                                  null;
-                                },
-                                icon: const Icon(Icons.add_circle,size: 22,)
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  null;
-                                },
-                                icon: const Icon(Icons.remove_circle,size: 22,)
-                            ),
-                          ],
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(color: Colors.orangeAccent)
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(color: Colors.orangeAccent)
-                        ),
-                        contentPadding: const EdgeInsets.only(left: 15)
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 10),
-                  const Text('수유 타입', style: TextStyle(fontSize: 17, color: Colors.black, fontFamily: 'NanumSquareRound')),
+                  const SizedBox(height: 15),
+                  Text('type_feed'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                   Padding(
-                    padding: const EdgeInsets.only(top:10, bottom:10),
+                    padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
                       children: [
                         Expanded(
@@ -121,15 +82,17 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                               });
                             },
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              backgroundColor: isSelect ? const Color(0xfff7a972) : null,
+                              side: const BorderSide(color: Color(0x4d512F22)),
+                              foregroundColor: isSelect ? Colors.white : Colors.grey,
+                              backgroundColor: isSelect ? const Color(0xffffb1a2) : null,
                             ),
-                            child: const Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text('모유',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound'))
+                            child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Text('life0'.tr,style: const TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                             ),
                           ),
                         ),
+                        const SizedBox(width: 15),
                         Expanded(
                             flex: 1,
                             child: OutlinedButton(
@@ -139,41 +102,97 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                                 });
                               },
                               style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: !isSelect ? const Color(0xfff7a972) : null,
+                                side: const BorderSide(color: Color(0x4d512F22)),
+                                foregroundColor: !isSelect ? Colors.white : Colors.grey,
+                                backgroundColor: !isSelect ? const Color(0xffffb1a2) : null,
                               ),
-                              child: const Padding(padding:EdgeInsets.all(10), child:Text('분유',style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound'))),
-
+                              child: Padding(
+                                  padding:const EdgeInsets.all(10),
+                                  child:Text('powdered_milk'.tr, style: const TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
                         )
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 3),
+                  Text('amount_feed'.tr, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 5),
                   SizedBox(
+                    width: MediaQuery.of(context).size.width*0.9,
+                    child: TextFormField(
+                      controller: amountController,
+                      style: const TextStyle(fontSize: 16, color: Color(0x99512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                      decoration: InputDecoration(
+                          floatingLabelBehavior:FloatingLabelBehavior.never, // labelText위치
+                          labelText: 'amount_feed'.tr,
+                          labelStyle: const TextStyle(color: Color(0x4d512F22), fontSize: 23, fontFamily: 'NanumSquareRound'),
+                          suffixIcon: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  constraints: const BoxConstraints(),
+                                  onPressed: () {
+                                    null;
+                                  },
+                                  icon: const Icon(Icons.add_circle,size: 22, color: Color(0xffffb1a2))
+                              ),
+                              IconButton(
+                                  padding: const EdgeInsets.only(right: 13),
+                                  constraints: const BoxConstraints(),
+                                  onPressed: () {
+                                    null;
+                                  },
+                                  icon: const Icon(Icons.remove_circle,size: 22, color: Color(0xffffb1a2))
+                              ),
+                            ],
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(color: Color(0x4d512F22))
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(color: Colors.grey)
+                          ),
+                          contentPadding: const EdgeInsets.only(left: 15)
+                      ),
+                      keyboardType: TextInputType.number,   //키보드 타입
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 5),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: SizedBox(
                       width: double.infinity,
                       child: TextFormField(
                         controller: memoController,
-                        maxLines: 1,
+                        maxLines: 3,
                         style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                        decoration: const InputDecoration(
-                            floatingLabelBehavior:FloatingLabelBehavior.always,
-                            labelText: '메모',
-                            labelStyle: TextStyle(fontSize: 24, color:Colors.black, fontFamily: 'NanumSquareRound'),
-                            enabledBorder: OutlineInputBorder(
+                        decoration: InputDecoration(
+                            floatingLabelBehavior:FloatingLabelBehavior.never,
+                            labelText: 'enter_content'.tr,
+                            labelStyle: const TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                            enabledBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: Colors.grey)
+                                borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: Color(0xfff77b72))
+                                borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
-                            contentPadding: EdgeInsets.all(12)
+                            contentPadding: const EdgeInsets.only(left: 10, bottom: 20,)
                         ),
                         keyboardType: TextInputType.text,   //키보드 타입
                       ),
+                    ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
@@ -190,17 +209,14 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                         Navigator.pop(context);
                       },
                       style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.all(10),
-                          foregroundColor: Colors.orangeAccent,
-                          //backgroundColor: Color(0xffff9f98),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          ),
-                          side: const BorderSide(
-                            color: Colors.orangeAccent,
-                          )
+                        backgroundColor: const Color(0xffffb1a2),
+                        foregroundColor: const Color(0xe6ffffff),
+                        minimumSize: Size((MediaQuery.of(context).size.width)*0.9, 50),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30))
+                        ),
                       ),
-                      child: const Text('확인',style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound')),
+                      child: Text('registration'.tr,style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                     ),
                   )
                 ],

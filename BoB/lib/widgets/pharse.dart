@@ -1,12 +1,14 @@
 import 'package:bob/models/model.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 
 Widget getErrorPharse(String comment){
   return Row(
     children: [
-      const Icon(Icons.error_outline),
-      const SizedBox(width: 10,),
-      Text(comment)
+      const SizedBox(width: 2),
+      const Icon(Icons.error_outline, color: Color(0xff512F22)),
+      const SizedBox(width: 10),
+      textBase(comment, 'bold', 12)
     ],
   );
 }

@@ -21,12 +21,12 @@ class _WithdrawBottomSheet extends State<WithdrawBottomSheet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: text('서비스 탈퇴', 'bold', 20, Color(0xffFB8665)),
+            child: text('main4_withdrawal'.tr, 'bold', 20, Color(0xffFB8665)),
           ),
           const SizedBox(height: 52),
-          textBase('회원탈퇴 안내', 'bold', 14),
+          textBase('withdraw_title'.tr, 'bold', 16),
           const SizedBox(height: 10),
-          text('지금까지 BoB 서비스를 이용해주셔서 감사합니다.\n 회원을 탈퇴하려면 BoB 서비스 내 나의 계정 정보 및 근무기록 내역이 삭제되고 복구 할 수 없습니다.', 'bold', 14, Color(0x99512F22)),
+          text('withdraw_content'.tr, 'bold', 14, Color(0x99512F22)),
           const SizedBox(height: 42),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +41,7 @@ class _WithdrawBottomSheet extends State<WithdrawBottomSheet> {
                   setState(() {_isCheked = val!;});
                 },
               ),
-              text('위 내용을 숙지하였으며, 동의합니다.', 'bold', 14, Color(0x99512F22)),
+              text('withdraw_checkPhrase'.tr, 'bold', 14, Color(0x99512F22)),
             ],
           ),
           const SizedBox(height: 10),
@@ -54,7 +54,7 @@ class _WithdrawBottomSheet extends State<WithdrawBottomSheet> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))
               ),
               onPressed: () => serviceWithdraw(),
-              child: Text('탈퇴하기')
+              child: Text('withdraw_btn'.tr)
           )
         ],
       ),

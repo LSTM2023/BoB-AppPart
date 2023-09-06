@@ -19,7 +19,7 @@ class _Invitation extends State<Invitation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppbar('양육자/베이비시터 초대'),
+      appBar: homeAppbar('main4_InviteBabysitter'.tr),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFFFB8665),
         onPressed: (){
@@ -48,7 +48,7 @@ class _Invitation extends State<Invitation> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 28, bottom: 24),
-              child: text('미수락 초대', 'bold', 14, const Color(0xff512F22))
+              child: text('invitation_notList'.tr, 'bold', 14, const Color(0xff512F22))
             ),
             Expanded(
                 child: ListView.builder(
@@ -113,8 +113,8 @@ class _Invitation extends State<Invitation> {
                 Get.dialog(
                   AlertDialog(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                    title: text('초대 수락','extra-bold', 16, const Color(0xFFFB8665)),
-                    content: textBase('초대를 수락하시겠습니까?', 'bold', 12),
+                    title: text('invitation_accept'.tr,'extra-bold', 16, const Color(0xFFFB8665)),
+                    content: textBase('invitation_acceptC'.tr, 'bold', 12),
                     actions: [
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -128,13 +128,13 @@ class _Invitation extends State<Invitation> {
                             Navigator.pop(context);
                             Get.back();
                           },
-                          child: text('수락','extra-bold', 14, Colors.white)
+                          child: text('accept'.tr,'extra-bold', 14, Colors.white)
                       )
                     ],
                   ),
                 );
               },
-              child: text('수락', 'bold', 10, const Color(0xFFFB8665))
+              child: text('accept'.tr, 'bold', 10, const Color(0xFFFB8665))
           )
         ],
       ),

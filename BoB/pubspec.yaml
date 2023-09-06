@@ -42,13 +42,13 @@ dependencies:
   kakao_flutter_sdk: ^1.5.0
   multi_masked_formatter: ^1.0.0
   jwt_decode: ^0.3.1
-  intl:
+  intl: ^0.18.0
   flutter_mjpeg:
   flutter_naver_login: ^1.8.0
   sqflite:
   table_calendar: ^3.0.8
   image_picker:
-  easy_localization:
+  easy_localization: ^3.0.3
   google_sign_in: ^6.1.4
   kakao_flutter_sdk_user: ^1.5.0
   http: ^0.13.6
@@ -64,6 +64,10 @@ dependencies:
   flutter_vlc_player: ^7.2.0
   fl_chart: ^0.63.0
   tcp_socket_connection:
+  flutter_localization: ^0.1.13
+  firebase_messaging: ^14.6.7
+  flutter_local_notifications: ^15.1.1
+  firebase_core: ^2.15.1
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +95,7 @@ flutter:
   assets:
     - assets/icon/
     - assets/image/
+    - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

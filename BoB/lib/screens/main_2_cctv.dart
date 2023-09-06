@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:bob/models/model.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
@@ -17,7 +19,7 @@ class MainCCTVState extends State<Main_Cctv>{
   bool _isPlaying = false;
 
   TcpSocketConnection socketConnection = TcpSocketConnection("203.249.22.164", 8081);
-  String temp = "";
+  Map temp = {"Temp": "-", "Humid": "-"};
 
   Future<void> initializePlayer() async {}
 
@@ -35,10 +37,9 @@ class MainCCTVState extends State<Main_Cctv>{
 
   void messageReceived(String msg){
     setState(() {
-      temp = msg;
+      temp = json.decode(msg);
       print(msg);
     });
-    socketConnection.sendMessage("MessageIsReceived :D ");
   }
 
   void startConnection() async {
@@ -96,62 +97,94 @@ class MainCCTVState extends State<Main_Cctv>{
       return Scaffold(
         backgroundColor: const Color(0xFFFFFFFF),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              children: [
-                Center(
-                  child: ClipRRect(
-                    borderRadius : BorderRadius.circular(10.0),
-                    child: VlcPlayer(
-                      controller: _videoPlayerController,
-                      aspectRatio: 16 / 9,
-                      placeholder: const Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
+            Expanded(
+                child: VlcPlayer(
+                    controller: _videoPlayerController,
+                    aspectRatio: 3 / 4,
+                    placeholder: const Center(child: CircularProgressIndicator()),
                 ),
-              ],
             ),
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          height: 200,
-          child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('BoB '.tr, style: const TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
-                    Text('HomeCam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
-                  ],
-                ),
-                Row(
+        bottomNavigationBar: ClipRRect(
+          borderRadius : BorderRadius.circular(30.0),
+          child: BottomAppBar(
+            elevation: 6,
+            color: const Color(0xFFF9F8F8),
+            padding: const EdgeInsets.all(24),
+            height: 170,
+            child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                          child: Text("온도 : " + temp)
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(padding:const EdgeInsets.fromLTRB(50,0,50,0)),
-                        onPressed: () {
-                          if (_isPlaying) {
-                            setState(() {
-                              _videoPlayerController.pause();
-                              _isPlaying = false;
-                            });
-                          } else {
-                            setState(() {
-                              _videoPlayerController.play();
-                              _isPlaying = true;
-                            });
-                          }
-                        },
-                        child: Icon(
-                            _isPlaying ? Icons.pause : Icons.play_arrow,
-                            size: 28,
-                            color: Color(0xffdf8570)),
-                      ),
-                    ]
-                )
-              ]
+                      Text('BoB ', style: const TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
+                      Text('homecam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 36),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            textBase('temp'.tr, 'bold', 14),
+                            SizedBox(height: 16),
+                            textBase(temp['Temp']+'°C', 'bold', 28),
+                          ],
+                        ),
+                        SizedBox(width: 30),
+                        Container(width: 1, height: 64, color: Color(0xFF512F22)),
+                        SizedBox(width: 30),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('humid'.tr, style: TextStyle(fontSize: 14, color: Color(0xFF512F22))),
+                            SizedBox(height: 16),
+                            Text(temp['Humid']+'%', style: const TextStyle(fontSize: 28, color: Color(0xFF512F22)))
+                          ],
+                        ),
+                        Expanded(
+                          child: Container(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                fixedSize: const Size(60, 60),
+                                elevation: 6,
+                                backgroundColor: const Color(0xFFFB8665),
+                                shape: const CircleBorder(),
+                              ),
+                              onPressed: () {
+                                if (_isPlaying) {
+                                  setState(() {
+                                    _videoPlayerController.pause();
+                                    _isPlaying = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _videoPlayerController.play();
+                                    _isPlaying = true;
+                                  });
+                                }
+                              },
+                              child: Icon(
+                                  _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                                  size: 40,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ]
+                  )
+                ]
+            ),
           ),
         ),
       );

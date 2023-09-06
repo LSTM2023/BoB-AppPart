@@ -1,9 +1,10 @@
 import 'package:intl/intl.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import '../../../services/backend.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
+import 'package:get/get.dart';
 
 class GrowthRecordBottomSheet extends StatefulWidget {
 
@@ -41,19 +42,20 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.6,
+        height: MediaQuery.of(context).size.height * 0.58,
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.only(left: 25, top: 10),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              padding: const EdgeInsets.only(top: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('키, 몸무게 입력해주세요',
+                  Text('enter_hweight'.tr,
                     style: TextStyle(
-                      fontSize: 32,
-                      color: Colors.black,
-                      fontFamily: 'NanumSquareRound'
+                      fontSize: 22,
+                      color: Color(0xff512F22),
+                      fontFamily: 'NanumSquareRound',
+                      fontWeight: FontWeight.bold
                     ),
                   ),
                 ],
@@ -72,16 +74,16 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       suffix: " cm",
                       showCursor: false,
                       backgroundColor: Colors.transparent,
-                      activeItemTextColor: Colors.black,
-                      passiveItemsTextColor: Colors.red,
+                      activeItemTextColor: const Color(0xff512F22),
+                      passiveItemsTextColor: const Color(0xffFB8665),
                       onChanged: (value) {
                         setState(() {
                           height = value;
                         });
                       },
                     ),
-                    (height==null) ? const Text('스크롤하여 키를 선택해 주세요',style: TextStyle(fontSize: 22, color: Colors.grey, fontFamily: 'NanumSquareRound')) :
-                    Text('${height.toString()} cm',style: const TextStyle(fontSize: 22, fontFamily: 'NanumSquareRound'),),
+                    (height==null) ? Text('select_height'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
+                    Text('${height.toString()} cm',style: const TextStyle(color: Color(0xff512F22), fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
                   ],
                 ),
               ),
@@ -92,7 +94,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Divider(),
+                    const Divider(color: Color(0xff512F22)),
                     HorizontalPicker(
                       minValue: 0,
                       maxValue: 15,
@@ -101,16 +103,16 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       suffix: " kg",
                       showCursor: false,
                       backgroundColor: Colors.transparent,
-                      activeItemTextColor: Colors.black,
-                      passiveItemsTextColor: Colors.blue,
+                      activeItemTextColor: const Color(0xff512F22),
+                      passiveItemsTextColor: Colors.blueAccent,
                       onChanged: (value) {
                         setState(() {
                           weight = value;
                         });
                       },
                     ),
-                    (weight==null) ? const Text('스크롤하여 몸무게를 선택해 주세요',style: TextStyle(fontSize: 22, color: Colors.grey, fontFamily: 'NanumSquareRound')) :
-                    Text('${weight.toString()} kg',style: const TextStyle(fontSize: 22, fontFamily: 'NanumSquareRound'),),
+                    (weight==null) ? Text('select_weight'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
+                    Text('${weight.toString()} kg',style: const TextStyle(color: Color(0xff512F22), fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
                   ],
                 ),
               ),
@@ -127,12 +129,12 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       dateFormat: "yyyy-MMMM-dd",
                       locale: DateTimePickerLocale.ko,
                       looping: true,
-                      backgroundColor: Colors.grey[100],
-                      titleText: '측정 날짜를 선택해주세요',
-                      cancelText: '취소',
-                      confirmText: '확인',
-                      itemTextStyle: const TextStyle(color: Color(0xffef8671), fontFamily: 'NanumSquareRound'),
-                      textColor: Colors.black
+                      backgroundColor: const Color(0xffF9F8F8),
+                      titleText: 'select_date'.tr,
+                      cancelText: 'cancel'.tr,
+                      confirmText: 'confirm'.tr,
+                      itemTextStyle: const TextStyle(color: Color(0xffFB8665), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                      textColor: const Color(0xff512F22),
                     );
                     ymdtController.text = '${DateFormat('yyyy-MM-dd').format(datePicked!)}';
                     //ymdtController.text = datePicked.toString();
@@ -142,16 +144,16 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                     child: AbsorbPointer(
                       child: TextFormField(
                         controller: ymdtController,
-                        decoration: const InputDecoration(
-                            labelText: '측정 날짜를 선택해주세요',
-                            labelStyle: TextStyle(fontSize: 18, fontFamily: 'NanumSquareRound'),
-                            suffixIcon: Icon(Icons.add_alarm_sharp),
+                        decoration: InputDecoration(
+                            labelText: 'select_date'.tr,
+                            labelStyle: TextStyle(color: Color(0x99512f22), fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                            suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffFB8665)),
                             filled: false, //색 지정
                             enabledBorder:OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: Colors.black)
+                                borderSide: BorderSide(color: Color(0xcc512f22))
                             ),
-                            contentPadding: EdgeInsets.all(10)
+                            contentPadding: EdgeInsets.only(left: 15)
                         ),
                         onSaved: (val) {
                           yearMonthDayTime = '${DateFormat('yyyy-MM-dd').parse(ymdtController.text)}';
@@ -174,19 +176,19 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('취소',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
-                      style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.black,
-                          minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          )
-                      ),
-                    ),
+                    // OutlinedButton(
+                    //   onPressed: () {
+                    //     Navigator.pop(context);
+                    //   },
+                    //   child: Text('취소',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
+                    //   style: OutlinedButton.styleFrom(
+                    //       foregroundColor: Colors.black,
+                    //       minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
+                    //       shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.all(Radius.circular(10))
+                    //       )
+                    //   ),
+                    // ),
                     OutlinedButton(
                       onPressed: () async{
                         //print(widget.babyId);
@@ -199,16 +201,14 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         Navigator.pop(context);
                         print(result);
                       },
-                      child: Text('확인',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
+                      child: Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                       style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.black,
-                          minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))
+                        backgroundColor: const Color(0xffFB8665),
+                          foregroundColor: const Color(0xe6ffffff),
+                          minimumSize: Size((MediaQuery.of(context).size.width)*0.9, 50),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(30))
                           ),
-                          side: BorderSide(
-                            color: Colors.red,
-                          )
                       ),
                     )
                   ],

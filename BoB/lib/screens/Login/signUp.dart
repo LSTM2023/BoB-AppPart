@@ -149,13 +149,15 @@ class _SignUp extends State<SignUp>{
   // 중복 검사
   void duplicateCheck() async{
     String email = idCtr.text.trim();
-    // 1. validation
+
     if(!validateEmail(email)){
       Get.snackbar('', '아이디 형식을 지켜주세요', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
       return;
     }
+    // 1. validation
+
     // 2. check
-    String responseData = await emailOverlapService(email);
+    var responseData = await emailOverlapService(email);
     if(responseData == "True"){
       _isDuplicateCheck = true;
       Get.snackbar('중복 검사', '사용 가능한 아이디 입니다.', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));

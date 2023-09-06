@@ -1,5 +1,6 @@
-import 'dart:math';
-import 'package:bob/models/model.dart';
+
+import 'dart:convert';
+
 import 'package:bob/screens/HomePage/RecordBottomSheet/babyFood_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/diaper_bottom_sheet.dart';
 import 'package:bob/screens/HomePage/RecordBottomSheet/feedingBottle_bottom_sheet.dart';
@@ -11,16 +12,22 @@ import 'package:bob/screens/HomePage/StopwatchBottomSheet/babyFood_stopwatch_she
 import 'package:bob/screens/HomePage/StopwatchBottomSheet/feedingBottle_stopwatch_sheet.dart';
 import 'package:bob/screens/HomePage/StopwatchBottomSheet/feeding_stopwatch_sheet.dart';
 import 'package:bob/screens/HomePage/StopwatchBottomSheet/sleep_stopwatch_sheet.dart';
-import 'package:bob/screens/HomePage/baby_growthStatistics.dart';
+import 'package:bob/screens/HomePage/Statistic/baby_growthStatistics.dart';
 import 'package:bob/screens/HomePage/baby_medicalCheckup.dart';
 import 'package:bob/screens/HomePage/baby_vaccination.dart';
 import 'package:bob/widgets/pharse.dart';
 import 'package:bob/widgets/text.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'dart:math';
+import 'package:bob/models/model.dart';
+//import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
+import '../models/medicalList.dart';
 import '../services/backend.dart';
+import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
 class Main_Home extends StatefulWidget {
   final User userinfo;
@@ -53,7 +60,6 @@ class MainHomeState extends State<Main_Home> {
 
   List<Vaccine> myBabyvaccineList = [];
   late List<MedicalCheckUp> myBabyMedicalCheckList;
-
   late List<GrowthRecord> myBabyGrowthRecordList = [];
 
   void addLifeRecord(int type, String val, DateTime lastDate){
@@ -87,13 +93,18 @@ class MainHomeState extends State<Main_Home> {
     });
   }
 
-  List<Color> timerBackgroundColors= [const Color(0xffFFEFEF),const Color(0xfffae2be),const Color(0xfffff7d4), const Color(0xffedfce6), const Color(0xffe6eafc)];
-  Color timerBackgroundColor = const Color(0xffFFEFEF);
+  Color timerBackgroundColor = Colors.black;
+
   int timerType = 0;
   late StopWatch stopWatchWidget;
 
   String nextVaccineDate = '';
-  String nextMedicalCheckUpDate = '';
+
+  String nextMedicalCheckDate = '-';
+  String nextVaccineCheckDate = '-';
+
+  late Future getGrowthRecord;
+  late List<dynamic> getGrowthRecordList = [];
 
   @override
   void initState() {
@@ -102,11 +113,32 @@ class MainHomeState extends State<Main_Home> {
     activeBabies = widget.getBabiesFunction(true);
     currentBaby = widget.getCurrentBabyFunction();
     stopWatchWidget = StopWatch(currentBaby, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
-    loadMyBabyVaccineInfo();
-    loadMyBabyMedicalCheckInfo();
+    getGrowthRecord = getMyGrowthInfo();
+
+    loadMyBabyMedicalInfo();
+    loadLastLifeRecord();
   }
-  loadMyBabyVaccineInfo(){
-    myBabyvaccineList = [
+
+  Future getMyGrowthInfo() async{
+    List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
+    getGrowthRecordList = growthRecordList;
+
+    // print(getGrowthRecordList);
+    return getGrowthRecordList;
+  }
+
+  Future<void> loadLastLifeRecord() async{
+    List<dynamic> datas = await lifeGetService(currentBaby.relationInfo.BabyId);
+    List<DateTime> map = [DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now()];
+    for(int i=0; i<datas.length;i++){
+      var content = datas[i]['content'];
+      // content = jsonDecode(content);
+      // print(content['type']);
+    }
+  }
+
+  Future<void> loadMyBabyMedicalInfo() async{
+    myBabyvaccineList =  [
       Vaccine(ID: 0, title: '결핵 경피용', times: 'BCG 1회/기타', recommendationDate: '2023.01.20 ~ 2023.02.19', detail: '생후 4주 이내 접종, 민간의료기관, 유료'),
       Vaccine(ID: 1, title: '결핵 피내용', times: 'BCG 1회/기타', recommendationDate: '2023.01.20 ~ 2023.02.19', detail: '생후 4주 이내 접종, 민간의료기관, 유료'),
       Vaccine(ID: 2, title: 'B형 간염', times: 'HepB 1차/국가', recommendationDate: '2023.01.20', detail: '생후 12시간 이내 접종(모체가 양성일 경우 HBIG와 함께 접종)'), // 2
@@ -153,38 +185,53 @@ class MainHomeState extends State<Main_Home> {
       Vaccine(ID: 43, title: '일본뇌염 사백신', times: 'IJEV(사백신) 추가 5차/국가', recommendationDate: '2035.01.20', detail: '총 5회 접종, 5차 접종'),
       Vaccine(ID: 44, title: '인유두종 바이러스 감염증', times: 'HPV 1차/국가', recommendationDate: '2035.01.20 ~ 2036.01.19', detail: '자궁경부암백신, 여아만 해당\n만 12세에 6개월 간격으로 2회 접종')
     ];
-    for(int i=0; i<myBabyvaccineList.length; i++){
-      if(!myBabyvaccineList[i].isInoculation){
-        setState(() {
-          nextVaccineDate = myBabyvaccineList[i].title;
-        });
-        return;
-      }
-    }
-  }
-  loadMyBabyMedicalCheckInfo(){
     myBabyMedicalCheckList = [
-      MedicalCheckUp(0, '1차 건강검진',[1, 14, 35], currentBaby.birth),
-      MedicalCheckUp(1, '2차 건강검진',[0, 4, 6], currentBaby.birth),
-      MedicalCheckUp(2, '3차 건강검진',[0, 9, 12], currentBaby.birth),
-      MedicalCheckUp(3, '4차 건강검진',[0, 18, 24], currentBaby.birth),
-      MedicalCheckUp(4, '1차 구강검진',[0, 18, 24], currentBaby.birth),
-      MedicalCheckUp(5, '5차 건강검진',[0, 30, 36], currentBaby.birth),
-      MedicalCheckUp(6, '2차 구강검진',[0, 30, 41], currentBaby.birth),
-      MedicalCheckUp(7, '6차 건강검진',[0, 42, 48], currentBaby.birth),
-      MedicalCheckUp(8, '3차 구강검진',[0, 42, 53], currentBaby.birth),
-      MedicalCheckUp(9, '7차 건강검진',[0, 54, 60], currentBaby.birth),
-      MedicalCheckUp(10, '4차 구강검진',[0, 54, 65], currentBaby.birth),
-      MedicalCheckUp(11, '8차 건강검진',[0, 66, 71], currentBaby.birth)
-    ];
-    for(int i=0; i<myBabyMedicalCheckList.length; i++){
-      if(!myBabyMedicalCheckList[i].isInoculation){
-        setState(() {
-          nextMedicalCheckUpDate = myBabyMedicalCheckList[i].title;
-        });
-        return;
+      MedicalCheckUp(0, '1차 건강검진',[1, 14, 35]),
+      MedicalCheckUp(1, '2차 건강검진',[0, 4, 6]),
+      MedicalCheckUp(2, '3차 건강검진',[0, 9, 12]),
+      MedicalCheckUp(3, '4차 건강검진',[0, 18, 24]),
+      MedicalCheckUp(4, '1차 구강검진',[0, 18, 24]),
+      MedicalCheckUp(5, '5차 건강검진',[0, 30, 36]),
+      MedicalCheckUp(6, '2차 구강검진',[0, 30, 41]),
+      MedicalCheckUp(7, '6차 건강검진',[0, 42, 48]),
+      MedicalCheckUp(8, '3차 구강검진',[0, 42, 53]),
+      MedicalCheckUp(9, '7차 건강검진',[0, 54, 60]),
+      MedicalCheckUp(10, '4차 구강검진',[0, 54, 65]),
+      MedicalCheckUp(11, '8차 건강검진',[0, 66, 71])
+    ];  // loading
+    for(int i=0; i< myBabyMedicalCheckList.length; i++){
+      myBabyMedicalCheckList[i].setCheckPeriod(currentBaby.birth);
+    }
+    int nextMedicalDate = 50;
+    int nextVaccineDate = 0;
+    List<dynamic> data = await vaccineCheckByIdService(currentBaby.relationInfo.BabyId); // 임시로 - 같이 사용
+    for(int i=0; i<data.length; i++){
+      int mode = data[i]['mode'];
+      // 예외 처리
+      if(mode<50) {
+        //print('vaccin : + ' + nextVaccineDate.toString());
+        myBabyvaccineList[mode].isInoculation = true;
+        myBabyvaccineList[mode].inoculationDate= DateTime.parse(data[i]['date']);
+        nextVaccineDate += 1;
+      }
+      else{
+        //print('medical : + ' + nextMedicalDate.toString());
+        myBabyMedicalCheckList[mode-50].isInoculation = true;
+        myBabyMedicalCheckList[mode-50].checkUpDate = DateTime.parse(data[i]['date']);
+        nextMedicalDate += 1;
       }
     }
+    setState(() {
+      if((nextMedicalDate-50) < myBabyMedicalCheckList.length)
+        nextMedicalCheckDate = myBabyMedicalCheckList[nextMedicalDate-50].title;
+      else
+        nextMedicalCheckDate = 'finish'.tr;
+
+      if(nextVaccineDate < myBabyvaccineList.length)
+        nextVaccineCheckDate = myBabyvaccineList[nextVaccineDate].title;
+      else
+        nextVaccineCheckDate = 'finish'.tr;
+    });
   }
 
   @override
@@ -192,7 +239,7 @@ class MainHomeState extends State<Main_Home> {
     return Scaffold(
       backgroundColor: const Color(0xffFFFFFF),
       appBar: AppBar(
-        title: const Text("BoB", style: TextStyle(color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontSize: 20, fontWeight: FontWeight.w700),),
+        title: const Text("BoB", style: TextStyle(color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontSize: 22, fontWeight: FontWeight.bold),),
         backgroundColor: const Color(0xffffccbf),
         elevation: 0.0,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -206,9 +253,9 @@ class MainHomeState extends State<Main_Home> {
                   const SizedBox(height: 40),
                   // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
                   // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
-                  textBase('아기 리스트', 'extra-bold', 20),
+                  textBase('babyList'.tr, 'extra-bold', 22),
                   const SizedBox(height: 8),
-                  textBase('클릭하면 해당 아기를 관리할 수 있습니다.', 'bold', 12),
+                  textBase('babyListC'.tr, 'bold', 13),
                   const SizedBox(height: 29),
                   Expanded(
                     child: ListView(
@@ -217,7 +264,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation0'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('부모', 'extra-bold', 14),
+                              title: textBase('relation0'.tr, 'extra-bold', 16),
                               children: getDrawerDatas(0, context, const Color(0xfffa625f))
                           ),
                         ),
@@ -225,7 +272,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation1'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('가족', 'extra-bold', 14),
+                              title: textBase('relation1'.tr, 'extra-bold', 16),
                               children: getDrawerDatas(1, context, Colors.blueAccent)
                           ),
                         ),
@@ -233,7 +280,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation2'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('베이비시터', 'extra-bold', 14),
+                              title: textBase('relation2'.tr, 'extra-bold', 16),
                               children: getDrawerDatas(2, context, Colors.grey)
                           ),
                         ),
@@ -257,14 +304,14 @@ class MainHomeState extends State<Main_Home> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Color(0xffffccbf), Color(0xffffe1c9)]),
+                      colors: [Color(0xffffccbf), Color(0xffffe1c7)]),
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40)),
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5.0,
+                      color: Color.fromARGB(88, 70, 57, 30),
+                      blurRadius: 4.0,
                       spreadRadius: 3,
                     )
                   ]),
@@ -289,12 +336,11 @@ class MainHomeState extends State<Main_Home> {
                     ]
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('생활 기록', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
+                        textBase('life_record'.tr, 'bold', 16),
                         IconButton(
                             constraints: const BoxConstraints(),
                             padding: const EdgeInsets.only(right: 8),
@@ -311,33 +357,28 @@ class MainHomeState extends State<Main_Home> {
                                 }if(last_sleep != null){
                                   _sleep = getlifeRecordPharse(DateTime.now().difference(last_sleep!));
                                 }
-                                // _feeding = '${DateTime.now().difference(last_feeding).inMinutes}분 전';
-                                // _feedingBottle = '${DateTime.now().difference(last_feedingBottle).inMinutes}분 전';
-                                // _babyfood = '${DateTime.now().difference(last_babyfood).inMinutes}분 전';
-                                // _diaper = '${DateTime.now().difference(last_diaper).inMinutes}분 전';
-                                // _sleep = '${DateTime.now().difference(last_sleep).inMinutes}분 전';
                               });
                             },
-                            icon: const Icon(Icons.refresh_outlined, size: 24, color: Color(0xff512F22))
+                            icon: const Icon(Icons.refresh_outlined, size: 22, color: Color(0xff512F22))
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     Row(
                       children: [
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('모유', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
-                            Text(_feeding, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound'))
+                            Text('life0'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text(_feeding, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
                         const SizedBox(width: 30),
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('젖병', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
-                            Text(_feedingBottle, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound'))
+                            Text('life1'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text(_feedingBottle, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         ),)
                       ],
@@ -348,19 +389,19 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('기저귀', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
-                            Text(_diaper, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound'))
+                            Text('life3'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text(_diaper, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
                         const SizedBox(width: 30),
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('수면', style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
-                            Text(_sleep, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound'))
+                            Text('life4'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                            Text(_sleep, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                           ],
                         )),
-                        const SizedBox(height: 25),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ],
@@ -374,9 +415,28 @@ class MainHomeState extends State<Main_Home> {
                 Expanded(
                     flex:1,
                     child: GestureDetector(
-                      onTap: () {
-                        Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList)
-                        );
+                      onTap: () async{
+                        List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
+                        if(growthRecordList.isEmpty){
+                          Get.snackbar('데이터 오류', '먼저 키, 몸무게를 입력해 주세요', backgroundColor: const Color(0xa3ffffff),snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(25),
+                                      topLeft: Radius.circular(25)
+                                  )
+                              ),
+                              backgroundColor: const Color(0xffF9F8F8),
+                              isScrollControlled: true,
+                              context: context,
+                              builder: ( BuildContext context ) {
+                                return GrowthRecordBottomSheet(currentBaby.relationInfo.BabyId);
+                              }
+                          );
+                        }else {
+                          Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList));
+                          await getMyGrowthInfo();
+                        }
                       },
                       child: Container(
                         height: 235,
@@ -400,17 +460,19 @@ class MainHomeState extends State<Main_Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // Text('grow_record'.tr,style: const TextStyle(fontSize: 22)),
-                                const Text('성장 기록',style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
+                                Text('grow_record'.tr,style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                                 IconButton(
+                                    constraints: const BoxConstraints(),
+                                    padding: const EdgeInsets.only(right: 8),
                                     onPressed: () {
                                       showModalBottomSheet(
                                           shape: const RoundedRectangleBorder(
                                               borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(20),
-                                                  topLeft: Radius.circular(20)
+                                                  topRight: Radius.circular(25),
+                                                  topLeft: Radius.circular(25)
                                               )
                                           ),
-                                          backgroundColor: Colors.grey[100],
+                                          backgroundColor: const Color(0xffF9F8F8),
                                           isScrollControlled: true,
                                           context: context,
                                           builder: ( BuildContext context ) {
@@ -418,21 +480,31 @@ class MainHomeState extends State<Main_Home> {
                                           }
                                       );
                                     },
-                                    icon: const Icon(Icons.add_circle_outline, size: 25, color: Colors.black54)
+                                    icon: const Icon(Icons.add_circle_outline, size: 24, color: Color(0xff512F22))
                                 ),
                               ],
                             ),
-                            const Text('2023.05.06 갱신', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
                             const SizedBox(height: 10),
-                            const Column(
+                            if(getGrowthRecordList.isEmpty)
+                              Text('first_growth_record'.tr, style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
+                            if(getGrowthRecordList.isNotEmpty)
+                              Text('${getGrowthRecordList.last['date'].toString()} ${'new_update'.tr}', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
+                            const SizedBox(height: 20),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('키', style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound')),
-                                Center(child: Text('90cm', style: TextStyle(fontSize: 17, fontFamily: 'NanumSquareRound'))),
-                                SizedBox(height: 25),
-                                Text('몸무게', style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound')),
-                                Center(child: Text('10kg', style: TextStyle(fontSize: 17, fontFamily: 'NanumSquareRound'))),
-                              ],
+                                Text('height'.tr, style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                if(getGrowthRecordList.isEmpty)
+                                  Center(child: Text('0cm', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                if(getGrowthRecordList.isNotEmpty)
+                                  Center(child: Text('${getGrowthRecordList.last['height'].toString()}cm', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                  SizedBox(height: 25),
+                                Text('weight'.tr, style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                if(getGrowthRecordList.isEmpty)
+                                  Center(child: Text('0kg', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                if(getGrowthRecordList.isNotEmpty)
+                                  Center(child: Text('${getGrowthRecordList.last['weight'].toString()}kg', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                 ],
                             )
                           ],
                         ),
@@ -446,12 +518,14 @@ class MainHomeState extends State<Main_Home> {
                         margin: const EdgeInsets.fromLTRB(10, 0, 20, 10),
                         child: Column(
                           children: [
+                            //예방 접종 페이지 이동
                             GestureDetector(
-                                onTap: () {
-                                  Get.to(() => BabyVaccination(currentBaby, myBabyvaccineList));
+                                onTap: () async{
+                                  await Get.to(() => BabyVaccination(currentBaby, myBabyvaccineList));
+                                  await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(18),
+                                  padding: const EdgeInsets.all(13),
                                   height: 110,
                                   decoration: BoxDecoration(
                                       color: const Color(0xffF9F8F8),
@@ -467,37 +541,29 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        // Text('vaccination'.tr, style: const TextStyle(fontSize: 22, color: Colors.black)),
-                                        const Text('예방 접종', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
-                                        // Text(
-                                        //   'next_vaccination'.tr,
-                                        //   style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                        // ),
-                                        const SizedBox(height: 5,),
-                                        const Text(
-                                          '다음 예방 접종',
-                                          style: TextStyle(fontSize: 12, color: Colors.grey, fontFamily: 'NanumSquareRound'),
+                                        Text('vaccination'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          'next_vaccination'.tr,
+                                          style: const TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                         ),
-                                        const SizedBox(height: 5),
+                                        const SizedBox(height: 16),
                                         Center(
-                                            child: Text(
-                                              nextVaccineDate,
-                                              style: const TextStyle(fontSize: 18, color: Color(0xfffa625f), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'),
-                                            )
+                                            child: text(nextVaccineCheckDate, 'extra-bold', 14, const Color(0xccfb8665))
                                         )
                                       ]
                                   ),
                                 )
                             ),
-                            //예방 접종 페이지 이동
                             const SizedBox(height: 15),
+                            //건강 검진 페이지 이동
                             GestureDetector(
-                                onTap: () {
-                                  Get.to(()=>BabyMedicalCheckup(currentBaby, myBabyMedicalCheckList));
+                                onTap: () async{
+                                  await Get.to(()=>BabyMedicalCheckup(currentBaby, myBabyMedicalCheckList));
+                                  await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(18),
-                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(13),
                                   height: 110,
                                   decoration: BoxDecoration(
                                       color: const Color(0xffF9F8F8),
@@ -513,25 +579,21 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        // Text('medical_checkup'.tr, style: const TextStyle(fontSize: 22, color: Colors.black)),
-                                        const Text('건강 검진', style: TextStyle(fontSize: 18, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w600)),
-                                        const SizedBox(height: 5),
-                                        const Text(
-                                          '다음 건강 검진',
-                                          style: TextStyle(fontSize: 12, color: Colors.grey, fontFamily: 'NanumSquareRound'),
+                                        Text('medical_checkup'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          'next_medical_checkup'.tr,
+                                          style: const TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                                         ),
-                                        const SizedBox(height: 5),
+                                        const SizedBox(height: 16),
                                         Center(
-                                            child: Text(
-                                              nextMedicalCheckUpDate,
-                                              style: const TextStyle(fontSize: 18, color: Color(0xfffa625f), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'),
-                                            )
+                                          child: text(nextMedicalCheckDate, 'extra-bold', 14, const Color(0xccfb8665)
+                                          )
                                         )
                                       ]
                                   ),
                                 )
                             )
-                            //건강 검진 페이지 이동
                           ],
                         )
                     )
@@ -539,17 +601,16 @@ class MainHomeState extends State<Main_Home> {
                 //예방 접종, 건강 검진 구현
               ],
             ),
-            //성장 기록, 예방 접종, 검강 검진
             Container(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                margin: const EdgeInsets.only(left: 10, right: 10),
+                margin: const EdgeInsets.only(left: 10, right: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 3, 0, 1),
-                      child: Text('버튼을 길게 누르면 타이머가 작동합니다.',
-                        style: TextStyle(color: Colors.grey[500], fontFamily: 'NanumSquareRound'),
+                      child: Text('timer_explanation'.tr,
+                        style: TextStyle(fontSize: 12, color: Colors.grey[400], fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -563,38 +624,18 @@ class MainHomeState extends State<Main_Home> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    drawRecordButton(context, '모유', Icons.water_drop_outlined, Colors.red, const Color(0xffFFC8C8), 0),
-                    drawRecordButton(context, '젖병', Icons.water_drop, Colors.orange, const Color(0xffFFD9C8), 1),
-                    drawRecordButton(context, '이유식', Icons.rice_bowl_rounded, const Color(0xfffacc00), const Color(0xffFFF0C8), 2),
-                    drawRecordButton(context, '기저귀', Icons.baby_changing_station, Colors.green, const Color(0xffE0FFC8), 3),
-                    drawRecordButton(context, '수면', Icons.nights_stay_sharp, Colors.blueAccent, const Color(0xffC8F7FF), 4)
+                    drawRecordButton(context, 'life0'.tr, 'assets/icon/feeding_icon.svg', Colors.redAccent, const Color(0xffFFC8C8), 0),
+                    drawRecordButton(context, 'life1'.tr, 'assets/icon/feedingbottle_icon.svg', Colors.orange, const Color(0xffFFD9C8), 1),
+                    drawRecordButton(context, 'life2'.tr, 'assets/icon/babyfood_icon.svg', const Color(0xfffab300), const Color(0xffFFF0C8), 2),
+                    drawRecordButton(context, 'life3'.tr, 'assets/icon/diaper_icon.svg', Colors.green, const Color(0xffE0FFC8), 3),
+                    drawRecordButton(context, 'life4'.tr, 'assets/icon/sleep_icon.svg', Colors.blueAccent, const Color(0xffC8F7FF), 4)
                   ],
                 ),
               ),
             ),
             Offstage(
                 offstage: timerClosed,
-                child: Container(
-                    height: 60,
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: timerBackgroundColors
-                        ),
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
-                            blurRadius: 5,
-                          )
-                        ]
-                    ),
-                    child: stopWatchWidget
-                )
+                child: stopWatchWidget
             ),
             //타이머 구현
           ],
@@ -616,6 +657,8 @@ class MainHomeState extends State<Main_Home> {
                   setState(() {
                     widget.changeCurrentBabyFunction(i);
                     currentBaby = widget.getCurrentBabyFunction();
+                    loadMyBabyMedicalInfo();
+                    getMyGrowthInfo();
                   });
                   Navigator.pop(context);
                 },
@@ -624,8 +667,8 @@ class MainHomeState extends State<Main_Home> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 5,
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 3,
                         )
                       ],
                       border: Border(
@@ -641,12 +684,12 @@ class MainHomeState extends State<Main_Home> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        textBase(b.name, 'extra-bold', 12),
+                        textBase(b.name, 'extra-bold', 14),
                         Row(
                           children: [
-                            text(b.getGenderString()=='F' ? "여자" : "남자", 'bold', 10, Color(0x99512f22)),
-                            SizedBox(width: 6),
-                            textBase(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 10)
+                            text(b.getGenderString()=='F' ? 'genderF'.tr : 'genderM'.tr, 'bold', 12, const Color(0x99512f22)),
+                            const SizedBox(width: 6),
+                            textBase(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 12)
                           ],
                         )
                       ],
@@ -660,7 +703,7 @@ class MainHomeState extends State<Main_Home> {
   }
 
   //기록 버튼 롱 클릭 시
-  InkWell drawRecordButton(BuildContext rootContext, String type, IconData iconData, Color background, Color color, int tapMode){
+  InkWell drawRecordButton(BuildContext rootContext, String type, String iconData, Color background, Color color, int tapMode){
     return InkWell(
         onTap: () => record_with_ModalBottomSheet(rootContext, tapMode),
         onLongPress: (){
@@ -670,7 +713,7 @@ class MainHomeState extends State<Main_Home> {
             // 2. dialog - 대/소변
             Get.dialog(
                 AlertDialog(
-                    backgroundColor: const Color(0xffedfce6),
+                    backgroundColor: const Color(0xffF4FFEC),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -678,20 +721,20 @@ class MainHomeState extends State<Main_Home> {
                             onPressed: () async {
                               var content = {"type": 0, "startTime": now, "endTime": now, "memo": null};
                               var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
-                              log(result);
+                              print(result);
                               Get.back();
                             },
-                            child: const Text('대변', style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound'))
+                            child: Text('life3_0'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                         ),
-                        const Divider(thickness: 0.2, color: Colors.grey),
+                        const Divider(thickness: 0.3, color: Color(0xff512F22)),
                         TextButton(
                           onPressed: () async{
                             var content = {"type": 1, "startTime": now, "endTime": now, "memo": null};
                             var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
-                            log(result);
+                            print(result);
                             Get.back();
                           },
-                          child: const Text('소변',style: TextStyle(color: Colors.black, fontFamily: 'NanumSquareRound')),
+                          child: Text('life3_1'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ),
                       ],
                     )
@@ -700,7 +743,7 @@ class MainHomeState extends State<Main_Home> {
           }
           else{
             timerType = tapMode;
-            timerBackgroundColor = timerBackgroundColors[tapMode];
+            // timerBackgroundColor = timerBackgroundColor;
             // offstage 보이게
             setState(() {
               timerClosed = false;
@@ -717,12 +760,20 @@ class MainHomeState extends State<Main_Home> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             color: color,
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(88, 70, 57, 30).withOpacity(0.2),
+                blurRadius:5,
+                spreadRadius: 1
+              )
+            ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(iconData, color: background), // <-- Icon
-              Text(type, style: TextStyle(fontSize: 13, color: background, fontFamily: 'NanumSquareRound')), // <-- Text
+              SvgPicture.asset(iconData, color: background ), // <-- Icon
+              const SizedBox(height: 3),
+              Text(type, style: TextStyle(fontSize: 12, color: background, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)), // <-- Text
             ],
           ),
         )
@@ -738,7 +789,7 @@ class MainHomeState extends State<Main_Home> {
                 topLeft: Radius.circular(20)
             )
         ),
-        backgroundColor: Colors.grey[50],
+        backgroundColor: const Color(0xffF9F8F8),
         isScrollControlled: true,
         context: rootContext,
         builder: (BuildContext context) {
@@ -764,8 +815,7 @@ class MainHomeState extends State<Main_Home> {
   showTimerBottomSheet(int type, DateTime startTime, DateTime endTime){
     if(type == 0){        // 모유
       Get.bottomSheet(
-          Container(
-              color: Colors.white,
+          SizedBox(
               child: FeedingStopwatchBottomSheet(
                   currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
           ),
@@ -774,8 +824,7 @@ class MainHomeState extends State<Main_Home> {
     }
     else if(type == 1) {    // 젖병
       Get.bottomSheet(
-          Container(
-              color: Colors.white,
+          SizedBox(
               child: FeedingBottleStopwatchBottomSheet(
                   currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
           ),
@@ -784,8 +833,7 @@ class MainHomeState extends State<Main_Home> {
     }
     else if(type == 2) {    // 이유식
       Get.bottomSheet(
-          Container(
-              color: Colors.white,
+          SizedBox(
               child: BabyFoodStopwatchBottomSheet(
                   currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
           ),
@@ -794,8 +842,7 @@ class MainHomeState extends State<Main_Home> {
     }
     else{                 // 수면
       Get.bottomSheet(
-          Container(
-            color: Colors.white,
+          SizedBox(
             child: SleepStopwatchBottomSheet(
                 currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord),
           ),
