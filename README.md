@@ -2,7 +2,7 @@
 
 ## 2023 공개 SW 개발자대회
 
-
+> 대회 웹사이트: https://www.oss-registration.kr/ <br>
 > 시연 영상: Coming Soon! <br>
 
 <img width="232" alt="image" src="https://github.com/LSTM2023/BoB-AppPart/assets/87134427/8538e986-f09b-44af-b44a-16a57ada4127">
