@@ -64,7 +64,8 @@
 </p>
 
 ## 📀 System Structure
-![슬라이드2](https://github.com/LSTM2023/BoB-AppPart/assets/99634832/436011b2-dc78-4f4c-a188-738c22bbab09)
+![System Structure](https://github.com/LSTM2023/BoB-AppPart/assets/99634832/900705e5-b8bc-4273-ad0a-3b87de79a058)
+
 
 
 
