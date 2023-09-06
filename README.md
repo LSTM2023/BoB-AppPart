@@ -31,9 +31,10 @@
 |:--------------------------------------------| :--------------------------------------- |
 | 😆 [노승하(PM)](https://github.com/seungha164) | 애플리케이션 개발 with Flutter |
 | 😎 [김정효](https://github.com/jjanghyo)       | 애플리케이션 개발 with Flutter |
+| 😊 [홍찬의](https://github.com/hcu55)          | 애플리케이션 개발 with Flutter |
 | 😊 [임원빈](https://github.com/Mmm2927)        | Backend (Django frameworks, postgresql, Azure, CI/CD) |
 | 😎 [피선우](https://github.com/SunWoo98Pi)     | Pose Estimation(Pytorch), Raspberry Pi      |
-| 😊 [홍찬의](https://github.com/hcu55)          | 애플리케이션 개발 with Flutter |
+| 😎 민동현          | UI 디자이너 및 영상 제작자 |
 
 ---
 ## 🚀 Stacks
@@ -51,3 +52,11 @@
 
 ## 📀 System Structure
 ![시스템 구조도](https://github.com/Mmm2927/LSTM/assets/75023467/a58b6387-e052-4d64-8553-97ff99dde03f)
+
+## :link: Library Licenses
+- Ultralytics : for Deep Learning Pose Estimation
+  - https://github.com/ultralytics/ultralytics
+- V4L2rtspserver : for Home CAM Streaming using rtsp protocol
+  - https://github.com/mpromonet/v4l2rtspserver
+- SyRIP : for Fine-Tuning YOLOv8 Pose Estimation Model
+  - https://github.com/ostadabbas/Infant-Pose-Estimation
