@@ -101,16 +101,10 @@ class MainCCTVState extends State<Main_Cctv>{
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  child: ClipRRect(
-                    borderRadius : BorderRadius.circular(8.0),
-                    child: VlcPlayer(
-                      controller: _videoPlayerController,
-                      aspectRatio: 4 / 3,
-                      placeholder: const Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
+                child: VlcPlayer(
+                    controller: _videoPlayerController,
+                    aspectRatio: 3 / 4,
+                    placeholder: const Center(child: CircularProgressIndicator()),
                 ),
             ),
           ],
