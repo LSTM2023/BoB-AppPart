@@ -62,17 +62,3 @@
     </tr> 
   </tbody>
 </table>
-
----
-## 🚀 Stacks
-
-### Database(DB)
-<p>
-  <img height=27em src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=PostgreSQL&logoColor=white"/></a>&nbsp
-</p>
-
-### Frameworks
-<p>
-  <img height=27em src="https://img.shields.io/badge/Django-092E20?style=flat&logo=Django&logoColor=white"/></a>&nbsp
-  <img height=27em src="https://img.shields.io/badge/Flutter-02569B?style=flat&logo=Flutter&logoColor=white"/></a>&nbsp
-</p>
