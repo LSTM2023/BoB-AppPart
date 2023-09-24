@@ -7,6 +7,7 @@ import '../../widgets/appbar.dart';
 import '../../widgets/form.dart';
 import '../../services/backend.dart';
 import '../../models/validate.dart';
+import '../../widgets/text.dart';
 import './editPassword.dart';
 
 class SignUp extends StatefulWidget{
@@ -68,16 +69,15 @@ class _SignUp extends State<SignUp>{
                             child: makeTextFormField('id', idCtr, TextInputType.emailAddress)
                           ),
                           const SizedBox(width: 10),
-                          ElevatedButton(onPressed: (){
-                            duplicateCheck();
-                          },
-                              style: ElevatedButton.styleFrom(
+                          ElevatedButton(
+                              onPressed: () => duplicateCheck(),
+                              style:  ElevatedButton.styleFrom(
                                 elevation: 0,
                                 foregroundColor: Color(0x99512f22),
                                 backgroundColor: Color(0x1a512f22),
                                   minimumSize: Size(92, 50)
                               ),
-                              child: Text('중복 확인')
+                              child: label('중복 확인', 'bold', 16, 'white')
                           )
                         ],
                       ),

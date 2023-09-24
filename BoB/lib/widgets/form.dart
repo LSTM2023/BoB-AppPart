@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 
+// color
+Map<String, Color> str2color = {
+  'white': const Color(0xffffffff),
+  'primary' : const Color(0xffFB8665),
+  'base60' : const Color(0x99512F22),
+  'base63' : const Color(0xa1512f22),
+  'base100' : const Color(0xff512F22),
+  'rel_parent' : const Color(0xffFF766A),
+  'grey': const Color(0xffC1C1C1)
+};
+
 InputDecoration formDecoration(String title){
   return InputDecoration(
     labelStyle: const TextStyle(color: Color(0x99512f22), fontSize: 14),
@@ -58,5 +69,27 @@ SizedBox makePWFormField(String title, TextEditingController controller, bool _v
       keyboardType: TextInputType.visiblePassword,
       decoration: formDecoration(title2hint[title]!),
     ),
+  );
+}
+// Style Form
+btnStyleForm(String foreClr, String backClr){
+  return ElevatedButton.styleFrom(
+      elevation: 0.2,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25)
+      ),
+      minimumSize: const Size.fromHeight(55),
+      foregroundColor: str2color[foreClr],
+      backgroundColor: str2color[backClr]
+  );
+}
+
+Padding divider(){
+  return const Padding(
+      padding: EdgeInsets.all(11.5),
+      child: Divider(
+        thickness: 1,
+        color: Color(0xffC4C4C4),
+      )
   );
 }

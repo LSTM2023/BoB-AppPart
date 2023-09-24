@@ -12,17 +12,18 @@ import 'package:get/get.dart' hide Trans;
 class ModifyUser extends StatefulWidget{
   final User userInfo;
   const ModifyUser(this.userInfo, {super.key});
-
   @override
   State<ModifyUser> createState() => _ModifyUser();
 }
 
 class _ModifyUser extends State<ModifyUser> {
+
   late TextEditingController passCtr;
   late TextEditingController passCheckCtr;
   late TextEditingController nickNameCtr;
   late TextEditingController phoneCtr;
   bool passwordVisible = true;
+
   @override
   void initState() {
     passCtr = TextEditingController(text: widget.userInfo.password1);
@@ -31,6 +32,7 @@ class _ModifyUser extends State<ModifyUser> {
     phoneCtr = TextEditingController(text: widget.userInfo.phone);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +43,7 @@ class _ModifyUser extends State<ModifyUser> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              textBase('login_id'.tr, 'bold', 14),
+              label('login_id'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               SizedBox(
                 height: 50,
@@ -51,29 +53,24 @@ class _ModifyUser extends State<ModifyUser> {
                 ),
               ),
               const SizedBox(height: 30),
-              makeText('login_pass'.tr, const Color(0xFF512F22), 14),
+              label('login_pass'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               makePWFormField('pw', passCtr, passwordVisible),
               const SizedBox(height: 10),
               makePWFormField('pw_check', passCheckCtr, passwordVisible),
               const SizedBox(height: 30),
-              makeText('login_nickname'.tr, Color(0xFF512F22), 14),
+              label('login_nickname'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               makeTextFormField('nickname', nickNameCtr, TextInputType.name),
               const SizedBox(height: 30),
-              makeText('login_phone'.tr, Color(0xFF512F22), 14),
+              label('login_phone'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               makeTextFormField('phone', phoneCtr, TextInputType.phone),
               const SizedBox(height: 100),
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      backgroundColor: const Color(0xffFB8665),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-                      foregroundColor: Colors.white
-                  ),
-                  onPressed: () async => await modifyUserinfo(),
-                  child: text('login_modified'.tr,'extra-bold', 16, Colors.white)
+                  style: btnStyleForm('white', 'primary'),
+                  onPressed: () async => await serviceModifyUserinfo(),
+                  child: label('login_modified'.tr,'extra-bold', 16, 'white')
               )
             ],
           ),
@@ -82,7 +79,8 @@ class _ModifyUser extends State<ModifyUser> {
     );
 
   }
-  modifyUserinfo() async {
+  /// method for modify user information
+  serviceModifyUserinfo() async {
     // 1. validate
     String pass = passCtr.text.trim();
     String name = nickNameCtr.text.trim();
@@ -92,7 +90,7 @@ class _ModifyUser extends State<ModifyUser> {
         !validatePhone(phone)) {
       return;
     }
-    // 2. modify
+    // call modifyUser API & edit local DB
     if (await editUserService({"password": pass, "name": name, "phone": phone}) == "True") {
       // (1) 비번 변경시 -> 내부 저장소 변경
       if (pass != widget.userInfo.password1) {

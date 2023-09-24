@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../services/backend.dart';
+import '../widgets/form.dart';
 import './MyPage/Invitation.dart';
 import './MyPage/AddBaby.dart';
 import 'package:badges/badges.dart' as badges;
@@ -57,7 +58,7 @@ class MainMyPageState extends State<MainMyPage>{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('main4_manageBaby'.tr, style: TextStyle(color: Color(0xff512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+              label('main4_manageBaby'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               CarouselSlider.builder(
                 itemCount: activateBabies.length+1,
@@ -77,15 +78,15 @@ class MainMyPageState extends State<MainMyPage>{
               ),
               const SizedBox(height: 86),
               drawSettingScreen('main4_InviteBabysitter'.tr, Icons.favorite,() => invitation()),
-              drawDivider(),
+              divider(),
               drawLanguageScreen(),
-              drawDivider(),
+              divider(),
               drawSettingScreen('main4_modifyUserInfo'.tr, Icons.settings, ()=>modifyUserInfo()),
-              drawDivider(),
+              divider(),
               drawSettingScreen('main4_logout'.tr, Icons.logout,() => logout()),
-              drawDivider(),
+              divider(),
               drawSettingScreen('main4_withdrawal'.tr, Icons.ac_unit,()=>withdraw()),
-              drawDivider(),
+              divider(),
               const SizedBox(height: 20),
 
             ],
@@ -110,19 +111,15 @@ class MainMyPageState extends State<MainMyPage>{
               ],
             ),
             DropdownButton(
-              underline: SizedBox.shrink(),
+              underline: const SizedBox.shrink(),
               value: widget.c_language,
               items: ['한국어', 'english'].map((String item){
                 return DropdownMenuItem<String>(
-                  child: text(item, 'bold', 10, Color(0x99512F22)),
                   value: item,
+                  child: label(item, 'bold', 10, 'base60'),
                 );
               }).toList(),
-              onChanged: (dynamic value) {
-                  setState(() {
-                    widget.changeLanguage(value);
-                  });
-              },
+              onChanged: (dynamic value) => changeLanguageMode(value)
             ),
           ],
         )
@@ -173,7 +170,7 @@ class MainMyPageState extends State<MainMyPage>{
             const SizedBox(height: 12),
             badges.Badge(
               position: badges.BadgePosition.topEnd(top: -13, end: -20),
-              badgeContent: text(baby.relationInfo.getRelationString(), 'normal', 6, Colors.white),
+              badgeContent: label(baby.relationInfo.getRelationString(), 'normal', 6, 'white'),
               badgeStyle: badges.BadgeStyle(
                 shape: badges.BadgeShape.square,
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -193,7 +190,7 @@ class MainMyPageState extends State<MainMyPage>{
                       height: 12,
                       child: Row(
                         children: [
-                          Text('${'birth'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          label('${'birth'.tr} : ', 'bold', 10, 'base100'),
                           Text('${baby.birth.year}${'year'.tr} ${baby.birth.month}${'month'.tr} ${baby.birth.day}${'day_birth'.tr}', style: TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ],
                       )
@@ -203,7 +200,7 @@ class MainMyPageState extends State<MainMyPage>{
                       height: 12,
                       child: Row(
                         children: [
-                          Text('${'gender'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          label('${'gender'.tr} : ', 'bold', 10, 'base100'),
                           Text(baby.gender==1?'genderM'.tr:'genderF'.tr, style: const TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
                         ],
                       )
@@ -231,7 +228,7 @@ class MainMyPageState extends State<MainMyPage>{
                 onPressed: (){
                   Get.dialog(
                       AlertDialog(
-                        title: text('warning', 'extra-bold', 18, Color(0xffFB8665)),
+                        title: label('warning', 'extra-bold', 18, 'primary'),
                         content: textBase('once_delete'.tr, 'bold', 14),
                         actions: [
                           TextButton(
@@ -331,6 +328,7 @@ class MainMyPageState extends State<MainMyPage>{
                 )
             ),
             const SizedBox(height: 12),
+
             text('New'.tr, 'bold', 12, colorList[seed%3]),
             const SizedBox(height: 13),
             Container(
@@ -350,6 +348,9 @@ class MainMyPageState extends State<MainMyPage>{
         )
     );
   }
+
+  /*  ----------------------------  METHOD  ----------------------------------------*/
+  /// [0-a] method for add baby
   openAddBabyScreen() async {
     await showModalBottomSheet(
         shape: const RoundedRectangleBorder(
@@ -367,10 +368,29 @@ class MainMyPageState extends State<MainMyPage>{
     );
     await widget.reloadBabiesFunction();
   }
+  /// [0-b] method for delete baby
+  deleteBaby(int targetBabyID) async {
+     var re = await deleteBabyService(targetBabyID);
+     if(re != 200){
+       Get.snackbar('warning', 'not_deleted'.tr);
+       return;
+     }
+     Get.back();
+     await widget.reloadBabiesFunction();
+  }
+  /// [1] method for invite additional caregivers
   invitation() async {
+    //Get.to(() => Invitation(activateBabies, disActivateBabies));
     await Get.to(() => Invitation(activateBabies, disActivateBabies));
     await widget.reloadBabiesFunction();
   }
+  /// [2] method for change language mode
+  changeLanguageMode(changedLanguage){
+    setState(() {
+      widget.changeLanguage(changedLanguage);
+    });
+  }
+  /// [3] method for modify user information
   modifyUserInfo() async {
     var modifyInfo = await Get.to(() => ModifyUser(widget.userinfo));
     if(modifyInfo != null){
@@ -379,6 +399,12 @@ class MainMyPageState extends State<MainMyPage>{
       });
     }
   }
+  /// [4] method for logout
+  logout() async{
+    await deleteLogin();
+    Get.offAll(LoginInit());
+  }
+  /// [5] method for withdraw
   withdraw() {
     showModalBottomSheet(
         shape: const RoundedRectangleBorder(
@@ -395,15 +421,6 @@ class MainMyPageState extends State<MainMyPage>{
         }
     );
   }
-  deleteBaby(int targetBabyID) async {
-     var re = await deleteBabyService(targetBabyID);
-     if(re != 200){
-       Get.snackbar('warning', 'not_deleted'.tr);
-       return;
-     }
-     Get.back();
-     await widget.reloadBabiesFunction();
-  }
 }
 
 InkWell drawSettingScreen(String title, IconData icon, dynamic func){
@@ -418,24 +435,11 @@ InkWell drawSettingScreen(String title, IconData icon, dynamic func){
           children: [
             Icon(icon, size:18, color: const Color(0xFFFB8665)),
             const SizedBox(width: 20),
-            Text(title, style: const TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,))
+            label(title, 'bold', 10, 'base100')
           ],
         )
     )
   );
 }
 
-Padding drawDivider(){
-  return const Padding(
-      padding: EdgeInsets.all(11.5),
-      child: Divider(
-        thickness: 1,
-        color: Color(0xffC4C4C4),
-      )
-  );
-}
 
-logout() async{
-  await deleteLogin();
-  Get.offAll(LoginInit());
-}

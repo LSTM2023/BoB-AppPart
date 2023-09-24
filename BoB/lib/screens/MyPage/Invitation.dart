@@ -5,7 +5,6 @@ import 'package:bob/widgets/text.dart';
 import 'package:get/get.dart';
 import '../../services/backend.dart';
 import './InvitationNew.dart';
-import 'package:badges/badges.dart' as badges;
 
 class Invitation extends StatefulWidget{
   final List<Baby> activebabies;
@@ -16,6 +15,7 @@ class Invitation extends StatefulWidget{
 }
 
 class _Invitation extends State<Invitation> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +48,7 @@ class _Invitation extends State<Invitation> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 28, bottom: 24),
-              child: text('invitation_notList'.tr, 'bold', 14, const Color(0xff512F22))
+              child: label('invitation_notList'.tr, 'bold', 14, 'base100')
             ),
             Expanded(
                 child: ListView.builder(
@@ -59,7 +59,6 @@ class _Invitation extends State<Invitation> {
                   },
                 )
             )
-
           ],
         ),
       ),
@@ -80,7 +79,6 @@ class _Invitation extends State<Invitation> {
       margin: const EdgeInsets.only(left: 16, right: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-
         border: Border(
           left: BorderSide(
               color: col,
@@ -98,7 +96,7 @@ class _Invitation extends State<Invitation> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          textBase(baby.name, 'extra-bold', 12),
+          label(baby.name, 'extra-bold', 12, 'base100'),
           OutlinedButton(
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.fromLTRB(9, 4, 9, 4),
@@ -113,8 +111,8 @@ class _Invitation extends State<Invitation> {
                 Get.dialog(
                   AlertDialog(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                    title: text('invitation_accept'.tr,'extra-bold', 16, const Color(0xFFFB8665)),
-                    content: textBase('invitation_acceptC'.tr, 'bold', 12),
+                    title: label('invitation_accept'.tr,'extra-bold', 16, 'primary'),
+                    content: label('invitation_acceptC'.tr, 'bold', 12, 'base'),
                     actions: [
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -128,13 +126,13 @@ class _Invitation extends State<Invitation> {
                             Navigator.pop(context);
                             Get.back();
                           },
-                          child: text('accept'.tr,'extra-bold', 14, Colors.white)
+                          child: label('accept'.tr,'extra-bold', 14, 'white')
                       )
                     ],
                   ),
                 );
               },
-              child: text('accept'.tr, 'bold', 10, const Color(0xFFFB8665))
+              child: label('accept'.tr, 'bold', 10, 'primary')
           )
         ],
       ),
