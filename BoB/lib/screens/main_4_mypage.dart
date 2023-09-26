@@ -21,32 +21,31 @@ class MainMyPage extends StatefulWidget{
   final getBabiesFuction; // 아기 불러오는 fuction
   final reloadBabiesFunction;
   final changeLanguage;
-  final c_language;
-  const MainMyPage(this.userinfo, this.c_language, {Key?key, this. getBabiesFuction, this.reloadBabiesFunction, this.changeLanguage}):super(key:key);
+  final Clanguage;
+  const MainMyPage(this.userinfo, this.Clanguage, {Key?key, this. getBabiesFuction, this.reloadBabiesFunction, this.changeLanguage}):super(key:key);
   @override
   State<MainMyPage> createState() => MainMyPageState();
 }
 class MainMyPageState extends State<MainMyPage>{
 
   CarouselController carouselController = CarouselController();
-
-  //int cLanIdx = 0;
-  List<Color> colorList = [const Color(0xffFB8665), const Color(0xff22513E), const Color(0xff222551)];
   late List<Baby> activateBabies;
   late List<Baby> disActivateBabies;
 
-
   @override
   void initState() {
+
     activateBabies = widget.getBabiesFuction(true);
     disActivateBabies = widget.getBabiesFuction(false);
-    super.initState();
-    if(activateBabies.length==0 && disActivateBabies.length==0){
+
+    if(activateBabies.isEmpty && disActivateBabies.isEmpty){
       WidgetsBinding.instance.addPostFrameCallback((_){
         openAddBabyScreen();
       });
     }
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +57,7 @@ class MainMyPageState extends State<MainMyPage>{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // 아이 관리 리스트
               label('main4_manageBaby'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               CarouselSlider.builder(
@@ -69,50 +69,45 @@ class MainMyPageState extends State<MainMyPage>{
                   aspectRatio: 5.0,
                 ),
                 itemBuilder: (context, i, id){
-                  if(i < activateBabies.length) {
-                    return drawBaby(activateBabies[i], 0);
-                  }else{
-                    return drawAddBaby(0);
-                  }
+                  return drawBabyOne((i<activateBabies.length ? activateBabies[i] : null));
                 },
               ),
               const SizedBox(height: 86),
-              drawSettingScreen('main4_InviteBabysitter'.tr, Icons.favorite,() => invitation()),
-              divider(),
-              drawLanguageScreen(),
-              divider(),
-              drawSettingScreen('main4_modifyUserInfo'.tr, Icons.settings, ()=>modifyUserInfo()),
-              divider(),
-              drawSettingScreen('main4_logout'.tr, Icons.logout,() => logout()),
-              divider(),
-              drawSettingScreen('main4_withdrawal'.tr, Icons.ac_unit,()=>withdraw()),
-              divider(),
+              // setting list - invitation / language / user info / logout
+              drawSettingSpace('main4_InviteBabysitter'.tr, Icons.favorite,() => invitation()),
+              drawSettingSpace('main4_changeLanguage'.tr, Icons.language, (){}),
+              drawSettingSpace('main4_modifyUserInfo'.tr, Icons.settings, ()=>modifyUserInfo()),
+              drawSettingSpace('main4_logout'.tr, Icons.logout,() => logout()),
+              drawSettingSpace('main4_withdrawal'.tr, Icons.ac_unit,()=>withdraw()),
               const SizedBox(height: 20),
-
             ],
           ),
         ),
       )
     );
   }
-  Container drawLanguageScreen(){
-    return Container(
-        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        height: 30,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.language, size:18, color: Color(0xFFFB8665)),
-                const SizedBox(width: 20),
-                textBase('main4_changeLanguage'.tr, 'bold', 10)
-              ],
-            ),
-            DropdownButton(
+  /*  ----------------------------  DRAW  ----------------------------------------*/
+  /// setting 메뉴 그리기
+  Column drawSettingSpace(String title, IconData icon, dynamic func){
+    Row content = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(icon, size:18, color: const Color(0xFFFB8665)),
+        const SizedBox(width: 20),
+        label(title, 'bold', 10, 'base100')
+      ],
+    );
+
+    if(icon == Icons.language){
+      content = Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          content,
+          DropdownButton(
               underline: const SizedBox.shrink(),
-              value: widget.c_language,
+              value: widget.Clanguage,
               items: ['한국어', 'english'].map((String item){
                 return DropdownMenuItem<String>(
                   value: item,
@@ -120,12 +115,74 @@ class MainMyPageState extends State<MainMyPage>{
                 );
               }).toList(),
               onChanged: (dynamic value) => changeLanguageMode(value)
-            ),
-          ],
-        )
+          ),
+        ],
+      );
+    }
+    return Column(
+      children: [
+        InkWell(
+            onTap: func,
+            child: Container(
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                height: 30,
+                child: content
+            )
+        ),
+        divider()
+      ],
     );
   }
-  Widget drawBaby(Baby baby, int seed){
+  /// baby 그리기
+  Widget drawBabyOne(Baby? baby){
+    late Widget imgSpace;
+    late Widget nameSpace;
+    if(baby != null){
+      imgSpace = Container(
+        height: 100,
+        width: 100,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: const Color(0xCCFFFFFF),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: const Color(0xffC1C1C1),
+              width: 0.5,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x29000000),
+                offset: Offset(0, 3),
+                blurRadius: 6,
+              )
+            ]
+        ),
+        child: Image.asset('assets/image/baby${baby.gender==0?0:1}.png', width: 70),
+      );
+      nameSpace = badges.Badge(
+        position: badges.BadgePosition.topEnd(top: -13, end: -20),
+        badgeContent: label(baby.relationInfo.getRelationString(), 'normal', 6, 'white'),
+        badgeStyle: badges.BadgeStyle(
+          shape: badges.BadgeShape.square,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          badgeColor: colorList[baby.relationInfo.relation],
+        ),
+        child: label((baby!=null?baby.name:'New'), 'bold', 12, 'rel${baby.relationInfo.relation}')
+      );
+    }
+    else{
+      imgSpace = InkWell(
+          onTap: () => openAddBabyScreen(),
+          child: Container(
+            height: 100,
+            width: 100,
+            alignment: Alignment.center,
+            decoration: bottomSheetStyleFormRound(),
+            child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
+          )
+      );
+      nameSpace = label((baby!=null?baby.name:'New'), 'bold', 12, 'base100');
+    }
     Container content = Container(
         height: 230,
         width: double.infinity,
@@ -146,38 +203,9 @@ class MainMyPageState extends State<MainMyPage>{
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 100,
-              width: 100,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: const Color(0xCCFFFFFF),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xffC1C1C1),
-                    width: 0.5,
-                  ),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x29000000),
-                      offset: Offset(0, 3),
-                      blurRadius: 6,
-                    )
-                  ]
-              ),
-              child: Image.asset('assets/image/baby${baby.gender==0?0:1}.png', width: 70),
-            ),
+            imgSpace,
             const SizedBox(height: 12),
-            badges.Badge(
-              position: badges.BadgePosition.topEnd(top: -13, end: -20),
-              badgeContent: label(baby.relationInfo.getRelationString(), 'normal', 6, 'white'),
-              badgeStyle: badges.BadgeStyle(
-                shape: badges.BadgeShape.square,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                badgeColor: colorList[baby.relationInfo.relation],
-              ),
-              child: Text(baby.name, style: TextStyle(color: colorList[baby.relationInfo.relation], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
-            ),
+            nameSpace,
             const SizedBox(height: 13),
             Container(
               width: double.infinity,
@@ -191,7 +219,7 @@ class MainMyPageState extends State<MainMyPage>{
                       child: Row(
                         children: [
                           label('${'birth'.tr} : ', 'bold', 10, 'base100'),
-                          Text('${baby.birth.year}${'year'.tr} ${baby.birth.month}${'month'.tr} ${baby.birth.day}${'day_birth'.tr}', style: TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          label((baby!=null?'${baby.birth.year}${'year'.tr} ${baby.birth.month}${'month'.tr} ${baby.birth.day}${'day_birth'.tr}':''), 'bold', 10, 'base63'),
                         ],
                       )
                   ),
@@ -201,45 +229,44 @@ class MainMyPageState extends State<MainMyPage>{
                       child: Row(
                         children: [
                           label('${'gender'.tr} : ', 'bold', 10, 'base100'),
-                          Text(baby.gender==1?'genderM'.tr:'genderF'.tr, style: const TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          label((baby!=null?(baby.gender==1?'genderM'.tr:'genderF'.tr):''), 'bold', 10, 'base63')
                         ],
                       )
                   )
                 ],
               ),
             )
-
           ],
         )
     );
-    if(baby.relationInfo.relation == 0){
+    if(baby!=null && baby?.relationInfo.relation == 0){
       return Stack(
         children: [
           content,
           Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
             Container(
               margin: const EdgeInsets.only(top: 10),
               height: 20,
               child: FloatingActionButton(
                 elevation: 0,
-                backgroundColor: Color(0xffB4B4B4),
+                backgroundColor: const Color(0xffB4B4B4),
                 onPressed: (){
                   Get.dialog(
                       AlertDialog(
                         title: label('warning', 'extra-bold', 18, 'primary'),
-                        content: textBase('once_delete'.tr, 'bold', 14),
+                        content: label('once_delete'.tr, 'bold', 14, 'base100'),
                         actions: [
                           TextButton(
                               onPressed: ()=> deleteBaby(baby.relationInfo.BabyId),
-                              child: textBase('delete'.tr, 'bold', 14)
+                              child: label('delete'.tr, 'bold', 14, 'base100')
                           ),
                           TextButton(
                               onPressed: (){
                                 Get.back();
                               },
-                              child: textBase('cancle'.tr, 'bold', 14)
+                              child: label('cancel'.tr, 'bold', 14, 'base100')
                           )
                         ],
                       ),
@@ -278,77 +305,11 @@ class MainMyPageState extends State<MainMyPage>{
         )
         ],
       );
-    }else{
+    }
+    else{
       return content;
     }
   }
-  Widget drawAddBaby(int seed){
-    return Container(
-        height: 230,
-        width: double.infinity,
-        margin: const EdgeInsets.only(right: 10),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF9F8F8),
-          borderRadius: BorderRadius.circular(6),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x29512F22),
-              spreadRadius: 0,
-              blurRadius: 6.0,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-                onTap: () => openAddBabyScreen(),
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: const Color(0xCCFFFFFF),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xffC1C1C1),
-                        width: 0.5,
-                      ),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x29000000),
-                          offset: Offset(0, 3),
-                          blurRadius: 6,
-                        )
-                      ]
-                  ),
-                  child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
-                )
-            ),
-            const SizedBox(height: 12),
-
-            text('New'.tr, 'bold', 12, colorList[seed%3]),
-            const SizedBox(height: 13),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.only(left: 41, right: 41),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('${'birth'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 5),
-                  Text('${'gender'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                ],
-              ),
-            )
-          ],
-        )
-    );
-  }
-
   /*  ----------------------------  METHOD  ----------------------------------------*/
   /// [0-a] method for add baby
   openAddBabyScreen() async {
@@ -422,24 +383,3 @@ class MainMyPageState extends State<MainMyPage>{
     );
   }
 }
-
-InkWell drawSettingScreen(String title, IconData icon, dynamic func){
-  return InkWell(
-    onTap: func,
-    child: Container(
-        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        height: 30,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(icon, size:18, color: const Color(0xFFFB8665)),
-            const SizedBox(width: 20),
-            label(title, 'bold', 10, 'base100')
-          ],
-        )
-    )
-  );
-}
-
-

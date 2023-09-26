@@ -41,6 +41,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
     babyValueList = getBabyList();
     super.initState();
   }
+
   List<bool> birthSelected = [true, false];
   int relationSelected = 0;
   getBabyList(){
@@ -50,12 +51,12 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
     }
     return tmp;
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-            left: 17, right: 17
+            bottom: MediaQuery.of(context).viewInsets.bottom, left: 17, right: 17
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -63,7 +64,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 50),
-              textBase('invitation2_id'.tr, 'bold', 14),
+              label('invitation2_id'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               SizedBox(
                 height: 50,
@@ -77,6 +78,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                           enabled: targetID.isEmpty,
                         ),
                       ),
+                      // 중복 체크 버튼
                       IconButton(onPressed: () => duplicateCheck(), icon: targetID.isEmpty?const Icon(Icons.search):const Icon(Icons.check, color:Colors.green))
                     ]
                 ),
@@ -86,9 +88,9 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                 children: [
                   SizedBox(
                     width: 143,
-                    child: textBase('selectBaby'.tr, 'bold', 14),
+                    child: label('selectBaby'.tr, 'bold', 14, 'base100'),
                   ),
-                  textBase('relation'.tr, 'bold', 14),
+                  label('relation'.tr, 'bold', 14, 'base100'),
                 ],
               ),
               const SizedBox(height: 10),
@@ -165,21 +167,23 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    textBase('invitation2_accY'.tr, 'bold', 14),
+                    // week
+                    label('invitation2_accY'.tr, 'bold', 14, 'base100'),
                     const SizedBox(height: 10),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: getWeek()
                     ),
                     const SizedBox(height: 18),
-                    textBase('invitation2_accT'.tr, 'bold', 14),
+                    // time
+                    label('invitation2_accT'.tr, 'bold', 14, 'base100'),
                     const SizedBox(height: 8),
                     Padding(
                         padding: const EdgeInsets.only(left: 27, right: 16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            text('$startTime ~ $endTime', 'bold', 14, Color(0x99512F22)),
+                            label('$startTime ~ $endTime', 'bold', 14, 'base60'),
                             OutlinedButton(
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.fromLTRB(12, 7, 12, 7),
@@ -201,7 +205,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                                     endTime = "${result.endTime.hour.toString().padLeft(2,'0')}:${result.endTime.minute.toString().padLeft(2,'0')}";
                                   });
                                 },
-                                child: text('invitation2_setT'.tr, 'bold', 12, const Color(0xFFFB8665))
+                                child: label('invitation2_setT'.tr, 'bold', 12, 'primary')
                             )
                           ],
                         )
@@ -212,15 +216,8 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
               const SizedBox(height: 72),
               ElevatedButton(
                   onPressed: () => invitation(),
-                  style:ElevatedButton.styleFrom(
-                      elevation: 0.2,
-                      padding: const EdgeInsets.fromLTRB(0,17,0,11),
-                      foregroundColor: Colors.white,
-                      backgroundColor: const Color(0xfffb8665),
-                      minimumSize: const Size.fromHeight(55),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))
-                  ),
-                  child: text('invitation'.tr, 'extra-bold', 16, Colors.white)
+                  style: btnStyleForm('white', 'primary'),
+                  child: label('invitation'.tr, 'extra-bold', 16, 'white')
               ),
               const SizedBox(height: 20),
             ],
@@ -271,6 +268,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
     }
   }
 
+  // 접근 요일 선택을 위한
   getWeek(){
     List<FilterChip> wget = [];
     for(int i=0; i<7; i++){

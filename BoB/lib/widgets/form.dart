@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:multi_masked_formatter/multi_masked_formatter.dart';
+import 'package:badges/badges.dart' as badges;
 
 // color
+List<Color> colorList = [const Color(0xffFB8665), const Color(0xff22513E), const Color(0xff222551)];
+
 Map<String, Color> str2color = {
   'white': const Color(0xffffffff),
   'primary' : const Color(0xffFB8665),
   'base60' : const Color(0x99512F22),
   'base63' : const Color(0xa1512f22),
   'base100' : const Color(0xff512F22),
-  'rel_parent' : const Color(0xffFF766A),
-  'grey': const Color(0xffC1C1C1)
+  'grey': const Color(0xffC1C1C1),
+  'rel0': const Color(0xffFB8665),
+  'rel1': const Color(0xff22513E),
+  'rel2': const Color(0xff222551),
 };
+//
 
 InputDecoration formDecoration(String title){
   return InputDecoration(
@@ -72,6 +78,7 @@ SizedBox makePWFormField(String title, TextEditingController controller, bool _v
   );
 }
 // Style Form
+// 1. button style 1
 btnStyleForm(String foreClr, String backClr){
   return ElevatedButton.styleFrom(
       elevation: 0.2,
@@ -83,7 +90,26 @@ btnStyleForm(String foreClr, String backClr){
       backgroundColor: str2color[backClr]
   );
 }
+// bottom style 1 - round
+bottomSheetStyleFormRound(){
+  return BoxDecoration(
+      color: const Color(0xCCFFFFFF),
+      shape: BoxShape.circle,
+      border: Border.all(
+        color: const Color(0xffC1C1C1),
+        width: 0.5,
+      ),
+      boxShadow: const [
+        BoxShadow(
+          color: Color(0x29000000),
+          offset: Offset(0, 3),
+          blurRadius: 6,
+        )
+      ]
+  );
+}
 
+// ---
 Padding divider(){
   return const Padding(
       padding: EdgeInsets.all(11.5),
@@ -93,3 +119,4 @@ Padding divider(){
       )
   );
 }
+
