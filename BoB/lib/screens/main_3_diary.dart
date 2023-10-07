@@ -30,10 +30,10 @@ class MainDiaryState extends State<MainDiary> {
           flexibleSpace: Container(
               decoration: const BoxDecoration(
                   gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: <Color>[Color(0xFFFFCCBF), Color(0xD9FFE1C7)],
-          ))),
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[Color(0xFFFFCCBF), Color(0xD9FFE1C7)],
+                  ))),
           elevation: 4.0,
           centerTitle: false,
           iconTheme: const IconThemeData(color: Colors.black),
@@ -77,7 +77,7 @@ class MainDiaryState extends State<MainDiary> {
 
   diaryList() {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: Column(
         children: [
           TableCalendar(
@@ -148,10 +148,10 @@ class MainDiaryState extends State<MainDiary> {
                         child: TextButton(
                           style: const ButtonStyle(
                             backgroundColor:
-                                MaterialStatePropertyAll(Color(0xFFF9F8F8)),
+                            MaterialStatePropertyAll(Color(0xFFF9F8F8)),
                             elevation: MaterialStatePropertyAll(6),
                             shadowColor:
-                                MaterialStatePropertyAll(Color(0x1B512F22)),
+                            MaterialStatePropertyAll(Color(0x1B512F22)),
                           ),
                           onPressed: () {
                             showDialog(
@@ -162,7 +162,7 @@ class MainDiaryState extends State<MainDiary> {
                                     child: AlertDialog(
                                       content: Form(
                                         key: _formKey,
-                                        child: writeDiary(selectedDay),
+                                        child: writeDiary(selectedDay, null),
                                       ),
                                       backgroundColor: const Color(0xFFF9F8F8),
                                     ),
@@ -187,10 +187,10 @@ class MainDiaryState extends State<MainDiary> {
                     padding: MaterialStateProperty.all(
                         const EdgeInsets.fromLTRB(2, 14, 2, 14)),
                     backgroundColor:
-                        const MaterialStatePropertyAll(Color(0xFFF9F8F8)),
+                    const MaterialStatePropertyAll(Color(0xFFF9F8F8)),
                     elevation: const MaterialStatePropertyAll(6),
                     shadowColor:
-                        const MaterialStatePropertyAll(Color(0x1B512F22)),
+                    const MaterialStatePropertyAll(Color(0x1B512F22)),
                   ),
                   onPressed: () {},
                   child: SingleChildScrollView(
@@ -219,13 +219,13 @@ class MainDiaryState extends State<MainDiary> {
                             Center(
                               child: snapshot.data!.image == null
                                   ? const SizedBox(
-                                      height: 10,
-                                      width: double.infinity,
-                                    )
+                                height: 10,
+                                width: double.infinity,
+                              )
                                   : Image.file(
-                                      File(snapshot.data!.image ?? 'default'),
-                                      width: MediaQuery.of(context).size.width /
-                                          2),
+                                  File(snapshot.data!.image ?? 'default'),
+                                  width: MediaQuery.of(context).size.width /
+                                      2),
                             ),
                             const SizedBox(
                               height: 10,
@@ -249,15 +249,15 @@ class MainDiaryState extends State<MainDiary> {
                                               child: AlertDialog(
                                                 content: Form(
                                                   key: _formKey,
-                                                  child: updateDiary(
+                                                  child: writeDiary(
                                                       selectedDay,
                                                       snapshot.data),
                                                 ),
                                                 insetPadding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        15, 30, 15, 30),
+                                                const EdgeInsets.fromLTRB(
+                                                    15, 30, 15, 30),
                                                 backgroundColor:
-                                                    const Color(0xfffffdfd),
+                                                const Color(0xfffffdfd),
                                               ),
                                             );
                                           });
@@ -283,14 +283,14 @@ class MainDiaryState extends State<MainDiary> {
                                                   ElevatedButton(
                                                       style: ElevatedButton
                                                           .styleFrom(
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              side:
-                                                                  const BorderSide(
-                                                                color: Color(
-                                                                    0xffdf8570),
-                                                                width: 0.5,
-                                                              )),
+                                                          backgroundColor:
+                                                          Colors.white,
+                                                          side:
+                                                          const BorderSide(
+                                                            color: Color(
+                                                                0xffdf8570),
+                                                            width: 0.5,
+                                                          )),
                                                       onPressed: () =>
                                                           Navigator.of(context)
                                                               .pop(),
@@ -301,20 +301,20 @@ class MainDiaryState extends State<MainDiary> {
                                                   ElevatedButton(
                                                       style: ElevatedButton
                                                           .styleFrom(
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              side:
-                                                                  const BorderSide(
-                                                                color: Color(
-                                                                    0xffdf8570),
-                                                                width: 0.5,
-                                                              )),
+                                                          backgroundColor:
+                                                          Colors.white,
+                                                          side:
+                                                          const BorderSide(
+                                                            color: Color(
+                                                                0xffdf8570),
+                                                            width: 0.5,
+                                                          )),
                                                       onPressed: (() async {
                                                         setState(() {
                                                           DatabaseHelper
                                                               .instance
                                                               .remove(
-                                                                  selectedDay);
+                                                              selectedDay);
                                                         });
                                                         Navigator.of(context)
                                                             .pop();
@@ -347,13 +347,10 @@ class MainDiaryState extends State<MainDiary> {
     );
   }
 
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _contentController = TextEditingController();
-
-  updateDiary(DateTime selectedDay, Diary? diary) {
-    String title = diary!.title;
-    String content = diary.content;
-    String? image = diary.image;
+  writeDiary(DateTime selectedDay, Diary? diary) {
+    String title = diary?.title ?? '';
+    String content = diary?.content ?? '';
+    String? image = diary?.image;
     String selDay = DateFormat('yyyy.MM.dd').format(selectedDay);
     final ImagePicker picker = ImagePicker();
 
@@ -371,8 +368,8 @@ class MainDiaryState extends State<MainDiary> {
             height: 5.0,
           ),
           TextFormField(
-            cursorColor: Color(0xffdf8570),
-            initialValue: diary.title,
+            cursorColor: const Color(0xffdf8570),
+            initialValue: diary?.title,
             onSaved: (value) {
               setState(() {
                 title = value as String;
@@ -398,10 +395,10 @@ class MainDiaryState extends State<MainDiary> {
             width: 5000,
           ),
           TextFormField(
-            cursorColor: Color(0xffdf8570),
+            cursorColor: const Color(0xffdf8570),
             maxLines: 15,
             keyboardType: TextInputType.multiline,
-            initialValue: diary.content,
+            initialValue: diary?.content,
             onSaved: (value) {
               setState(() {
                 content = value as String;
@@ -430,10 +427,10 @@ class MainDiaryState extends State<MainDiary> {
             children: [
               ElevatedButton(
                   onPressed: (() async {
-                    final XFile? _image =
-                        await picker.pickImage(source: ImageSource.gallery);
+                    final XFile? image0 =
+                    await picker.pickImage(source: ImageSource.gallery);
                     setState(() {
-                      image = _image!.path;
+                      image = image0!.path;
                     });
                   }),
                   style: ElevatedButton.styleFrom(
@@ -444,17 +441,26 @@ class MainDiaryState extends State<MainDiary> {
                       )),
                   child: Text(
                       image != null ? 'change_image'.tr : 'put_image'.tr,
-                      style: TextStyle(color: Color(0xffdf8570)))),
+                      style: const TextStyle(color: Color(0xffdf8570)))),
               const SizedBox(width: 10),
               ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      DatabaseHelper.instance.update(Diary(
-                          date: selDay,
-                          title: title,
-                          content: content,
-                          image: image));
+                      if (diary?.title != null) {
+                        DatabaseHelper.instance.update(Diary(
+                            date: selDay,
+                            title: title,
+                            content: content,
+                            image: image));
+                      }
+                      else {
+                        DatabaseHelper.instance.add(Diary(
+                            date: selDay,
+                            title: title,
+                            content: content,
+                            image: image));
+                      }
                       _formKey.currentState?.reset();
                       Navigator.of(context).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -468,134 +474,8 @@ class MainDiaryState extends State<MainDiary> {
                         color: Color(0xffdf8570),
                         width: 0.5,
                       )),
-                  child: Text('modify'.tr,
+                  child: Text(diary?.title != null ? 'modify'.tr : 'upload'.tr,
                       style: const TextStyle(color: Color(0xffdf8570)))),
-            ],
-          ),
-        ]);
-  }
-
-  writeDiary(DateTime selectedDay) {
-    String title = '';
-    String content = '';
-    String? image;
-    String selDay = DateFormat('yyyy.MM.dd').format(selectedDay);
-    final ImagePicker picker = ImagePicker();
-
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          TextButton(
-            child: const Icon(Icons.clear, color: Color(0xFFFB8665)),
-            onPressed: () {
-              _formKey.currentState?.reset();
-              Navigator.of(context).pop();
-            },
-          ),
-          const SizedBox(
-            height: 5.0,
-          ),
-          TextFormField(
-            cursorColor: const Color(0xFFFB8665),
-            controller: _titleController,
-            onSaved: (value) {
-              setState(() {
-                title = value as String;
-              });
-            },
-            validator: (value) {
-              if (value!.trim().isEmpty) {
-                return 'enter_title'.tr;
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              labelText: 'title'.tr,
-              floatingLabelStyle: const TextStyle(color: Color(0xFFFB8665)),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 1.5, color: Color(0xFFFB8665))),
-              border: const OutlineInputBorder(),
-            ),
-            style: const TextStyle(fontSize: 15),
-          ),
-          const SizedBox(
-            height: 16.0,
-            width: 5000,
-          ),
-          TextFormField(
-            cursorColor: const Color(0xFFFB8665),
-            maxLines: 15,
-            keyboardType: TextInputType.multiline,
-            controller: _contentController,
-            onSaved: (value) {
-              setState(() {
-                content = value as String;
-              });
-            },
-            validator: (value) {
-              if (value!.trim().isEmpty) {
-                return 'enter_content'.tr;
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              labelText: 'content'.tr,
-              floatingLabelStyle: const TextStyle(color: Color(0xFFFB8665)),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 1.5, color: Color(0xFFFB8665))),
-              border: const OutlineInputBorder(),
-            ),
-            style: const TextStyle(fontSize: 15),
-          ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                  onPressed: (() async {
-                    final XFile? _image =
-                        await picker.pickImage(source: ImageSource.gallery);
-                    setState(() {
-                      image = _image!.path;
-                    });
-                  }),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      side: const BorderSide(
-                        color: Color(0xFFFB8665),
-                        width: 0.5,
-                      )),
-                  child: Text(
-                      image != null ? 'change_image'.tr : 'put_image'.tr,
-                      style: const TextStyle(color: Color(0xFFFB8665)))),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      DatabaseHelper.instance.add(Diary(
-                          date: selDay,
-                          title: title,
-                          content: content,
-                          image: image));
-                      _formKey.currentState?.reset();
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('uploaded'.tr)),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFB8665),
-                  ),
-                  child: Text('upload'.tr,
-                      style: const TextStyle(color: Colors.white))),
-              if (image != null)
-                Expanded(
-                  child: Image.file(File(image!)),
-                ),
             ],
           ),
         ]);

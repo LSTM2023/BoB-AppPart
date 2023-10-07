@@ -38,7 +38,6 @@ class MainCCTVState extends State<Main_Cctv>{
   void messageReceived(String msg){
     setState(() {
       temp = json.decode(msg);
-      print(msg);
     });
   }
 
@@ -62,7 +61,7 @@ class MainCCTVState extends State<Main_Cctv>{
   }
 
   Widget viewCCTV() {
-    String week = baby.relationInfo.Access_week.toRadixString(2);;
+    String week = baby.relationInfo.Access_week.toRadixString(2);
     for (int i=week.length; i<7; i++) {
       week = '0$week';
     }
@@ -121,7 +120,7 @@ class MainCCTVState extends State<Main_Cctv>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('BoB ', style: const TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
+                      const Text('BoB ', style: TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
                       Text('homecam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
                     ],
                   ),
@@ -129,25 +128,25 @@ class MainCCTVState extends State<Main_Cctv>{
                   Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(width: 36),
+                        const SizedBox(width: 36),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             textBase('temp'.tr, 'bold', 14),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             textBase(temp['Temp']+'°C', 'bold', 28),
                           ],
                         ),
-                        SizedBox(width: 30),
-                        Container(width: 1, height: 64, color: Color(0xFF512F22)),
-                        SizedBox(width: 30),
+                        const SizedBox(width: 30),
+                        Container(width: 1, height: 64, color: const Color(0xFF512F22)),
+                        const SizedBox(width: 30),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('humid'.tr, style: TextStyle(fontSize: 14, color: Color(0xFF512F22))),
-                            SizedBox(height: 16),
+                            Text('humid'.tr, style: const TextStyle(fontSize: 14, color: Color(0xFF512F22))),
+                            const SizedBox(height: 16),
                             Text(temp['Humid']+'%', style: const TextStyle(fontSize: 28, color: Color(0xFF512F22)))
                           ],
                         ),
@@ -217,7 +216,7 @@ class MainCCTVState extends State<Main_Cctv>{
               break;
           }
         }
-      };
+      }
       return Scaffold(
         backgroundColor: const Color(0xFFFFFFFF),
         body: Center(
