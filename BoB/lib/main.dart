@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import './screens/Splash.dart';
 import './language.dart';
 import 'package:get/get.dart';
-import 'fcmSetting.dart';
 
 void main() async {
   print('main');
   WidgetsFlutterBinding.ensureInitialized();
-  String? firebaseToken = await fcmSetting();
   runApp(const MyApp());
 }
 

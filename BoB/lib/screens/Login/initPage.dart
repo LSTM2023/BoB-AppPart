@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:bob/models/model.dart' as MODEL;
 import 'package:bob/services/backend.dart';
 import 'package:bob/services/storage.dart';
@@ -8,16 +6,12 @@ import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import '../../fcmSetting.dart';
 import '../../models/validate.dart';
-import '../../services/login_platform.dart';
 import '../BaseWidget.dart';
 import './findID.dart';
-import './findPassword.dart';
 import './signUp.dart';
-import '../MyPage/AddBaby.dart';
 import '../../widgets/form.dart';
-import './findLoginInfo.dart';
-import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginInit extends StatefulWidget{
@@ -154,6 +148,8 @@ class _LoginInit extends State<LoginInit>{
         baby['relationInfo'] = relation.toJson();
         MyBabies.add(MODEL.Baby.fromJson(baby));
       }
+      String? fbToken = await fcmSetting();
+      await updateFbToken(email, pw, fbToken!);
       Get.snackbar('로그인 성공', '환영합니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
       if(MyBabies.isEmpty){
         Get.offAll(()=> BaseWidget(userInfo, MyBabies));

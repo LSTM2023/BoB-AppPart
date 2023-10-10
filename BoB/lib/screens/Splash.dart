@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:bob/services/storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import './Login/initPage.dart';
+import 'package:bob/fcmSetting.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Splash extends StatefulWidget {
@@ -84,6 +85,9 @@ class _Splash extends State<Splash>{
       String token = loginData['access_token']; // response의 token키에 담긴 값을 token 변수에 담아서
       Map<dynamic, dynamic> payload = Jwt.parseJwt(token);
       User uinfo = User(loginData['email'], loginInfo.userPassword, loginData['name'], loginData['phone'], 0, "");
+      String? fbToken = await fcmSetting();
+      var fbTokenStatus = await updateFbToken(loginData['email'], loginInfo.userPassword, fbToken!);
+      print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'+fbTokenStatus);
       // 로그인 정보 저장
       Login newloginInfo = Login(token, loginData['refresh_token'], payload['user_id'], loginData['email'], loginInfo.userPassword);
       await writeLogin(newloginInfo);
