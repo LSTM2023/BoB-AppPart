@@ -42,7 +42,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.58,
+        height: MediaQuery.of(context).size.height * 0.6,
         child: Column(
           children: [
             Container(

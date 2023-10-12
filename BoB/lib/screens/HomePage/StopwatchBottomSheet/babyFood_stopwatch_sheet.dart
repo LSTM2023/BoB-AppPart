@@ -43,7 +43,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                 topLeft: Radius.circular(20)
             )
         ),
-        height: MediaQuery.of(context).size.height * 0.42,
+        height: MediaQuery.of(context).size.height * 0.47,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

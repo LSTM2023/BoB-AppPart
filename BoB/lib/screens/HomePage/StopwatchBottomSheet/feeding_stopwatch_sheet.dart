@@ -42,7 +42,7 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                 topLeft: Radius.circular(20)
             )
         ),
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.45,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

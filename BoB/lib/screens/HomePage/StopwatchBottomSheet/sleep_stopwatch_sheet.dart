@@ -41,7 +41,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                 topLeft: Radius.circular(20)
             )
         ),
-        height: MediaQuery.of(context).size.height * 0.33,
+        height: MediaQuery.of(context).size.height * 0.37,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
