@@ -65,8 +65,8 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      textBase('${'total'.tr} $finishCheck/12', 'bold', 14),
-                      textBase('${((finishCheck/12)*100).round()}% ${'finish'.tr}', 'bold', 14)
+                      label('${'total'.tr} $finishCheck/12', 'bold', 14, 'base100'),
+                      label('${((finishCheck/12)*100).round()}% ${'finish'.tr}', 'bold', 14, 'base100')
                     ]
                 )
               ),
@@ -76,10 +76,10 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                   future: _loadingFuture,
                   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.hasData == false){
-                      return text('-', 'extra-bold', 15, const Color(0xccfb8665));
+                      return label('-', 'extra-bold', 15, 'primary');
                     }
                     else if(snapshot.hasError){
-                      return text('-', 'extra-bold', 15, const Color(0xccfb8665));
+                      return label('-', 'extra-bold', 15, 'primary80');
                     }
                     else{
                       return ListView(
@@ -123,7 +123,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
   Padding drawDate(String date){
     return Padding(
         padding: const EdgeInsets.only(top:30, bottom: 5),
-        child: textBase(date, 'bold', 14)
+        child: label(date, 'bold', 14, 'base100')
     );
   }
 
@@ -158,13 +158,13 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                     children: [
                       Row(
                         children: [
-                          text(medicalCheckUp.title, 'bold', 16, const Color(0xffFB8665)),
+                          label(medicalCheckUp.title, 'bold', 16, 'primary'),
                           const SizedBox(width: 10),
-                          text(medicalCheckUp.checkTimingToString(), 'regular', 12, Colors.grey),
+                          label(medicalCheckUp.checkTimingToString(), 'regular', 12, 'grey'),
                         ],
                       ),
                       const SizedBox(height: 10),
-                      text('검진 완료일 : ${DateFormat('yyyy.MM.dd').format(medicalCheckUp.checkUpDate)}', 'bold', 12, const Color(0xffFB8665)),
+                      label('검진 완료일 : ${DateFormat('yyyy.MM.dd').format(medicalCheckUp.checkUpDate)}', 'bold', 12, 'primary'),
                     ],
                   )
               )
@@ -212,13 +212,13 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                         children: [
                           Row(
                             children: [
-                              textBase(medicalCheckUp.title, 'bold', 16),
+                              label(medicalCheckUp.title, 'bold', 16, 'base100'),
                               const SizedBox(width: 10),
-                              text(medicalCheckUp.checkTimingToString(), 'regular', 12, Colors.grey),
+                              label(medicalCheckUp.checkTimingToString(), 'regular', 12, 'grey'),
                             ],
                           ),
                           const SizedBox(height: 10),
-                          textBase('검진기간 : ${medicalCheckUp.checkPeriod}', 'bold', 12),
+                          label('검진기간 : ${medicalCheckUp.checkPeriod}', 'bold', 12, 'base100'),
                         ],
                       )
                   )
@@ -239,7 +239,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    textBase(checkUp.title, 'bold', 18),
+                    label(checkUp.title, 'bold', 18, 'base100'),
                     IconButton(onPressed: () {Get.back();}, icon: const Icon(Icons.close, size: 18,)),
                   ],
                 ),
@@ -272,7 +272,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                                         children: [
                                           Image.asset('assets/image/medicalHeart.png', scale: 15, color: const Color(0xFF512F22)),
                                           const SizedBox(height: 5),
-                                          textBase('미검진', 'bold', 12)
+                                          label('미검진', 'bold', 12, 'base100')
                                         ],
                                       )
                                   ),
@@ -283,7 +283,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                                         children: [
                                           Image.asset('assets/image/medicalHeart.png', scale: 15, color: const Color(0xfffb8665)),
                                           const SizedBox(height: 5),
-                                          text('검진', 'bold', 12, const Color(0xfffb8665))
+                                          label('검진', 'bold', 12, 'primary')
                                         ],
                                       )
                                   )
@@ -291,8 +291,8 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                               )
                           ),
                           const SizedBox(height: 10),
-                          textBase('검진시기 : ${checkUp.checkTimingToString()}', 'bold', 14),
-                          textBase('권장기간 : ${checkUp.checkPeriod}', 'bold', 14),
+                          label('검진시기 : ${checkUp.checkTimingToString()}', 'bold', 14, 'base100'),
+                          label('권장기간 : ${checkUp.checkPeriod}', 'bold', 14, 'base100'),
                           const SizedBox(height: 20),
                           SizedBox(
                               width: double.infinity,

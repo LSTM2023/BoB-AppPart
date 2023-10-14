@@ -229,9 +229,7 @@ class _BabyVaccination extends State<BabyVaccination> {
             currentMode = mode;
           });
         },
-        child: text(
-          title, 'bold', 16, (currentMode==mode?Colors.black:Colors.grey)
-        )
+        child: label(title, 'bold', 16, (currentMode==mode? 'black' : 'grey'))
     );
   }
 
@@ -265,10 +263,10 @@ class _BabyVaccination extends State<BabyVaccination> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          text(vaccine.title, 'extra-bold', 14, Color(0xffFB8665)),
+                          label(vaccine.title, 'extra-bold', 14, 'primary'),
                           const SizedBox(height: 8),
-                          text(vaccine.times, 'bold', 12, Color(0xcc512f22)),
-                          text('접종일 : ${DateFormat.yMMMd().format(vaccine.inoculationDate)}', 'bold', 12, Color(0xcc512f22)),
+                          label(vaccine.times, 'bold', 12, 'base80'),
+                          label('접종일 : ${DateFormat.yMMMd().format(vaccine.inoculationDate)}', 'bold', 12, 'base80'),
                         ],
                       )
                   )
@@ -310,10 +308,10 @@ class _BabyVaccination extends State<BabyVaccination> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              textBase(vaccine.title, 'extra-bold', 14),
+                              label(vaccine.title, 'extra-bold', 14, 'base100'),
                               const SizedBox(height: 8),
-                              text(vaccine.times, 'bold', 12, const Color(0xcc512f22)),
-                              text('접종 권장일 : ${vaccine.recommendationDate}', 'bold', 12, Color(0xcc512f22)),
+                              label(vaccine.times, 'bold', 12, 'base80'),
+                              label('접종 권장일 : ${vaccine.recommendationDate}', 'bold', 12, 'base80'),
                             ],
                           )
                       )

@@ -66,7 +66,7 @@ editUserService(data) async{
     return response.data;
   }
 }
-getMyBabies() async{
+getMyBabiesService() async{
   try{
     dio.options.headers['Authorization'] = await getToken();
     Response response = await dio.post('${PATH}/api/baby/lists/');

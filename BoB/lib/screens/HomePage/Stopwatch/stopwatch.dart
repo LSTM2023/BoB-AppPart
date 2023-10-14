@@ -91,7 +91,7 @@ class StopwatchState extends State<StopWatch> {
               builder: (context, snap) {
                 final value = snap.data!;
                 final displayTime = StopWatchTimer.getDisplayTime(value, milliSecond: false);
-                return text(displayTime, 'bold', 17, const Color(0xcc512F22));
+                return label(displayTime, 'bold', 17, 'base80');
               },
             ),
           ),
@@ -167,7 +167,7 @@ class StopwatchState extends State<StopWatch> {
             children: <Widget>[
               SvgPicture.asset(iconData, color: background ), // <-- Icon
               const SizedBox(height: 3),
-              text(type, 'bold', 12, background)
+              //text(type, 'bold', 12, background)
             ],
           ),
         )

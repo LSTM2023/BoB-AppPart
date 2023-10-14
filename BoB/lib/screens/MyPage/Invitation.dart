@@ -4,6 +4,7 @@ import 'package:bob/models/model.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:get/get.dart';
 import '../../services/backend.dart';
+import '../../widgets/form.dart';
 import './InvitationNew.dart';
 
 class Invitation extends StatefulWidget{
@@ -24,12 +25,7 @@ class _Invitation extends State<Invitation> {
         backgroundColor: const Color(0xFFFB8665),
         onPressed: (){
           showModalBottomSheet(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20)
-                  )
-              ),
+              shape: modalBottomSheetFormRound(),
               backgroundColor: const Color(0xffF9F8F8),
               isScrollControlled: true,
               context: context,

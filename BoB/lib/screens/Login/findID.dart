@@ -101,7 +101,7 @@ class _Login_findID extends State<Login_findID>{
                     minimumSize: const Size.fromHeight(55),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0))
                 ),
-                child: text('아이디 찾기', 'bold', 18, Colors.white)
+                child: label('아이디 찾기', 'bold', 18, 'white')
             )
           ],
         ),

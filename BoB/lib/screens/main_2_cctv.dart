@@ -133,9 +133,9 @@ class MainCCTVState extends State<Main_Cctv>{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            textBase('temp'.tr, 'bold', 14),
+                            label('temp'.tr, 'bold', 14, 'base100'),
                             const SizedBox(height: 16),
-                            textBase(temp['Temp']+'°C', 'bold', 28),
+                            label(temp['Temp']+'°C', 'bold', 28, 'base100'),
                           ],
                         ),
                         const SizedBox(width: 30),

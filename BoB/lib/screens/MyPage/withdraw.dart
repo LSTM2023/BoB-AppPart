@@ -49,7 +49,7 @@ class _WithdrawBottomSheet extends State<WithdrawBottomSheet> {
           ),
           const SizedBox(height: 10),
           ElevatedButton(
-              style: btnStyleForm('white', (isChecked? 'primary': 'grey')),
+              style: btnStyleForm('white', (isChecked? 'primary': 'grey'), 25),
               onPressed: () => serviceWithdraw(),
               child: label('withdraw_btn'.tr, 'extra-bold,', 20, 'white')
           )

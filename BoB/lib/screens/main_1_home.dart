@@ -246,9 +246,9 @@ class MainHomeState extends State<Main_Home> {
                   const SizedBox(height: 40),
                   // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
                   // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
-                  textBase('babyList'.tr, 'extra-bold', 20),
+                  label('babyList'.tr, 'extra-bold', 12, 'base100'),
                   const SizedBox(height: 8),
-                  textBase('babyListC'.tr, 'bold', 12),
+                  label('babyListC'.tr, 'bold', 12, 'base100'),
                   const SizedBox(height: 29),
                   Expanded(
                     child: ListView(
@@ -257,7 +257,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation0'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('relation0'.tr, 'extra-bold', 16),
+                              title: label('relation0'.tr, 'extra-bold', 16, 'base100'),
                               children: getDrawerDatas(0, context, const Color(0xfffa625f))
                           ),
                         ),
@@ -265,7 +265,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation1'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('relation1'.tr, 'extra-bold', 16),
+                              title: label('relation1'.tr, 'extra-bold', 16, 'base100'),
                               children: getDrawerDatas(1, context, Colors.blueAccent)
                           ),
                         ),
@@ -273,7 +273,7 @@ class MainHomeState extends State<Main_Home> {
                           child:ExpansionTile(
                               initiallyExpanded: true,
                               // title: Text('relation2'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: textBase('relation2'.tr, 'extra-bold', 16),
+                              title: label('relation2'.tr, 'extra-bold', 16, 'base100'),
                               children: getDrawerDatas(2, context, Colors.grey)
                           ),
                         ),
@@ -333,7 +333,7 @@ class MainHomeState extends State<Main_Home> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        textBase('life_record'.tr, 'bold', 16),
+                        label('life_record'.tr, 'bold', 16, 'base100'),
                         IconButton(
                             constraints: const BoxConstraints(),
                             padding: const EdgeInsets.only(right: 8),
@@ -543,7 +543,7 @@ class MainHomeState extends State<Main_Home> {
                                         ),
                                         const SizedBox(height: 16),
                                         Center(
-                                            child: text(nextVaccineCheckDate, 'extra-bold', 12, const Color(0xccfb8665))
+                                            child: label(nextVaccineCheckDate, 'extra-bold', 12, 'primary80')
                                         )
                                       ]
                                   ),
@@ -581,8 +581,7 @@ class MainHomeState extends State<Main_Home> {
                                         ),
                                         const SizedBox(height: 16),
                                         Center(
-                                          child: text(nextMedicalCheckDate, 'extra-bold', 14, const Color(0xccfb8665)
-                                          )
+                                          child: label(nextMedicalCheckDate, 'extra-bold', 14, 'primary80')
                                         )
                                       ]
                                   ),
@@ -678,12 +677,12 @@ class MainHomeState extends State<Main_Home> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        textBase(b.name, 'extra-bold', 14),
+                        label(b.name, 'extra-bold', 14, 'base100'),
                         Row(
                           children: [
-                            text(b.getGenderString()=='F' ? 'genderF'.tr : 'genderM'.tr, 'bold', 12, const Color(0x99512f22)),
+                            label(b.getGenderString()=='F' ? 'genderF'.tr : 'genderM'.tr, 'bold', 12, 'base60'),
                             const SizedBox(width: 6),
-                            textBase(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 12)
+                            label(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 12, 'base100')
                           ],
                         )
                       ],

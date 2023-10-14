@@ -78,7 +78,7 @@ class _BaseWidget extends State<BaseWidget>{
   reloadBabies() async{
     activeBabies.clear();
     disactiveBabies.clear();
-    List<dynamic> babyRelationList = await getMyBabies();
+    List<dynamic> babyRelationList = await getMyBabiesService();
     for(int i=0; i < babyRelationList.length; i++){
       var baby = await getBaby(babyRelationList[i]['baby']);
       baby['relationInfo'] = (Baby_relation.fromJson(babyRelationList[i])).toJson();

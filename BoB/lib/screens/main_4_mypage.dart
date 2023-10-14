@@ -1,13 +1,11 @@
 import 'package:bob/models/model.dart';
 import 'package:bob/screens/Login/initPage.dart';
 import 'package:bob/screens/MyPage/withdraw.dart';
-import 'package:bob/services/login_platform.dart';
 import 'package:bob/services/storage.dart';
 import 'package:bob/widgets/appbar.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../services/backend.dart';
 import '../widgets/form.dart';
@@ -39,8 +37,17 @@ class MainMyPageState extends State<MainMyPage>{
     disActivateBabies = widget.getBabiesFuction(false);
 
     if(activateBabies.isEmpty && disActivateBabies.isEmpty){
-      WidgetsBinding.instance.addPostFrameCallback((_){
-        openAddBabyScreen();
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await showModalBottomSheet(
+          shape: modalBottomSheetFormRound(),
+          backgroundColor: const Color(0xffF9F8F8),
+          isScrollControlled: true,
+          context: context,
+          builder: (BuildContext context) {
+            return const AddBabyBottomSheet();
+          }
+        );
+        await widget.reloadBabiesFunction();
       });
     }
     super.initState();
@@ -129,7 +136,13 @@ class MainMyPageState extends State<MainMyPage>{
                 child: content
             )
         ),
-        divider()
+        const Padding(
+            padding: EdgeInsets.all(11.5),
+            child: Divider(
+              thickness: 1,
+              color: Color(0xffC4C4C4),
+            )
+        )
       ],
     );
   }
@@ -142,21 +155,7 @@ class MainMyPageState extends State<MainMyPage>{
         height: 100,
         width: 100,
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: const Color(0xCCFFFFFF),
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: const Color(0xffC1C1C1),
-              width: 0.5,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x29000000),
-                offset: Offset(0, 3),
-                blurRadius: 6,
-              )
-            ]
-        ),
+        decoration: containerStyleFormRound(),
         child: Image.asset('assets/image/baby${baby.gender==0?0:1}.png', width: 70),
       );
       nameSpace = badges.Badge(
@@ -172,12 +171,24 @@ class MainMyPageState extends State<MainMyPage>{
     }
     else{
       imgSpace = InkWell(
-          onTap: () => openAddBabyScreen(),
+          onTap: () async {
+            await showModalBottomSheet(
+                shape: modalBottomSheetFormRound(),
+                backgroundColor: const Color(0xffF9F8F8),
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  //return BabyBottomSheet(null);
+                  return const AddBabyBottomSheet();
+                }
+            );
+            await widget.reloadBabiesFunction();
+          },
           child: Container(
             height: 100,
             width: 100,
             alignment: Alignment.center,
-            decoration: bottomSheetStyleFormRound(),
+            decoration: containerStyleFormRound(),
             child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
           )
       );
@@ -311,24 +322,6 @@ class MainMyPageState extends State<MainMyPage>{
     }
   }
   /*  ----------------------------  METHOD  ----------------------------------------*/
-  /// [0-a] method for add baby
-  openAddBabyScreen() async {
-    await showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20)
-            )
-        ),
-        backgroundColor: const Color(0xffF9F8F8),
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return AddBabyBottomSheet();
-        }
-    );
-    await widget.reloadBabiesFunction();
-  }
   /// [0-b] method for delete baby
   deleteBaby(int targetBabyID) async {
      var re = await deleteBabyService(targetBabyID);
@@ -368,17 +361,12 @@ class MainMyPageState extends State<MainMyPage>{
   /// [5] method for withdraw
   withdraw() {
     showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20)
-            )
-        ),
+        shape: modalBottomSheetFormRound(),
         backgroundColor: const Color(0xffF9F8F8),
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return WithdrawBottomSheet();
+          return const WithdrawBottomSheet();
         }
     );
   }

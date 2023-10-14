@@ -8,21 +8,7 @@ import 'package:bob/services/backend.dart';
 import 'package:get/get.dart';
 import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
-class AddBaby extends StatefulWidget {
-  const AddBaby({super.key});
-  @override
-  State<AddBaby> createState() => _AddBaby();
-}
-class _AddBaby extends State<AddBaby>{
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: renderAppbar('add baby', false, 0xffffffff),
-      body: Text(''),
-    );
-  }
-}
-
+// --------------------------------------------------------------------------
 class BabyBottomSheet extends StatefulWidget {
   final Baby baby;
   const BabyBottomSheet(this.baby, {super.key});
@@ -35,7 +21,12 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
   late DateTime birth;
   @override
   void initState() {
-    if(widget.baby != null){
+    if(widget.baby == null){  // new
+      bNameClr = TextEditingController();
+      genderSelected = [true, false];
+      birth = DateTime(2023, 01, 01);
+    }
+    else{
       bNameClr = TextEditingController(text: widget.baby.name);
       genderSelected = [widget.baby.gender==1, widget.baby.gender==0];
       birth = widget.baby.birth;
@@ -61,31 +52,17 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
                         height: 141,
                         width: 141,
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: const Color(0xCCFFFFFF),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: const Color(0xffC1C1C1),
-                              width: 0.5,
-                            ),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x29000000),
-                                offset: Offset(0, 3),
-                                blurRadius: 6,
-                              )
-                            ]
-                        ),
+                        decoration: containerStyleFormRound(),
                         child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
                       )
                   )
               ),
               const SizedBox(height: 66),
-              Text('babyName'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              label('babyName'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
-              makeTextFormField('babyName', bNameClr, TextInputType.text),
+              makeTextFormField('babyName', bNameClr),
               const SizedBox(height: 20),
-              Text('birth'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              label('birth'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               Container(
                 width: double.infinity,
@@ -108,11 +85,11 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
                         },
                       ),
                     ),
-                    child: text('${birth.year}.${birth.month}.${birth.day}', 'bold', 14, Color(0x99512F22))
+                    child: label('${birth.year}.${birth.month}.${birth.day}', 'bold', 14, 'base60')
                 ),
               ),
               const SizedBox(height: 20),
-              Text('gender'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
+              label('gender'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               ToggleButtons(
                   borderRadius: BorderRadius.circular(8.0),
@@ -129,13 +106,13 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
                     SizedBox(
                         width: 174,
                         child: Center(
-                            child: Text('genderM'.tr, style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                            child: Text('genderM'.tr, style: const TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
                         )
                     ),
                     SizedBox(
                         width: 174,
                         child: Center(
-                            child: Text('genderF'.tr, style: TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                            child: Text('genderF'.tr, style: const TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
                         )
                     ),
                   ]
@@ -180,6 +157,7 @@ class AddBabyBottomSheet extends StatefulWidget {
   const AddBabyBottomSheet({super.key});
   @override
   State<AddBabyBottomSheet> createState() => _AddBabyBottomSheet();
+  //State<AddBabyBottomSheet> createState() => _AddBabyBottomSheet();
 }
 class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
   TextEditingController bNameClr = TextEditingController();
@@ -229,7 +207,7 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
             const SizedBox(height: 66),
             Text('babyName'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
             const SizedBox(height: 10),
-            makeTextFormField('babyName', bNameClr, TextInputType.text),
+            makeTextFormField('babyName', bNameClr),
             const SizedBox(height: 20),
             Text('birth'.tr, style: TextStyle(color: Color(0xFF512F22),fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14)),
             const SizedBox(height: 10),
@@ -254,7 +232,7 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
                       },
                     ),
                   ),
-                  child: text('${birth.year}.${birth.month}.${birth.day}', 'bold', 14, Color(0x99512F22))
+                  child: label('${birth.year}.${birth.month}.${birth.day}', 'bold', 14, 'base60')
               ),
             ),
             const SizedBox(height: 20),

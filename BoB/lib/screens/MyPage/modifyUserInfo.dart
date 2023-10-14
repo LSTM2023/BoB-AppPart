@@ -61,14 +61,14 @@ class _ModifyUser extends State<ModifyUser> {
               const SizedBox(height: 30),
               label('login_nickname'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
-              makeTextFormField('nickname', nickNameCtr, TextInputType.name),
+              makeTextFormField('nickname', nickNameCtr),
               const SizedBox(height: 30),
               label('login_phone'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
-              makeTextFormField('phone', phoneCtr, TextInputType.phone),
+              makeTextFormField('phone', phoneCtr),
               const SizedBox(height: 100),
               ElevatedButton(
-                  style: btnStyleForm('white', 'primary'),
+                  style: btnStyleForm('white', 'primary', 25),
                   onPressed: () async => await serviceModifyUserinfo(),
                   child: label('login_modified'.tr,'extra-bold', 16, 'white')
               )

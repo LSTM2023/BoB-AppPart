@@ -6,10 +6,13 @@ import 'package:badges/badges.dart' as badges;
 List<Color> colorList = [const Color(0xffFB8665), const Color(0xff22513E), const Color(0xff222551)];
 
 Map<String, Color> str2color = {
+  'black': const Color(0xff000000),
   'white': const Color(0xffffffff),
   'primary' : const Color(0xffFB8665),
+  'primary80' : const Color(0xccFB8665),
   'base60' : const Color(0x99512F22),
   'base63' : const Color(0xa1512f22),
+  'base80' : const Color(0xcc512f22),
   'base100' : const Color(0xff512F22),
   'grey': const Color(0xffC1C1C1),
   'rel0': const Color(0xffFB8665),
@@ -38,15 +41,9 @@ InputDecoration formDecoration(String title){
   );
 }
 
-Text makeText(String str, Color clr, double size){
-  return Text(
-      str,
-      style: TextStyle(color: clr, fontSize: size)
-  );
-}
 /*      */
 Map<String, String> title2hint = {
-  'id':'아이디를 입력해주세요',
+  'id':'아이디 또는 이메일을 입력해주세요',
   'pw':'비밀번호는 8~16자를 입력해주세요.',
   'pw_check':'비밀번호 재입력.',
   'nickname':'닉네임을 입력해주세요',
@@ -55,13 +52,25 @@ Map<String, String> title2hint = {
   'babyName' : '아기의 이름 또는 별명을 입력해주세요.',
   'babyBirth' : '아기의 생일을 입력해 주세요.'
 };
-SizedBox makeTextFormField(String title, TextEditingController controller, TextInputType kType){
+
+Map<String, TextInputType> title2keyType = {
+  'id': TextInputType.emailAddress,
+  'pw': TextInputType.visiblePassword,
+  'pw_check': TextInputType.visiblePassword,
+  'nickname': TextInputType.name,
+  'phone': TextInputType.phone,
+  'qa_answer': TextInputType.text,
+  'babyName' : TextInputType.text,
+  'babyBirth' : TextInputType.text
+};
+
+SizedBox makeTextFormField(String title, TextEditingController controller){
   return SizedBox(
     height: 50,
     child: TextFormField(
       inputFormatters : (title == 'phone')?[MultiMaskedTextInputFormatter(masks: ['xxx-xxxx-xxxx', 'xxx-xxx-xxxx'], separator: '-')]:[],
       controller: controller,
-      keyboardType: kType,
+      keyboardType: title2keyType[title],
       decoration: formDecoration(title2hint[title]!),
     ),
   );
@@ -79,11 +88,11 @@ SizedBox makePWFormField(String title, TextEditingController controller, bool _v
 }
 // Style Form
 // 1. button style 1
-btnStyleForm(String foreClr, String backClr){
+btnStyleForm(String foreClr, String backClr, double radius){
   return ElevatedButton.styleFrom(
       elevation: 0.2,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25)
+          borderRadius: BorderRadius.circular(radius)
       ),
       minimumSize: const Size.fromHeight(55),
       foregroundColor: str2color[foreClr],
@@ -91,7 +100,7 @@ btnStyleForm(String foreClr, String backClr){
   );
 }
 // bottom style 1 - round
-bottomSheetStyleFormRound(){
+containerStyleFormRound(){
   return BoxDecoration(
       color: const Color(0xCCFFFFFF),
       shape: BoxShape.circle,
@@ -108,15 +117,13 @@ bottomSheetStyleFormRound(){
       ]
   );
 }
-
-// ---
-Padding divider(){
-  return const Padding(
-      padding: EdgeInsets.all(11.5),
-      child: Divider(
-        thickness: 1,
-        color: Color(0xffC4C4C4),
+modalBottomSheetFormRound(){
+  return const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20),
+          topLeft: Radius.circular(20)
       )
   );
 }
+
 

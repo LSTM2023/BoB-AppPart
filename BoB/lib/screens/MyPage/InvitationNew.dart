@@ -216,7 +216,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
               const SizedBox(height: 72),
               ElevatedButton(
                   onPressed: () => invitation(),
-                  style: btnStyleForm('white', 'primary'),
+                  style: btnStyleForm('white', 'primary', 25),
                   child: label('invitation'.tr, 'extra-bold', 16, 'white')
               ),
               const SizedBox(height: 20),
@@ -281,7 +281,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
             padding: const EdgeInsets.all(12),
             selectedColor: const Color(0xFFFB8665),
             backgroundColor: Colors.white,
-            label: text(week[i], 'bold', 12, (selectedWeek[i]=="1"? Colors.white : const Color(0x99512F22))),
+            label: label(week[i], 'bold', 12, (selectedWeek[i]=="1"? 'white' : 'base60')),
             showCheckmark: false,
             selected: selectedWeek[i]=="1",
             onSelected: (bool notSelected){

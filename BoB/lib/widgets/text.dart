@@ -19,27 +19,3 @@ Text label(String str, String weight, double size, String colorTxt){
       )
   );
 }
-
-Text text(String str, String weight, double size, Color color){
-  return Text(
-      str,
-      style: TextStyle(
-        color: color,
-        fontWeight: weightList[weight!],
-        fontFamily: 'NanumSquareRound',
-        fontSize: size
-      )
-  );
-}
-
-Text textBase(String str, String weight, double size){
-  return Text(
-      str,
-      style: TextStyle(
-          color: const Color(0xff512F22),
-          fontWeight: weightList[weight!],
-          fontFamily: 'NanumSquareRound',
-          fontSize: size
-      )
-  );
-}
