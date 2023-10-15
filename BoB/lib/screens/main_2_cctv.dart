@@ -29,7 +29,7 @@ class MainCCTVState extends State<Main_Cctv>{
     startConnection();
     baby = widget.getMyBabyFuction();
     _videoPlayerController = VlcPlayerController.network(
-      'rtsp://210.99.70.120:1935/live/cctv001.stream', // 'rtsp://203.249.22.164:8080/unicast',
+      'rtsp://203.249.22.164:8080/unicast', // 'rtsp://210.99.70.120:1935/live/cctv001.stream'
       autoPlay: false,
       options: VlcPlayerOptions(),
     );
@@ -224,9 +224,9 @@ class MainCCTVState extends State<Main_Cctv>{
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('main2_notAccessTitle'.tr, style: const TextStyle(fontSize: 20)),
-                Text('${'main2_accessWeek'.tr} : $accessDay', style: const TextStyle(fontSize: 20)),
-                Text('${'main2_accessTime'.tr} : ${baby.relationInfo.Access_startTime} ~ ${baby.relationInfo.Access_endTime}', style: const TextStyle(fontSize: 20))
+                label('main2_notAccessTitle'.tr, 'bold', 16, 'base100'),
+                label('${'main2_accessWeek'.tr} : $accessDay', 'bold', 16, 'base100'),
+                label('${'main2_accessTime'.tr} : ${baby.relationInfo.Access_startTime} ~ ${baby.relationInfo.Access_endTime}', 'bold', 16, 'base100'),
               ]
           ),
         ),

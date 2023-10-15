@@ -1,3 +1,4 @@
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -119,12 +120,6 @@ class MainDiaryState extends State<MainDiary> {
               ),
               selectedDecoration: BoxDecoration(
                 color: Color(0xFFFB8665),
-                shape: BoxShape.circle,
-              ),
-              weekendDecoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              defaultDecoration: BoxDecoration(
                 shape: BoxShape.circle,
               ),
             ),
@@ -278,7 +273,7 @@ class MainDiaryState extends State<MainDiary> {
                                           context: context,
                                           builder: (BuildContext context) =>
                                               AlertDialog(
-                                                content: Text('q_delete'.tr),
+                                                content: label('q_delete'.tr, 'bold', 14, 'base100'),
                                                 actions: [
                                                   ElevatedButton(
                                                       style: ElevatedButton
