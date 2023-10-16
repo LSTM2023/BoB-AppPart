@@ -232,7 +232,7 @@ class MainHomeState extends State<Main_Home> {
     return Scaffold(
       backgroundColor: const Color(0xffFFFFFF),
       appBar: AppBar(
-        title: const Text("BoB", style: TextStyle(color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontSize: 20, fontWeight: FontWeight.bold),),
+        title: label("BoB", "bold", 20, 'base100'),
         backgroundColor: const Color(0xffffccbf),
         elevation: 0.0,
         iconTheme: const IconThemeData(color: Color(0xff512F22)),
@@ -244,9 +244,7 @@ class MainHomeState extends State<Main_Home> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 40),
-                  // Text('babyList'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
-                  // Text('babyListC'.tr, style: const TextStyle(color: Colors.grey)),
-                  label('babyList'.tr, 'extra-bold', 12, 'base100'),
+                  label('babyList'.tr, 'extra-bold', 20, 'base100'),
                   const SizedBox(height: 8),
                   label('babyListC'.tr, 'bold', 12, 'base100'),
                   const SizedBox(height: 29),
@@ -256,24 +254,21 @@ class MainHomeState extends State<Main_Home> {
                         SingleChildScrollView(
                           child:ExpansionTile(
                               initiallyExpanded: true,
-                              // title: Text('relation0'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: label('relation0'.tr, 'extra-bold', 16, 'base100'),
+                              title: label('relation0'.tr, 'extra-bold', 15, 'base100'),
                               children: getDrawerDatas(0, context, const Color(0xfffa625f))
                           ),
                         ),
                         SingleChildScrollView(
                           child:ExpansionTile(
                               initiallyExpanded: true,
-                              // title: Text('relation1'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: label('relation1'.tr, 'extra-bold', 16, 'base100'),
+                              title: label('relation1'.tr, 'extra-bold', 15, 'base100'),
                               children: getDrawerDatas(1, context, Colors.blueAccent)
                           ),
                         ),
                         SingleChildScrollView(
                           child:ExpansionTile(
                               initiallyExpanded: true,
-                              // title: Text('relation2'.tr, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              title: label('relation2'.tr, 'extra-bold', 16, 'base100'),
+                              title: label('relation2'.tr, 'extra-bold', 15, 'base100'),
                               children: getDrawerDatas(2, context, Colors.grey)
                           ),
                         ),
@@ -291,7 +286,7 @@ class MainHomeState extends State<Main_Home> {
         child: Column(
           children: [
             Container(
-              height: 200,
+              height: 180,
               padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -309,13 +304,13 @@ class MainHomeState extends State<Main_Home> {
                     )
                   ]),
               child: Center(
-                child: drawBaby(currentBaby.name, currentBaby.birth),
+                child: drawBaby(currentBaby.name, currentBaby.birth, currentBaby.gender),
               ),
             ),
             GestureDetector(
               onTap: () {},
               child: Container(
-                padding: const EdgeInsets.all(13),
+                padding: const EdgeInsets.fromLTRB(13, 10, 13, 10),
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 15),
                 decoration: BoxDecoration(
                     color: const Color(0xffF9F8F8),
@@ -333,7 +328,7 @@ class MainHomeState extends State<Main_Home> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        label('life_record'.tr, 'bold', 16, 'base100'),
+                        label('life_record'.tr, 'bold', 15, 'base100'),
                         IconButton(
                             constraints: const BoxConstraints(),
                             padding: const EdgeInsets.only(right: 8),
@@ -352,7 +347,7 @@ class MainHomeState extends State<Main_Home> {
                                 }
                               });
                             },
-                            icon: const Icon(Icons.refresh_outlined, size: 22, color: Color(0xff512F22))
+                            icon: const Icon(Icons.refresh_outlined, size: 21, color: Color(0xff512F22))
                         ),
                       ],
                     ),
@@ -362,36 +357,36 @@ class MainHomeState extends State<Main_Home> {
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('life0'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                            Text(_feeding, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                            label('life0'.tr, 'bold', 13, 'base80'),
+                            label(_feeding, 'bold', 13, 'base80')
                           ],
                         )),
                         const SizedBox(width: 30),
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('life1'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                            Text(_feedingBottle, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                            label('life1'.tr, 'bold', 13, 'base80'),
+                            label(_feedingBottle, 'bold', 13, 'base80')
                           ],
                         ),)
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 18),
                     Row(
                       children: [
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('life3'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                            Text(_diaper, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                            label('life3'.tr, 'bold', 13, 'base80'),
+                            label(_diaper, 'bold', 13, 'base80')
                           ],
                         )),
                         const SizedBox(width: 30),
                         Expanded(flex:1,child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('life4'.tr, style: TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                            Text(_sleep, style: const TextStyle(fontSize: 14, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                            label('life4'.tr, 'bold', 13, 'base80'),
+                            label(_sleep, 'bold', 13, 'base80')
                           ],
                         )),
                         const SizedBox(height: 20),
@@ -432,7 +427,7 @@ class MainHomeState extends State<Main_Home> {
                         }
                       },
                       child: Container(
-                        height: 235,
+                        height: 215,
                         margin: const EdgeInsets.fromLTRB(20, 0, 5, 10),
                         padding: const EdgeInsets.all(13),
                         decoration: BoxDecoration(
@@ -452,8 +447,7 @@ class MainHomeState extends State<Main_Home> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // Text('grow_record'.tr,style: const TextStyle(fontSize: 22)),
-                                Text('grow_record'.tr,style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                label('grow_record'.tr, 'bold', 15, 'base100'),
                                 IconButton(
                                     constraints: const BoxConstraints(),
                                     padding: const EdgeInsets.only(right: 8),
@@ -473,31 +467,32 @@ class MainHomeState extends State<Main_Home> {
                                           }
                                       );
                                     },
-                                    icon: const Icon(Icons.add_circle_outline, size: 22, color: Color(0xff512F22))
+                                    icon: const Icon(Icons.add_circle_outline, size: 21, color: Color(0xff512F22))
                                 ),
                               ],
                             ),
                             const SizedBox(height: 10),
                             if(getGrowthRecordList.isEmpty)
-                              Text('first_growth_record'.tr, style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 11)),
-                              SizedBox(height: 10,),
+                              label('first_growth_record'.tr, 'normal', 11, 'grey'),
                             if(getGrowthRecordList.isNotEmpty)
-                              Text('${getGrowthRecordList.last['date'].toString()} ${'new_update'.tr}', style: TextStyle(color:Colors.grey, fontFamily: 'NanumSquareRound', fontSize: 12)),
-                            const SizedBox(height: 20),
+                              label('${getGrowthRecordList.last['date'].toString()} ${'new_update'.tr}', 'noraml', 12, 'grey'),
+                            const SizedBox(height: 23),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('height'.tr, style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                label('height'.tr, 'bold', 14, 'base80'),
+                                const SizedBox(height: 5),
                                 if(getGrowthRecordList.isEmpty)
-                                  Center(child: Text('0cm', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                  Center(child: label('0cm', 'normal', 15, 'base80')),
                                 if(getGrowthRecordList.isNotEmpty)
-                                  Center(child: Text('${getGrowthRecordList.last['height'].toString()}cm', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
-                                  SizedBox(height: 25),
-                                Text('weight'.tr, style: TextStyle(color: Color(0xcc512f22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                  Center(child: label('${getGrowthRecordList.last['height'].toString()}cm', 'normal', 15, 'base80')),
+                                const SizedBox(height: 28),
+                                label('weight'.tr, 'bold', 14, 'base80'),
+                                const SizedBox(height: 5),
                                 if(getGrowthRecordList.isEmpty)
-                                  Center(child: Text('0kg', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                  Center(child: label('0kg', 'normal', 15, 'base80')),
                                 if(getGrowthRecordList.isNotEmpty)
-                                  Center(child: Text('${getGrowthRecordList.last['weight'].toString()}kg', style: TextStyle(color: Color(0xcc512f22), fontSize: 15, fontFamily: 'NanumSquareRound'))),
+                                Center(child: label('${getGrowthRecordList.last['weight'].toString()}kg', 'normal', 15, 'base80')),
                                  ],
                             )
                           ],
@@ -505,7 +500,7 @@ class MainHomeState extends State<Main_Home> {
                       ),
                     )
                 ),
-                //성장기록 구현
+                //성장기록 box
                 Expanded(
                     flex:1,
                     child: Container(
@@ -519,8 +514,8 @@ class MainHomeState extends State<Main_Home> {
                                   await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(13),
-                                  height: 110,
+                                  padding: const EdgeInsets.fromLTRB(13, 15, 13, 13),
+                                  height: 100,
                                   decoration: BoxDecoration(
                                       color: const Color(0xffF9F8F8),
                                       borderRadius: BorderRadius.circular(10),
@@ -535,12 +530,9 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('vaccination'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        label('vaccination'.tr, 'bold', 15, 'base100'),
                                         const SizedBox(height: 10),
-                                        Text(
-                                          'next_vaccination'.tr,
-                                          style: const TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                                        ),
+                                        label('next_vaccination'.tr, 'bold', 10, 'base80'),
                                         const SizedBox(height: 16),
                                         Center(
                                             child: label(nextVaccineCheckDate, 'extra-bold', 12, 'primary80')
@@ -557,8 +549,8 @@ class MainHomeState extends State<Main_Home> {
                                   await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(13),
-                                  height: 110,
+                                  padding: const EdgeInsets.fromLTRB(13, 15, 13, 13),
+                                  height: 100,
                                   decoration: BoxDecoration(
                                       color: const Color(0xffF9F8F8),
                                       borderRadius: BorderRadius.circular(10),
@@ -573,12 +565,9 @@ class MainHomeState extends State<Main_Home> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('medical_checkup'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                                        label('medical_checkup'.tr, 'bold', 15, 'base100'),
                                         const SizedBox(height: 10),
-                                        Text(
-                                          'next_medical_checkup'.tr,
-                                          style: const TextStyle(fontSize: 10, color: Color(0xcc512f22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                                        ),
+                                        label('next_medical_checkup'.tr, 'bold', 10, 'base80'),
                                         const SizedBox(height: 16),
                                         Center(
                                           child: label(nextMedicalCheckDate, 'extra-bold', 14, 'primary80')
@@ -591,7 +580,7 @@ class MainHomeState extends State<Main_Home> {
                         )
                     )
                 )
-                //예방 접종, 건강 검진 구현
+                //예방 접종, 건강 검진 box 구현
               ],
             ),
             Container(
@@ -601,14 +590,13 @@ class MainHomeState extends State<Main_Home> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 3, 0, 1),
-                      child: Text('timer_explanation'.tr,
-                        style: TextStyle(fontSize: 12, color: Colors.grey[400], fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                      ),
+                      padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
+                      child: label('timer_explanation'.tr, 'bold', 11, 'grey'),
                     ),
                   ],
                 )
             ),
+            // 버튼을 길게 누르면 타이머가 작동합니다.
             Offstage(
               offstage: !timerClosed,
               child: Container(
@@ -626,6 +614,7 @@ class MainHomeState extends State<Main_Home> {
                 ),
               ),
             ),
+            // 생활 기록 입력 버튼
             Offstage(
                 offstage: timerClosed,
                 child: stopWatchWidget
@@ -634,7 +623,6 @@ class MainHomeState extends State<Main_Home> {
           ],
         ),
       ),
-
     );
   }
 
@@ -677,10 +665,10 @@ class MainHomeState extends State<Main_Home> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        label(b.name, 'extra-bold', 14, 'base100'),
+                        label(b.name, 'extra-bold', 13, 'base100'),
                         Row(
                           children: [
-                            label(b.getGenderString()=='F' ? 'genderF'.tr : 'genderM'.tr, 'bold', 12, 'base60'),
+                            label(b.getGenderString()=='F' ? 'genderF'.tr : 'genderM'.tr, 'bold', 12, 'base63'),
                             const SizedBox(width: 6),
                             label(DateFormat('yyyy-MM-dd').format(b.birth), 'bold', 12, 'base100')
                           ],
@@ -695,7 +683,7 @@ class MainHomeState extends State<Main_Home> {
     return datas;
   }
 
-  //기록 버튼 롱 클릭 시
+  // 생활 기록 버튼 롱 클릭 시
   InkWell drawRecordButton(BuildContext rootContext, String type, String iconData, Color background, Color color, int tapMode){
     return InkWell(
         onTap: () => record_with_ModalBottomSheet(rootContext, tapMode),
@@ -714,20 +702,22 @@ class MainHomeState extends State<Main_Home> {
                             onPressed: () async {
                               var content = {"type": 0, "startTime": now, "endTime": now, "memo": null};
                               var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
+                              addLifeRecord(3, getlifeRecordPharse(const Duration(seconds: 0)), now);
                               print(result);
                               Get.back();
                             },
-                            child: Text('life3_0'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                            child: label('life3_0'.tr, 'bold', 16, 'base100'),
                         ),
                         const Divider(thickness: 0.3, color: Color(0xff512F22)),
                         TextButton(
                           onPressed: () async{
                             var content = {"type": 1, "startTime": now, "endTime": now, "memo": null};
                             var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
+                            addLifeRecord(3, getlifeRecordPharse(const Duration(seconds: 0)), now);
                             print(result);
                             Get.back();
                           },
-                          child: Text('life3_1'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          child: label('life3_1'.tr, 'bold', 16, 'base100'),
                         ),
                       ],
                     )
@@ -764,7 +754,7 @@ class MainHomeState extends State<Main_Home> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SvgPicture.asset(iconData, color: background ), // <-- Icon
+              SvgPicture.asset(iconData, color: background), // <-- Icon
               const SizedBox(height: 3),
               Text(type, style: TextStyle(fontSize: 12, color: background, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)), // <-- Text
             ],
@@ -806,7 +796,7 @@ class MainHomeState extends State<Main_Home> {
 
   //타이머 종료 시 bottomsheet
   showTimerBottomSheet(int type, DateTime startTime, DateTime endTime){
-    if(type == 0){        // 모유
+    if(type == 0){          // 모유
       Get.bottomSheet(
           SizedBox(
               child: FeedingStopwatchBottomSheet(
@@ -833,7 +823,7 @@ class MainHomeState extends State<Main_Home> {
           isScrollControlled: true
       );
     }
-    else{                 // 수면
+    else{                   // 수면
       Get.bottomSheet(
           SizedBox(
             child: SleepStopwatchBottomSheet(
@@ -845,30 +835,28 @@ class MainHomeState extends State<Main_Home> {
   }
 }
 
-Widget drawBaby(String name, DateTime birth){
+// 홈 아기 정보 표시
+Widget drawBaby(String name, DateTime birth, int gender){
   final now = DateTime.now();
   return Container(
-      padding: const EdgeInsets.only(left: 25),
+      padding: const EdgeInsets.only(left: 22),
       child: Column(
           children:[
             Row(
               children: [
-                Image.asset('assets/image/baby1.png',scale: 2.7,),
-                const SizedBox(width: 35),
+                if(gender == 0)
+                  Image.asset('assets/image/baby4.png',scale: 3.0,),
+                if(gender == 1)
+                  Image.asset('assets/image/baby1.png',scale: 3.0,),
+                const SizedBox(width: 40),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name,style: const TextStyle(color: Color(0xff512F22), fontSize: 30, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800)),
+                    label(name, 'extra-bold', 32, 'base100'),
                     const SizedBox(height: 8),
-                    Text(
-                      '${birth.year}.${birth.month}.${birth.day}',
-                      style: const TextStyle(color: Color(0xff512F22), fontSize: 17, fontFamily: 'NanumSquareRound'),
-                    ),
+                    label('${birth.year}.${birth.month}.${birth.day}', 'bold', 15, 'base100'),
                     const SizedBox(height: 5),
-                    Text(
-                      'D+ ${DateTime(now.year, now.month, now.day).difference(birth).inDays+2}',
-                      style: const TextStyle(color: Color(0xff512F22), fontSize: 17, fontFamily: 'NanumSquareRound'),
-                    ),
+                    label('D+ ${DateTime(now.year, now.month, now.day).difference(birth).inDays+2}', 'bold', 15, 'base100'),
                   ],
                 )
               ],
