@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:intl/intl.dart';
 
 class User {
@@ -193,5 +191,39 @@ class MedicalCheckUp {
   }
   String drawDateString(){
     return '${checkPeriod.substring(0,4)}.${checkPeriod.substring(5,7)}';
+  }
+}
+
+class Diary {
+  final int id; // diary id
+  final int writerId; // writer id
+  final int babyId; // baby id
+  final int relation; // relation
+  final DateTime writtenTime; // written time
+  String title;    // title
+  String content; // content
+  String imagePath; // image path
+
+  Diary(this.id, this.writerId, this.babyId, this.relation, this.writtenTime, this.title, this.content, this.imagePath);
+
+  Diary.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'], writerId = json['writerId'], babyId = json['babyId'], relation = json['relation'],
+        writtenTime = (json['writtenTime']), title = (json['title']), content = (json['content']), imagePath = (json['imagePath']);
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "writerId": writerId,
+    "babyId": babyId,
+    "relation": relation,
+    "writtenTime" : writtenTime,
+    "title" : title,
+    "content" : content,
+    "imagePath" : imagePath
+  };
+
+  modifyDiary(title, content, imagePath){
+    this.title = title;
+    this.content = content;
+    this.imagePath = imagePath;
   }
 }
