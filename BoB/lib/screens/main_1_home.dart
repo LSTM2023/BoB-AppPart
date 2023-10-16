@@ -702,6 +702,7 @@ class MainHomeState extends State<Main_Home> {
                             onPressed: () async {
                               var content = {"type": 0, "startTime": now, "endTime": now, "memo": null};
                               var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
+                              addLifeRecord(3, getlifeRecordPharse(const Duration(seconds: 0)), now);
                               print(result);
                               Get.back();
                             },
@@ -712,6 +713,7 @@ class MainHomeState extends State<Main_Home> {
                           onPressed: () async{
                             var content = {"type": 1, "startTime": now, "endTime": now, "memo": null};
                             var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
+                            addLifeRecord(3, getlifeRecordPharse(const Duration(seconds: 0)), now);
                             print(result);
                             Get.back();
                           },
