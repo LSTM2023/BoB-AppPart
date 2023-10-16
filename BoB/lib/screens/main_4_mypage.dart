@@ -105,7 +105,6 @@ class MainMyPageState extends State<MainMyPage>{
         label(title, 'bold', 10, 'base100')
       ],
     );
-
     if(icon == Icons.language){
       content = Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,7 +114,7 @@ class MainMyPageState extends State<MainMyPage>{
           DropdownButton(
               underline: const SizedBox.shrink(),
               value: widget.Clanguage,
-              items: ['한국어', 'english'].map((String item){
+              items: ['한국어', 'English'].map((String item){
                 return DropdownMenuItem<String>(
                   value: item,
                   child: label(item, 'bold', 10, 'base60'),

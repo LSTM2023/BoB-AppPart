@@ -8,13 +8,13 @@ import 'package:bob/services/backend.dart';
 import 'package:get/get.dart';
 import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
-// --------------------------------------------------------------------------
 class BabyBottomSheet extends StatefulWidget {
   final Baby baby;
   const BabyBottomSheet(this.baby, {super.key});
   @override
   State<BabyBottomSheet> createState() => _BabyBottomSheet();
 }
+
 class _BabyBottomSheet extends State<BabyBottomSheet>{
   late TextEditingController bNameClr;
   late List<bool> genderSelected;
@@ -152,13 +152,102 @@ class _BabyBottomSheet extends State<BabyBottomSheet>{
     }
   }
 }
-// --------------------------------------------------------------------------
+
 class AddBabyBottomSheet extends StatefulWidget {
   const AddBabyBottomSheet({super.key});
   @override
   State<AddBabyBottomSheet> createState() => _AddBabyBottomSheet();
-  //State<AddBabyBottomSheet> createState() => _AddBabyBottomSheet();
 }
+/*drawBabyInputForm(context, ServiceFunc, bNameClr, birth, genderSelected){
+  return Container(
+    padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+        left: 28, right: 28
+    ),
+    child: SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 50),
+          Center(
+              child: InkWell(
+                  onTap: ()=> ServiceFunc,
+                  child: Container(
+                    height: 141,
+                    width: 141,
+                    alignment: Alignment.center,
+                    decoration: containerStyleFormRound(),
+                    child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
+                  )
+              )
+          ),
+          const SizedBox(height: 66),
+          label('babyName'.tr, 'bold', 14, 'base100'),
+          const SizedBox(height: 10),
+          makeTextFormField('babyName', bNameClr),
+          const SizedBox(height: 20),
+          label('birth'.tr, 'bold', 14, 'base100'),
+          const SizedBox(height: 10),
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(5)),
+              border: Border.all(
+                width: 1.5,
+                color: const Color(0x4D512F22),
+              ),
+            ),
+            child: CupertinoButton(
+                onPressed: () => _showDialog(
+                  CupertinoDatePicker(
+                    initialDateTime: birth,
+                    mode: CupertinoDatePickerMode.date,
+                    use24hFormat: true,
+                    // This is called when the user changes the date.
+                    onDateTimeChanged: (DateTime newDate) {
+                      setState(() => birth = newDate);
+                    },
+                  ),
+                ),
+                child: label('${birth.year}.${birth.month}.${birth.day}', 'bold', 14, 'base60')
+            ),
+          ),
+          const SizedBox(height: 20),
+          label('gender'.tr, 'bold', 14, 'base100'),
+          const SizedBox(height: 10),
+          ToggleButtons(
+              borderRadius: BorderRadius.circular(8.0),
+              selectedColor : Colors.white,
+              fillColor: const Color(0xfffb8665),
+              color: Colors.grey,
+              onPressed: (int idx){
+                setState(() {
+                  genderSelected = [idx == 0, idx == 1];
+                });
+              },
+              isSelected: genderSelected,
+              children:  [
+                SizedBox(
+                    width: 174,
+                    child: Center(
+                        child: Text('genderM'.tr, style: const TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                    )
+                ),
+                SizedBox(
+                    width: 174,
+                    child: Center(
+                        child: Text('genderF'.tr, style: const TextStyle(fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold, fontSize: 14))
+                    )
+                ),
+              ]
+          ),
+          const SizedBox(height: 28),
+        ],
+      ),
+    ),
+  );
+}*/
 class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
   TextEditingController bNameClr = TextEditingController();
   List<bool> genderSelected = [true, false];
@@ -167,7 +256,6 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      //height: 600,
       padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
           left: 28, right: 28
@@ -180,7 +268,7 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
             const SizedBox(height: 50),
             Center(
                 child: InkWell(
-                    onTap: ()=>_registerBaby(),
+                    onTap: () => _registerBaby(),
                     child: Container(
                       height: 141,
                       width: 141,
@@ -200,7 +288,13 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
                             )
                           ]
                       ),
-                      child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
+                          label('입력 후 눌러주세요', 'extra-bold', 10, 'grey'),
+                        ],
+                      )
                     )
                 )
             ),

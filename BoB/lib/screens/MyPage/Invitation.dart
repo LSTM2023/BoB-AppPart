@@ -16,24 +16,13 @@ class Invitation extends StatefulWidget{
 }
 
 class _Invitation extends State<Invitation> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: homeAppbar('main4_InviteBabysitter'.tr),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFFFB8665),
-        onPressed: (){
-          showModalBottomSheet(
-              shape: modalBottomSheetFormRound(),
-              backgroundColor: const Color(0xffF9F8F8),
-              isScrollControlled: true,
-              context: context,
-              builder: (BuildContext context) {
-                return InvitationBottomSheet(widget.activebabies);
-              }
-          );
-        },
+        onPressed: () => openInvitationForm(),
         child: const Icon(Icons.add)
       ),
       body: Container(
@@ -51,7 +40,46 @@ class _Invitation extends State<Invitation> {
                   scrollDirection : Axis.vertical,
                   itemCount: widget.disactivebabies.length,
                   itemBuilder: (BuildContext context, int index){
-                    return drawBaby(widget.disactivebabies[index]);
+                    Baby baby = widget.disactivebabies[index];
+                    return Container(
+                      margin: const EdgeInsets.only(left: 16, right: 16),
+                      padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                            left: BorderSide(
+                                color: colorList[baby.relationInfo.relation],
+                                width: 5.0
+                            ),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 1,
+                            )
+                          ],
+                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            label(baby.name, 'extra-bold', 12, 'base100'),
+                            OutlinedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.fromLTRB(9, 4, 9, 4),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)
+                                      )
+                                  ),
+                                  side: const BorderSide(width: 1.5, color: Color(0xFFFB8665)),
+                                ),
+                                onPressed: () => invitationAcceptance(baby.relationInfo.BabyId),
+                                child: label('accept'.tr, 'bold', 10, 'primary')
+                            )
+                          ]
+                      )
+                    );
+                    //return drawBaby(widget.disactivebabies[index]);
                   },
                 )
             )
@@ -60,75 +88,40 @@ class _Invitation extends State<Invitation> {
       ),
     );
   }
-  Widget drawBaby(Baby baby){
-    Color col;
-    if(baby.relationInfo.relation == 0){
-      col = const Color(0xffFF766A);
-    }
-    else if(baby.relationInfo.relation == 1){
-      col = Colors.blueAccent;
-    }
-    else{
-      col = Colors.grey;
-    }
-    return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          left: BorderSide(
-              color: col,
-              width: 5.0
-          ),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 1,
-          )
-        ],
-      ),
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          label(baby.name, 'extra-bold', 12, 'base100'),
-          OutlinedButton(
+
+  /// 추가 양육자 초대를 위한 bottom sheet 폼 open
+  openInvitationForm(){
+    showModalBottomSheet(
+        shape: modalBottomSheetFormRound(),
+        backgroundColor: const Color(0xffF9F8F8),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return InvitationBottomSheet(widget.activebabies);
+        }
+    );
+  }
+  /// 양육자 초대 수락
+  invitationAcceptance(int babyId){
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        title: label('invitation_accept'.tr,'extra-bold', 16, 'primary'),
+        content: label('invitation_acceptC'.tr, 'bold', 12, 'base'),
+        actions: [
+          ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.fromLTRB(9, 4, 9, 4),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5.0)
-                  )
-                ),
-                side: const BorderSide(width: 1.5, color: Color(0xFFFB8665)),
+                  minimumSize: const Size.fromHeight(50),
+                  backgroundColor: const Color(0xFFFB8665),
+                  foregroundColor: Colors.white
               ),
-              onPressed: (){
-                Get.dialog(
-                  AlertDialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                    title: label('invitation_accept'.tr,'extra-bold', 16, 'primary'),
-                    content: label('invitation_acceptC'.tr, 'bold', 12, 'base'),
-                    actions: [
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: const Size.fromHeight(50),
-                              backgroundColor: const Color(0xFFFB8665),
-                              foregroundColor: Colors.white
-                          ),
-                          onPressed: () async{
-                            // 1. 초대 수락하는 API 보내기
-                            var result = await acceptInvitationService(baby.relationInfo.BabyId);
-                            Navigator.pop(context);
-                            Get.back();
-                          },
-                          child: label('accept'.tr,'extra-bold', 14, 'white')
-                      )
-                    ],
-                  ),
-                );
+              onPressed: () async{
+                // 1. 초대 수락하는 API 보내기
+                var result = await acceptInvitationService(babyId);
+                Navigator.pop(context);
+                Get.back();
               },
-              child: label('accept'.tr, 'bold', 10, 'primary')
+              child: label('accept'.tr,'extra-bold', 14, 'white')
           )
         ],
       ),
