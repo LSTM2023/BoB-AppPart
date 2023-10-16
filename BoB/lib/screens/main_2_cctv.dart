@@ -29,7 +29,7 @@ class MainCCTVState extends State<Main_Cctv>{
     startConnection();
     baby = widget.getMyBabyFuction();
     _videoPlayerController = VlcPlayerController.network(
-      'rtsp://203.249.22.164:8081/unicast', // 'rtsp://210.99.70.120:1935/live/cctv001.stream'
+      'rtsp://203.249.22.164:9001/unicast', // 'rtsp://210.99.70.120:1935/live/cctv001.stream'
       autoPlay: false,
       options: VlcPlayerOptions(),
     );

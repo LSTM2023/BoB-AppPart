@@ -1,5 +1,6 @@
 import 'package:bob/models/model.dart';
 import 'package:bob/screens/Login/initPage.dart';
+import 'package:bob/screens/MyPage/OpenSourceLicenses.dart';
 import 'package:bob/screens/MyPage/withdraw.dart';
 import 'package:bob/services/storage.dart';
 import 'package:bob/widgets/appbar.dart';
@@ -86,6 +87,7 @@ class MainMyPageState extends State<MainMyPage>{
               drawSettingSpace('main4_modifyUserInfo'.tr, Icons.settings, ()=>modifyUserInfo()),
               drawSettingSpace('main4_logout'.tr, Icons.logout,() => logout()),
               drawSettingSpace('main4_withdrawal'.tr, Icons.ac_unit,()=>withdraw()),
+              drawSettingSpace('license'.tr, Icons.receipt_long,()=>viewOpenSourceLicenses()),
               const SizedBox(height: 20),
             ],
           ),
@@ -336,6 +338,9 @@ class MainMyPageState extends State<MainMyPage>{
     //Get.to(() => Invitation(activateBabies, disActivateBabies));
     await Get.to(() => Invitation(activateBabies, disActivateBabies));
     await widget.reloadBabiesFunction();
+  }
+  viewOpenSourceLicenses() {
+    Get.to(() => OpenSourceLicenses());
   }
   /// [2] method for change language mode
   changeLanguageMode(changedLanguage){

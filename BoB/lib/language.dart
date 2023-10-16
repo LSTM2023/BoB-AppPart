@@ -167,6 +167,7 @@ class Languages extends Translations{
       'keep_id' : '아이디 형식을 지켜주세요',
       'not_exist_ids' : '존재하지 않는 아이디입니다',
       'find_exist' : '아이디를 찾았습니다',
+      'license' : '오픈소스 라이선스',
     },
     'en_US':{
       'total' : 'total',
@@ -333,6 +334,7 @@ class Languages extends Translations{
       'keep_id' : 'Keep ID format',
       'not_exist_ids' : 'The ID doens\'t exist.',
       'find_exist' : 'Found ID.',
+      'license' : 'Open Source Licenses',
     }
   };
 }
