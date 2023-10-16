@@ -427,7 +427,7 @@ class MainHomeState extends State<Main_Home> {
                         }
                       },
                       child: Container(
-                        height: 215,
+                        height: 225,
                         margin: const EdgeInsets.fromLTRB(20, 0, 5, 10),
                         padding: const EdgeInsets.all(13),
                         decoration: BoxDecoration(
@@ -515,7 +515,7 @@ class MainHomeState extends State<Main_Home> {
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.fromLTRB(13, 15, 13, 13),
-                                  height: 100,
+                                  height: 105,
                                   decoration: BoxDecoration(
                                       color: const Color(0xffF9F8F8),
                                       borderRadius: BorderRadius.circular(10),
@@ -550,7 +550,7 @@ class MainHomeState extends State<Main_Home> {
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.fromLTRB(13, 15, 13, 13),
-                                  height: 100,
+                                  height: 105,
                                   decoration: BoxDecoration(
                                       color: const Color(0xffF9F8F8),
                                       borderRadius: BorderRadius.circular(10),
