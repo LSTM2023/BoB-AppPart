@@ -14,10 +14,16 @@ Map<String, Color> str2color = {
   'base63' : const Color(0xa1512f22),
   'base80' : const Color(0xcc512f22),
   'base100' : const Color(0xff512F22),
+  'Grey' : const Color(0xff9E9E9E),
   'grey': const Color(0xffC1C1C1),
   'rel0': const Color(0xffFB8665),
   'rel1': const Color(0xff22513E),
   'rel2': const Color(0xff222551),
+  'feeding' : const Color(0xffff7a7a),
+  'feedingBottle' : const Color(0xffffb1a2),
+  'babyFood' : const Color(0xfffF9B58),
+  'diaper' : const Color(0xff50BC58),
+  'sleep' : const Color(0xff5086BC),
 };
 //
 

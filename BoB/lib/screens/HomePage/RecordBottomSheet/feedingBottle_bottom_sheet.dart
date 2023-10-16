@@ -1,4 +1,5 @@
 import 'package:bob/widgets/pharse.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -11,9 +12,7 @@ class FeedingBottleBottomSheet extends StatefulWidget {
 
   final int babyId;
   final void Function(int mode, String data, DateTime date) timeFeedingBottle;
-
   const FeedingBottleBottomSheet (this.babyId, this.timeFeedingBottle, {Key? key}) : super(key: key);
-  //final String feedingTime;
 
   @override
   _FeedingBottleBottomSheet createState() => _FeedingBottleBottomSheet();
@@ -29,7 +28,6 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
   TextEditingController ymdtController = TextEditingController();
   TextEditingController memoController = TextEditingController();
   TextEditingController amountController = TextEditingController(text: '100');
-
 
   bool autovalidate = false;
 
@@ -52,7 +50,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('life1'.tr, style: TextStyle(fontSize: 32, color: Color(0xffffb1a2), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('life1'.tr, 'bold', 30, 'feedingBottle'),
                 ],
               ),
             ),
@@ -61,7 +59,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('type_feed'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('type_feed'.tr, 'bold', 15, 'base100'),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
@@ -80,8 +78,8 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                                 backgroundColor: isSelect ? const Color(0xffffb1a2) : null,
                               ),
                               child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text('life0'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                                  padding: const EdgeInsets.all(10),
+                                  child: Text('life0'.tr,style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                               ),
                             ),
                         ),
@@ -101,7 +99,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                               ),
                               child: Padding(
                                   padding: const EdgeInsets.all(10),
-                                  child:Text('powdered_milk'.tr ,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                                  child:Text('powdered_milk'.tr ,style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
                         )
                       ],
@@ -113,14 +111,12 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                       dateTimeList = await showOmniDateTimeRangePicker(
                         context: context,
                         startInitialDate: DateTime.now(),
-                        startFirstDate:
-                        DateTime(1600).subtract(const Duration(days: 3652)),
+                        startFirstDate: DateTime(1600).subtract(const Duration(days: 3652)),
                         startLastDate: DateTime.now().add(
                           const Duration(days: 3652),
                         ),
                         endInitialDate: DateTime.now(),
-                        endFirstDate:
-                        DateTime(1600).subtract(const Duration(days: 3652)),
+                        endFirstDate: DateTime(1600).subtract(const Duration(days: 3652)),
                         endLastDate: DateTime.now().add(
                           const Duration(days: 3652),
                         ),
@@ -167,14 +163,14 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                           controller: ymdtController,
                           decoration: InputDecoration(
                               labelText: 'enter_feed'.tr,
-                              labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                              suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffffb1a2), size: 22),
+                              labelStyle: const TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                              suffixIcon: const Icon(Icons.access_time_filled, color: Color(0xffffb1a2), size: 22),
                               filled: false, //색 지정
-                              enabledBorder:OutlineInputBorder(
+                              enabledBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(color: Color(0x4d512F22))
                               ),
-                              contentPadding: EdgeInsets.all(12)
+                              contentPadding: const EdgeInsets.all(12)
                           ),
                           onSaved: (val) {
                             yearMonthDayTime = ymdtController.text;
@@ -190,7 +186,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Text('amount_feed'.tr, style: TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('amount_feed'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
                   SizedBox(
                     width: MediaQuery.of(context).size.width*0.9,
@@ -214,7 +210,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                                   icon: const Icon(Icons.add_circle,size: 22, color: Color(0xffffb1a2))
                               ),
                               IconButton(
-                                  padding: EdgeInsets.only(right: 13),
+                                  padding: const EdgeInsets.only(right: 13),
                                   constraints: const BoxConstraints(),
                                   onPressed: () {
                                     null;
@@ -237,7 +233,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 3),
                   GestureDetector(
                     onTap: () {
@@ -252,26 +248,27 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                         decoration: InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.never,
                             labelText: 'enter_content'.tr,
-                            labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                            enabledBorder: OutlineInputBorder(
+                            labelStyle: const TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                            enabledBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
-                            contentPadding: EdgeInsets.only(left: 10, bottom: 20,)
+                            contentPadding: const EdgeInsets.only(left: 10, bottom: 20)
                         ),
                         keyboardType: TextInputType.text,   //키보드 타입
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{
+                        print(widget.babyId);
                         int type = isSelect? 0 : 1;   // 0:모유, 1:분유
                         String amount = amountController.text;
                         String startTime = dateTimeList![0].toString();
@@ -280,6 +277,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
 
                         var content = {"type": type, "amount": amount, "startTime": startTime, "endTime": endTime, "memo": memo,};
                         var result = await lifesetService(widget.babyId, 1, content.toString());
+                        print(result);
 
                         Duration feedingBottleTime = DateTime.now().difference(dateTimeList![1]);
                         widget.timeFeedingBottle(1, getlifeRecordPharse(feedingBottleTime), dateTimeList![1]);
@@ -293,7 +291,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: label('register_record'.tr, 'extra-bold', 20, 'white'),
                     ),
                   )
                 ],

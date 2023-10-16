@@ -1,4 +1,5 @@
 import 'package:bob/widgets/pharse.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -12,7 +13,6 @@ class FeedingBottomSheet extends StatefulWidget {
   final int babyId;
   final void Function(int mode, String data, DateTime date) timeFeeding;
   const FeedingBottomSheet (this.babyId, this.timeFeeding, {Key? key}) : super(key: key);
-  //final String feedingTime;
 
   @override
   _FeedingBottomSheet createState() => _FeedingBottomSheet();
@@ -49,7 +49,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('feeding'.tr, style: TextStyle(fontSize: 32, color: Color(0xffFF7A7A), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('feeding'.tr, 'bold', 30, 'feeding')
                 ],
               ),
             ),
@@ -58,7 +58,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('dir_feed'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('dir_feed'.tr, 'bold', 15, 'base100'),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
@@ -77,8 +77,8 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                               backgroundColor: isSelect ? const Color(0xffFF7A7A) : null,
                             ),
                             child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text('left'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                                padding: const EdgeInsets.all(10),
+                                child: Text('left'.tr,style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                             ),
                           ),
                         ),
@@ -97,8 +97,8 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                                 backgroundColor: !isSelect ? const Color(0xffFF7A7A) : null,
                               ),
                               child: Padding(
-                                  padding:EdgeInsets.all(10),
-                                  child:Text('right'.tr,style: TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                                  padding: const EdgeInsets.all(10),
+                                  child:Text('right'.tr,style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
                         )
                       ],
@@ -110,14 +110,12 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                       dateTimeList = await showOmniDateTimeRangePicker(
                         context: context,
                         startInitialDate: DateTime.now(),
-                        startFirstDate:
-                        DateTime(1600).subtract(const Duration(days: 3652)),
+                        startFirstDate: DateTime(1600).subtract(const Duration(days: 3652)),
                         startLastDate: DateTime.now().add(
                           const Duration(days: 3652),
                         ),
                         endInitialDate: DateTime.now(),
-                        endFirstDate:
-                        DateTime(1600).subtract(const Duration(days: 3652)),
+                        endFirstDate: DateTime(1600).subtract(const Duration(days: 3652)),
                         endLastDate: DateTime.now().add(
                           const Duration(days: 3652),
                         ),
@@ -164,14 +162,14 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                           controller: ymdtController,
                           decoration: InputDecoration(
                               labelText: 'enter_feed'.tr,
-                              labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                              suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffFF7A7A), size: 22),
+                              labelStyle: const TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                              suffixIcon: const Icon(Icons.access_time_filled, color: Color(0xffFF7A7A), size: 22),
                               filled: false, //색 지정
-                              enabledBorder:OutlineInputBorder(
+                              enabledBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(color: Color(0x4d512F22))
                               ),
-                              contentPadding: EdgeInsets.all(12)
+                              contentPadding: const EdgeInsets.all(12)
                           ),
                           onSaved: (val) {
                             yearMonthDayTime = ymdtController.text;
@@ -187,7 +185,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 3),
                   GestureDetector(
                     onTap: () {
@@ -202,23 +200,23 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                         decoration: InputDecoration(
                             floatingLabelBehavior:FloatingLabelBehavior.never,
                             labelText: 'enter_content'.tr,
-                            labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                            enabledBorder: OutlineInputBorder(
+                            labelStyle: const TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                            enabledBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Color(0x4d512F22))
                             ),
-                            contentPadding: EdgeInsets.only(left: 10, bottom: 20,)
+                            contentPadding: const EdgeInsets.only(left: 10, bottom: 20)
                         ),
                         keyboardType: TextInputType.text,   //키보드 타입
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{
@@ -230,6 +228,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
 
                         var content = {"side": side, "startTime": startTime, "endTime": endTime, "memo": memo};
                         var result = await lifesetService(widget.babyId, 0, content.toString());
+                        print(result);
 
                         Duration feedingTime = DateTime.now().difference(dateTimeList![1]);
                         widget.timeFeeding(0, getlifeRecordPharse(feedingTime), dateTimeList![1]);
@@ -243,7 +242,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: label('register_record'.tr, 'extra-bold', 20, 'white'),
                     ),
                   )
                 ],

@@ -1,3 +1,4 @@
+import 'package:bob/widgets/text.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
@@ -9,10 +10,8 @@ import 'package:get/get.dart';
 class GrowthRecordBottomSheet extends StatefulWidget {
 
   final int babyId;
-  // final void Function(String id) timeFeedingBottle;
 
   const GrowthRecordBottomSheet (this.babyId, {Key? key}) : super(key: key);
-  //final String feedingTime;
 
   @override
   _GrowthRecordBottomSheet createState() => _GrowthRecordBottomSheet();
@@ -20,11 +19,8 @@ class GrowthRecordBottomSheet extends StatefulWidget {
 
 class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
 
-
   double? height;
   double? weight;
-
-  DateTime _selectedDate = DateTime.now();
 
   GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   String? yearMonthDayTime;
@@ -50,14 +46,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('enter_hweight'.tr,
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Color(0xff512F22),
-                      fontFamily: 'NanumSquareRound',
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
+                  label('enter_hweight'.tr, 'bold', 22, 'base100')
                 ],
               ),
             ),
@@ -82,15 +71,14 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         });
                       },
                     ),
-                    (height==null) ? Text('select_height'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
-                    Text('${height.toString()} cm',style: const TextStyle(color: Color(0xff512F22), fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
+                    (height==null) ? label('select_height'.tr, 'bold', 20, 'Grey') : label('${height.toString()} cm', 'bold', 20, 'base100'),
                   ],
                 ),
               ),
             ),
             SafeArea(
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -111,8 +99,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         });
                       },
                     ),
-                    (weight==null) ? Text('select_weight'.tr,style: TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)) :
-                    Text('${weight.toString()} kg',style: const TextStyle(color: Color(0xff512F22), fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
+                    (weight==null) ? label('select_weight'.tr, 'bold', 20, 'Grey') : label('${weight.toString()} kg', 'bold', 20, 'base100'),
                   ],
                 ),
               ),
@@ -136,8 +123,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       itemTextStyle: const TextStyle(color: Color(0xffFB8665), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
                       textColor: const Color(0xff512F22),
                     );
-                    ymdtController.text = '${DateFormat('yyyy-MM-dd').format(datePicked!)}';
-                    //ymdtController.text = datePicked.toString();
+                    ymdtController.text = DateFormat('yyyy-MM-dd').format(datePicked!);
                   },
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width*0.9,
@@ -146,19 +132,17 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         controller: ymdtController,
                         decoration: InputDecoration(
                             labelText: 'select_date'.tr,
-                            labelStyle: TextStyle(color: Color(0x99512f22), fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                            suffixIcon: Icon(Icons.access_time_filled, color: Color(0xffFB8665)),
+                            labelStyle: const TextStyle(color: Color(0x99512f22), fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                            suffixIcon: const Icon(Icons.access_time_filled, color: Color(0xffFB8665)),
                             filled: false, //색 지정
-                            enabledBorder:OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(color: Color(0xcc512f22))
                             ),
-                            contentPadding: EdgeInsets.only(left: 15)
+                            contentPadding: const EdgeInsets.only(left: 15)
                         ),
                         onSaved: (val) {
                           yearMonthDayTime = '${DateFormat('yyyy-MM-dd').parse(ymdtController.text)}';
-
-                          // yearMonthDayTime = ymdtController.text;
                         },
                         validator: (val) {
                           if (val == null || val.isEmpty) {
@@ -170,28 +154,13 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    // OutlinedButton(
-                    //   onPressed: () {
-                    //     Navigator.pop(context);
-                    //   },
-                    //   child: Text('취소',style: TextStyle(fontSize: 25, fontFamily: 'NanumSquareRound'),),
-                    //   style: OutlinedButton.styleFrom(
-                    //       foregroundColor: Colors.black,
-                    //       minimumSize: Size((MediaQuery.of(context).size.width)/2*0.8, 40),
-                    //       shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.all(Radius.circular(10))
-                    //       )
-                    //   ),
-                    // ),
                     OutlinedButton(
                       onPressed: () async{
-                        //print(widget.babyId);
+                        print(widget.babyId);
                         double? growthHeight = height;
                         double? growthWeight = weight;
                         String growthDate = ymdtController.text;
@@ -201,7 +170,6 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                         Navigator.pop(context);
                         print(result);
                       },
-                      child: Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
                       style: OutlinedButton.styleFrom(
                         backgroundColor: const Color(0xffFB8665),
                           foregroundColor: const Color(0xe6ffffff),
@@ -210,6 +178,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                               borderRadius: BorderRadius.all(Radius.circular(30))
                           ),
                       ),
+                      child: label('register_record'.tr, 'extra-bold', 20, 'white'),
                     )
                   ],
                 )
