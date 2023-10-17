@@ -473,9 +473,9 @@ class MainHomeState extends State<Main_Home> {
                             ),
                             const SizedBox(height: 10),
                             if(getGrowthRecordList.isEmpty)
-                              label('first_growth_record'.tr, 'normal', 11, 'grey'),
+                              label('first_growth_record'.tr, 'normal', 11, 'Grey'),
                             if(getGrowthRecordList.isNotEmpty)
-                              label('${getGrowthRecordList.last['date'].toString()} ${'new_update'.tr}', 'noraml', 12, 'grey'),
+                              label('${getGrowthRecordList.last['date'].toString()} ${'new_update'.tr}', 'noraml', 12, 'Grey'),
                             const SizedBox(height: 23),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
