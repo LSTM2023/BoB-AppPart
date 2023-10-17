@@ -3,10 +3,12 @@ import 'package:bob/screens/HomePage/Statistic/baby_avg_tallStatistics.dart';
 import 'package:bob/screens/HomePage/Statistic/baby_avg_weightStatistics.dart';
 import 'package:bob/services/backend.dart';
 import 'package:bob/widgets/appbar.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 import 'package:get/get.dart';
+
 class BabyGrowthStatistics extends StatefulWidget {
   final Baby baby;
   final List<GrowthRecord> growthRecords;
@@ -18,8 +20,8 @@ class BabyGrowthStatistics extends StatefulWidget {
 
 class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with TickerProviderStateMixin {
   List<Color> gradientColors = [
-    Color(0xffffdbd9),
-    Color(0xffef759d)
+    const Color(0xffffdbd9),
+    const Color(0xffef759d)
   ];
   List<Color> gradientColors2 = [
     Colors.grey,
@@ -43,7 +45,6 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
         vsync: this,
     );
     super.initState();
-    //print(widget.baby.relationInfo.BabyId);
     getGrowthFuture = getMyGrowthInfo();
   }
   double maxD = DateTime.now().millisecondsSinceEpoch.toDouble();
@@ -78,12 +79,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color(0xffffc8c7),
-        elevation: 0.0,
-        iconTheme : const IconThemeData(color: Colors.black),
-        title: Text('graph_growth'.tr, style: TextStyle(color: Colors.black,fontSize: 20, fontFamily: 'NanumSquareRound')),
-      ),
+      appBar: homeAppbar('성장 통계'),
       body: Column(
         children: [
           Container(
@@ -93,17 +89,17 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: Text('height'.tr, style: TextStyle(fontFamily: 'NanumSquareRound'))
+                    child: Text('height'.tr, style: const TextStyle(fontFamily: 'NanumSquareRound'))
                 ),
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: Text('weight'.tr, style: TextStyle(fontFamily: 'NanumSquareRound'))
+                    child: Text('weight'.tr, style: const TextStyle(fontFamily: 'NanumSquareRound'))
                 )
               ],
               labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'),
-              labelColor: const Color(0xffff846d),
-              indicatorColor: const Color(0xffff846d),
+              labelColor: const Color(0xffff7a7a),
+              indicatorColor: const Color(0xffff7a7a),
               unselectedLabelColor: Colors.grey,
               controller: _tabController,
             ),
@@ -192,13 +188,13 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text('"${widget.baby.name}"${'\'s growth record'.tr}', style: TextStyle(fontSize: 28, color: Colors.grey[700], fontFamily: 'NanumSquareRound'),),
+          label('"${widget.baby.name}"${'\'s growth record'.tr}', 'bold', 27, 'base100'),
           const SizedBox(height: 20),
           FutureBuilder(
             future: getGrowthFuture,
             builder: (context, snapshot) {
               if (snapshot.hasData == false){
-                return Container(
+                return SizedBox(
                     width: double.infinity,
                     child : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -223,8 +219,8 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                   ),
                 );
               }else{
-                return Container(
-                  height: 560,
+                return SizedBox(
+                  height: 555,
                   child: LineChart(
                       LineChartData(
                         minX: minD,
@@ -232,7 +228,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                         minY: heightList.reduce((value, element) => value < element? value: element)-0.2,
                         maxY: heightList.reduce((value, element) => value > element? value: element)+0.1,
                         titlesData: FlTitlesData(
-                            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                             bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: true,
@@ -244,7 +240,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                         gridData: FlGridData(
                           show: true,
                           getDrawingHorizontalLine: (value) {
-                            return FlLine(
+                            return const FlLine(
                                 color: Colors.grey,
                                 strokeWidth: 1
                             );
@@ -259,7 +255,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                             ),
                             barWidth: 5,
                             isStrokeCapRound: true,
-                            dotData:  FlDotData(
+                            dotData: const FlDotData(
                               show: true,
                             ),
                             belowBarData: BarAreaData(
@@ -287,13 +283,13 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                   backgroundColor: const Color(0xfff9f8f8),
                   label: Column(
                     children: [
-                      Text("standard_growth".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
-                      Text("check_diagram".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))
+                      label("standard_growth".tr, 'normal', 13, 'base100'),
+                      label("check_diagram".tr, 'normal', 13, 'base100')
                     ],
                   ),
                   onPressed: () {
                     showDialog(context: context, builder: (context){
-                      return BabyAvgTallStatistics();
+                      return const BabyAvgTallStatistics();
                     });
                   },
                 ),
@@ -307,120 +303,117 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
 
   Widget weightChart(){
     return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          children: [
-            Text('"${widget.baby.name}"${'\'s weight record'.tr}', style: TextStyle(fontSize: 28, color: Colors.grey[700], fontFamily: 'NanumSquareRound')),
-            const SizedBox(height: 20),
-            FutureBuilder(
-              future: getGrowthFuture,
-              builder: (context, snapshot) {
-                if (snapshot.hasData == false){
-                  return Container(
-                      width: double.infinity,
-                      child : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/image/baby0.png', width: 150),
-                          const SizedBox(height: 50),
-                          const CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(
-                              Colors.white,
+      child: Column(
+        children: [
+          label('"${widget.baby.name}"${'\'s weight record'.tr}', 'bold', 27, 'base100'),
+          const SizedBox(height: 20),
+          FutureBuilder(
+            future: getGrowthFuture,
+            builder: (context, snapshot) {
+              if (snapshot.hasData == false){
+                return SizedBox(
+                    width: double.infinity,
+                    child : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/image/baby0.png', width: 150),
+                        const SizedBox(height: 50),
+                        const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            Colors.white,
+                          ),
+                        ),
+                      ],
+                    )
+                );
+              }
+              else if(snapshot.hasError){
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
+                    style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
+                  ),
+                );
+              }else{
+                return Container(
+                  height: 555,
+                  child: LineChart(
+                      LineChartData(
+                        minX: minD,
+                        maxX: maxD,
+                        minY: weightList.reduce((value, element) => value < element? value: element)-0.2,
+                        maxY: weightList.reduce((value, element) => value > element? value: element)+0.1,
+                        titlesData: FlTitlesData(
+                            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                            bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitlesWidget: bottomTitleWidgets,
+                                  reservedSize: 35,
+                                )
+                            )
+                        ),
+                        gridData: FlGridData(
+                          show: true,
+                          getDrawingHorizontalLine: (value) {
+                            return const FlLine(
+                                color: Colors.grey,
+                                strokeWidth: 1
+                            );
+                          },
+                        ),
+                        lineBarsData: [
+                          LineChartBarData(
+                            spots: weightPoints,
+                            isCurved: false,
+                            gradient: const LinearGradient(
+                              colors: [Colors.blue, Colors.blueAccent],
+                            ),
+                            barWidth: 5,
+                            isStrokeCapRound: true,
+                            dotData: const FlDotData(
+                              show: true,
+                            ),
+                            belowBarData: BarAreaData(
+                              show: true,
+                              gradient: LinearGradient(
+                                colors: gradientColors2
+                                    .map((color) => color.withOpacity(0.3))
+                                    .toList(),
+                              ),
                             ),
                           ),
                         ],
                       )
-                  );
-                }
-                else if(snapshot.hasError){
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                      style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                    ),
-                  );
-                }else{
-                  return Container(
-                    height: 560,
-                    child: LineChart(
-                        LineChartData(
-                          minX: minD,
-                          maxX: maxD,
-                          minY: weightList.reduce((value, element) => value < element? value: element)-0.2,
-                          maxY: weightList.reduce((value, element) => value > element? value: element)+0.1,
-                          titlesData: FlTitlesData(
-                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-
-                              bottomTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    showTitles: true,
-                                    getTitlesWidget: bottomTitleWidgets,
-                                    reservedSize: 35,
-                                  )
-                              )
-                          ),
-                          gridData: FlGridData(
-                            show: true,
-                            getDrawingHorizontalLine: (value) {
-                              return FlLine(
-                                  color: Colors.grey,
-                                  strokeWidth: 1
-                              );
-                            },
-                          ),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: weightPoints,
-                              isCurved: false,
-                              gradient: const LinearGradient(
-                                colors: [Colors.blue, Colors.blueAccent],
-                              ),
-                              barWidth: 5,
-                              isStrokeCapRound: true,
-                              dotData:  FlDotData(
-                                show: true,
-                              ),
-                              belowBarData: BarAreaData(
-                                show: true,
-                                gradient: LinearGradient(
-                                  colors: gradientColors2
-                                      .map((color) => color.withOpacity(0.3))
-                                      .toList(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                    ),
-                  );
-                }
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 20),
-                  child: FloatingActionButton.extended(
-                    backgroundColor: const Color(0xfff9f8f8),
-                    label: Column(
-                      children: [
-                        Text("standard_growth".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound')),
-                        Text("check_diagram".tr, style: TextStyle(color: Color(0xff512F22), fontSize: 12, fontFamily: 'NanumSquareRound'))
-                      ],
-                    ),
-                    onPressed: () {
-                      showDialog(context: context, builder: (context){
-                        return BabyAvgWeightStatistics();
-                      });
-                    },
                   ),
+                );
+              }
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 20),
+                child: FloatingActionButton.extended(
+                  backgroundColor: const Color(0xfff9f8f8),
+                  label: Column(
+                    children: [
+                      label("standard_growth".tr, 'normal', 13, 'base100'),
+                      label("check_diagram".tr, 'normal', 13, 'base100')
+                    ],
+                  ),
+                  onPressed: () {
+                    showDialog(context: context, builder: (context){
+                      return const BabyAvgWeightStatistics();
+                    });
+                  },
                 ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
