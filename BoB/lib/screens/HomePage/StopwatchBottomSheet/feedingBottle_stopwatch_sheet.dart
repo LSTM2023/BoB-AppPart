@@ -1,7 +1,6 @@
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
-import 'package:bottom_picker/bottom_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:get/get.dart';
 import '../../../services/backend.dart';
 import 'package:bob/widgets/pharse.dart';
@@ -13,7 +12,6 @@ class FeedingBottleStopwatchBottomSheet extends StatefulWidget {
   final DateTime endT;
   final Function(int mode, String data, DateTime date) changeRecord;
   const FeedingBottleStopwatchBottomSheet(this.babyId, this.startT, this.endT, {Key? key, required this.changeRecord}) : super(key: key);
-  //final String feedingTime;
 
   @override
   _FeedingBottleStopwatchBottomSheet createState() => _FeedingBottleStopwatchBottomSheet();
@@ -51,7 +49,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('life1'.tr, style: const TextStyle(fontSize: 32, color: Color(0xffffb1a2), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('life1'.tr, 'bold', 30, 'feedingBottle')
                 ],
               ),
             ),
@@ -62,13 +60,13 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                 children: [
                   Row(
                     children: [
-                      Text('feeding_time'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      label('feeding_time'.tr, 'bold', 15, 'base100'),
                       const SizedBox(width: 5),
-                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: const TextStyle(color: Color(0xff512F22), fontSize: 21, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      label('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', 'bold', 20, 'base100')
                     ],
                   ),
                   const SizedBox(height: 15),
-                  Text('type_feed'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('type_feed'.tr, 'bold', 15, 'base100'),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
                     child: Row(
@@ -88,7 +86,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                             ),
                             child: Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: Text('life0'.tr,style: const TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                                child: Text('life0'.tr,style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
                             ),
                           ),
                         ),
@@ -108,14 +106,14 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                               ),
                               child: Padding(
                                   padding:const EdgeInsets.all(10),
-                                  child:Text('powdered_milk'.tr, style: const TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                                  child:Text('powdered_milk'.tr, style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
                             )
                         )
                       ],
                     ),
                   ),
                   const SizedBox(height: 3),
-                  Text('amount_feed'.tr, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('amount_feed'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
                   SizedBox(
                     width: MediaQuery.of(context).size.width*0.9,
@@ -162,7 +160,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () {
@@ -201,7 +199,6 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                         String memo = memoController.text;
                         String amount = amountController.text;
                         var content = {"type": side, "amount": amount, "startTime": widget.startT.toString(), "endTime": widget.endT.toString(), "memo": memo};
-                        print(content);
                         var result = await lifesetService(widget.babyId, 1, content.toString());
                         print(result);
                         Duration diff = (DateTime.now()).difference(widget.endT);
@@ -216,7 +213,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: Text('registration'.tr,style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: label('register_record'.tr, 'extra-bold', 20, 'white'),
                     ),
                   )
                 ],

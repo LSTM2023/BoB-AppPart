@@ -1,3 +1,4 @@
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class _BabyAvgTallStatistics extends State<BabyAvgTallStatistics> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12.0))
         ),
-        contentPadding: EdgeInsets.only(top: 15,right: 5),
+        contentPadding: const EdgeInsets.only(top: 15,right: 10),
         backgroundColor: const Color(0xffF9F8F8),
         //default 패딩값을 없앨 수 있다.
         content: SizedBox(
@@ -26,7 +27,7 @@ class _BabyAvgTallStatistics extends State<BabyAvgTallStatistics> {
           height: 650,
           child: Column(
             children: [
-              Text('Infant 0~72 months height percentile'.tr, style: const TextStyle(fontSize: 17, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
+              label('Infant 0~72 months height percentile'.tr, 'bold', 16, 'base100'),
               const SizedBox(height: 20),
               SizedBox(
                 height: 550,
@@ -42,8 +43,8 @@ class _BabyAvgTallStatistics extends State<BabyAvgTallStatistics> {
                   children: [
                     Column(
                       children: [
-                        Text('male'.tr, style: const TextStyle(color: Colors.blue),),
-                        Text('female'.tr, style: const TextStyle(color: Colors.red),),
+                        Text('male'.tr, style: const TextStyle(color: Colors.blue)),
+                        Text('female'.tr, style: const TextStyle(color: Colors.red)),
                       ],
                     ),
                   ],
@@ -76,10 +77,10 @@ FlTitlesData get titlesData => FlTitlesData(
   bottomTitles: AxisTitles(
     sideTitles: bottomTitles,
   ),
-  rightTitles: AxisTitles(
+  rightTitles: const AxisTitles(
     sideTitles: SideTitles(showTitles: false),
   ),
-  topTitles: AxisTitles(
+  topTitles: const AxisTitles(
     sideTitles: SideTitles(showTitles: false),
   ),
   leftTitles: AxisTitles(
@@ -129,7 +130,7 @@ Widget leftTitlesWidget(double value, TitleMeta meta){
   return Text(text, style: style, textAlign: TextAlign.center,);
 }
 
-SideTitles leftTitles() => SideTitles(
+SideTitles leftTitles() => const SideTitles(
   getTitlesWidget: leftTitlesWidget,
   showTitles: true,
   interval: 1,
@@ -201,14 +202,14 @@ Widget bottomTitlesWidget(double value, TitleMeta meta){
   );
 }
 
-SideTitles get bottomTitles => SideTitles(
+SideTitles get bottomTitles => const SideTitles(
   showTitles: true,
   reservedSize: 40,
   interval: 1,
   getTitlesWidget: bottomTitlesWidget,
 );
 
-FlGridData get gridData => FlGridData(show: true);
+FlGridData get gridData => const FlGridData(show: true);
 
 FlBorderData get borderData => FlBorderData(
   show: true,
@@ -225,7 +226,7 @@ LineChartBarData get maleTallData => LineChartBarData(
   color: Colors.blue,
   barWidth: 2,
   isStrokeCapRound: true,
-  dotData: FlDotData(show: false),
+  dotData: const FlDotData(show: false),
   belowBarData: BarAreaData(show: false),
   spots: const [
     FlSpot(0, 49.8842), FlSpot(1, 54.7244), FlSpot(2, 58.4249), FlSpot(3, 61.4292), FlSpot(4, 63.886), FlSpot(5, 65.9026), FlSpot(6, 67.6236), FlSpot(7, 69.1645), FlSpot(8, 70.5994), FlSpot(9, 71.9687),
@@ -245,7 +246,7 @@ LineChartBarData get femaleTallData => LineChartBarData(
     color: Colors.red,
     barWidth: 2,
     isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
+    dotData: const FlDotData(show: false),
     belowBarData: BarAreaData(show: false),
     spots: const [
       FlSpot(0, 49.1477), FlSpot(1, 53.6872), FlSpot(2, 57.0673), FlSpot(3, 59.8029), FlSpot(4, 62.0899), FlSpot(5, 64.0301), FlSpot(6, 65.7311), FlSpot(7, 67.2873), FlSpot(8, 68.7498), FlSpot(9, 70.1435),

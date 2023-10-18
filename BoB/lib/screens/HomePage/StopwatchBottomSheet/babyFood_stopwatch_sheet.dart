@@ -1,7 +1,6 @@
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
-import 'package:bottom_picker/bottom_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:get/get.dart';
 import '../../../services/backend.dart';
 import '../../../widgets/pharse.dart';
@@ -15,7 +14,6 @@ class BabyFoodStopwatchBottomSheet extends StatefulWidget {
   final Function(int mode, String data, DateTime date) changeRecord;
 
   const BabyFoodStopwatchBottomSheet(this.babyId, this.startT, this.endT, {Key? key, required this.changeRecord}) : super(key: key);
-  //final String feedingTime;
 
   @override
   State<BabyFoodStopwatchBottomSheet> createState() => _BabyFoodStopwatchBottomSheet();
@@ -52,7 +50,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('life2'.tr, style: const TextStyle(fontSize: 32, color: Color(0xfffF9B58), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),),
+                  label('life2'.tr, 'bold', 30, 'babyFood')
                 ],
               ),
             ),
@@ -63,17 +61,16 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                 children: [
                   Row(
                     children: [
-                      Text('babyfood_time'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      label('babyfood_time'.tr, 'bold', 15, 'base100'),
                       const SizedBox(width: 5),
-                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: const TextStyle(color: Color(0xff512F22), fontSize: 21, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      label('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', 'bold', 20, 'base100')
                     ],
                   ),
                   const SizedBox(height: 15),
-                  Text('amount_food'.tr, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('amount_food'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () {
-                      // FocusScope.of(context).unfocus();
                       Navigator.pop(context);
                     },
                     child: SizedBox(
@@ -120,7 +117,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () {
@@ -172,7 +169,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: Text('registration'.tr,style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: label('register_record'.tr, 'extra-bold', 20, 'white'),
                     ),
                   )
                 ],
