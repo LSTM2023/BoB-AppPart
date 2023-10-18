@@ -26,6 +26,7 @@ class MainCCTVState extends State<Main_Cctv>{
   @override
   void initState() {
     super.initState();
+    // 온습도 통신 시작
     startConnection();
     baby = widget.getMyBabyFuction();
     _videoPlayerController = VlcPlayerController.network(
@@ -35,24 +36,21 @@ class MainCCTVState extends State<Main_Cctv>{
     );
   }
 
+  // 온습도 메세지 수신
   void messageReceived(String msg){
     setState(() {
       temp = json.decode(msg);
     });
   }
 
+  // 온습도 통신 커넥트
   void startConnection() async {
-    socketConnection.enableConsolePrint(true);    //use this to see in the console what's happening
-    if(await socketConnection.canConnect(5000, attempts: 3)){   //check if it's possible to connect to the endpoint
+    socketConnection.enableConsolePrint(true);
+    if(await socketConnection.canConnect(5000, attempts: 3)){   // 커넥트 연결 시도
       await socketConnection.connect(5000, messageReceived, attempts: 3);
     }
   }
 
-  @override
-  void dispose() async {
-    super.dispose();
-    await _videoPlayerController.stopRendererScanning();
-  }
   late Baby baby;
 
   @override
@@ -60,6 +58,7 @@ class MainCCTVState extends State<Main_Cctv>{
     return viewCCTV();
   }
 
+  // CCTV 화면
   Widget viewCCTV() {
     String week = baby.relationInfo.Access_week.toRadixString(2);
     for (int i=week.length; i<7; i++) {
@@ -95,18 +94,12 @@ class MainCCTVState extends State<Main_Cctv>{
     if (baby.relationInfo.relation == 0 || week[realE] == '1' && hour.compareTo(baby.relationInfo.Access_startTime) == -1 && hour.compareTo(baby.relationInfo.Access_endTime) == 1) {
       return Scaffold(
         backgroundColor: const Color(0xFFFFFFFF),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-                child: VlcPlayer(
-                    controller: _videoPlayerController,
-                    aspectRatio: 3 / 4,
-                    placeholder: const Center(child: CircularProgressIndicator()),
-                ),
-            ),
-          ],
+        body: Center(
+          child: VlcPlayer(
+            controller: _videoPlayerController,
+            aspectRatio: 3 / 4,
+            placeholder: const Center(child: CircularProgressIndicator()),
+          ),
         ),
         bottomNavigationBar: ClipRRect(
           borderRadius : BorderRadius.circular(30.0),
@@ -150,6 +143,7 @@ class MainCCTVState extends State<Main_Cctv>{
                             label(temp['Humid']+'%', 'bold', 28, 'base100'),
                           ],
                         ),
+                        // 재생 및 일시정지 버튼
                         Expanded(
                           child: Container(
                             alignment: AlignmentDirectional.centerEnd,
@@ -189,6 +183,7 @@ class MainCCTVState extends State<Main_Cctv>{
       );
     }
     else {
+      // 부모가 아닌 경우 접근 시간 확인
       String accessDay = '';
       for (int i=0; i<7; i++) {
         if (week[i] == '1') {

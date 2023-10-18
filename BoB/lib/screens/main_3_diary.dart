@@ -26,6 +26,7 @@ class MainDiaryState extends State<MainDiary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // Appbar
         appBar: AppBar(
           backgroundColor: const Color(0xD9FFE1C7),
           flexibleSpace: Container(
@@ -54,6 +55,7 @@ class MainDiaryState extends State<MainDiary> {
             ),
           ),
         ),
+        // 다이어리 주기능 출력
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Column(
@@ -72,18 +74,20 @@ class MainDiaryState extends State<MainDiary> {
 
   DateTime focusedDay = DateTime.now();
 
+  // 캘린더 및 다이어리 출력
   diaryList() {
     return Container(
       margin: const EdgeInsets.all(10),
       child: Column(
         children: [
+          // 캘린더 파트
           TableCalendar(
             locale: 'en_US',
             firstDay: DateTime.utc(2020, 1, 1),
             lastDay: DateTime.utc(2030, 12, 31),
             focusedDay: focusedDay,
             onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
-              // 선택된 날짜의 상태를 갱신합니다.
+              // 선택된 날짜 상태 갱신
               setState(() {
                 this.selectedDay = selectedDay;
                 this.focusedDay = focusedDay;
@@ -91,7 +95,6 @@ class MainDiaryState extends State<MainDiary> {
               });
             },
             selectedDayPredicate: (DateTime day) {
-              // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.
               return isSameDay(selectedDay, day);
             },
             onPageChanged: (focusedDay) {
@@ -121,9 +124,11 @@ class MainDiaryState extends State<MainDiary> {
             ),
           ),
           const SizedBox(height: 20),
+          // 선택된 날짜 일기 리스팅
           FutureBuilder<Diary>(
             future: DatabaseHelper.instance.getDiary(selectedDay),
             builder: (BuildContext context, AsyncSnapshot<Diary> snapshot) {
+              // 선택된 날짜에 일기가 없으면 작성 버튼 띄움
               if (!snapshot.hasData || snapshot.data == null) {
                 return SizedBox(
                   child: FutureBuilder<bool>(
@@ -150,6 +155,7 @@ class MainDiaryState extends State<MainDiary> {
                                 barrierDismissible: true,
                                 builder: (BuildContext context) {
                                   return SingleChildScrollView(
+                                    // 작성 페이지로 이동
                                     child: AlertDialog(
                                       content: Form(
                                         key: _formKey,
@@ -171,7 +177,7 @@ class MainDiaryState extends State<MainDiary> {
                   ),
                 );
               }
-              return SizedBox(
+              return SizedBox( // 다이어리 내용 출력
                 width: MediaQuery.of(context).size.width - 32,
                 child: TextButton(
                   style: ButtonStyle(
@@ -218,6 +224,7 @@ class MainDiaryState extends State<MainDiary> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
+                                // 다이어리 수정 버튼
                                 ElevatedButton(
                                     onPressed: (() async {
                                       showDialog(
@@ -225,6 +232,7 @@ class MainDiaryState extends State<MainDiary> {
                                           barrierDismissible: true,
                                           builder: (BuildContext context) {
                                             return SingleChildScrollView(
+                                              // 수정 페이지로 이동
                                               child: AlertDialog(
                                                 content: Form(
                                                   key: _formKey,
@@ -250,11 +258,13 @@ class MainDiaryState extends State<MainDiary> {
                                     child: label('modify'.tr, 'bold', 14, 'calendar')
                                 ),
                                 const SizedBox(width: 10),
+                                // 다이어리 삭제 버튼
                                 ElevatedButton(
                                     onPressed: () {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) =>
+                                              // 다이어리 삭제 전 확인 다이얼로그
                                               AlertDialog(
                                                 content: label('q_delete'.tr, 'bold', 14, 'base100'),
                                                 actions: [
@@ -286,6 +296,7 @@ class MainDiaryState extends State<MainDiary> {
                                                             width: 0.5,
                                                           )),
                                                       onPressed: (() async {
+                                                        // 다이얼로그 확인 후 삭제
                                                         setState(() {
                                                           DatabaseHelper
                                                               .instance
@@ -320,6 +331,7 @@ class MainDiaryState extends State<MainDiary> {
     );
   }
 
+  // 다이어리 작성 및 수정
   writeDiary(DateTime selectedDay, Diary? diary) {
     String title = diary?.title ?? '';
     String content = diary?.content ?? '';
@@ -340,6 +352,7 @@ class MainDiaryState extends State<MainDiary> {
           const SizedBox(
             height: 5.0,
           ),
+          // 다이어리 - 제목 입력창
           TextFormField(
             cursorColor: const Color(0xffdf8570),
             initialValue: diary?.title,
@@ -367,6 +380,7 @@ class MainDiaryState extends State<MainDiary> {
             height: 16.0,
             width: 5000,
           ),
+          // 다이어리 - 내용 입력창
           TextFormField(
             cursorColor: const Color(0xffdf8570),
             maxLines: 15,
@@ -398,6 +412,7 @@ class MainDiaryState extends State<MainDiary> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              // 다이어리 - 사진 첨부 기능
               ElevatedButton(
                   onPressed: (() async {
                     final XFile? image0 =
@@ -419,6 +434,7 @@ class MainDiaryState extends State<MainDiary> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
+                      // 다이어리 작성
                       if (diary?.title != null) {
                         DatabaseHelper.instance.update(Diary(
                             date: selDay,
@@ -426,6 +442,7 @@ class MainDiaryState extends State<MainDiary> {
                             content: content,
                             image: image));
                       }
+                      // 다이어리 수정
                       else {
                         DatabaseHelper.instance.add(Diary(
                             date: selDay,
