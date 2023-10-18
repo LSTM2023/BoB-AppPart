@@ -24,6 +24,7 @@ Map<String, Color> str2color = {
   'babyFood' : const Color(0xfffF9B58),
   'diaper' : const Color(0xff50BC58),
   'sleep' : const Color(0xff5086BC),
+  'calendar' : const Color(0xffdf8570),
 };
 //
 

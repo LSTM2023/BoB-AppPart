@@ -120,8 +120,8 @@ class MainCCTVState extends State<Main_Cctv>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text('BoB ', style: TextStyle(color: Color(0xFFFB8665), fontSize: 20)),
-                      Text('homecam'.tr, style: const TextStyle(color: Color(0xFF512F22), fontSize: 20)),
+                      label('BoB', 'bold', 20, 'primary'),
+                      label('homecam'.tr, 'bold', 20, 'base100'),
                     ],
                   ),
                   const SizedBox(height: 18),
@@ -145,9 +145,9 @@ class MainCCTVState extends State<Main_Cctv>{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('humid'.tr, style: const TextStyle(fontSize: 14, color: Color(0xFF512F22))),
+                            label('humid'.tr, 'bold', 14, 'base100'),
                             const SizedBox(height: 16),
-                            Text(temp['Humid']+'%', style: const TextStyle(fontSize: 28, color: Color(0xFF512F22)))
+                            label(temp['Humid']+'%', 'bold', 28, 'base100'),
                           ],
                         ),
                         Expanded(

@@ -48,12 +48,8 @@ class MainDiaryState extends State<MainDiary> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('BoB '.tr,
-                    style: const TextStyle(
-                        color: Color(0xFFFB8665), fontSize: 20)),
-                Text('Calendar'.tr,
-                    style: const TextStyle(
-                        color: Color(0xFF512F22), fontSize: 20)),
+                label('BoB'.tr, 'bold', 20, 'primary'),
+                label('Calendar'.tr, 'bold', 20, 'base100'),
               ],
             ),
           ),
@@ -197,17 +193,9 @@ class MainDiaryState extends State<MainDiary> {
                           children: [
                             Row(
                               children: [
-                                Text(snapshot.data!.title,
-                                    style: const TextStyle(
-                                        color: Color(0xFF512F22),
-                                        fontSize: 16)),
+                                label(snapshot.data!.title, 'bold', 16, 'base100'),
                                 Expanded(
-                                  child: Text(
-                                    snapshot.data!.date,
-                                    style: const TextStyle(
-                                        color: Color(0x99512F22), fontSize: 14),
-                                    textAlign: TextAlign.right,
-                                  ),
+                                  child: label(snapshot.data!.date, 'bold', 14, 'base60'),
                                 ),
                               ],
                             ),
@@ -226,11 +214,7 @@ class MainDiaryState extends State<MainDiary> {
                               height: 10,
                               width: double.infinity,
                             ),
-                            Text(snapshot.data!.content,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF512F22),
-                                )),
+                            label(snapshot.data!.content, 'bold', 14, 'base100'),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -263,9 +247,8 @@ class MainDiaryState extends State<MainDiary> {
                                           color: Color(0xffdf8570),
                                           width: 0.5,
                                         )),
-                                    child: Text('modify'.tr,
-                                        style: const TextStyle(
-                                            color: Color(0xffdf8570)))),
+                                    child: label('modify'.tr, 'bold', 14, 'calendar')
+                                ),
                                 const SizedBox(width: 10),
                                 ElevatedButton(
                                     onPressed: () {
@@ -289,10 +272,8 @@ class MainDiaryState extends State<MainDiary> {
                                                       onPressed: () =>
                                                           Navigator.of(context)
                                                               .pop(),
-                                                      child: Text('cancel'.tr,
-                                                          style: const TextStyle(
-                                                              color: Color(
-                                                                  0xffdf8570)))),
+                                                      child: label('cancel'.tr, 'bold', 14, 'calendar')
+                                                  ),
                                                   ElevatedButton(
                                                       style: ElevatedButton
                                                           .styleFrom(
@@ -314,10 +295,8 @@ class MainDiaryState extends State<MainDiary> {
                                                         Navigator.of(context)
                                                             .pop();
                                                       }),
-                                                      child: Text('delete'.tr,
-                                                          style: const TextStyle(
-                                                              color: Color(
-                                                                  0xffdf8570)))),
+                                                      child: label('delete'.tr, 'bold', 14, 'calendar')
+                                                  ),
                                                 ],
                                               ));
                                     },
@@ -327,9 +306,8 @@ class MainDiaryState extends State<MainDiary> {
                                           color: Color(0xffdf8570),
                                           width: 0.5,
                                         )),
-                                    child: Text('delete'.tr,
-                                        style: const TextStyle(
-                                            color: Color(0xffdf8570)))),
+                                    child: label('delete'.tr, 'bold', 14, 'calendar')
+                                ),
                               ],
                             ),
                           ])),
@@ -434,9 +412,8 @@ class MainDiaryState extends State<MainDiary> {
                         color: Color(0xffdf8570),
                         width: 0.5,
                       )),
-                  child: Text(
-                      image != null ? 'change_image'.tr : 'put_image'.tr,
-                      style: const TextStyle(color: Color(0xffdf8570)))),
+                  child: label(image != null ? 'change_image'.tr : 'put_image'.tr, 'bold', 14, 'calendar')
+              ),
               const SizedBox(width: 10),
               ElevatedButton(
                   onPressed: () {
@@ -459,7 +436,7 @@ class MainDiaryState extends State<MainDiary> {
                       _formKey.currentState?.reset();
                       Navigator.of(context).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('modified'.tr)),
+                        SnackBar(content: label('modified'.tr, 'bold', 14, 'white')),
                       );
                     }
                   },
@@ -469,8 +446,8 @@ class MainDiaryState extends State<MainDiary> {
                         color: Color(0xffdf8570),
                         width: 0.5,
                       )),
-                  child: Text(diary?.title != null ? 'modify'.tr : 'upload'.tr,
-                      style: const TextStyle(color: Color(0xffdf8570)))),
+                  child: label(diary?.title != null ? 'modify'.tr : 'upload'.tr, 'bold', 14, 'calendar')
+              ),
             ],
           ),
         ]);
