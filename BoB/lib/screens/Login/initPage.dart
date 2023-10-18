@@ -1,4 +1,5 @@
 import 'package:bob/models/model.dart' as MODEL;
+import 'package:bob/screens/Login/socialLogin.dart';
 import 'package:bob/services/backend.dart';
 import 'package:bob/services/storage.dart';
 import 'package:flutter/material.dart';
@@ -119,56 +120,53 @@ class _LoginInit extends State<LoginInit>{
 
   /// *method* for social login
   _socialLogin(String title) async {
+    Map<String, String> autoInfo = {
+      'email': '', 'nickname': '', 'phone': ''
+    };
+
     if(title == 'naver'){
-      print('naver login');
       final NaverLoginResult result = await naverLogin();
-      if (result.status == NaverLoginStatus.loggedIn) {
-        // 1. 해당 정보가 있는지 확인 -> duplicate
-        _after_socialLogin(result.account.email, result.account.name, result.account.mobile);
+      if(result.status != NaverLoginStatus.loggedIn){
+        Get.snackbar('naver 로그인', '로그인에 실패하였습니다');
+        return;
       }
+      autoInfo['email'] = result.account.email;
+      autoInfo['nickname'] = result.account.name;
+      autoInfo['mobile'] = result.account.mobile;
     }
     else if(title == 'google'){
-      print('google login');
       final GoogleSignInAccount? googleUser = await googleLogin();
-      if(googleUser != null){
-        _after_socialLogin(googleUser.email, googleUser.displayName.toString(), '010-5555-6666');
-      }else{
-        Get.snackbar('login', '로그인에 실패하였습니다');
+      if(googleUser == null){
+        Get.snackbar('google 로그인', '로그인에 실패하였습니다');
+        return;
       }
-    }
-  }
-  _after_socialLogin(String email, String nickName, String phone) async {
-    String responseData = await emailOverlapService(email);
-    if(responseData == "False"){   // 존재하는 아이디 // 2. 있으면, login 정보 받아와
-      print('존재하는 ID 존재 -> 있는 ID 로그인');
-      await _login(email, 'naver123!@#');
-    }else{        // 존재 X는 아이디  // 2. 없으면, 회원가입 진행
-      print('존재하지 않는 ID');
-      var response = await registerService(email, 'naver123!@#', nickName, phone, 0, "");
-      await _login(email, 'naver123!@#');
+      autoInfo['email'] = googleUser!.email;
+      autoInfo['nickname'] = googleUser.displayName.toString();
     }
 
+    var responseData = await emailOverlapService(autoInfo['email']!);
+    if(responseData != "False"){
+      // 신규 유저 -> 추가 정보 입력 페이지로 이동하여 추가 정보 기입 및 회원가입 진행
+      await Get.to(() => SLogAddiInfo(autoInfo, socialType: title));
+    }
+    // 로그인 진행
+    await _login(autoInfo['email']!, 'lstm123!@#');
   }
 
   _login(String email, String pw) async{
     if(validateEmail(email) && validatePassword(pw) == false){
       return;
     }
-    Map<String, dynamic> informs = await login(email, pw);
+    var informs = await login(email, pw);
+    if(informs == null){
+      Get.snackbar('로그인 실패', '등록된 사용자가 아닙니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      return;
+    }
+    Get.snackbar('로그인 성공', '환영합니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
     MODEL.User userInfo = informs['user'];
     List<MODEL.Baby> myBabies = informs['babies'];
 
-    if(userInfo == null){
-      Get.snackbar('로그인 실패', '등록된 사용자가 아닙니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
-    }
-    Get.snackbar('로그인 성공', '환영합니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
-
-    if(myBabies.isEmpty){
-      Get.offAll(()=> BaseWidget(userInfo, myBabies));
-    }
-    else{
-      Get.offAll(()=> BaseWidget(userInfo, myBabies));
-    }
+    Get.offAll(()=> BaseWidget(userInfo, myBabies));
   }
   Widget getLoginForm(contoller, title, isOb, keyType){
     return CupertinoTextField(

@@ -33,13 +33,15 @@ class MainMyPageState extends State<MainMyPage>{
 
   @override
   void initState() {
-
+    print(widget.userinfo.qaType);
+    print(widget.userinfo.qaAnswer);
     activateBabies = widget.getBabiesFuction(true);
     disActivateBabies = widget.getBabiesFuction(false);
 
     if(activateBabies.isEmpty && disActivateBabies.isEmpty){
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showModalBottomSheet(
+            isDismissible: false,
           shape: modalBottomSheetFormRound(),
           backgroundColor: const Color(0xffF9F8F8),
           isScrollControlled: true,
@@ -335,7 +337,6 @@ class MainMyPageState extends State<MainMyPage>{
   }
   /// [1] method for invite additional caregivers
   invitation() async {
-    //Get.to(() => Invitation(activateBabies, disActivateBabies));
     await Get.to(() => Invitation(activateBabies, disActivateBabies));
     await widget.reloadBabiesFunction();
   }
@@ -351,9 +352,10 @@ class MainMyPageState extends State<MainMyPage>{
   /// [3] method for modify user information
   modifyUserInfo() async {
     var modifyInfo = await Get.to(() => ModifyUser(widget.userinfo));
+    print(modifyInfo);
     if(modifyInfo != null){
       setState((){
-        widget.userinfo.modifyUserInfo(modifyInfo['pass'], modifyInfo['name'], modifyInfo['phone']);
+        widget.userinfo.modifyUserInfo(modifyInfo['pass'], modifyInfo['name'], modifyInfo['phone'], modifyInfo['qaType'], modifyInfo['qaAnswer']);
       });
     }
   }

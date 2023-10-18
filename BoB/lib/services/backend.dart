@@ -69,7 +69,7 @@ editUserService(data) async{
 getMyBabiesService() async{
   try{
     dio.options.headers['Authorization'] = await getToken();
-    Response response = await dio.post('${PATH}/api/baby/lists/');
+    Response response = await dio.post('$PATH/api/baby/lists/');
     if(response.statusCode == 200){
       return response.data as List<dynamic>;
     }
@@ -149,7 +149,7 @@ refresh() async{
 // 중복 검사 서비스
 emailOverlapService(String id) async{
   try{
-    Response response = await dio.post('${PATH}/api/user/exist/', data: {'email' : id});
+    Response response = await dio.post('$PATH/api/user/exist/', data: {'email' : id});
     return response.data;
   }catch(e){
     dio.options.headers['Authorization'] = await refresh();

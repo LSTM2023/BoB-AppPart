@@ -11,20 +11,23 @@ class User {
   User(this.email, this.password1, this.name, this.phone, this.qaType, this.qaAnswer);
 
   User.fromJson(Map<dynamic, dynamic> json)
-      : email = json['email'], password1 = json['password1'], name = json['name'], phone = json['phone'], qaType = (json['qaType']), qaAnswer = (json['qaAnswer']);
+      : email = json['email'], password1 = json['password1'], name = json['name'], phone = json['phone'],
+        qaType = (json['qatype'] ?? 0), qaAnswer = (json['qaAnswer']??'');
 
   Map<String, dynamic> toJson() => {
     "email": email,
     "password1": password1,
     "name": name,
     "phone": phone,
-    "qaType" : qaType,
+    "qatype" : qaType,
     "qaAnswer" : qaAnswer
   };
-  modifyUserInfo(_pass, _name, _phone){
-    this.password1 = _pass;
-    this.name = _name;
-    this.phone = _phone;
+  modifyUserInfo(_pass, _name, _phone, _qaType, _answer){
+    password1 = _pass;
+    name = _name;
+    phone = _phone;
+    qaType = _qaType;
+    qaAnswer = _answer;
   }
 }
 

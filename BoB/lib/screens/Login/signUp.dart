@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 
+import '../../models/qaTypeList.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/form.dart';
 import '../../services/backend.dart';
@@ -109,14 +110,7 @@ class _SignUp extends State<SignUp>{
                               return null;
                             }
                           },
-                          dropDownList: const [
-                            DropDownValueModel(name: '다른 이메일 주소는?', value: 0),
-                            DropDownValueModel(name: '나의 보물 1호는?', value: 1),
-                            DropDownValueModel(name: '나의 출신 초등학교는?', value: 2),
-                            DropDownValueModel(name: '나의 이상형은?', value: 3),
-                            DropDownValueModel(name: '어머니 성함은?', value: 4),
-                            DropDownValueModel(name: '아버지 성함은?', value: 6),
-                          ],
+                          dropDownList: qaDataModelList,
                           dropDownItemCount: 6,
                       ),
                       const SizedBox(height: 10),
@@ -160,6 +154,7 @@ class _SignUp extends State<SignUp>{
     String pass = passCtr.text.trim();
     String nickname = nickNameCtr.text.trim();
     String phone = phoneCtr.text.trim();
+    int qaType = _cnt.dropDownValue?.value;
     String qaAnswer = answerCtr.text.trim();
     String? validResult;
     if(!validateEmail(email)) validResult = '아이디 형식을 지켜주세요';
@@ -168,13 +163,14 @@ class _SignUp extends State<SignUp>{
     if(pass != passCheckCtr.text.trim()) validResult =  '비밀번호 확인이랑 맞지 않습니다';
     if(!validateNickname(nickname)) validResult =  '비밀번호 확인이랑 맞지 않습니다';
     if(!validatePhone(phone)) validResult =  '휴대폰 번호가 올바르지 않습니다';
+    if(!validateQaType(qaType)) validResult =  '질문&답변을 확인해주세요.';
     if(!validateQaAnswer(qaAnswer)) validResult =  '질문&답변을 확인해주세요.';
     if(validResult != null){
-      Get.snackbar("입력을 확인해주세요", validResult);
+      Get.snackbar("주의", validResult);
       return;
     }
     // 2. call register API
-    var response = await registerService(email, pass, nickname, phone, _cnt.dropDownValue?.value, qaAnswer);
+    var response = await registerService(email, pass, nickname, phone, qaType, qaAnswer);
     Get.snackbar('회원가입 성공', '회원가입에 성공하였습니다. 횐영합니다 \u{1F606}');
     Get.to(() => LoginInit());
   }

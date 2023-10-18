@@ -24,10 +24,10 @@ class _BaseWidget extends State<BaseWidget>{
   int cIdx = 0;
   int _selectedIndex = 0; // 인덱싱
 
-  // 앱에서 지원하는 언어 리스트 변수
+  // 앱에서 지원하는 언어 리스트
   final supportedLocales = [
-    Locale('en', 'US'),
-    Locale('ko', 'KR')
+    const Locale('en', 'US'),
+    const Locale('ko', 'KR')
   ];
 
   String selectedLanguageMode = '한국어';
@@ -35,6 +35,9 @@ class _BaseWidget extends State<BaseWidget>{
   @override
   void initState() {
     super.initState();
+    if(widget.MyBabies.isEmpty){
+      _selectedIndex = 3; // 인덱싱
+    }
     classifyByActive();
   }
   // 1. active / disActive 분류
@@ -91,7 +94,7 @@ class _BaseWidget extends State<BaseWidget>{
       });
     }
   }
-  // 다국어처리부
+  // 다국어 처리
   changeLanguageMode(String value){
     if(value == '한국어'){
       Get.updateLocale(const Locale('ko','KR'));

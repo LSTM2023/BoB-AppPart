@@ -1,6 +1,8 @@
 import 'package:bob/widgets/appbar.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../models/qaTypeList.dart';
 import '../../models/model.dart';
 import '../../models/validate.dart';
 import '../../services/backend.dart';
@@ -22,6 +24,8 @@ class _ModifyUser extends State<ModifyUser> {
   late TextEditingController passCheckCtr;
   late TextEditingController nickNameCtr;
   late TextEditingController phoneCtr;
+  late SingleValueDropDownController qaTypeCtr;
+  late TextEditingController answerCtr;
   bool passwordVisible = true;
 
   @override
@@ -30,6 +34,8 @@ class _ModifyUser extends State<ModifyUser> {
     passCheckCtr = TextEditingController(text: widget.userInfo.password1);
     nickNameCtr = TextEditingController(text: widget.userInfo.name);
     phoneCtr = TextEditingController(text: widget.userInfo.phone);
+    qaTypeCtr = SingleValueDropDownController(data: qaDataModelList[widget.userInfo.qaType]);
+    answerCtr = TextEditingController(text: widget.userInfo.qaAnswer);
     super.initState();
   }
 
@@ -66,6 +72,25 @@ class _ModifyUser extends State<ModifyUser> {
               label('login_phone'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               makeTextFormField('phone', phoneCtr),
+              const SizedBox(height: 30),
+              label('질문 & 답변', 'bold', 14, 'base100'),
+              const SizedBox(height: 10),
+              DropDownTextField(
+                textFieldDecoration: formDecoration('설정한 질문 유형을 선택해주세요'),
+                controller: qaTypeCtr,
+                clearOption: false,
+                validator: (value) {
+                  if (value == null) {
+                    return "Required field";
+                  } else {
+                    return null;
+                  }
+                },
+                dropDownList: qaDataModelList,
+                dropDownItemCount: 6,
+              ),
+              const SizedBox(height: 10),
+              makeTextFormField('qa_answer', answerCtr),
               const SizedBox(height: 100),
               ElevatedButton(
                   style: btnStyleForm('white', 'primary', 25),
@@ -77,26 +102,36 @@ class _ModifyUser extends State<ModifyUser> {
         ),
       )
     );
-
   }
+
   /// method for modify user information
   serviceModifyUserinfo() async {
     // 1. validate
     String pass = passCtr.text.trim();
     String name = nickNameCtr.text.trim();
     String phone = phoneCtr.text.trim();
-    if (!validatePassword(pass) &&
-        !validateName(name) &&
-        !validatePhone(phone)) {
+    int qaType = qaTypeCtr.dropDownValue?.value;
+    String qaAnswer = answerCtr.text.trim();
+
+    if (!validatePassword(pass) ||
+        !validateName(name) ||
+        !validatePhone(phone) ||
+        !validateQaAnswer(qaAnswer)
+    ) {
+      Get.snackbar('주의', '입력 형식을 지켜주세요',  snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
       return;
     }
+
     // call modifyUser API & edit local DB
-    if (await editUserService({"password": pass, "name": name, "phone": phone}) == "True") {
+    var re = await editUserService({"password": pass, "name": name, "phone": phone, "qatype": qaType, "qaAnswer": qaAnswer});
+    print(re);
+    if (re == "Success") {
       // (1) 비번 변경시 -> 내부 저장소 변경
       if (pass != widget.userInfo.password1) {
         await editPasswordLoginStorage(pass); // 내부 저장소 변경
       }
-      Get.back(result: {"pass": pass, "name": name, "phone": phone});
+      //Get.back();
+      Get.back(result: {"pass": pass, "name": name, "phone": phone, "qaType": qaType, "qaAnswer": qaAnswer});
     } else {
       Get.snackbar('수정 실패', '수정에 실패하였습니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
     }

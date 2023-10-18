@@ -43,7 +43,8 @@ login(String email, String pw) async{
   if(loginData != null){
     String token = loginData['access_token'];
     Map<dynamic, dynamic> payload = Jwt.parseJwt(token);
-    User userInfo = User(loginData['email'], pw, loginData['name'], loginData['phone'], 0, "");
+    loginData['password1'] = pw;
+    User userInfo = User.fromJson(loginData);
     Login newLoginInfo = Login(token, loginData['refresh_token'], payload['user_id'], loginData['email'], pw);
     await writeLogin(newLoginInfo);
 

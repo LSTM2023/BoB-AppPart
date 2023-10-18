@@ -21,6 +21,7 @@ class _Invitation extends State<Invitation> {
     return Scaffold(
       appBar: homeAppbar('main4_InviteBabysitter'.tr),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'invitation',
         backgroundColor: const Color(0xFFFB8665),
         onPressed: () => openInvitationForm(),
         child: const Icon(Icons.add)
