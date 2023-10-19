@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 import 'package:get/get.dart';
-
 import '../../../services/backend.dart';
 
 class SleepBottomSheet extends StatefulWidget {
@@ -22,12 +21,9 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
 
   List<DateTime>? dateTimeList;
 
-  GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   String? yearMonthDayTime;
   TextEditingController ymdtController = TextEditingController();
   TextEditingController memoController = TextEditingController();
-
-  bool autovalidate = false;
 
   @override
   void initState() {
@@ -59,7 +55,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
+                    GestureDetector(      // 수면 시간 입력
                       onTap: () async {
                         dateTimeList = await showOmniDateTimeRangePicker(
                           context: context,
@@ -141,7 +137,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                     const SizedBox(height: 15),
                     label('memo'.tr, 'bold', 15, 'base100'),
                     const SizedBox(height: 3),
-                    GestureDetector(
+                    GestureDetector(            // 메모 입력
                       onTap: () {
                         Navigator.pop(context);
                       },
@@ -170,7 +166,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(
+                    SizedBox(                                 // 수면 기록 제출
                       width: double.infinity,
                       child: OutlinedButton(
                         onPressed: () async{

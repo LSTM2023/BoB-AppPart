@@ -22,7 +22,6 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
   double? height;
   double? weight;
 
-  GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   String? yearMonthDayTime;
   TextEditingController ymdtController = TextEditingController();
   TextEditingController heightController = TextEditingController();
@@ -50,7 +49,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                 ],
               ),
             ),
-            SafeArea(
+            SafeArea(       // 키 설정
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +75,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                 ),
               ),
             ),
-            SafeArea(
+            SafeArea(       // 몸무게 설정
               child: SingleChildScrollView(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Column(
@@ -106,7 +105,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
             ),
             Column(
               children: [
-                GestureDetector(
+                GestureDetector(      // 측정 날짜 설정
                   onTap: () async {
                     var datePicked = await DatePicker.showSimpleDatePicker(
                       context,
@@ -155,7 +154,7 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
+                Row(    // 성장 기록 제출
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     OutlinedButton(

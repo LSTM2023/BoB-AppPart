@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 import 'package:get/get.dart';
-
 import '../../../services/backend.dart';
 
 class FeedingBottleBottomSheet extends StatefulWidget {
@@ -23,13 +22,10 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
   bool isSelect = true;
   List<DateTime>? dateTimeList;
 
-  GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   String? yearMonthDayTime;
   TextEditingController ymdtController = TextEditingController();
   TextEditingController memoController = TextEditingController();
   TextEditingController amountController = TextEditingController(text: '100');
-
-  bool autovalidate = false;
 
   @override
   void initState() {
@@ -56,7 +52,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
             ),
             Container(
               padding: const EdgeInsets.only(left: 25, right: 25),
-              child: Column(
+              child: Column(      // 수유 타입 설정
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   label('type_feed'.tr, 'bold', 15, 'base100'),
@@ -106,7 +102,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 5),
-                  GestureDetector(
+                  GestureDetector(          // 수유 시간 입력
                     onTap: () async {
                       dateTimeList = await showOmniDateTimeRangePicker(
                         context: context,
@@ -188,7 +184,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                   const SizedBox(height: 15),
                   label('amount_feed'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  SizedBox(
+                  SizedBox(           // 수유량 입력
                     width: MediaQuery.of(context).size.width*0.9,
                     child: TextFormField(
                       controller: amountController,
@@ -235,7 +231,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                   const SizedBox(height: 15),
                   label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 3),
-                  GestureDetector(
+                  GestureDetector(                          // 메모 입력
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -264,7 +260,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  SizedBox(
+                  SizedBox(                           // 수유 기록 제출
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{

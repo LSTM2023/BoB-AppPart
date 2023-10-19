@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bob/widgets/pharse.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +12,7 @@ class BabyFoodBottomSheet extends StatefulWidget {
 
   final int babyId;
   final void Function(int mode, String id, DateTime date) timeBabyFood;
-
   const BabyFoodBottomSheet (this.babyId, this.timeBabyFood, {Key? key}) : super(key: key);
-  //final String feedingTime;
 
   @override
   _BabyFoodBottomSheet createState() => _BabyFoodBottomSheet();
@@ -26,13 +22,10 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
 
   List<DateTime>? dateTimeList;
 
-  GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   String? yearMonthDayTime;
   TextEditingController ymdtController = TextEditingController();
   TextEditingController memoController = TextEditingController();
   TextEditingController amountController = TextEditingController(text: '100');
-
-  bool autovalidate = false;
 
   @override
   void initState() {
@@ -64,7 +57,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
+                    GestureDetector(    // 이유식 시간 설정
                       onTap: () async {
                         dateTimeList = await showOmniDateTimeRangePicker(
                           context: context,
@@ -146,7 +139,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                     const SizedBox(height: 15),
                     label('amount_food'.tr, 'bold', 15, 'base100'),
                     const SizedBox(height: 5),
-                    GestureDetector(
+                    GestureDetector(       // 이유식 양 설정
                       onTap: () {
                         Navigator.pop(context);
                       },
@@ -196,7 +189,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                     const SizedBox(height: 15),
                     label('memo'.tr, 'bold', 15, 'base100'),
                     const SizedBox(height: 3),
-                    GestureDetector(
+                    GestureDetector(                             // 메모 입력
                       onTap: () {
                         Navigator.pop(context);
                       },
@@ -225,7 +218,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(
+                    SizedBox(                     // 이유식 기록 제출
                       width: double.infinity,
                       child: OutlinedButton(
                         onPressed: () async{

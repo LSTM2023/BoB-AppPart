@@ -23,12 +23,9 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
   bool isSelect = true;
   List<DateTime>? dateTimeList;
 
-  GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   String? yearMonthDayTime;
   TextEditingController ymdtController = TextEditingController();
   TextEditingController memoController = TextEditingController();
-
-  bool autovalidate = false;
 
   @override
   void initState() {
@@ -61,7 +58,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                   label('dir_feed'.tr, 'bold', 15, 'base100'),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
-                    child: Row(
+                    child: Row(       // 수유 타입 설정
                       children: [
                         Expanded(
                           flex: 1,
@@ -105,7 +102,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 5),
-                  GestureDetector(
+                  GestureDetector(              // 수유 시간 입력
                     onTap: () async {
                       dateTimeList = await showOmniDateTimeRangePicker(
                         context: context,
@@ -187,7 +184,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                   const SizedBox(height: 15),
                   label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 3),
-                  GestureDetector(
+                  GestureDetector(                         // 메모 입력
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -216,7 +213,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  SizedBox(
+                  SizedBox(                                 // 모유 수유 기록 제출
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{
