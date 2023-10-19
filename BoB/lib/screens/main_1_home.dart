@@ -34,8 +34,8 @@ class Main_Home extends StatefulWidget {
 
 class MainHomeState extends State<Main_Home> {
   GlobalKey<StopwatchState> _stopwatchKey = GlobalKey();
-  late List<Baby> activeBabies;
-  late Baby currentBaby;
+  late List<Baby> activeBabies;   // 로그인 된 계정 아기 리스트
+  late Baby currentBaby;          // 현재 선택한 아기
 
   String _feeding = '-';        // 모유
   String _feedingBottle = '-';  // 젖병
@@ -51,56 +51,52 @@ class MainHomeState extends State<Main_Home> {
 
   bool timerClosed = true;
 
-  List<Vaccine> myBabyVaccineList = [];
-  late List<MedicalCheckUp> myBabyMedicalCheckList;
-  late List<GrowthRecord> myBabyGrowthRecordList = [];
+  List<Vaccine> myBabyVaccineList = [];                   // 예방 접종 리스트
+  late List<MedicalCheckUp> myBabyMedicalCheckList;       // 건강 검진 리스트
+  late List<GrowthRecord> myBabyGrowthRecordList = [];    // 성장 기록 리스트
 
-  void addLifeRecord(int type, String val, DateTime lastDate){
+  void addLifeRecord(int type, String val, DateTime lastDate){  // 생활 기록 출력 함수
     setState(() {
-      if(type==0){
+      if(type==0){  // 모유
         _feeding = val;
         last_feeding = lastDate;
       }
-      else if(type==1){
+      else if(type==1){   // 젖병
         _feedingBottle = val;
         last_feedingBottle = lastDate;
       }
-      else if(type==2){
+      else if(type==2){   // 이유식
         _babyfood = val;
         last_babyfood = lastDate;
       }
-      else if(type==3){
+      else if(type==3){   // 기저귀
         _diaper = val;
         last_diaper = lastDate;
       }
-      else{
+      else{   // 수면
         _sleep = val;
         last_sleep = lastDate;
       }
     });
   }
 
-  closeOffset(){
+  closeOffset(){    // 타이머 숨김
     setState(() {
       timerClosed = true;
     });
   }
 
-  Color timerBackgroundColor = Colors.black;
+  int timerType = 0;    // 타이머 종류 0:모유 / 1:젖병 / 2:이유식 / 3:기저귀 / 4:수면
+  late StopWatch stopWatchWidget;   // 스탑워치 위젯
 
-  int timerType = 0;
-  late StopWatch stopWatchWidget;
+  String nextVaccineCheckDate = '-';    // 다음 예방 접종 데이터
+  String nextMedicalCheckDate = '-';    // 다음 건강 검진 데이터
 
-  String nextVaccineDate = '';
-
-  String nextMedicalCheckDate = '-';
-  String nextVaccineCheckDate = '-';
-
-  late Future getGrowthRecord;
-  late List<dynamic> getGrowthRecordList = [];
+  late Future getGrowthRecord;                    // 성장 기록 가져오기
+  late List<dynamic> getGrowthRecordList = [];    // 성장 기록 리스트
 
   @override
-  void initState() {
+  void initState() {    // 초기 호출 메서드
     // TODO: implement initState
     super.initState();
     activeBabies = widget.getBabiesFunction(true);
@@ -112,7 +108,7 @@ class MainHomeState extends State<Main_Home> {
     loadLastLifeRecord();
   }
 
-  Future getMyGrowthInfo() async{
+  Future getMyGrowthInfo() async{     // 성장 기록 정보 불러오기
     List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
     getGrowthRecordList = growthRecordList;
 
@@ -120,18 +116,18 @@ class MainHomeState extends State<Main_Home> {
     return getGrowthRecordList;
   }
 
-  Future<void> loadLastLifeRecord() async{
-    List<dynamic> datas = await lifeGetService(currentBaby.relationInfo.BabyId);
+  Future<void> loadLastLifeRecord() async{      // 생활 기록 정보 불러오기
+    List<dynamic> data = await lifeGetService(currentBaby.relationInfo.BabyId);
     List<DateTime> map = [DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now()];
-    for(int i=0; i<datas.length;i++){
-      var content = datas[i]['content'];
+    for(int i=0; i<data.length;i++){
+      var content = data[i]['content'];
       // content = jsonDecode(content);
       // print(content['type']);
     }
   }
 
   Future<void> loadMyBabyMedicalInfo() async{
-    myBabyVaccineList =  [
+    myBabyVaccineList =  [      // 백신 리스트
       Vaccine(ID: 0, title: '결핵 경피용', times: 'BCG 1회/기타', recommendationDate: '2023.01.20 ~ 2023.02.19', detail: '생후 4주 이내 접종, 민간의료기관, 유료'),
       Vaccine(ID: 1, title: '결핵 피내용', times: 'BCG 1회/기타', recommendationDate: '2023.01.20 ~ 2023.02.19', detail: '생후 4주 이내 접종, 민간의료기관, 유료'),
       Vaccine(ID: 2, title: 'B형 간염', times: 'HepB 1차/국가', recommendationDate: '2023.01.20', detail: '생후 12시간 이내 접종(모체가 양성일 경우 HBIG와 함께 접종)'), // 2
@@ -178,7 +174,7 @@ class MainHomeState extends State<Main_Home> {
       Vaccine(ID: 43, title: '일본뇌염 사백신', times: 'IJEV(사백신) 추가 5차/국가', recommendationDate: '2035.01.20', detail: '총 5회 접종, 5차 접종'),
       Vaccine(ID: 44, title: '인유두종 바이러스 감염증', times: 'HPV 1차/국가', recommendationDate: '2035.01.20 ~ 2036.01.19', detail: '자궁경부암백신, 여아만 해당\n만 12세에 6개월 간격으로 2회 접종')
     ];
-    myBabyMedicalCheckList = [
+    myBabyMedicalCheckList = [    // 건강 검진 리스트
       MedicalCheckUp(0, '1차 건강검진',[1, 14, 35]),
       MedicalCheckUp(1, '2차 건강검진',[0, 4, 6]),
       MedicalCheckUp(2, '3차 건강검진',[0, 9, 12]),
@@ -214,7 +210,7 @@ class MainHomeState extends State<Main_Home> {
         nextMedicalDate += 1;
       }
     }
-    setState(() {
+    setState(() {     // 다음 백신 및 예방 접종 상태 설정
       if((nextMedicalDate-50) < myBabyMedicalCheckList.length)
         nextMedicalCheckDate = myBabyMedicalCheckList[nextMedicalDate-50].title;
       else
@@ -252,21 +248,21 @@ class MainHomeState extends State<Main_Home> {
                     child: ListView(
                       children: [
                         SingleChildScrollView(
-                          child:ExpansionTile(
+                          child:ExpansionTile(    // 부모
                               initiallyExpanded: true,
                               title: label('relation0'.tr, 'extra-bold', 15, 'base100'),
                               children: getDrawerDatas(0, context, const Color(0xfffa625f))
                           ),
                         ),
                         SingleChildScrollView(
-                          child:ExpansionTile(
+                          child:ExpansionTile(    // 가족
                               initiallyExpanded: true,
                               title: label('relation1'.tr, 'extra-bold', 15, 'base100'),
                               children: getDrawerDatas(1, context, Colors.blueAccent)
                           ),
                         ),
                         SingleChildScrollView(
-                          child:ExpansionTile(
+                          child:ExpansionTile(    // 베이비시터
                               initiallyExpanded: true,
                               title: label('relation2'.tr, 'extra-bold', 15, 'base100'),
                               children: getDrawerDatas(2, context, Colors.grey)
@@ -280,7 +276,7 @@ class MainHomeState extends State<Main_Home> {
               )
           )
       ),
-      //drawer 구현
+      // 아기 목록 Drawer 구현
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -304,10 +300,10 @@ class MainHomeState extends State<Main_Home> {
                     )
                   ]),
               child: Center(
-                child: drawBaby(currentBaby.name, currentBaby.birth, currentBaby.gender),
+                child: drawBaby(currentBaby.name, currentBaby.birth, currentBaby.gender),   // 아기 정보 출력
               ),
             ),
-            GestureDetector(
+            GestureDetector(    // 생활 기록 box 시작
               onTap: () {},
               child: Container(
                 padding: const EdgeInsets.fromLTRB(13, 10, 13, 10),
@@ -400,15 +396,16 @@ class MainHomeState extends State<Main_Home> {
             const SizedBox(height: 3),
             Row(
               children: [
-                Expanded(
+                Expanded(     // 성장 기록 box 시작
                     flex:1,
                     child: GestureDetector(
                       onTap: () async{
                         List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
-                        if(growthRecordList.isEmpty){
+                        if(growthRecordList.isEmpty){     // 성장 기록 데이터가 없으면 에러 알림 출력
                           Get.snackbar('데이터 오류', '먼저 키, 몸무게를 입력해 주세요', backgroundColor: const Color(0xa3ffffff), snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+                          // ignore: use_build_context_synchronously
                           showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(25),
                                       topLeft: Radius.circular(25)
@@ -421,7 +418,7 @@ class MainHomeState extends State<Main_Home> {
                                 return GrowthRecordBottomSheet(currentBaby.relationInfo.BabyId);
                               }
                           );
-                        }else {
+                        }else {       // 성장 통계 페이지로 이동
                           Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList));
                           await getMyGrowthInfo();
                         }
@@ -463,7 +460,7 @@ class MainHomeState extends State<Main_Home> {
                                           isScrollControlled: true,
                                           context: context,
                                           builder: ( BuildContext context ) {
-                                            return GrowthRecordBottomSheet(currentBaby.relationInfo.BabyId);
+                                            return GrowthRecordBottomSheet(currentBaby.relationInfo.BabyId);    // 성장 기록 sheet
                                           }
                                       );
                                     },
@@ -477,7 +474,7 @@ class MainHomeState extends State<Main_Home> {
                             if(getGrowthRecordList.isNotEmpty)
                               label('${getGrowthRecordList.last['date'].toString()} ${'new_update'.tr}', 'noraml', 12, 'Grey'),
                             const SizedBox(height: 23),
-                            Column(
+                            Column(   // 아기 성장 기록 정보 출력
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 label('height'.tr, 'bold', 14, 'base80'),
@@ -527,7 +524,7 @@ class MainHomeState extends State<Main_Home> {
                                         )
                                       ]
                                   ),
-                                  child: Column(
+                                  child: Column(  // 다음 예방 접종 출력
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         label('vaccination'.tr, 'bold', 15, 'base100'),
@@ -562,7 +559,7 @@ class MainHomeState extends State<Main_Home> {
                                         )
                                       ]
                                   ),
-                                  child: Column(
+                                  child: Column(    // 다음 건강 검진 출력
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         label('medical_checkup'.tr, 'bold', 15, 'base100'),
@@ -626,7 +623,7 @@ class MainHomeState extends State<Main_Home> {
     );
   }
 
-  //Drawer 데이터
+  //Drawer 데이터(아기 리스트)
   List<InkWell> getDrawerDatas(int relation, BuildContext context, Color color){
     List<InkWell> datas = [];
     for(int i=0; i<activeBabies.length; i++){
