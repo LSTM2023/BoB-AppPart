@@ -198,30 +198,24 @@ class MedicalCheckUp {
 }
 
 class Diary {
-  final int id; // diary id
-  final int writerId; // writer id
-  final int babyId; // baby id
-  final int relation; // relation
-  final DateTime writtenTime; // written time
+  int? relation; // relation
+  final String writtenTime; // written time
   String title;    // title
   String content; // content
-  String imagePath; // image path
+  String? imagePath; // image path
 
-  Diary(this.id, this.writerId, this.babyId, this.relation, this.writtenTime, this.title, this.content, this.imagePath);
+  Diary(this.relation, this.writtenTime, this.title, this.content, this.imagePath);
 
   Diary.fromJson(Map<dynamic, dynamic> json)
-      : id = json['id'], writerId = json['writerId'], babyId = json['babyId'], relation = json['relation'],
-        writtenTime = (json['writtenTime']), title = (json['title']), content = (json['content']), imagePath = (json['imagePath']);
+      : relation = json['userbaby_relation'], writtenTime = json['date'],
+        title = json['title'], content = json['content'], imagePath = json['photo'];
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "writerId": writerId,
-    "babyId": babyId,
-    "relation": relation,
-    "writtenTime" : writtenTime,
+    "userbaby_relation": relation,
+    "date" : writtenTime,
     "title" : title,
     "content" : content,
-    "imagePath" : imagePath
+    "photo" : imagePath
   };
 
   modifyDiary(title, content, imagePath){

@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../database/database.dart';
-import '../database/diaryDB.dart';
 import 'dart:io';
+import 'package:bob/models/model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:easy_localization/easy_localization.dart'
     hide StringTranslateExtension;
 
-// 앱에서 지원하는 언어 리스트 변수
+import '../services/backend.dart';
+
+/// 앱에서 지원하는 언어 리스트 변수
 final supportedLocales = [const Locale('en', 'US'), const Locale('ko', 'KR')];
 
 class MainDiary extends StatefulWidget {
-  const MainDiary({super.key});
+  final User userinfo;
+  final getMyBabyFuction;
+  const MainDiary(this.userinfo, {super.key, this.getMyBabyFuction});
 
   @override
   State<MainDiary> createState() => MainDiaryState();
@@ -22,6 +25,12 @@ class MainDiary extends StatefulWidget {
 
 class MainDiaryState extends State<MainDiary> {
   final _formKey = GlobalKey<FormState>();
+  late Baby baby;
+  @override
+  void initState() {
+    super.initState();
+    baby = widget.getMyBabyFuction();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +64,7 @@ class MainDiaryState extends State<MainDiary> {
             ),
           ),
         ),
-        // 다이어리 주기능 출력
+        /// 다이어리 주기능 출력
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Column(
@@ -74,24 +83,23 @@ class MainDiaryState extends State<MainDiary> {
 
   DateTime focusedDay = DateTime.now();
 
-  // 캘린더 및 다이어리 출력
+  /// 캘린더 및 다이어리 출력
   diaryList() {
     return Container(
       margin: const EdgeInsets.all(10),
       child: Column(
         children: [
-          // 캘린더 파트
+          /// 캘린더 파트
           TableCalendar(
             locale: 'en_US',
             firstDay: DateTime.utc(2020, 1, 1),
             lastDay: DateTime.utc(2030, 12, 31),
             focusedDay: focusedDay,
             onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
-              // 선택된 날짜 상태 갱신
+              /// 선택된 날짜 상태 갱신
               setState(() {
                 this.selectedDay = selectedDay;
                 this.focusedDay = focusedDay;
-                DatabaseHelper.instance.isDiary(selectedDay);
               });
             },
             selectedDayPredicate: (DateTime day) {
@@ -124,60 +132,50 @@ class MainDiaryState extends State<MainDiary> {
             ),
           ),
           const SizedBox(height: 20),
-          // 선택된 날짜 일기 리스팅
+          /// 선택된 날짜 일기 리스팅
           FutureBuilder<Diary>(
-            future: DatabaseHelper.instance.getDiary(selectedDay),
+            future: listDiary(DateFormat('yyyy-MM-dd').format(selectedDay), baby.relationInfo.BabyId),
             builder: (BuildContext context, AsyncSnapshot<Diary> snapshot) {
-              // 선택된 날짜에 일기가 없으면 작성 버튼 띄움
+              /// 선택된 날짜에 일기가 없으면 작성 버튼
+              print(snapshot);
               if (!snapshot.hasData || snapshot.data == null) {
                 return SizedBox(
-                  child: FutureBuilder<bool>(
-                    future: DatabaseHelper.instance.isDiary(selectedDay),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                      if (snapshot.hasData) {
-                        return const SizedBox(height: 0);
-                      }
-                      return SizedBox(
-                        height: 120,
-                        width: MediaQuery.of(context).size.width - 32,
-                        child: TextButton(
-                          style: const ButtonStyle(
-                            backgroundColor:
-                            MaterialStatePropertyAll(Color(0xFFF9F8F8)),
-                            elevation: MaterialStatePropertyAll(6),
-                            shadowColor:
-                            MaterialStatePropertyAll(Color(0x1B512F22)),
-                          ),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  return SingleChildScrollView(
-                                    // 작성 페이지로 이동
-                                    child: AlertDialog(
-                                      content: Form(
-                                        key: _formKey,
-                                        child: writeDiary(selectedDay, null),
-                                      ),
-                                      backgroundColor: const Color(0xFFF9F8F8),
-                                    ),
-                                  );
-                                });
-                          },
-                          child: const Icon(
-                            Icons.add,
-                            color: Color(0xFF512F22),
-                            size: 32,
-                          ),
-                        ),
-                      );
-                    },
+                  height: 120,
+                  width: MediaQuery.of(context).size.width - 32,
+                  child: TextButton(
+                      style: const ButtonStyle(
+                        backgroundColor:
+                        MaterialStatePropertyAll(Color(0xFFF9F8F8)),
+                        elevation: MaterialStatePropertyAll(6),
+                        shadowColor:
+                        MaterialStatePropertyAll(Color(0x1B512F22)),
+                      ),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return SingleChildScrollView(
+                                /// 작성 페이지로 이동
+                                child: AlertDialog(
+                                  content: Form(
+                                    key: _formKey,
+                                    child: writeDiary(selectedDay, null),
+                                  ),
+                                  backgroundColor: const Color(0xFFF9F8F8),
+                                ),
+                              );
+                            });
+                      },
+                      child: const Icon(
+                        Icons.add,
+                        color: Color(0xFF512F22),
+                        size: 32,
+                      )
                   ),
                 );
               }
-              return SizedBox( // 다이어리 내용 출력
+              return SizedBox( /// 다이어리 내용 출력
                 width: MediaQuery.of(context).size.width - 32,
                 child: TextButton(
                   style: ButtonStyle(
@@ -201,18 +199,18 @@ class MainDiaryState extends State<MainDiary> {
                               children: [
                                 label(snapshot.data!.title, 'bold', 16, 'base100'),
                                 Expanded(
-                                  child: label(snapshot.data!.date, 'bold', 14, 'base60'),
+                                  child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right,style: const TextStyle(color: Color(0x99512F22)),),
                                 ),
                               ],
                             ),
                             Center(
-                              child: snapshot.data!.image == null
+                              child: snapshot.data!.imagePath == null
                                   ? const SizedBox(
                                 height: 10,
                                 width: double.infinity,
                               )
                                   : Image.file(
-                                  File(snapshot.data!.image ?? 'default'),
+                                  File(snapshot.data!.imagePath ?? 'default'),
                                   width: MediaQuery.of(context).size.width /
                                       2),
                             ),
@@ -224,7 +222,7 @@ class MainDiaryState extends State<MainDiary> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                // 다이어리 수정 버튼
+                                /// 다이어리 수정 버튼
                                 ElevatedButton(
                                     onPressed: (() async {
                                       showDialog(
@@ -232,7 +230,7 @@ class MainDiaryState extends State<MainDiary> {
                                           barrierDismissible: true,
                                           builder: (BuildContext context) {
                                             return SingleChildScrollView(
-                                              // 수정 페이지로 이동
+                                              /// 수정 페이지로 이동
                                               child: AlertDialog(
                                                 content: Form(
                                                   key: _formKey,
@@ -258,13 +256,13 @@ class MainDiaryState extends State<MainDiary> {
                                     child: label('modify'.tr, 'bold', 14, 'calendar')
                                 ),
                                 const SizedBox(width: 10),
-                                // 다이어리 삭제 버튼
+                                /// 다이어리 삭제 버튼
                                 ElevatedButton(
                                     onPressed: () {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) =>
-                                              // 다이어리 삭제 전 확인 다이얼로그
+                                              /// 다이어리 삭제 전 확인 다이얼로그
                                               AlertDialog(
                                                 content: label('q_delete'.tr, 'bold', 14, 'base100'),
                                                 actions: [
@@ -296,15 +294,11 @@ class MainDiaryState extends State<MainDiary> {
                                                             width: 0.5,
                                                           )),
                                                       onPressed: (() async {
-                                                        // 다이얼로그 확인 후 삭제
+                                                        /// 다이얼로그 확인 후 삭제
                                                         setState(() {
-                                                          DatabaseHelper
-                                                              .instance
-                                                              .remove(
-                                                              selectedDay);
+                                                          deleteDiary(baby.relationInfo.BabyId, DateFormat('yyyy-MM-dd').format(selectedDay));
                                                         });
-                                                        Navigator.of(context)
-                                                            .pop();
+                                                        Navigator.of(context).pop();
                                                       }),
                                                       child: label('delete'.tr, 'bold', 14, 'calendar')
                                                   ),
@@ -331,12 +325,12 @@ class MainDiaryState extends State<MainDiary> {
     );
   }
 
-  // 다이어리 작성 및 수정
+  /// 다이어리 작성 및 수정
   writeDiary(DateTime selectedDay, Diary? diary) {
     String title = diary?.title ?? '';
     String content = diary?.content ?? '';
-    String? image = diary?.image;
-    String selDay = DateFormat('yyyy.MM.dd').format(selectedDay);
+    String? image = diary?.imagePath;
+    String selDay = DateFormat('yyyy-MM-dd').format(selectedDay);
     final ImagePicker picker = ImagePicker();
 
     return Column(
@@ -352,7 +346,7 @@ class MainDiaryState extends State<MainDiary> {
           const SizedBox(
             height: 5.0,
           ),
-          // 다이어리 - 제목 입력창
+          /// 다이어리 - 제목 입력창
           TextFormField(
             cursorColor: const Color(0xffdf8570),
             initialValue: diary?.title,
@@ -380,7 +374,7 @@ class MainDiaryState extends State<MainDiary> {
             height: 16.0,
             width: 5000,
           ),
-          // 다이어리 - 내용 입력창
+          /// 다이어리 - 내용 입력창
           TextFormField(
             cursorColor: const Color(0xffdf8570),
             maxLines: 15,
@@ -412,7 +406,7 @@ class MainDiaryState extends State<MainDiary> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              // 다이어리 - 사진 첨부 기능
+              /// 다이어리 - 사진 첨부 기능
               ElevatedButton(
                   onPressed: (() async {
                     final XFile? image0 =
@@ -434,26 +428,18 @@ class MainDiaryState extends State<MainDiary> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      // 다이어리 작성
+                      /// 다이어리 수정
                       if (diary?.title != null) {
-                        DatabaseHelper.instance.update(Diary(
-                            date: selDay,
-                            title: title,
-                            content: content,
-                            image: image));
+                        updateDiary({'babyid': baby.relationInfo.BabyId, 'date': selDay, 'title': title, 'content': content, 'photo': image});
                       }
-                      // 다이어리 수정
+                      /// 다이어리 작성
                       else {
-                        DatabaseHelper.instance.add(Diary(
-                            date: selDay,
-                            title: title,
-                            content: content,
-                            image: image));
+                        writesDiary({'babyid': baby.relationInfo.BabyId, 'date': selDay, 'title': title, 'content': content, 'photo': image});
                       }
                       _formKey.currentState?.reset();
                       Navigator.of(context).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: label('modified'.tr, 'bold', 14, 'white')),
+                        SnackBar(content: label('uploaded'.tr, 'bold', 14, 'white')),
                       );
                     }
                   },

@@ -19,6 +19,7 @@ class _BaseWidget extends State<BaseWidget>{
   GlobalKey<MainCCTVState> _cctvKey = GlobalKey();
   GlobalKey<MainMyPageState> _mypageKey = GlobalKey();
   GlobalKey<MainHomeState> _homepageKey = GlobalKey();
+  GlobalKey<MainHomeState> _diaryKey = GlobalKey();
   late List<Baby> activeBabies;
   late List<Baby> disactiveBabies;
   int cIdx = 0;
@@ -109,7 +110,7 @@ class _BaseWidget extends State<BaseWidget>{
     final List<Widget> widgetOptions = <Widget>[
       Main_Home(widget.userinfo, key : _homepageKey, getBabiesFunction: getBabies,getCurrentBabyFunction: getCurrentBaby, changeCurrentBabyFunction: changeCurrentBaby),
       Main_Cctv(widget.userinfo, key:_cctvKey, getMyBabyFuction: getCurrentBaby),
-      const MainDiary(),
+      MainDiary(widget.userinfo, key:_diaryKey, getMyBabyFuction: getCurrentBaby),
       MainMyPage(widget.userinfo, selectedLanguageMode, key: _mypageKey, getBabiesFuction: getBabies, reloadBabiesFunction: reloadBabies, changeLanguage: changeLanguageMode)
     ];
 
