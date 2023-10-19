@@ -59,7 +59,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Row(    // 이유식 타이머 기록 정보
                     children: [
                       label('babyfood_time'.tr, 'bold', 15, 'base100'),
                       const SizedBox(width: 5),
@@ -69,7 +69,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                   const SizedBox(height: 15),
                   label('amount_food'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  GestureDetector(
+                  GestureDetector(      // 이유식 양 입력
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -119,7 +119,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                   const SizedBox(height: 15),
                   label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  GestureDetector(
+                  GestureDetector(        // 메모 입력
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -148,7 +148,7 @@ class _BabyFoodStopwatchBottomSheet extends State<BabyFoodStopwatchBottomSheet> 
                     ),
                   ),
                   const SizedBox(height: 15),
-                  SizedBox(
+                  SizedBox(       // 이유식 타이머 기록 제출
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{

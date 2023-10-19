@@ -58,7 +58,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Row(  // 수유 타이머 시간 출력
                     children: [
                       label('feeding_time'.tr, 'bold', 15, 'base100'),
                       const SizedBox(width: 5),
@@ -69,7 +69,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                   label('type_feed'.tr, 'bold', 15, 'base100'),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
-                    child: Row(
+                    child: Row(     // 수유 타입 설정
                       children: [
                         Expanded(
                           flex: 1,
@@ -115,7 +115,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                   const SizedBox(height: 3),
                   label('amount_feed'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  SizedBox(
+                  SizedBox(   // 수유량 입력
                     width: MediaQuery.of(context).size.width*0.9,
                     child: TextFormField(
                       controller: amountController,
@@ -162,7 +162,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                   const SizedBox(height: 15),
                   label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  GestureDetector(
+                  GestureDetector(      // 메모 입력
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -191,7 +191,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                     ),
                   ),
                   const SizedBox(height: 15),
-                  SizedBox(
+                  SizedBox(   // 수유 타이머 기록 제출
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{

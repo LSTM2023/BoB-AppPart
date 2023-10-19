@@ -57,7 +57,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Row(        // 수면 타미어 시간 출력
                     children: [
                       label('sleeping_time'.tr, 'bold', 15, 'base100'),
                       const SizedBox(width: 5),
@@ -67,7 +67,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                   const SizedBox(height: 15),
                   label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  SizedBox(
+                  SizedBox(       // 메모 입력
                     width: double.infinity,
                     child: TextFormField(
                       controller: memoController,
@@ -91,7 +91,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  SizedBox(
+                  SizedBox(     // 수면 타이머 기록 제출
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{

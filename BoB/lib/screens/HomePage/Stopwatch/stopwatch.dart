@@ -72,7 +72,7 @@ class StopwatchState extends State<StopWatch> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: [     // 타이머 타입 설정
           if(timerType==0)
             drawRecordButton('life0'.tr, 'assets/icon/feeding_icon.svg', const Color(0xffff7a7a), const Color(0xb3ffffff), 0),
           if(timerType==1)
@@ -97,7 +97,7 @@ class StopwatchState extends State<StopWatch> {
           ),
           Row(
             children: [
-              IconButton(
+              IconButton(       // 타이머 입력 버튼
                   onPressed: () async {
                     int val = _stopWatchTimer.rawTime.value;
                     int re = StopWatchTimer.getRawHours(val)*60*60 + StopWatchTimer.getRawMinute(val)*60 + StopWatchTimer.getRawSecond(val);
@@ -111,7 +111,7 @@ class StopwatchState extends State<StopWatch> {
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero
               ),
-              IconButton( // reset
+              IconButton(       // reset
                 onPressed: () {
                   closeWidget();
                 },
@@ -125,12 +125,12 @@ class StopwatchState extends State<StopWatch> {
       )
     );
   }
-  closeWidget(){
+  closeWidget(){   // 타이머 종료
     _stopWatchTimer.setPresetTime(mSec: 0000);
     _stopWatchTimer.onStopTimer();
     widget.closeFuction();
   }
-  openWidget(int n, Baby t){
+  openWidget(int n, Baby t){      // 타이머 시작
     _stopWatchTimer.onResetTimer();
     _stopWatchTimer.onStartTimer();
     setState(() {

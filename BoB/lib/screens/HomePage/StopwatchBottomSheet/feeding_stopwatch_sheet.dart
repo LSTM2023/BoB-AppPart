@@ -58,7 +58,7 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Row(        // 모유 수유 타이머 기록 정보
                     children: [
                       label('feeding_time'.tr, 'bold', 15, 'base100'),
                       const SizedBox(width: 5),
@@ -69,7 +69,7 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                   label('dir_feed'.tr, 'bold', 15, 'base100'),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
-                    child: Row(
+                    child: Row(     // 모유 수유 방향 설정
                       children: [
                         Expanded(
                           flex: 1,
@@ -115,7 +115,7 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                   const SizedBox(height: 3),
                   label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  SizedBox(
+                  SizedBox(         // 메모 입력
                       width: double.infinity,
                       child: TextFormField(
                         controller: memoController,
@@ -139,7 +139,7 @@ class _FeedingStopwatchBottomSheet extends State<FeedingStopwatchBottomSheet> {
                       ),
                   ),
                   const SizedBox(height: 15),
-                  SizedBox(
+                  SizedBox(       // 모유 타이머 기록 제출
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{
