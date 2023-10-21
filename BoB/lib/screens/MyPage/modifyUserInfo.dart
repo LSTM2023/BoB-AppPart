@@ -30,6 +30,7 @@ class _ModifyUser extends State<ModifyUser> {
 
   @override
   void initState() {
+    print(widget.userInfo.qaType);
     passCtr = TextEditingController(text: widget.userInfo.password1);
     passCheckCtr = TextEditingController(text: widget.userInfo.password1);
     nickNameCtr = TextEditingController(text: widget.userInfo.name);
@@ -94,7 +95,13 @@ class _ModifyUser extends State<ModifyUser> {
               const SizedBox(height: 100),
               ElevatedButton(
                   style: btnStyleForm('white', 'primary', 25),
-                  onPressed: () async => await serviceModifyUserinfo(),
+                  onPressed: () async => await serviceModifyUserinfo(
+                      passCtr.text.trim(),
+                      nickNameCtr.text.trim(),
+                      phoneCtr.text.trim(),
+                      qaTypeCtr.dropDownValue?.value,
+                      answerCtr.text.trim()
+                  ),
                   child: label('login_modified'.tr,'extra-bold', 16, 'white')
               )
             ],
@@ -105,20 +112,15 @@ class _ModifyUser extends State<ModifyUser> {
   }
 
   /// method for modify user information
-  serviceModifyUserinfo() async {
-    // 1. validate
-    String pass = passCtr.text.trim();
-    String name = nickNameCtr.text.trim();
-    String phone = phoneCtr.text.trim();
-    int qaType = qaTypeCtr.dropDownValue?.value;
-    String qaAnswer = answerCtr.text.trim();
-
+  serviceModifyUserinfo(String pass, String name, String phone, int qaType, String qaAnswer) async {
+    // [0] validate
     if (!validatePassword(pass) ||
         !validateName(name) ||
         !validatePhone(phone) ||
+        !validateQaType(qaType) ||
         !validateQaAnswer(qaAnswer)
     ) {
-      Get.snackbar('주의', '입력 형식을 지켜주세요',  snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      Get.snackbar('warning'.tr, 'warning_form'.tr);
       return;
     }
 

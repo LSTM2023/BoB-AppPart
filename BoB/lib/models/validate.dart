@@ -36,10 +36,7 @@ bool validateGender(String gender){
 }
 
 bool validateQaType(int type){
-  if(type < 0 || 5 < type){
-    return false;
-  }
-  return true;
+  return (type < 0 || 5 < type) ? false : true;
 }
 
 bool validateQaAnswer(String answer){

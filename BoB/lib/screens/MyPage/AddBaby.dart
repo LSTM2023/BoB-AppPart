@@ -299,7 +299,7 @@ void babyModifyService(int bId, String bName, DateTime bBirth, String bGender) a
   }
   // modify baby data API
   var response = await editBabyService(bId, bName, bBirth, bGender);
-  if(response['result'] == 'success'){
+  if(response == 200){
     Get.back();
   }
 }

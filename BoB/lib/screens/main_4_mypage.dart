@@ -296,22 +296,7 @@ class MainMyPageState extends State<MainMyPage>{
               child: FloatingActionButton(
                 elevation: 0,
                 backgroundColor: colorList[baby.relationInfo.relation],
-                onPressed: () async {
-                     await showModalBottomSheet(
-                         shape: const RoundedRectangleBorder(
-                             borderRadius: BorderRadius.only(
-                                 topRight: Radius.circular(20),
-                                 topLeft: Radius.circular(20)
-                             )
-                         ),
-                         backgroundColor: const Color(0xffF9F8F8),
-                         isScrollControlled: true,
-                         context: context,
-                         builder: (BuildContext context) {
-                           return ModifyBabyBottomSheet(baby);
-                         });
-                    await widget.reloadBabiesFunction();
-                },
+                onPressed: () async => await editBaby(baby),
                 child: const Icon(Icons.edit, size:12),
               ),
             ),
@@ -325,6 +310,23 @@ class MainMyPageState extends State<MainMyPage>{
     }
   }
   /*  ----------------------------  METHOD  ----------------------------------------*/
+  /// [0-a] method for edit baby
+  editBaby(Baby baby) async {
+    await showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20)
+            )
+        ),
+        backgroundColor: const Color(0xffF9F8F8),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return ModifyBabyBottomSheet(baby);
+        });
+    await widget.reloadBabiesFunction();
+  }
   /// [0-b] method for delete baby
   deleteBaby(int targetBabyID) async {
      var re = await deleteBabyService(targetBabyID);
