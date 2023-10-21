@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:bob/services/storage.dart';
 import 'package:bob/models/model.dart';
+import 'package:easy_localization/easy_localization.dart';
 const String PATH = 'http://54.180.92.227:8000';
 final dio = Dio();    // 서버와 통신을 하기 위해 필요한 패키지
 
@@ -98,28 +99,32 @@ getBaby(int id) async{
   }
 
 }
-setBabyService(data) async{
+// 아기 추가
+setBabyService(String bName, DateTime bBirth, String bGender) async{
+  Object data = {"baby_name": bName, "birth": DateFormat('yyyy-MM-dd').format(bBirth), "gender": bGender, "ip": null};
   try{
     dio.options.headers['Authorization'] = await getToken();
-    Response response = await dio.post('${PATH}/api/baby/set/', data: data);
+    Response response = await dio.post('$PATH/api/baby/set/', data: data);
     if(response.statusCode == 200){
       return response.data;
     }
   }catch(e){
     dio.options.headers['Authorization'] = await refresh();
-    Response response = await dio.post('${PATH}/api/baby/set/', data: data);
+    Response response = await dio.post('$PATH/api/baby/set/', data: data);
     return response.data;
   }
 }
 // 아기 정보 수정
-editBabyService(int bId, String bName, String bGender) async{
+editBabyService(int bId, String bName, DateTime bBirth, String bGender) async{
+  Object data = {"babyid":bId, "baby_name": bName, "birth": DateFormat('yyyy-MM-dd').format(bBirth), "gender": bGender};
   try{
-    dio.options.headers['Authorization'] = await getToken(); //await getToken();
-    Response response = await dio.post('$PATH/api/baby/modify/', data: {"babyid":bId, "baby_name": bName, "gender":bGender});
-    return response.statusCode;
+    dio.options.headers['Authorization'] = await getToken();
+    Response response = await dio.post('$PATH/api/baby/modify/', data: data);
+    print(response);
+    return response;
   }catch(e){
     dio.options.headers['Authorization'] = await refresh();
-    Response response = await dio.post('$PATH/api/baby/modify/', data: {"babyid":bId, "baby_name": bName, "gender":bGender});
+    Response response = await dio.post('$PATH/api/baby/modify/', data: data);
     return response.statusCode;
   }
 }

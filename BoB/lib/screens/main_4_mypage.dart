@@ -308,7 +308,7 @@ class MainMyPageState extends State<MainMyPage>{
                          isScrollControlled: true,
                          context: context,
                          builder: (BuildContext context) {
-                           return BabyBottomSheet(baby);
+                           return ModifyBabyBottomSheet(baby);
                          });
                     await widget.reloadBabiesFunction();
                 },

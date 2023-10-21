@@ -257,9 +257,8 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
     }
     // 2. check
     String responseData = await emailOverlapService(email);
-    print(responseData);
     if(responseData == "True"){
-      Get.snackbar('경고', 'not_exist_ids'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+      Get.snackbar('warning', 'not_exist_ids'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
     }else{
       setState(() {
         targetID = email;

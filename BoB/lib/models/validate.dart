@@ -10,7 +10,7 @@ bool validatePassword(String pass){
   if(pass.isEmpty || pass.length<8) return false;
   return true;
 }
-bool validateNickname(String nickname){
+bool validateBabyName(String nickname){
   if(nickname.isEmpty) return false;
   return true;
 }
@@ -19,13 +19,22 @@ bool validatePhone(String phone){
   if(phone.length != 12 && phone.length != 13) return false;
   return true;
 }
-
+bool validateBirth(DateTime birth){
+  return (birth.isAfter(DateTime.now())) ? false : true;
+}
 bool validateName(String name){
   if(name.isEmpty || name.length<3) {
     return false;
   }
   return true;
 }
+bool validateGender(String gender){
+  if(gender != 'F' && gender != 'M'){
+    return false;
+  }
+  return true;
+}
+
 bool validateQaType(int type){
   if(type < 0 || 5 < type){
     return false;

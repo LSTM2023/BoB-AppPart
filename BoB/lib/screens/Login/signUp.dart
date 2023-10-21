@@ -159,7 +159,7 @@ class _SignUp extends State<SignUp>{
     if(!_isDuplicateCheck)  validResult =  'ID 중복체크 해주세요.';
     if(!validatePassword(pass)) validResult =  '비밀번호 형식이 맞지 않습니다';
     if(pass != passCheckCtr.text.trim()) validResult =  '비밀번호 확인이랑 맞지 않습니다';
-    if(!validateNickname(nickname)) validResult =  '비밀번호 확인이랑 맞지 않습니다';
+    if(!validateName(nickname)) validResult =  '비밀번호 확인이랑 맞지 않습니다';
     if(!validatePhone(phone)) validResult =  '휴대폰 번호가 올바르지 않습니다';
     if(!validateQaType(qaType)) validResult =  '질문&답변을 확인해주세요.';
     if(!validateQaAnswer(qaAnswer)) validResult =  '질문&답변을 확인해주세요.';

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:bob/models/model.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:get/get.dart';
+import 'InvitationNew.dart';
 import '../../services/backend.dart';
 import '../../widgets/form.dart';
-import './InvitationNew.dart';
 
 class Invitation extends StatefulWidget{
-  final List<Baby> activebabies;
-  final List<Baby> disactivebabies;
-  const Invitation(this.activebabies, this.disactivebabies, {super.key});
+  final List<Baby> activeBabies;
+  final List<Baby> disActiveBabies;
+  const Invitation(this.activeBabies, this.disActiveBabies, {super.key});
   @override
   State<Invitation> createState() => _Invitation();
 }
@@ -39,9 +39,9 @@ class _Invitation extends State<Invitation> {
             Expanded(
                 child: ListView.builder(
                   scrollDirection : Axis.vertical,
-                  itemCount: widget.disactivebabies.length,
+                  itemCount: widget.disActiveBabies.length,
                   itemBuilder: (BuildContext context, int index){
-                    Baby baby = widget.disactivebabies[index];
+                    Baby baby = widget.disActiveBabies[index];
                     return Container(
                       margin: const EdgeInsets.only(left: 16, right: 16),
                       padding: const EdgeInsets.all(10),
@@ -80,7 +80,6 @@ class _Invitation extends State<Invitation> {
                           ]
                       )
                     );
-                    //return drawBaby(widget.disactivebabies[index]);
                   },
                 )
             )
@@ -98,7 +97,7 @@ class _Invitation extends State<Invitation> {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return InvitationBottomSheet(widget.activebabies);
+          return InvitationBottomSheet(widget.activeBabies);
         }
     );
   }
