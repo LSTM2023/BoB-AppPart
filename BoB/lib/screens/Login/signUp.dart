@@ -2,14 +2,12 @@ import 'package:bob/screens/Login/initPage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
-
 import '../../models/qaTypeList.dart';
+import '../../models/validate.dart';
+import '../../widgets/text.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/form.dart';
 import '../../services/backend.dart';
-import '../../models/validate.dart';
-import '../../widgets/text.dart';
-import './editPassword.dart';
 
 class SignUp extends StatefulWidget{
   const SignUp({super.key});

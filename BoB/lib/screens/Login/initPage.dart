@@ -1,21 +1,18 @@
 import 'package:bob/models/model.dart' as MODEL;
-import 'package:bob/screens/Login/socialLogin.dart';
 import 'package:bob/services/backend.dart';
-import 'package:bob/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jwt_decode/jwt_decode.dart';
-import '../../fcmSetting.dart';
+import 'socialLogin.dart';
+import 'signUp.dart';
+import '../BaseWidget.dart';
+import '../../widgets/text.dart';
+import '../../widgets/form.dart';
 import '../../models/validate.dart';
 import '../../services/loginService.dart';
-import '../../widgets/text.dart';
-import '../BaseWidget.dart';
-import './findID.dart';
-import './signUp.dart';
-import '../../widgets/form.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 
 class LoginInit extends StatefulWidget{
   @override
@@ -57,29 +54,13 @@ class _LoginInit extends State<LoginInit>{
                 makeTextFormField('id', idController),
                 const SizedBox(height: 15),
                 makePWFormField('pw', passController, true),
-                const SizedBox(height: 23),
+                const SizedBox(height: 16),
                 ElevatedButton(
                     onPressed:()=> _login(idController.text.trim(), passController.text.trim()),
                     style: btnStyleForm('white', 'primary', 15.0),
-                    child: const Text('로그인')
+                    child: label('로그인', 'bold', 14, 'white')
                 ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  height: 16,
-                  child:Row(
-                    children: [
-                      label('계정을 잊으셨나요? ', 'bold', 12, 'base80'),
-                      TextButton(
-                          onPressed: (){
-                            Get.to(()=> Login_findID());
-                          },
-                          style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
-                          child: label('아이디 찾기 ', 'bold', 12, 'primary')
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 23),
                 SizedBox(
                   height: 16,
                   child: Row(

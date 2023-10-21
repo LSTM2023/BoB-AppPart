@@ -9,7 +9,7 @@ AppBar renderAppbar(String title, bool isBack, int colorCode){
       iconTheme : const IconThemeData(color: Colors.black),
       centerTitle: true,
       title: Text(title,style: TextStyle(color: Color(0xFF512F22),fontSize: 18)),
-    shape: Border(
+    shape: const Border(
       bottom: BorderSide(
         color: Color(0xB3512F22),
         width: 1,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bob/models/model.dart';
 import 'package:bob/screens/BaseWidget.dart';
 import 'package:bob/services/backend.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:bob/services/storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -37,18 +38,13 @@ class _Splash extends State<Splash>{
               return Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                    color: Color(0xffFB8665),
+                    color: Color(0xFFFFCCBF),
                   ),
-                  child : const Column(
+                  child : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //Image.asset('assets/images/baby.png', width: 150),
-                      SizedBox(height: 50),
-                      CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(
-                          Colors.white,
-                        ),
-                      ),
+                      Image.asset('assets/image/logo.png', width: 120),
+                      label('BoB: Best of Baby', 'bold', 14, 'base100')
                     ],
                   )
               );
