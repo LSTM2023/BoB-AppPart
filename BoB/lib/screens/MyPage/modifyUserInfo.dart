@@ -35,7 +35,7 @@ class _ModifyUser extends State<ModifyUser> {
     passCheckCtr = TextEditingController(text: widget.userInfo.password1);
     nickNameCtr = TextEditingController(text: widget.userInfo.name);
     phoneCtr = TextEditingController(text: widget.userInfo.phone);
-    qaTypeCtr = SingleValueDropDownController(data: qaDataModelList[widget.userInfo.qaType]);
+    qaTypeCtr = SingleValueDropDownController(data: qaDataModelList[widget.userInfo.qaType-1]);
     answerCtr = TextEditingController(text: widget.userInfo.qaAnswer);
     super.initState();
   }

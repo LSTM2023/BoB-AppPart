@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import './screens/Splash.dart';
 import './language.dart';
@@ -21,6 +22,14 @@ class MyApp extends StatelessWidget {
 
      translations: Languages(),
      locale: Get.deviceLocale,  // 기기에 설정한 언어
+     localizationsDelegates: const [
+       GlobalMaterialLocalizations.delegate,
+       GlobalCupertinoLocalizations.delegate,
+     ],
+     supportedLocales: const [
+       Locale('ko', ''),
+       Locale('en', ''),
+     ],
      fallbackLocale:  const Locale('ko','KR'),
      title: 'Flutter Demo',
      theme: ThemeData(

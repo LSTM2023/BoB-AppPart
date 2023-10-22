@@ -151,14 +151,25 @@ refresh() async{
   await updateTokenInfo(newAccessToken);
   return "Bearer ${newAccessToken}";
 }
-// 중복 검사 서비스
+
+// 중복 검사 서비스 - login 상태
 emailOverlapService(String id) async{
   try{
     Response response = await dio.post('$PATH/api/user/exist/', data: {'email' : id});
     return response.data;
   }catch(e){
     dio.options.headers['Authorization'] = await refresh();
-    Response response = await dio.post('${PATH}/api/user/exist/', data: {'email' : id});
+    Response response = await dio.post('$PATH/api/user/exist/', data: {'email' : id});
+    return response.data;
+  }
+}
+// 중복 검사 서비스
+emailOverlapServiceFresh(String id) async{
+  try{
+    Response response = await dio.post('$PATH/api/user/exist/', data: {'email' : 1});
+    return response.data;
+  }catch(e){
+    Response response = await dio.post('$PATH/api/user/exist/', data: {'email' : id});
     return response.data;
   }
 }

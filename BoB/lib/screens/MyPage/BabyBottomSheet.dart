@@ -58,7 +58,7 @@ class _ModifyBabyBottomSheet extends State<ModifyBabyBottomSheet>{
                         width: 141,
                         alignment: Alignment.center,
                         decoration: containerStyleFormRound(),
-                        child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
+                        child: const Icon(Icons.check, color: Color(0xFFFB8665), size:40),
                       )
                   )
               ),

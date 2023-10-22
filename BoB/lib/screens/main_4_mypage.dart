@@ -11,7 +11,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../services/backend.dart';
 import '../widgets/form.dart';
 import './MyPage/Invitation.dart';
-import './MyPage/AddBaby.dart';
+import './MyPage/BabyBottomSheet.dart';
 import 'package:badges/badges.dart' as badges;
 
 import 'MyPage/modifyUserInfo.dart';
@@ -33,8 +33,6 @@ class MainMyPageState extends State<MainMyPage>{
 
   @override
   void initState() {
-    print(widget.userinfo.qaType);
-    print(widget.userinfo.qaAnswer);
     activateBabies = widget.getBabiesFuction(true);
     disActivateBabies = widget.getBabiesFuction(false);
 
@@ -342,9 +340,6 @@ class MainMyPageState extends State<MainMyPage>{
     await Get.to(() => Invitation(activateBabies, disActivateBabies));
     await widget.reloadBabiesFunction();
   }
-  viewOpenSourceLicenses() {
-    Get.to(() => OpenSourceLicenses());
-  }
   /// [2] method for change language mode
   changeLanguageMode(changedLanguage){
     setState(() {
@@ -377,5 +372,9 @@ class MainMyPageState extends State<MainMyPage>{
           return const WithdrawBottomSheet();
         }
     );
+  }
+  /// [6] method for view opensource licenses
+  viewOpenSourceLicenses() {
+    Get.to(() => OpenSourceLicenses());
   }
 }

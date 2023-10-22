@@ -49,7 +49,7 @@ class _SignUp extends State<SignUp>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: renderAppbar('회원 가입', true, 0xffF9F8F8),
+        appBar: homeAppbar('회원 가입'),
         body: Container(
           color:  const Color(0xffF9F8F8),
           padding: const EdgeInsets.fromLTRB(20, 54, 20, 20),
@@ -69,7 +69,7 @@ class _SignUp extends State<SignUp>{
                           ),
                           const SizedBox(width: 10),
                           ElevatedButton(
-                              onPressed: () => duplicateCheck(),
+                              onPressed: () => duplicateCheck(idCtr.text.trim()),
                               style:  ElevatedButton.styleFrom(
                                 elevation: 0,
                                 foregroundColor: const Color(0x99512f22),
@@ -119,7 +119,14 @@ class _SignUp extends State<SignUp>{
                 )
               ),
               ElevatedButton(
-                  onPressed: () => _register(),
+                  onPressed: () => _register(
+                    idCtr.text.trim(),
+                    passCtr.text.trim(),
+                    nickNameCtr.text.trim(),
+                    phoneCtr.text.trim(),
+                    _cnt.dropDownValue?.value,
+                    answerCtr.text.trim()
+                  ),
                   style: btnStyleForm('white', 'primary', 15.0),
                   child: label('회원가입', 'bold', 20, 'white')
               )
@@ -129,37 +136,30 @@ class _SignUp extends State<SignUp>{
     );
   }
   /// [1] method for id duplicate check
-  void duplicateCheck() async{
+  void duplicateCheck(String email) async{
     // 1. validation
-    String email = idCtr.text.trim();
     if(!validateEmail(email)){
-      Get.snackbar('', '아이디 형식을 지켜주세요', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      Get.snackbar('warning'.tr, 'keep_id'.tr);
       return;
     }
     // 2. call overlap API
-    var responseData = await emailOverlapService(email);
+    var responseData = await emailOverlapServiceFresh(email);
     if(responseData == "True"){
       _isDuplicateCheck = true;
-      Get.snackbar('중복 검사', '사용 가능한 아이디 입니다.', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      Get.snackbar('중복 검사', '사용 가능한 아이디 입니다.');
     }else{
-      Get.snackbar('중복 검사', '중복된 아이디 입니다.', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      Get.snackbar('중복 검사', '중복된 아이디 입니다.');
     }
   }
   /// [2] method for register
-  void _register() async{
+  void _register(String email, String pass, String nickname, String phone, int qaType, String qaAnswer) async{
     // 1. validation
-    String email = idCtr.text.trim();
-    String pass = passCtr.text.trim();
-    String nickname = nickNameCtr.text.trim();
-    String phone = phoneCtr.text.trim();
-    int qaType = _cnt.dropDownValue?.value;
-    String qaAnswer = answerCtr.text.trim();
     String? validResult;
     if(!validateEmail(email)) validResult = '아이디 형식을 지켜주세요';
     if(!_isDuplicateCheck)  validResult =  'ID 중복체크 해주세요.';
     if(!validatePassword(pass)) validResult =  '비밀번호 형식이 맞지 않습니다';
     if(pass != passCheckCtr.text.trim()) validResult =  '비밀번호 확인이랑 맞지 않습니다';
-    if(!validateName(nickname)) validResult =  '비밀번호 확인이랑 맞지 않습니다';
+    if(!validateName(nickname)) validResult =  '이름 형식을 지켜주세요';
     if(!validatePhone(phone)) validResult =  '휴대폰 번호가 올바르지 않습니다';
     if(!validateQaType(qaType)) validResult =  '질문&답변을 확인해주세요.';
     if(!validateQaAnswer(qaAnswer)) validResult =  '질문&답변을 확인해주세요.';
