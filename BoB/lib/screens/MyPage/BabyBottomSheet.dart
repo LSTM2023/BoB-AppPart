@@ -35,10 +35,7 @@ class _ModifyBabyBottomSheet extends State<ModifyBabyBottomSheet>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 28, right: 28
-      ),
+      padding: bottomSheetPadding(context, 28.0),
       child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -169,10 +166,8 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 28, right: 28
-      ),
+
+      padding: bottomSheetPadding(context, 28.0),
       child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

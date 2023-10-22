@@ -8,9 +8,10 @@ import '../../services/backend.dart';
 import '../../widgets/form.dart';
 
 class Invitation extends StatefulWidget{
+  final String myEmail;
   final List<Baby> activeBabies;
   final List<Baby> disActiveBabies;
-  const Invitation(this.activeBabies, this.disActiveBabies, {super.key});
+  const Invitation(this.myEmail, this.activeBabies, this.disActiveBabies, {super.key});
   @override
   State<Invitation> createState() => _Invitation();
 }
@@ -65,17 +66,9 @@ class _Invitation extends State<Invitation> {
                           children: [
                             label(baby.name, 'extra-bold', 12, 'base100'),
                             OutlinedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.fromLTRB(9, 4, 9, 4),
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)
-                                      )
-                                  ),
-                                  side: const BorderSide(width: 1.5, color: Color(0xFFFB8665)),
-                                ),
-                                onPressed: () => invitationAcceptance(baby.relationInfo.BabyId),
-                                child: label('accept'.tr, 'bold', 10, 'primary')
+                              style: outlineButtonForm(9, 4, const Color(0xFFFB8665)),
+                              onPressed: () => invitationAcceptance(baby.relationInfo.BabyId),
+                              child: label('accept'.tr, 'bold', 10, 'primary')
                             )
                           ]
                       )
@@ -97,7 +90,7 @@ class _Invitation extends State<Invitation> {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return InvitationBottomSheet(widget.activeBabies);
+          return InvitationBottomSheet(widget.myEmail, widget.activeBabies);
         }
     );
   }

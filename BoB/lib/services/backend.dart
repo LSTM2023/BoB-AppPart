@@ -27,8 +27,11 @@ invitationService(data) async{
   try{
     dio.options.headers['Authorization'] = await getToken();
     Response response = await dio.post('${PATH}/api/baby/connect/',data: data);
+    if(response.statusCode == 500)
+      return 'already';
     return response.data;
-  }on DioException{
+  }catch (e) {
+    print('>>> ' + e.toString());
     dio.options.headers['Authorization'] = await refresh();
     Response response = await dio.post('${PATH}/api/baby/connect/',data: data);
     return response.data;

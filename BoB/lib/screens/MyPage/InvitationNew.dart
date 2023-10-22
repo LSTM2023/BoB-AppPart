@@ -9,55 +9,48 @@ import '../BaseWidget.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:bob/widgets/form.dart';
-import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
 class InvitationBottomSheet extends StatefulWidget{
+  final String myEmail;
   final List<Baby> babies;
-  const InvitationBottomSheet(this.babies, {super.key});
+  const InvitationBottomSheet(this.myEmail, this.babies, {super.key});
   @override
   State<InvitationBottomSheet> createState() => _InvitationBottomSheet();
 }
 class _InvitationBottomSheet extends State<InvitationBottomSheet> {
-  final List<String> week = ['월', '화', '수', '목', '금', '토', '일'];
-  // 선택 창
-  String targetID = '';
-  int selectedBabyIdx=-1;
-  bool _getAdditionalInfo = false;
-  List<String> selectedWeek = ['0','0','0','0','0','0','0'];   // 요일 택
-  late TextEditingController idClr;
+
+  late TextEditingController targetIdClr;   // 초대할 사람의 ID 입력
+  late int selectedBabyIdx;                   // 대상 아기 선택
+  late int selectedRel;                     // 관계(0:부모, 1:가족, 2:베이비시터)
   late List<DropDownValueModel> babyValueList;
-  late TextEditingController bNameClr;
-  late TextEditingController bBirthClr;
-  late String startTime;
-  late String endTime;
+  late List<int> allowedWeek;               // 요일 택
+  late List<int> allowedTime;               // [시작 시간, 종료 시간]
+
+  bool additionalInfoFlag = false;          // Offstage flag
+  bool selectedTargetID = false;
+
+  final List<String> week = ['월', '화', '수', '목', '금', '토', '일'];
 
   @override
   void initState() {
-    idClr = TextEditingController();
-    bNameClr = TextEditingController();
-    bBirthClr = TextEditingController();
-    startTime = "00:00";
-    endTime = "23:59";
+    targetIdClr = TextEditingController();
+    selectedBabyIdx = -1;
+    selectedRel = 0;
+    allowedWeek = [0, 0, 0, 0, 0, 0, 0];
+    allowedTime = [12,0,20,0];
     babyValueList = getBabyList();
     super.initState();
   }
-
-  List<bool> birthSelected = [true, false];
-  int relationSelected = 0;
-  getBabyList(){
-    List<DropDownValueModel> tmp = [];
-    for(int i=0; i<widget.babies.length; i++){
-      tmp.add(DropDownValueModel(name:widget.babies[i].name, value: i));
-    }
-    return tmp;
+  @override
+  void dispose() {
+    super.dispose();
+    targetIdClr.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom, left: 17, right: 17
-        ),
+        padding: bottomSheetPadding(context, 17.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -72,14 +65,16 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                     children: [
                       Expanded(
                         child : TextFormField(
-                          controller: idClr,
+                          controller: targetIdClr,
                           keyboardType: TextInputType.emailAddress,
                           decoration: formDecoration('invitation2_idDeco'.tr),
-                          enabled: targetID.isEmpty,
+                          enabled: !selectedTargetID,
                         ),
                       ),
-                      // 중복 체크 버튼
-                      IconButton(onPressed: () => duplicateCheck(), icon: targetID.isEmpty?const Icon(Icons.search):const Icon(Icons.check, color:Colors.green))
+                      IconButton(   // 중복 체크 버튼
+                        onPressed: () => duplicateCheck(targetIdClr.text.trim()),
+                        icon: selectedTargetID ? const Icon(Icons.check, color:Colors.green) : const Icon(Icons.search)
+                      )
                     ]
                 ),
               ),
@@ -102,7 +97,6 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                         width: 120,
                         child: DropDownTextField(
                           textFieldDecoration: formDecoration(''),
-                          //controller: ,
                           clearOption: false,
                           onChanged: (item){
                             selectedBabyIdx = item.value;
@@ -125,35 +119,30 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                       borderRadius: BorderRadius.circular(5.0),
                       fillColor: const Color(0xFFFB8665),
                       selectedColor : Colors.white,
-                      color: const Color(0x99512F22),
                       onPressed: (int idx){
                         setState(() {
-                          relationSelected = idx;
-                          if(idx!=0){
-                            _getAdditionalInfo = true;
-                          }else{
-                            _getAdditionalInfo = false;
-                          }
+                          selectedRel = idx;
+                          additionalInfoFlag = (idx!=0) ? true : false;
                         });
                       },
-                      isSelected: [relationSelected==0,relationSelected==1,relationSelected==2],
+                      isSelected: [selectedRel==0,selectedRel==1,selectedRel==2],
                       children: [
                         SizedBox(
                             width: 70,
                             child: Center(
-                                child: Text('relation0'.tr, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'))
+                                child: label('relation0'.tr, 'bold', 12, (selectedRel==0)?'white':'base100')
                             )
                         ),
                         SizedBox(
                             width: 70,
                             child: Center(
-                                child: Text('relation1'.tr, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'))
+                                child: label('relation1'.tr, 'bold', 12, (selectedRel==1)?'white':'base100')
                             )
                         ),
                         SizedBox(
                             width: 90,
                             child: Center(
-                                child: Text('relation2'.tr, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'))
+                                child: label('relation2'.tr, 'bold', 12, (selectedRel==2)?'white':'base100')
                             )
                         ),
                       ],
@@ -163,11 +152,11 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
               ),
               const SizedBox(height: 18),
               Offstage(
-                offstage: !_getAdditionalInfo,
+                offstage: !additionalInfoFlag,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // week
+                    // 접근 요일
                     label('invitation2_accY'.tr, 'bold', 14, 'base100'),
                     const SizedBox(height: 10),
                     Row(
@@ -175,7 +164,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                         children: getWeek()
                     ),
                     const SizedBox(height: 18),
-                    // time
+                    // 접근 시간
                     label('invitation2_accT'.tr, 'bold', 14, 'base100'),
                     const SizedBox(height: 8),
                     Padding(
@@ -183,28 +172,28 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            label('$startTime ~ $endTime', 'bold', 14, 'base60'),
+                            label(
+                                "${allowedTime[0].toString().padLeft(2,'0')}:${allowedTime[1].toString().padLeft(2,'0')} ~ ${allowedTime[2].toString().padLeft(2,'0')}:${allowedTime[1].toString().padLeft(2,'0')}",
+                                'bold', 14, 'base60'
+                            ),
                             OutlinedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.fromLTRB(12, 7, 12, 7),
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)
-                                      )
-                                  ),
-                                  side: const BorderSide(width: 1.5, color: Color(0xFFFB8665)),
-                                ),
-                                onPressed: () async {
+                              style: outlineButtonForm(12, 7, const Color(0xFFFB8665)),
+                              onPressed: () async {
                                   TimeRange result = await showTimeRangePicker(
                                     context: context,
+                                    start: TimeOfDay(hour: allowedTime[0], minute: allowedTime[1]),
+                                    end: TimeOfDay(hour: allowedTime[2], minute: allowedTime[3]),
                                     handlerColor: const Color(0xffff846d),
                                     strokeColor: const Color(0xffff846d),
+                                      use24HourFormat:false
                                   );
                                   setState(() {
-                                    startTime = "${result.startTime.hour.toString().padLeft(2,'0')}:${result.startTime.minute.toString().padLeft(2,'0')}";
-                                    endTime = "${result.endTime.hour.toString().padLeft(2,'0')}:${result.endTime.minute.toString().padLeft(2,'0')}";
+                                    allowedTime[0] = result.startTime.hour;
+                                    allowedTime[1] = result.startTime.minute;
+                                    allowedTime[2] = result.endTime.hour;
+                                    allowedTime[3] = result.endTime.minute;
                                   });
-                                },
+                              },
                                 child: label('invitation2_setT'.tr, 'bold', 12, 'primary')
                             )
                           ],
@@ -215,9 +204,9 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
               ),
               const SizedBox(height: 72),
               ElevatedButton(
-                  onPressed: () => invitation(),
                   style: btnStyleForm('white', 'primary', 25),
-                  child: label('invitation'.tr, 'extra-bold', 16, 'white')
+                  onPressed: () => invitation(),
+                  child: label('invitation_invTitle'.tr, 'extra-bold', 16, 'white')
               ),
               const SizedBox(height: 20),
             ],
@@ -225,78 +214,103 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
         )
     );
   }
-  void invitation() async{
-    //String targetemail = idClr.text.trim();
-    if(targetID.isEmpty){
-      Get.snackbar('', 'select_id_invi'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
-      return;
+
+  getBabyList(){
+    List<DropDownValueModel> tmp = [];
+    for(int i=0; i<widget.babies.length; i++){
+      tmp.add(
+          DropDownValueModel(name:widget.babies[i].name, value: i)
+      );
     }
-    if(selectedBabyIdx == -1){
-      Get.snackbar('', 'select_baby_invi'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
-      return;
+    return tmp;
+  }
+  // 접근 요일 선택을 위한 폼 작성
+  getWeek(){
+    List<FilterChip> chips = [];
+    for(int i=0; i<7; i++){
+      chips.add(
+          FilterChip(
+              label: label(week[i], 'bold', 12, (allowedWeek[i] == 1? 'white' : 'base60')),
+              shape: const CircleBorder(
+                  side: BorderSide(color: Color(0x4D512F22))
+              ),
+              padding: const EdgeInsets.all(8),
+              selectedColor: const Color(0xFFFB8665),
+              backgroundColor: Colors.white,
+              selected: allowedWeek[i] == 1,
+              showCheckmark: false,
+              onSelected: (bool notSelection){
+                setState(() {
+                  if(notSelection){
+                    if(allowedWeek[i] == 0){
+                      allowedWeek[i] = 1;
+                    }
+                  }
+                  else{
+                    allowedWeek[i] = 0;
+                  }
+                });
+              }
+          )
+      );
     }
-    Baby invitBaby = widget.babies[selectedBabyIdx];
-    Baby_relation relation;
-    if(relationSelected == 0){  // -> 부모
-      relation = Baby_relation(invitBaby.relationInfo.BabyId, 0, 127, "00:00", "23:59", false);
-    }else{    // 가족 or 베이비시터
-      relation = Baby_relation(invitBaby.relationInfo.BabyId, relationSelected, int.parse(selectedWeek.join(), radix: 2), startTime, endTime, false);
-    }
-    var tmp = relation.toJson();
-    tmp['email'] = targetID;
-    var result = await invitationService(tmp);
-    Get.back();
+    return chips.toList();
   }
 
-  void duplicateCheck() async {
-    String email = idClr.text.trim();
-    // 1. validation
+  /// METHOD - 중복 체크 메소드
+  void duplicateCheck(String email) async {
+    // [0] validate
     if(!validateEmail(email)){
-      Get.snackbar('', 'keep_id'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+      Get.snackbar('warning'.tr, 'keep_id'.tr, snackPosition: SnackPosition.BOTTOM);
       return;
     }
-    // 2. check
+    // duplicate ID baby API
     String responseData = await emailOverlapService(email);
     if(responseData == "True"){
-      Get.snackbar('warning', 'not_exist_ids'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+      Get.snackbar('warning'.tr, 'not_exist_ids'.tr, snackPosition: SnackPosition.BOTTOM);
     }else{
       setState(() {
-        targetID = email;
+        selectedTargetID = true;
       });
-      Get.snackbar('검색 완료', 'find_exist'.tr, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+      Get.snackbar('search_completed'.tr, 'find_exist'.tr, snackPosition: SnackPosition.BOTTOM);
     }
   }
-
-  // 접근 요일 선택을 위한
-  getWeek(){
-    List<FilterChip> wget = [];
-    for(int i=0; i<7; i++){
-      wget.add(FilterChip(
-            shape: const CircleBorder(
-              side: BorderSide(
-                color: Color(0x4D512F22)
-              )
-            ),
-            padding: const EdgeInsets.all(12),
-            selectedColor: const Color(0xFFFB8665),
-            backgroundColor: Colors.white,
-            label: label(week[i], 'bold', 12, (selectedWeek[i]=="1"? 'white' : 'base60')),
-            showCheckmark: false,
-            selected: selectedWeek[i]=="1",
-            onSelected: (bool notSelected){
-              setState(() {
-                if(notSelected){
-                  if(selectedWeek[i]!=1){
-                    selectedWeek[i] = "1";
-                  }
-                }
-                else{
-                  selectedWeek[i] = "0";
-                }
-              });
-            }
-      ));
+  /// METHOD - new 추가 양육자 초대 메소드
+  void invitation() async{
+    // [0] validate
+    if(!selectedTargetID || targetIdClr.text.trim() == widget.myEmail){
+      Get.snackbar('warning'.tr, 'select_id_invi'.tr);
+      return;
     }
-    return wget.toList();
+    if(selectedBabyIdx < 0 || selectedBabyIdx >= widget.babies.length){
+      Get.snackbar('warning'.tr, 'select_baby_invi'.tr);
+      return;
+    }
+    if(selectedRel < 0 || selectedRel > 3){
+      Get.snackbar('warning'.tr, '초대할 아기와 관계를 선택해주세요');
+      return;
+    }
+    int allowedW = int.parse(allowedWeek.join(), radix: 2);
+    if(!validateWeek(allowedW)){
+      Get.snackbar('warning'.tr, '올바른 접근 요일이 아닙니다.');
+      return;
+    }
+    if(!validateTimeRange(allowedTime)){
+      Get.snackbar('warning'.tr, '올바른 접근 요일이 아닙니다.');
+      return;
+    }
+
+    Baby invitBaby = widget.babies[selectedBabyIdx];
+    Baby_relation relation = (selectedRel == 0)
+          ? Baby_relation(invitBaby.relationInfo.BabyId, 0, 127, "00:00", "23:59", false)
+          : Baby_relation(invitBaby.relationInfo.BabyId, selectedRel, allowedW, '${allowedTime[0].toString().padLeft(2,'0')}:${allowedTime[1].toString().padLeft(2,'0')}', '${allowedTime[2].toString().padLeft(2,'0')}:${allowedTime[3].toString().padLeft(2,'0')}', false);
+
+    var relationJson = relation.toJson();
+    relationJson['email'] = targetIdClr.text.trim();
+    var result = await invitationService(relationJson);
+    print(result);
+    //if(result['result'] == 'success'){
+      //Get.back();
+    //}
   }
 }

@@ -169,7 +169,9 @@ class Languages extends Translations{
       'find_exist' : '아이디를 찾았습니다',
       'license' : '오픈소스 라이선스',
       'warning' : '주의',
-      'warning_form' : '입력 양식을 지켜주세요.'
+      'warning_form' : '입력 양식을 지켜주세요.',
+      'search_completed': '검색 완료',
+      'invitation_complete' : '초대 완료하였습니다.'
     },
     'en_US':{
       'total' : 'total',
@@ -338,7 +340,9 @@ class Languages extends Translations{
       'find_exist' : 'Found ID.',
       'license' : 'Open Source Licenses',
       'warning' : 'Warning',
-      'warning_form' : 'Please keep the input form'
+      'warning_form' : 'Please keep the input form',
+      'search_completed': 'Search completed',
+      'invitation_complete' : 'Invitation completed'
     }
   };
 }

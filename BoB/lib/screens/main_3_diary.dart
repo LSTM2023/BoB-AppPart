@@ -199,7 +199,7 @@ class MainDiaryState extends State<MainDiary> {
                               children: [
                                 label(snapshot.data!.title, 'bold', 16, 'base100'),
                                 Expanded(
-                                  child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right,style: const TextStyle(color: Color(0x99512F22)),),
+                                  child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right, style: const TextStyle(color: Color(0x99512F22)),),
                                 ),
                               ],
                             ),

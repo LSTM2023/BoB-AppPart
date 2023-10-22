@@ -132,5 +132,22 @@ modalBottomSheetFormRound(){
       )
   );
 }
+// bottomSheet Padding
+bottomSheetPadding(BuildContext context, double padLR){
+  return EdgeInsets.only(
+      bottom: MediaQuery.of(context).viewInsets.bottom,
+      left: padLR, right: padLR
+  );
+}
 
-
+outlineButtonForm(double padLR, double padTB, Color borderColor){
+  return OutlinedButton.styleFrom(
+    padding: EdgeInsets.fromLTRB(padLR, padTB, padLR, padTB),
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+            Radius.circular(5.0)
+        )
+    ),
+    side: BorderSide(width: 1.5, color: borderColor),
+  );
+}

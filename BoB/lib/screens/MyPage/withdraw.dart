@@ -19,14 +19,12 @@ class _WithdrawBottomSheet extends State<WithdrawBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-          top: 25, bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 16, right: 16
-      ),
+      padding: bottomSheetPadding(context, 16.0),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 25),
             Center(
                 child: label('main4_withdrawal'.tr, 'bold', 20, 'base100')
             ),

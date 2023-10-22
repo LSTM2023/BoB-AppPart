@@ -337,7 +337,7 @@ class MainMyPageState extends State<MainMyPage>{
   }
   /// [1] method for invite additional caregivers
   invitation() async {
-    await Get.to(() => Invitation(activateBabies, disActivateBabies));
+    await Get.to(() => Invitation(widget.userinfo.email, activateBabies, disActivateBabies));
     await widget.reloadBabiesFunction();
   }
   /// [2] method for change language mode

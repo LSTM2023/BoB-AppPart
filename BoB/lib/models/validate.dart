@@ -43,3 +43,15 @@ bool validateQaAnswer(String answer){
   if(answer.isEmpty) return false;
   return true;
 }
+
+bool validateWeek(int allowedW){
+  if(allowedW < 0 || allowedW > 127) return false;
+  return true;
+}
+bool validateTimeRange(List<int> allowedTs){
+  if(allowedTs[0] < 0 || allowedTs[0] > 23 || allowedTs[2] < 0 || allowedTs[2] > 23) return false;
+  if(allowedTs[1] < 0 || allowedTs[1] > 59 || allowedTs[3] < 0 || allowedTs[3] > 59) return false;
+  if((allowedTs[0]*60 + allowedTs[1]) >= (allowedTs[2]*60 + allowedTs[3]))  return false;
+  print((allowedTs[0]*60 + allowedTs[1]));
+  return true;
+}
