@@ -6,8 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'dart:io';
 import 'package:bob/models/model.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:easy_localization/easy_localization.dart'
-    hide StringTranslateExtension;
+import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
 import '../services/backend.dart';
 
@@ -198,16 +197,13 @@ class MainDiaryState extends State<MainDiary> {
                               children: [
                                 label(snapshot.data!.title, 'bold', 16, 'base100'),
                                 Expanded(
-<<<<<<< HEAD
-                                  child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right, style: const TextStyle(color: Color(0x99512F22)),),
-=======
                                   child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right,
                                     style: const TextStyle(
                                       color: Color(0x99512F22),
                                       fontWeight: FontWeight.w700,
                                       fontFamily: 'NanumSquareRound',
-                                    ),),
->>>>>>> ecb1affda9f16c8073dc86c439cabb1ff99851f8
+                                    )
+                                  )
                                 ),
                               ],
                             ),
