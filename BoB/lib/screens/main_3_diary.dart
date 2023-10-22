@@ -8,7 +8,6 @@ import 'package:bob/models/model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:easy_localization/easy_localization.dart'
     hide StringTranslateExtension;
-
 import '../services/backend.dart';
 
 /// 앱에서 지원하는 언어 리스트 변수
@@ -137,7 +136,6 @@ class MainDiaryState extends State<MainDiary> {
             future: listDiary(DateFormat('yyyy-MM-dd').format(selectedDay), baby.relationInfo.BabyId),
             builder: (BuildContext context, AsyncSnapshot<Diary> snapshot) {
               /// 선택된 날짜에 일기가 없으면 작성 버튼
-              print(snapshot);
               if (!snapshot.hasData || snapshot.data == null) {
                 return SizedBox(
                   height: 120,
@@ -199,7 +197,12 @@ class MainDiaryState extends State<MainDiary> {
                               children: [
                                 label(snapshot.data!.title, 'bold', 16, 'base100'),
                                 Expanded(
-                                  child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right,style: const TextStyle(color: Color(0x99512F22)),),
+                                  child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right,
+                                    style: const TextStyle(
+                                      color: Color(0x99512F22),
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'NanumSquareRound',
+                                    ),),
                                 ),
                               ],
                             ),

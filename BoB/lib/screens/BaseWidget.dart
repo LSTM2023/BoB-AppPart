@@ -109,7 +109,7 @@ class _BaseWidget extends State<BaseWidget>{
   Widget build(BuildContext context) {
     final List<Widget> widgetOptions = <Widget>[
       Main_Home(widget.userinfo, key : _homepageKey, getBabiesFunction: getBabies,getCurrentBabyFunction: getCurrentBaby, changeCurrentBabyFunction: changeCurrentBaby),
-      Main_Cctv(widget.userinfo, key:_cctvKey, getMyBabyFuction: getCurrentBaby),
+      MainCctv(widget.userinfo, key:_cctvKey, getMyBabyFuction: getCurrentBaby),
       MainDiary(widget.userinfo, key:_diaryKey, getMyBabyFuction: getCurrentBaby),
       MainMyPage(widget.userinfo, selectedLanguageMode, key: _mypageKey, getBabiesFuction: getBabies, reloadBabiesFunction: reloadBabies, changeLanguage: changeLanguageMode)
     ];
