@@ -137,7 +137,6 @@ class MainDiaryState extends State<MainDiary> {
             future: listDiary(DateFormat('yyyy-MM-dd').format(selectedDay), baby.relationInfo.BabyId),
             builder: (BuildContext context, AsyncSnapshot<Diary> snapshot) {
               /// 선택된 날짜에 일기가 없으면 작성 버튼
-              print(snapshot);
               if (!snapshot.hasData || snapshot.data == null) {
                 return SizedBox(
                   height: 120,
@@ -199,7 +198,16 @@ class MainDiaryState extends State<MainDiary> {
                               children: [
                                 label(snapshot.data!.title, 'bold', 16, 'base100'),
                                 Expanded(
+<<<<<<< HEAD
                                   child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right, style: const TextStyle(color: Color(0x99512F22)),),
+=======
+                                  child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right,
+                                    style: const TextStyle(
+                                      color: Color(0x99512F22),
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'NanumSquareRound',
+                                    ),),
+>>>>>>> ecb1affda9f16c8073dc86c439cabb1ff99851f8
                                 ),
                               ],
                             ),

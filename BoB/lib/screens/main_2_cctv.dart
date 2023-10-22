@@ -7,14 +7,14 @@ import 'package:get/get.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:tcp_socket_connection/tcp_socket_connection.dart';
 
-class Main_Cctv extends StatefulWidget {
+class MainCctv extends StatefulWidget {
   final User userinfo;
   final getMyBabyFuction;
-  const Main_Cctv(this.userinfo, {super.key, this.getMyBabyFuction});
+  const MainCctv(this.userinfo, {super.key, this.getMyBabyFuction});
   @override
-  State<Main_Cctv> createState() => MainCCTVState();
+  State<MainCctv> createState() => MainCCTVState();
 }
-class MainCCTVState extends State<Main_Cctv>{
+class MainCCTVState extends State<MainCctv>{
   late VlcPlayerController _videoPlayerController;
   bool _isPlaying = false;
 
