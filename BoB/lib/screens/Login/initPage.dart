@@ -124,7 +124,7 @@ class _LoginInit extends State<LoginInit>{
       autoInfo['email'] = googleUser!.email;
       autoInfo['nickname'] = googleUser.displayName.toString();
     }
-
+    //print(autoInfo);
     var responseData = await emailOverlapService(autoInfo['email']!);
     if(responseData != "False"){
       // 신규 유저 -> 추가 정보 입력 페이지로 이동하여 추가 정보 기입 및 회원가입 진행

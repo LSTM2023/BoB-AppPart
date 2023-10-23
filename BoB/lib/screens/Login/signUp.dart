@@ -144,6 +144,7 @@ class _SignUp extends State<SignUp>{
     }
     // 2. call overlap API
     var responseData = await emailOverlapServiceFresh(email);
+    print(responseData);
     if(responseData == "True"){
       _isDuplicateCheck = true;
       Get.snackbar('중복 검사', '사용 가능한 아이디 입니다.');

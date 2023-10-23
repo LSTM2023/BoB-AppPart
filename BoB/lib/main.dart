@@ -6,7 +6,7 @@ import './language.dart';
 import 'package:get/get.dart';
 
 void main() async {
-  print('main');
+
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
@@ -19,7 +19,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    return GetMaterialApp(
-
+     builder: (context, child){
+       return MediaQuery(
+         data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+         child: child!,
+       );
+     },
      translations: Languages(),
      locale: Get.deviceLocale,  // 기기에 설정한 언어
      localizationsDelegates: const [

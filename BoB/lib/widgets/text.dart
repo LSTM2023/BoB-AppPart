@@ -15,7 +15,8 @@ Text label(String str, String weight, double size, String colorTxt){
           color: str2color[colorTxt],
           fontWeight: weightList[weight!],
           fontFamily: 'NanumSquareRound',
-          fontSize: size
+          fontSize: size,
+        overflow: TextOverflow.ellipsis
       )
   );
 }

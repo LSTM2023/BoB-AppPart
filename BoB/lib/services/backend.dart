@@ -16,7 +16,7 @@ loginService(id, pass) async{
 
 // 회원가입 서비스
 registerService(email, pass, name, phone, qaType, qaAnswer) async{
-  print({"email": email, "password1": pass, "password2": pass, "name": name, "phone": phone, "qaType" : qaType, "qaAnswer": qaAnswer});
+
   Response response = await dio.post('$PATH/api/user/registration/',
       data: {"email": email, "password1": pass, "password2": pass, "name": name, "phone": phone, "qaType" : qaType, "qaAnswer": qaAnswer}
   );
@@ -169,7 +169,7 @@ emailOverlapService(String id) async{
 // 중복 검사 서비스
 emailOverlapServiceFresh(String id) async{
   try{
-    Response response = await dio.post('$PATH/api/user/exist/', data: {'email' : 1});
+    Response response = await dio.post('$PATH/api/user/exist/', data: {'email' : id});
     return response.data;
   }catch(e){
     Response response = await dio.post('$PATH/api/user/exist/', data: {'email' : id});

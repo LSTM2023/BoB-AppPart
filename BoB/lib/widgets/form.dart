@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 import 'package:badges/badges.dart' as badges;
 
+import '../models/validate.dart';
+
 // color
 List<Color> colorList = [const Color(0xffFB8665), const Color(0xff22513E), const Color(0xff222551)];
 
@@ -70,6 +72,19 @@ Map<String, TextInputType> title2keyType = {
   'babyName' : TextInputType.text,
   'babyBirth' : TextInputType.text
 };
+
+SizedBox formDataField(String title, String? Function(dynamic value) validator, Null Function(dynamic value) saveFunc){
+  return SizedBox(
+    height: 50,
+    child: TextFormField(
+      inputFormatters : (title == 'phone')?[MultiMaskedTextInputFormatter(masks: ['xxx-xxxx-xxxx', 'xxx-xxx-xxxx'], separator: '-')]:[],
+      validator: validator,
+      keyboardType: title2keyType[title],
+      decoration: formDecoration(title2hint[title]!),
+      onSaved: saveFunc,
+    ),
+  );
+}
 
 SizedBox makeTextFormField(String title, TextEditingController controller){
   return SizedBox(

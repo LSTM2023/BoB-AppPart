@@ -33,6 +33,7 @@ class MainMyPageState extends State<MainMyPage>{
 
   @override
   void initState() {
+    print(widget.userinfo.qaType);
     activateBabies = widget.getBabiesFuction(true);
     disActivateBabies = widget.getBabiesFuction(false);
 

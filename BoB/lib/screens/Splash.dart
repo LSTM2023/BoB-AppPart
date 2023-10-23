@@ -1,16 +1,13 @@
-import 'dart:convert';
-
-import 'package:bob/models/model.dart';
-import 'package:bob/screens/BaseWidget.dart';
-import 'package:bob/services/backend.dart';
-import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
-import 'package:bob/services/storage.dart';
-import 'package:jwt_decode/jwt_decode.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:safe_device/safe_device.dart';
+import '../models/model.dart';
+import '../widgets/text.dart';
+import '../services/storage.dart';
 import '../services/loginService.dart';
-import './Login/initPage.dart';
-import 'package:bob/fcmSetting.dart';
-//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'BaseWidget.dart';
+import 'Login/initPage.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -19,13 +16,33 @@ class Splash extends StatefulWidget {
 }
 
 class _Splash extends State<Splash>{
-  late Future InitInfo;
 
+  late Future InitInfo;
+  String? _result;
   @override
   void initState() {
     super.initState();
+    securityCheck();
     // 초기 로그인 불러오기
     InitInfo = getInitInfo();
+
+  }
+
+  securityCheck() async{
+    final bool isJailBroken = await SafeDevice.isJailBroken;
+    if (Platform.isAndroid) {
+      setState(() {
+        _result = isJailBroken ? 'Rooted' : 'Not rooted';
+      });
+    } else if (Platform.isIOS) {
+      setState(() {
+        _result = isJailBroken ? 'Jailbroken' : 'Not jailbroken';
+      });
+    } else {
+      setState(() {
+        _result = '-';
+      });
+    }
   }
 
   @override

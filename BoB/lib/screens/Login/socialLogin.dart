@@ -25,9 +25,8 @@ class _SLogAddiInfo extends State<SLogAddiInfo>{
 
   @override
   void initState() {
-    if(widget.socialType == 'naver'){
-      phoneCtr = TextEditingController(text: widget.autoInfo['phone']);
-    }
+    Get.snackbar('간편 로그인', '원활한 서비스 사용을 위해 추가적인 정보를 입력해 주세요 \u{1F604}');
+    phoneCtr = TextEditingController(text: widget.autoInfo['phone']);
     qaTypeCtr = SingleValueDropDownController();
     answerCtr = TextEditingController();
     super.initState();
@@ -44,7 +43,7 @@ class _SLogAddiInfo extends State<SLogAddiInfo>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppbar('추가 정보 입력'),
+      appBar: homeAppbar2('추가 정보 입력', false),
       body: Container(
         color:  const Color(0xffF9F8F8),
         padding: const EdgeInsets.fromLTRB(20, 54, 20, 20),
