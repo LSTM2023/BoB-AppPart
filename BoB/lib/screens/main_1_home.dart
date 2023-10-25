@@ -360,7 +360,7 @@ class MainHomeState extends State<Main_Home> {
                               isScrollControlled: true,
                               context: context,
                               builder: ( BuildContext context ) {
-                                return GrowthRecordBottomSheet(currentBaby.relationInfo.BabyId);
+                                return GrowthRecordBottomSheet(currentBaby, currentBaby.relationInfo.BabyId);
                               }
                           );
                         }else {       // 성장 통계 페이지로 이동
@@ -405,7 +405,7 @@ class MainHomeState extends State<Main_Home> {
                                           isScrollControlled: true,
                                           context: context,
                                           builder: ( BuildContext context ) {
-                                            return GrowthRecordBottomSheet(currentBaby.relationInfo.BabyId);    // 성장 기록 sheet
+                                            return GrowthRecordBottomSheet(currentBaby, currentBaby.relationInfo.BabyId);    // 성장 기록 sheet
                                           }
                                       );
                                     },

@@ -1,3 +1,4 @@
+import 'package:bob/models/model.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +9,10 @@ import 'package:easy_localization/easy_localization.dart' hide StringTranslateEx
 import 'package:get/get.dart';
 
 class GrowthRecordBottomSheet extends StatefulWidget {
-
+  final Baby baby;
   final int babyId;
 
-  const GrowthRecordBottomSheet (this.babyId, {Key? key}) : super(key: key);
+  const GrowthRecordBottomSheet(this.baby, this.babyId, {Key? key}) : super(key: key);
 
   @override
   _GrowthRecordBottomSheet createState() => _GrowthRecordBottomSheet();
@@ -110,11 +111,11 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                     var datePicked = await DatePicker.showSimpleDatePicker(
                       context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2040),
+                      firstDate: widget.baby.birth,
+                      lastDate: DateTime.now(),
                       dateFormat: "yyyy-MMMM-dd",
                       locale: DateTimePickerLocale.ko,
-                      looping: true,
+                      looping: false,
                       backgroundColor: const Color(0xffF9F8F8),
                       titleText: 'select_date'.tr,
                       cancelText: 'cancel'.tr,
