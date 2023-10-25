@@ -85,7 +85,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                               borderRadius: BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(color: Color(0x4d512F22))
                           ),
-                          contentPadding: EdgeInsets.only(left: 10, bottom: 20,)
+                          contentPadding: const EdgeInsets.only(left: 10, bottom: 20,)
                       ),
                       keyboardType: TextInputType.text,   //키보드 타입
                     ),

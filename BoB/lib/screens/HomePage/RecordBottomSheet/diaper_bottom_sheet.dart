@@ -70,12 +70,11 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                               },
                               style: OutlinedButton.styleFrom(
                                 side: const BorderSide(color: Color(0x4d512F22)),
-                                foregroundColor: isSelect ? Colors.white : Colors.grey,
                                 backgroundColor: isSelect ? const Color(0xff50BC58) : null,
                               ),
                               child: Padding(
                                   padding: const EdgeInsets.all(10),
-                                  child: Text('life3_1'.tr,style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                                  child: label('life3_1'.tr, 'bold', 15, (isSelect ? 'white' : 'Grey'))
                               ),
                             ),
                         ),
@@ -94,7 +93,7 @@ class _DiaperBottomSheet extends State<DiaperBottomSheet> {
                               ),
                               child: Padding(
                                   padding: const EdgeInsets.all(10),
-                                  child: label('life3_0'.tr, 'bold', 15, (!isSelect ? 'white' : 'grey')))
+                                  child: label('life3_0'.tr, 'bold', 15, (!isSelect ? 'white' : 'Grey')))
                             )
                         ),
                       ],

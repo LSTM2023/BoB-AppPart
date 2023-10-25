@@ -81,12 +81,11 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                             },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(color: Color(0x4d512F22)),
-                              foregroundColor: isSelect ? Colors.white : Colors.grey,
                               backgroundColor: isSelect ? const Color(0xffffb1a2) : null,
                             ),
                             child: Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: Text('life0'.tr,style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                                child: label('life0'.tr, 'bold', 15, (isSelect ? 'white' : 'Grey'))
                             ),
                           ),
                         ),
@@ -101,12 +100,11 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                               },
                               style: OutlinedButton.styleFrom(
                                 side: const BorderSide(color: Color(0x4d512F22)),
-                                foregroundColor: !isSelect ? Colors.white : Colors.grey,
                                 backgroundColor: !isSelect ? const Color(0xffffb1a2) : null,
                               ),
                               child: Padding(
-                                  padding:const EdgeInsets.all(10),
-                                  child:Text('powdered_milk'.tr, style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                                  padding: const EdgeInsets.all(10),
+                                  child: label('powdered_milk'.tr, 'bold', 15, (!isSelect ? 'white' : 'Grey'))),
                             )
                         )
                       ],

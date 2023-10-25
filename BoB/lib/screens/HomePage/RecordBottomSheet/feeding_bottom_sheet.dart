@@ -70,12 +70,11 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                             },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(color: Color(0x4d512F22)),
-                              foregroundColor: isSelect ? Colors.white : Colors.grey,
                               backgroundColor: isSelect ? const Color(0xffFF7A7A) : null,
                             ),
                             child: Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: Text('left'.tr,style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                                child: label('left'.tr, 'bold', 15, (isSelect ? 'white' : 'Grey'))
                             ),
                           ),
                         ),
@@ -95,7 +94,7 @@ class _FeedingBottomSheet extends State<FeedingBottomSheet> {
                               ),
                               child: Padding(
                                   padding: const EdgeInsets.all(10),
-                                  child:Text('right'.tr,style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                                  child: label('right'.tr, 'bold', 15, (!isSelect ? 'white' : 'Grey')))
                             )
                         )
                       ],

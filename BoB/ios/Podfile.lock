@@ -5,6 +5,7 @@ PODS:
   - AppAuth/Core (1.6.2)
   - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
+  - DTTJailbreakDetection (0.4.0)
   - Firebase/CoreOnly (10.12.0):
     - FirebaseCore (= 10.12.0)
   - Firebase/Messaging (10.12.0):
@@ -95,6 +96,9 @@ PODS:
   - nanopb/encode (2.30909.0)
   - naveridlogin-sdk-ios (4.1.6)
   - PromisesObjC (2.3.1)
+  - safe_device (1.0.0):
+    - DTTJailbreakDetection
+    - Flutter
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -113,12 +117,14 @@ DEPENDENCIES:
   - flutter_vlc_player (from `.symlinks/plugins/flutter_vlc_player/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - safe_device (from `.symlinks/plugins/safe_device/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
   trunk:
     - AppAuth
+    - DTTJailbreakDetection
     - Firebase
     - FirebaseCore
     - FirebaseCoreInternal
@@ -156,6 +162,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  safe_device:
+    :path: ".symlinks/plugins/safe_device/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite:
@@ -163,6 +171,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+  DTTJailbreakDetection: 5e356c5badc17995f65a83ed9483f787a0057b71
   Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
   firebase_core: 4a3246a02f828a01c74a2c26427037786d90f17f
   firebase_messaging: 0b4f7997f491343b90d9300af54fe55c72135833
@@ -188,6 +197,7 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   naveridlogin-sdk-ios: cdd34e3585a3d5aaf37c1d84c1f41faba4a25d1a
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
+  safe_device: 4539eb6bdbeb4b61a763a51c4e73e6b37dea4e3d
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
 
