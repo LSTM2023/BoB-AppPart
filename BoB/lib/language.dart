@@ -171,7 +171,16 @@ class Languages extends Translations{
       'warning' : '주의',
       'warning_form' : '입력 양식을 지켜주세요.',
       'search_completed': '검색 완료',
-      'invitation_complete' : '초대 완료하였습니다.'
+      'invitation_complete' : '초대 완료하였습니다.',
+      'medical_done' : '검진 완료일',
+      'medical_period' : '검진기간',
+      'finish_previous_check' : '이전 검진을 먼저 완료해주세요',
+      'checkup' : '검진',
+      'noncheckup' : '미검진',
+      'check_period' : '검진시기',
+      'check_recommend' : '권장기간',
+      'checkup_done' : '건강검진 완료',
+      'checkup_finish' : '검진을 완료하였습니다',
     },
     'en_US':{
       'total' : 'total',
@@ -278,10 +287,8 @@ class Languages extends Translations{
       'change_image' : 'change picture',
       'uploaded' : 'Uploaded.',
       'upload' : 'upload',
-      'modify' : 'modify',
       'modified' : 'Modified.',
       'q_delete' : 'Do you want delete this diary?',
-      'delete' : 'delete',
       'enter_title' : 'Enter title.',
       'title' : 'title',
       'enter_content' : 'Enter content.',
@@ -342,7 +349,14 @@ class Languages extends Translations{
       'warning' : 'Warning',
       'warning_form' : 'Please keep the input form',
       'search_completed': 'Search completed',
-      'invitation_complete' : 'Invitation completed'
+      'invitation_complete' : 'Invitation completed',
+      'medical_done' : 'Health checkup date',
+      'medical_period' : 'Health checkup period',
+      'finish_previous_check' : 'Finish your previous checkup first',
+      'check_period' : 'When you check up',
+      'check_recommend' : 'Recommended period',
+      'checkup_done' : 'Checkup done',
+      'checkup_finish' : 'Finished checkup',
     }
   };
 }

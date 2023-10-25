@@ -163,8 +163,8 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                       const SizedBox(height: 10),
                       label(
                         medicalCheckUp.isInoculation
-                          ?'검진 완료일 : ${DateFormat('yyyy.MM.dd').format(medicalCheckUp.checkUpDate)}'
-                          :'검진기간 : ${medicalCheckUp.checkPeriod}'
+                          ?'${'medical_done'.tr} : ${DateFormat('yyyy.MM.dd').format(medicalCheckUp.checkUpDate)}'
+                          :'${'medical_period'.tr} : ${medicalCheckUp.checkPeriod}'
                           , 'bold', 12, 'base80'
                       ),
                     ],
@@ -180,7 +180,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
             if(widget.medicalCheckUps[finishCheck].title == medicalCheckUp.title){
               openDialog(medicalCheckUp, 'assets/image/medicalCheck_fin.png');
             }else{
-              Get.snackbar('주의', '이전 검진을 먼저 완료해주세요', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+              Get.snackbar('warning'.tr, 'finish_previous_check'.tr, snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
             }
           },
           child: content
@@ -231,7 +231,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                                         children: [
                                           Image.asset('assets/image/medicalHeart.png', scale: 15, color: const Color(0xFF512F22)),
                                           const SizedBox(height: 5),
-                                          label('미검진', 'bold', 12, 'base100')
+                                          label('noncheckup'.tr, 'bold', 12, 'base100')
                                         ],
                                       )
                                   ),
@@ -242,7 +242,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                                         children: [
                                           Image.asset('assets/image/medicalHeart.png', scale: 15, color: const Color(0xfffb8665)),
                                           const SizedBox(height: 5),
-                                          label('검진', 'bold', 12, 'primary')
+                                          label('checkup'.tr, 'bold', 12, 'primary')
                                         ],
                                       )
                                   )
@@ -250,8 +250,8 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                               )
                           ),
                           const SizedBox(height: 10),
-                          label('검진시기 : ${checkUp.checkTimingToString()}', 'bold', 14, 'base100'),
-                          label('권장기간 : ${checkUp.checkPeriod}', 'bold', 14, 'base100'),
+                          label('${'check_period'.tr} : ${checkUp.checkTimingToString()}', 'bold', 14, 'base100'),
+                          label('${'check_recommend'.tr} : ${checkUp.checkPeriod}', 'bold', 14, 'base100'),
                           const SizedBox(height: 20),
                           SizedBox(
                               width: double.infinity,
@@ -267,7 +267,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                                     }
                                     Get.back();
                                   },
-                                  child: label('확인', 'extra-bold', 16, 'white')
+                                  child: label('confirm'.tr, 'extra-bold', 16, 'white')
                               )
                           )
                         ],
@@ -283,7 +283,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
   setMedicalCheckInfo(MedicalCheckUp checkUp) async{
     var result = await vaccineSetService(widget.baby.relationInfo.BabyId, checkUp.title, 50 + checkUp.ID, 'y');
     if(result['result'] == 'success'){
-      Get.snackbar('건강검진 완료', '${checkUp.title} 검진을 완료하였습니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      Get.snackbar('checkup_done'.tr, '${checkUp.title} ${'checkup_finish'.tr}', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
       checkUp.isInoculation = true;
       checkUp.checkUpDate = DateTime.now();
       _loadingFuture = reload();
