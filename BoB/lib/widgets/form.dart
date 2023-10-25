@@ -10,6 +10,8 @@ List<Color> colorList = [const Color(0xffFB8665), const Color(0xff22513E), const
 Map<String, Color> str2color = {
   'black': const Color(0xff000000),
   'white': const Color(0xffffffff),
+  'blue' : const Color(0xff2196f3),
+  'red' : const Color(0xfff44336),
   'primary' : const Color(0xffFB8665),
   'primary80' : const Color(0xccFB8665),
   'base60' : const Color(0x99512F22),

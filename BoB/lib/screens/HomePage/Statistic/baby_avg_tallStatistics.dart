@@ -43,8 +43,9 @@ class _BabyAvgTallStatistics extends State<BabyAvgTallStatistics> {
                   children: [
                     Column(
                       children: [
-                        Text('male'.tr, style: const TextStyle(color: Colors.blue)),
-                        Text('female'.tr, style: const TextStyle(color: Colors.red)),
+                        label('male'.tr, 'bold', 16, 'blue'),
+                        const SizedBox(height: 5),
+                        label('female'.tr, 'bold', 16, 'red'),
                       ],
                     ),
                   ],
@@ -134,65 +135,59 @@ SideTitles leftTitles() => const SideTitles(
   getTitlesWidget: leftTitlesWidget,
   showTitles: true,
   interval: 1,
-  reservedSize: 40
+  reservedSize: 35
 );
 
 Widget bottomTitlesWidget(double value, TitleMeta meta){
-  const style = TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.bold,
-      color: Colors.grey,
-      fontFamily: 'NanumSquareRound'
-  );
   Widget text;
   switch (value.toInt()){
     case 0:
-      text = const Text('0', style: style);
+      text = label('0', 'bold', 12, 'Grey');
       break;
     case 5:
-      text = const Text('5', style: style);
+      text = label('5', 'bold', 12, 'Grey');
       break;
     case 10:
-      text = const Text('10', style: style);
+      text = label('10', 'bold', 12, 'Grey');
       break;
     case 15:
-      text = const Text('15', style: style);
+      text = label('15', 'bold', 12, 'Grey');
       break;
     case 20:
-      text = const Text('20', style: style);
+      text = label('20', 'bold', 12, 'Grey');
       break;
     case 25:
-      text = const Text('25', style: style);
+      text = label('25', 'bold', 12, 'Grey');
       break;
     case 30:
-      text = const Text('30', style: style);
+      text = label('30', 'bold', 12, 'Grey');
       break;
     case 35:
-      text = const Text('35', style: style);
+      text = label('35', 'bold', 12, 'Grey');
       break;
     case 40:
-      text = const Text('40', style: style);
+      text = label('40', 'bold', 12, 'Grey');
       break;
     case 45:
-      text = const Text('45', style: style);
+      text = label('45', 'bold', 12, 'Grey');
       break;
     case 50:
-      text = const Text('50', style: style);
+      text = label('50', 'bold', 12, 'Grey');
       break;
     case 55:
-      text = const Text('55', style: style);
+      text = label('55', 'bold', 12, 'Grey');
       break;
     case 60:
-      text = const Text('60', style: style);
+      text = label('60', 'bold', 12, 'Grey');
       break;
     case 65:
-      text = const Text('65', style: style);
+      text = label('65', 'bold', 12, 'Grey');
       break;
     case 70:
-      text = const Text('70', style: style);
+      text = label('70', 'bold', 12, 'Grey');
       break;
     default:
-      text = const Text('');
+      text = label('', 'bold', 12, 'Grey');
       break;
   }
   return SideTitleWidget(
@@ -204,8 +199,8 @@ Widget bottomTitlesWidget(double value, TitleMeta meta){
 
 SideTitles get bottomTitles => const SideTitles(
   showTitles: true,
-  reservedSize: 40,
-  interval: 1,
+  reservedSize: 35,
+  interval: 5,
   getTitlesWidget: bottomTitlesWidget,
 );
 

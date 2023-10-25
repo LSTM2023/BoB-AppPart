@@ -89,17 +89,17 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: Text('height'.tr, style: const TextStyle(fontFamily: 'NanumSquareRound'))
+                    child: label('height'.tr, 'bold', 15, 'base80')
                 ),
                 Container(
                     height: 35,
                     alignment: Alignment.center,
-                    child: Text('weight'.tr, style: const TextStyle(fontFamily: 'NanumSquareRound'))
+                    child: label('weight'.tr, 'bold', 15, 'base80')
                 )
               ],
               labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound'),
-              labelColor: const Color(0xffff7a7a),
-              indicatorColor: const Color(0xffff7a7a),
+              labelColor: const Color(0xffFB8665),
+              indicatorColor: const Color(0xffFB8665),
               unselectedLabelColor: Colors.grey,
               controller: _tabController,
             ),
@@ -143,38 +143,32 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 16,
-        color: Colors.black,
-        fontFamily: 'NanumSquareRound'
-    );
     Widget text;
     switch (value.toInt()) {
       case 1 :
-        text = const Text('MAR', style: style);
+        text = label('MAR', 'bold', 15, 'black');
         break;
       case 5:
-        text = const Text('JUN', style: style);
+        text = label('JUN', 'bold', 15, 'black');
         break;
       case 8:
-        text = const Text('SEP', style: style);
+        text = label('SEP', 'bold', 15, 'black');
         break;
       default:
-        text = const Text('hi', style: style);
+        text = label('hi', 'bold', 15, 'black');
         break;
     }
     for(int i=0; i<heightPoints.length; i++) {
       if (value.toInt() == DateFormat('yyyy-MM-dd').parse(dateList[i]).millisecondsSinceEpoch.toInt()) {
-        text = Text(DateFormat('MM-dd').format(DateFormat('yyyy-MM-dd').parse(dateList[i])), style: style);
+        text = label(DateFormat('MM-dd').format(DateFormat('yyyy-MM-dd').parse(dateList[i])), 'bold', 15, 'black');
         break;
       }
       // else if(value.toInt() != DateFormat('yyyy-MM-dd').parse(dateList[i]).millisecondsSinceEpoch.toInt()) {
-      //   text = Text(DateFormat('MM-dd').format(DateFormat('yyyy-MM-dd').parse(dateList[i])), style: style);
+      //   text = label(DateFormat('MM-dd').format(DateFormat('yyyy-MM-dd').parse(dateList[i])), 'bold', 15, 'black');
       //   break;
       // }
       else {
-        text = const Text('', style: style,);
+        text = label('', 'bold', 15, 'black');
       }
     }
       return SideTitleWidget(
@@ -188,7 +182,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
     return SingleChildScrollView(
       child: Column(
         children: [
-          label('"${widget.baby.name}"${'\'s growth record'.tr}', 'bold', 27, 'base100'),
+          label('"${widget.baby.name}"${'\'s growth record'.tr}', 'bold', 25, 'base100'),
           const SizedBox(height: 20),
           FutureBuilder(
             future: getGrowthFuture,
@@ -213,10 +207,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
               else if(snapshot.hasError){
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                    style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                  ),
+                  child: label('Error: ${snapshot.error}', 'bold', 15, 'black'),
                 );
               }else{
                 return SizedBox(
@@ -305,7 +296,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
     return SingleChildScrollView(
       child: Column(
         children: [
-          label('"${widget.baby.name}"${'\'s weight record'.tr}', 'bold', 27, 'base100'),
+          label('"${widget.baby.name}"${'\'s weight record'.tr}', 'bold', 25, 'base100'),
           const SizedBox(height: 20),
           FutureBuilder(
             future: getGrowthFuture,
@@ -330,13 +321,10 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
               else if(snapshot.hasError){
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                    style: const TextStyle(fontSize: 15, fontFamily: 'NanumSquareRound'),
-                  ),
+                  child: label('Error: ${snapshot.error}', 'bold', 15, 'black'),
                 );
               }else{
-                return Container(
+                return SizedBox(
                   height: 555,
                   child: LineChart(
                       LineChartData(
