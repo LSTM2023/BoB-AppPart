@@ -156,11 +156,27 @@ class Vaccine {
   final int ID;
   final String title;    // 타이틀
   final String times;   // 몇회
-  final String recommendationDate;  // 권장 시기
+  final Map<String, List<int>> checkTiming;   // 검진 시기
   final String detail;   // 내용
+  late String recommendationDate;  // 권장 시기
   late DateTime inoculationDate;    // 접종 날짜
   late bool isInoculation = false;    // 접종 여부
-  Vaccine({required this.ID, required this.title, required this.times, required this.recommendationDate, required this.detail});
+
+  Vaccine(this.ID, this.title, this.times, this.checkTiming, this.detail);
+  //Vaccine({required this.ID, required this.title, required this.times, required this.recommendationDate, required this.detail});
+
+  setCheckPeriod(DateTime birth){
+    List<String> keys = checkTiming.keys.toList();
+    DateTime periodS = birth;
+    DateTime periodE = birth;
+    for(int i=0; i < keys.length; i++){
+      String key = keys[i];
+      List<int>? val = checkTiming[key];
+      periodS = DateTime(periodS.year + ((key == 'Y') ? val![0] : 0), periodS.month +((key == 'M') ? val![0] : 0), periodS.day);
+      periodE = DateTime(periodE.year +((key == 'Y') ? val![1] : 0), periodE.month +((key == 'M') ? val![1] : 0), periodE.day);
+    }
+    recommendationDate = '${DateFormat('yyyy.MM.dd').format(periodS)} ~ ${DateFormat('yyyy.MM.dd').format(periodE)}';
+  }
 }
 class MedicalCheckUp {
   final int ID;

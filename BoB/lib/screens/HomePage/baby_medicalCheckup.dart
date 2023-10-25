@@ -59,7 +59,6 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                   ),
                 ),
               ),
-              // 1. progress bar
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: Row(
@@ -70,7 +69,6 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                     ]
                 )
               ),
-              // 2. content
               Expanded(
                 child: FutureBuilder(
                   future: _loadingFuture,
@@ -112,7 +110,6 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
 
                 )
               ),
-              // 3. explain comments
               getErrorPharse('생후 71개월전까지 검진'),
               getErrorPharse('기준 : 국민건강보험 영유아건강검진')
             ],
@@ -120,6 +117,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
       ),
     );
   }
+  // draw Date label
   Padding drawDate(String date){
     return Padding(
         padding: const EdgeInsets.only(top:30, bottom: 5),
@@ -128,28 +126,27 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
   }
 
   Widget drawMedicalCheckUpOne(MedicalCheckUp medicalCheckUp){
-    if(medicalCheckUp.isInoculation){
-      return Container(
-        decoration: BoxDecoration(
-          color: const Color(0xffF9F8F8),
-          borderRadius: BorderRadius.circular(6),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x29512F22),
-              spreadRadius: 0,
-              blurRadius: 3.0,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        margin: const EdgeInsets.all(6),
-        padding: const EdgeInsets.all(15),
-        width: double.infinity,
-        height: 100,
-        child: Row(
-          children: [
-            Image.asset('assets/image/medicalCheck_fin.png',width: 60),
-            Expanded(
+    Container content = Container(
+      decoration: BoxDecoration(
+        color: const Color(0xffF9F8F8),
+        borderRadius: BorderRadius.circular(6),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x29512F22),
+            spreadRadius: 0,
+            blurRadius: 3.0,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      margin: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(15),
+      width: double.infinity,
+      height: 100,
+      child: Row(
+        children: [
+          Image.asset('assets/image/medicalCheck_${medicalCheckUp.isInoculation?'fin':'be'}.png',width: 60),
+          Expanded(
               child: Container(
                   padding: const EdgeInsets.only(left: 22),
                   child: Column(
@@ -158,76 +155,38 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                     children: [
                       Row(
                         children: [
-                          label(medicalCheckUp.title, 'bold', 16, 'primary'),
+                          label(medicalCheckUp.title, 'bold', 16, medicalCheckUp.isInoculation?'primary':'base100'),
                           const SizedBox(width: 10),
                           label(medicalCheckUp.checkTimingToString(), 'regular', 12, 'grey'),
                         ],
                       ),
                       const SizedBox(height: 10),
-                      label('검진 완료일 : ${DateFormat('yyyy.MM.dd').format(medicalCheckUp.checkUpDate)}', 'bold', 12, 'primary'),
+                      label(
+                        medicalCheckUp.isInoculation
+                          ?'검진 완료일 : ${DateFormat('yyyy.MM.dd').format(medicalCheckUp.checkUpDate)}'
+                          :'검진기간 : ${medicalCheckUp.checkPeriod}'
+                          , 'bold', 12, 'base80'
+                      ),
                     ],
                   )
               )
-            ),
-          ],
-        ),
-      );
-    }
-    else{
+          ),
+        ],
+      ),
+    );
+    if(!medicalCheckUp.isInoculation){
       return InkWell(
-        onTap: (){
-          if(widget.medicalCheckUps[finishCheck].title == medicalCheckUp.title){
-            openDialog(medicalCheckUp, 'assets/image/medicalCheck_fin.png');
-          }else{
-            Get.snackbar('주의', '이전 검진을 먼저 완료해주세요', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
-          }
-        },
-        child: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xffF9F8F8),
-              borderRadius: BorderRadius.circular(6),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x29512F22),
-                  spreadRadius: 0,
-                  blurRadius: 3.0,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-              //border: Border.all(width: 0.5,color: Color(0xfffa625f))
-            ),
-            margin: const EdgeInsets.all(6),
-            padding: const EdgeInsets.all(15),
-            width: double.infinity,
-            height: 100,
-            child: Row(
-              children: [
-                Image.asset('assets/image/medicalCheck_be.png',width: 60),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 22),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              label(medicalCheckUp.title, 'bold', 16, 'base100'),
-                              const SizedBox(width: 10),
-                              label(medicalCheckUp.checkTimingToString(), 'regular', 12, 'grey'),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          label('검진기간 : ${medicalCheckUp.checkPeriod}', 'bold', 12, 'base100'),
-                        ],
-                      )
-                  )
-                ),
-              ],
-            )
-        ),
+          onTap: (){
+            if(widget.medicalCheckUps[finishCheck].title == medicalCheckUp.title){
+              openDialog(medicalCheckUp, 'assets/image/medicalCheck_fin.png');
+            }else{
+              Get.snackbar('주의', '이전 검진을 먼저 완료해주세요', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+            }
+          },
+          child: content
       );
     }
+    return content;
   }
 
   void openDialog(MedicalCheckUp checkUp, String iconPath){
@@ -308,7 +267,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                                     }
                                     Get.back();
                                   },
-                                  child: const Text('확인')
+                                  child: label('확인', 'extra-bold', 16, 'white')
                               )
                           )
                         ],
@@ -319,6 +278,8 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
         )
     );
   }
+
+  /// method for record MedicalCheckUp (API 연결)
   setMedicalCheckInfo(MedicalCheckUp checkUp) async{
     var result = await vaccineSetService(widget.baby.relationInfo.BabyId, checkUp.title, 50 + checkUp.ID, 'y');
     if(result['result'] == 'success'){
