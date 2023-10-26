@@ -213,49 +213,50 @@ MIT licenses
 ========================================================================
 The following components are provided under the MIT License. See project link for details.
 
-    (MIT License) https://github.com/flutter/packages/tree/main/third_party/packages/cupertino_icons
-    (MIT License) https://github.com/jonataslaw/getx
-    (MIT License) https://github.com/cfug/dio/tree/main/dio
-    (MIT License) https://github.com/srtraj/dropdown_textfield
-    (MIT License) https://github.com/acadia3000/multi_masked_formatter
-    (MIT License) https://github.com/aissat/easy_localization
-    (MIT License) https://github.com/alanchan-dev/OmniDateTimePicker
-    (MIT License) https://github.com/dnfield/flutter_svg/tree/master/packages/flutter_svg
-    (MIT License) https://github.com/koukibadr/Bottom-Picker
-    (MIT License) https://github.com/kfiross/flutter_holo_date_picker
-    (MIT License) https://github.com/Chris1234567899/flutter_time_range_picker
-    (MIT License) https://github.com/serenader2014/flutter_carousel_slider
-    (MIT License) https://github.com/hosain-mohamed/scaled_list
-    (MIT License) https://github.com/yako-dev/flutter_badges
-    (MIT License) https://github.com/MjPaxter/Tcp_Socket_Connection
-    (MIT License) https://github.com/espresso3389/flutter_oss_licenses
-    (MIT License) https://github.com/imaNNeo/fl_chart
-    (MIT License) https://github.com/ufukhawk/safe_device
+    (MIT License) cupertino_icons https://github.com/flutter/packages/tree/main/third_party/packages/cupertino_icons
+    (MIT License) get https://github.com/jonataslaw/getx
+    (MIT License) dio https://github.com/cfug/dio/tree/main/dio
+    (MIT License) dropdown_textfield https://github.com/srtraj/dropdown_textfield
+    (MIT License) multi_masked_formatter https://github.com/acadia3000/multi_masked_formatter
+    (MIT License) easy_localization https://github.com/aissat/easy_localization
+    (MIT License) omni_datetime_picker https://github.com/alanchan-dev/OmniDateTimePicker
+    (MIT License) flutter_svg https://github.com/dnfield/flutter_svg/tree/master/packages/flutter_svg
+    (MIT License) bottom_picker bottom_picker https://github.com/koukibadr/Bottom-Picker
+    (MIT License) flutter_holo_date_picker https://github.com/kfiross/flutter_holo_date_picker
+    (MIT License) time_range_picker https://github.com/Chris1234567899/flutter_time_range_picker
+    (MIT License) carousel_slider https://github.com/serenader2014/flutter_carousel_slider
+    (MIT License) scaled_list https://github.com/hosain-mohamed/scaled_list
+    (MIT License) badges https://github.com/yako-dev/flutter_badges
+    (MIT License) tcp_socket_connection https://github.com/MjPaxter/Tcp_Socket_Connection
+    (MIT License) flutter_oss_licenses https://github.com/espresso3389/flutter_oss_licenses
+    (MIT License) fl_chart https://github.com/imaNNeo/fl_chart
+    (MIT License) safe_device https://github.com/ufukhawk/safe_device
 
 ========================================================================
 Apache licenses
 ========================================================================
 The following components are provided under the Apache License. See project link for details.
 
-    (Apache 2.0) https://github.com/aleksanderwozniak/table_calendar
+    (Apache 2.0) table_calendar https://github.com/aleksanderwozniak/table_calendar
+    (Apache 2.0) image_picker https://github.com/flutter/packages/tree/main/packages/image_picker/image_picker
 
 ========================================================================
 BSD licenses
 ========================================================================
 The following components are provided under the BSD License. See project link for details.
 
-    (BSD 2-Clause) https://github.com/mylisabox/flutter_mjpeg
-    (BSD 2-Clause) https://github.com/peonani-jj/flutter_naver_login
-    (BSD 2-Clause) https://github.com/tekartik/sqflite/tree/master/sqflite
-    (BSD 3-Clause) https://github.com/mogol/flutter_secure_storage/tree/develop/flutter_secure_storage
-    (BSD 3-Clause) https://github.com/firebase/flutterfire/tree/master/packages/firebase_messaging/firebase_messaging
-    (BSD 3-Clause) https://pub.dev/packages/intl/license
-    (BSD 3-Clause) https://github.com/flutter/packages/tree/main/packages/google_sign_in/google_sign_in
-    (BSD 3-Clause) https://github.com/leventkantaroglu/horizontal_picker
-    (BSD 3-Clause) https://github.com/solid-software/flutter_vlc_player/
-    (BSD 3-Clause) https://github.com/dart-lang/http/tree/master/pkgs/http
-    (BSD 3-Clause) https://github.com/channdara/flutter_localization
-    (BSD 3-Clause) https://github.com/MaikuB/flutter_local_notifications/tree/master/flutter_local_notifications
-    (BSD 3-Clause) https://github.com/firebase/flutterfire/tree/master/packages/firebase_core/firebase_core
-    (BSD 3-Clause) https://github.com/flutter/packages/tree/main/packages/image_picker/image_picker
-    (BSD 3-Clause) https://github.com/dart-lang/convert
+    (BSD 2-Clause) flutter_mjpeg https://github.com/mylisabox/flutter_mjpeg
+    (BSD 2-Clause) flutter_naver_login https://github.com/peonani-jj/flutter_naver_login
+    (BSD 2-Clause) sqflite https://github.com/tekartik/sqflite/tree/master/sqflite
+    (BSD 3-Clause) flutter_secure_storage https://github.com/mogol/flutter_secure_storage/tree/develop/flutter_secure_storage
+    (BSD 3-Clause) firebase_messaging https://github.com/firebase/flutterfire/tree/master/packages/firebase_messaging/firebase_messaging
+    (BSD 3-Clause) intl https://pub.dev/packages/intl/license
+    (BSD 3-Clause) google_sign_in https://github.com/flutter/packages/tree/main/packages/google_sign_in/google_sign_in
+    (BSD 3-Clause) horizontal_picker https://github.com/leventkantaroglu/horizontal_picker
+    (BSD 3-Clause) flutter_vlc_player https://github.com/solid-software/flutter_vlc_player/
+    (BSD 3-Clause) http https://github.com/dart-lang/http/tree/master/pkgs/http
+    (BSD 3-Clause) flutter_localization https://github.com/channdara/flutter_localization
+    (BSD 3-Clause) flutter_local_notifications https://github.com/MaikuB/flutter_local_notifications/tree/master/flutter_local_notifications
+    (BSD 3-Clause) firebase_core https://github.com/firebase/flutterfire/tree/master/packages/firebase_core/firebase_core
+    (BSD 3-Clause) image_picker https://github.com/flutter/packages/tree/main/packages/image_picker/image_picker
+    (BSD 3-Clause) convert https://github.com/dart-lang/convert
