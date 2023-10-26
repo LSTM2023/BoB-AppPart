@@ -1,6 +1,9 @@
+import 'package:bob/screens/MyPage/passwordChange.dart';
 import 'package:bob/widgets/appbar.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../models/qaTypeList.dart';
 import '../../models/model.dart';
 import '../../models/validate.dart';
 import '../../services/backend.dart';
@@ -12,36 +15,39 @@ import 'package:get/get.dart' hide Trans;
 class ModifyUser extends StatefulWidget{
   final User userInfo;
   const ModifyUser(this.userInfo, {super.key});
-
   @override
   State<ModifyUser> createState() => _ModifyUser();
 }
 
 class _ModifyUser extends State<ModifyUser> {
-  late TextEditingController passCtr;
-  late TextEditingController passCheckCtr;
+
+
   late TextEditingController nickNameCtr;
   late TextEditingController phoneCtr;
+  late SingleValueDropDownController qaTypeCtr;
+  late TextEditingController answerCtr;
   bool passwordVisible = true;
+  String newPass = '';
   @override
   void initState() {
-    passCtr = TextEditingController(text: widget.userInfo.password1);
-    passCheckCtr = TextEditingController(text: widget.userInfo.password1);
     nickNameCtr = TextEditingController(text: widget.userInfo.name);
     phoneCtr = TextEditingController(text: widget.userInfo.phone);
+    qaTypeCtr = SingleValueDropDownController(data: qaDataModelList[widget.userInfo.qaType]);
+    answerCtr = TextEditingController(text: widget.userInfo.qaAnswer);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppbar('main4_modifyUserInfo'.tr),
+      appBar: homeAppbar('passChange'.tr),
       body: Container(
         padding: const EdgeInsets.fromLTRB(16, 46, 16, 50),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              textBase('login_id'.tr, 'bold', 14),
+              label('login_id'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               SizedBox(
                 height: 50,
@@ -51,56 +57,81 @@ class _ModifyUser extends State<ModifyUser> {
                 ),
               ),
               const SizedBox(height: 30),
-              makeText('login_pass'.tr, const Color(0xFF512F22), 14),
+              label('login_pass'.tr, 'bold', 14, 'base100'),
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(top: 10, bottom: 30),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.all(15)
+                  ),
+                  onPressed: () {
+                    Get.to(() => ChangePassword(widget.userInfo));
+                  },
+                  child: label('change_pw'.tr, 'bold', 16, 'base100'),
+                ),
+              ),
+              label('login_nickname'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
-              makePWFormField('pw', passCtr, passwordVisible),
-              const SizedBox(height: 10),
-              makePWFormField('pw_check', passCheckCtr, passwordVisible),
+              makeTextFormField('nickname', nickNameCtr),
               const SizedBox(height: 30),
-              makeText('login_nickname'.tr, Color(0xFF512F22), 14),
+              label('login_phone'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
-              makeTextFormField('nickname', nickNameCtr, TextInputType.name),
+              makeTextFormField('phone', phoneCtr),
               const SizedBox(height: 30),
-              makeText('login_phone'.tr, Color(0xFF512F22), 14),
+              label('질문 & 답변', 'bold', 14, 'base100'),
               const SizedBox(height: 10),
-              makeTextFormField('phone', phoneCtr, TextInputType.phone),
+              DropDownTextField(
+                textFieldDecoration: formDecoration('qaType_input_hint'.tr),
+                controller: qaTypeCtr,
+                clearOption: false,
+                validator: (value) {
+                  if (value == null) {
+                    return "Required field";
+                  } else {
+                    return null;
+                  }
+                },
+                dropDownList: qaDataModelList,
+                dropDownItemCount: 6,
+              ),
+              const SizedBox(height: 10),
+              makeTextFormField('qa_answer', answerCtr),
               const SizedBox(height: 100),
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      backgroundColor: const Color(0xffFB8665),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-                      foregroundColor: Colors.white
+                  style: btnStyleForm('white', 'primary', 25),
+                  onPressed: () async => await serviceModifyUserinfo(
+                      nickNameCtr.text.trim(),
+                      phoneCtr.text.trim(),
+                      qaTypeCtr.dropDownValue?.value,
+                      answerCtr.text.trim()
                   ),
-                  onPressed: () async => await modifyUserinfo(),
-                  child: text('login_modified'.tr,'extra-bold', 16, Colors.white)
+                  child: label('login_modified'.tr,'extra-bold', 16, 'white')
               )
             ],
           ),
         ),
       )
     );
-
   }
-  modifyUserinfo() async {
-    // 1. validate
-    String pass = passCtr.text.trim();
-    String name = nickNameCtr.text.trim();
-    String phone = phoneCtr.text.trim();
-    if (!validatePassword(pass) &&
-        !validateName(name) &&
-        !validatePhone(phone)) {
+
+  /// method for modify user information
+  serviceModifyUserinfo( String name, String phone, int qaType, String qaAnswer) async {
+    // [0] validate
+    if (!validateName(name) ||
+        !validatePhone(phone) ||
+        !validateQaType(qaType) ||
+        !validateQaAnswer(qaAnswer)
+    ) {
+      Get.snackbar('warning'.tr, 'warning_form'.tr);
       return;
     }
-    // 2. modify
-    if (await editUserService({"password": pass, "name": name, "phone": phone}) == "True") {
-      // (1) 비번 변경시 -> 내부 저장소 변경
-      if (pass != widget.userInfo.password1) {
-        await editPasswordLoginStorage(pass); // 내부 저장소 변경
-      }
-      Get.back(result: {"pass": pass, "name": name, "phone": phone});
+    // call modifyUser API
+    var re = await editUserService({"name": name, "phone": phone, "qaType": qaType, "qaAnswer": qaAnswer});
+    if (re == "Success") {
+      Get.back(result: {"name": name, "phone": phone, "qaType": qaType, "qaAnswer": qaAnswer});
     } else {
-      Get.snackbar('수정 실패', '수정에 실패하였습니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      Get.snackbar('warning'.tr, 'fail_modify'.tr);
     }
   }
 }

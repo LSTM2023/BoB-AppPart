@@ -59,27 +59,25 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                   ),
                 ),
               ),
-              // 1. progress bar
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      textBase('${'total'.tr} $finishCheck/12', 'bold', 14),
-                      textBase('${((finishCheck/12)*100).round()}% ${'finish'.tr}', 'bold', 14)
+                      label('${'total'.tr} $finishCheck/12', 'bold', 14, 'base100'),
+                      label('${((finishCheck/12)*100).round()}% ${'finish'.tr}', 'bold', 14, 'base100')
                     ]
                 )
               ),
-              // 2. content
               Expanded(
                 child: FutureBuilder(
                   future: _loadingFuture,
                   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.hasData == false){
-                      return text('-', 'extra-bold', 15, const Color(0xccfb8665));
+                      return label('-', 'extra-bold', 15, 'primary');
                     }
                     else if(snapshot.hasError){
-                      return text('-', 'extra-bold', 15, const Color(0xccfb8665));
+                      return label('-', 'extra-bold', 15, 'primary80');
                     }
                     else{
                       return ListView(
@@ -112,44 +110,43 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
 
                 )
               ),
-              // 3. explain comments
-              getErrorPharse('생후 71개월전까지 검진'),
-              getErrorPharse('기준 : 국민건강보험 영유아건강검진')
+              getErrorPharse('pharse_medicalCheck1'.tr),
+              getErrorPharse('pharse_medicalCheck2'.tr)
             ],
           )
       ),
     );
   }
+  // draw Date label
   Padding drawDate(String date){
     return Padding(
         padding: const EdgeInsets.only(top:30, bottom: 5),
-        child: textBase(date, 'bold', 14)
+        child: label(date, 'bold', 14, 'base100')
     );
   }
 
   Widget drawMedicalCheckUpOne(MedicalCheckUp medicalCheckUp){
-    if(medicalCheckUp.isInoculation){
-      return Container(
-        decoration: BoxDecoration(
-          color: const Color(0xffF9F8F8),
-          borderRadius: BorderRadius.circular(6),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x29512F22),
-              spreadRadius: 0,
-              blurRadius: 3.0,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        margin: const EdgeInsets.all(6),
-        padding: const EdgeInsets.all(15),
-        width: double.infinity,
-        height: 100,
-        child: Row(
-          children: [
-            Image.asset('assets/image/medicalCheck_fin.png',width: 60),
-            Expanded(
+    Container content = Container(
+      decoration: BoxDecoration(
+        color: const Color(0xffF9F8F8),
+        borderRadius: BorderRadius.circular(6),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x29512F22),
+            spreadRadius: 0,
+            blurRadius: 3.0,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      margin: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(15),
+      width: double.infinity,
+      height: 100,
+      child: Row(
+        children: [
+          Image.asset('assets/image/medicalCheck_${medicalCheckUp.isInoculation?'fin':'be'}.png',width: 60),
+          Expanded(
               child: Container(
                   padding: const EdgeInsets.only(left: 22),
                   child: Column(
@@ -158,76 +155,38 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                     children: [
                       Row(
                         children: [
-                          text(medicalCheckUp.title, 'bold', 16, const Color(0xffFB8665)),
+                          label(medicalCheckUp.title, 'bold', 16, medicalCheckUp.isInoculation?'primary':'base100'),
                           const SizedBox(width: 10),
-                          text(medicalCheckUp.checkTimingToString(), 'regular', 12, Colors.grey),
+                          label(medicalCheckUp.checkTimingToString(), 'normal', 12, 'Grey'),
                         ],
                       ),
                       const SizedBox(height: 10),
-                      text('검진 완료일 : ${DateFormat('yyyy.MM.dd').format(medicalCheckUp.checkUpDate)}', 'bold', 12, const Color(0xffFB8665)),
+                      label(
+                        medicalCheckUp.isInoculation
+                          ?'${'medical_done'.tr} : ${DateFormat('yyyy.MM.dd').format(medicalCheckUp.checkUpDate)}'
+                          :'${'medical_period'.tr} : ${medicalCheckUp.checkPeriod}'
+                          , 'bold', 12, 'base80'
+                      ),
                     ],
                   )
               )
-            ),
-          ],
-        ),
-      );
-    }
-    else{
+          ),
+        ],
+      ),
+    );
+    if(!medicalCheckUp.isInoculation){
       return InkWell(
-        onTap: (){
-          if(widget.medicalCheckUps[finishCheck].title == medicalCheckUp.title){
-            openDialog(medicalCheckUp, 'assets/image/medicalCheck_fin.png');
-          }else{
-            Get.snackbar('주의', '이전 검진을 먼저 완료해주세요', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
-          }
-        },
-        child: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xffF9F8F8),
-              borderRadius: BorderRadius.circular(6),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x29512F22),
-                  spreadRadius: 0,
-                  blurRadius: 3.0,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-              //border: Border.all(width: 0.5,color: Color(0xfffa625f))
-            ),
-            margin: const EdgeInsets.all(6),
-            padding: const EdgeInsets.all(15),
-            width: double.infinity,
-            height: 100,
-            child: Row(
-              children: [
-                Image.asset('assets/image/medicalCheck_be.png',width: 60),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 22),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              textBase(medicalCheckUp.title, 'bold', 16),
-                              const SizedBox(width: 10),
-                              text(medicalCheckUp.checkTimingToString(), 'regular', 12, Colors.grey),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          textBase('검진기간 : ${medicalCheckUp.checkPeriod}', 'bold', 12),
-                        ],
-                      )
-                  )
-                ),
-              ],
-            )
-        ),
+          onTap: (){
+            if(widget.medicalCheckUps[finishCheck].title == medicalCheckUp.title){
+              openDialog(medicalCheckUp, 'assets/image/medicalCheck_fin.png');
+            }else{
+              Get.snackbar('warning'.tr, 'finish_previous_check'.tr, snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+            }
+          },
+          child: content
       );
     }
+    return content;
   }
 
   void openDialog(MedicalCheckUp checkUp, String iconPath){
@@ -239,7 +198,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    textBase(checkUp.title, 'bold', 18),
+                    label(checkUp.title, 'bold', 18, 'base100'),
                     IconButton(onPressed: () {Get.back();}, icon: const Icon(Icons.close, size: 18,)),
                   ],
                 ),
@@ -252,7 +211,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                           Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                               child: ToggleButtons(
-                                selectedBorderColor: Color(0xfffa625f),
+                                selectedBorderColor: const Color(0xfffa625f),
                                 selectedColor : Colors.white,
                                 fillColor: const Color(0xffffdad1),
                                 color: Colors.grey,
@@ -272,7 +231,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                                         children: [
                                           Image.asset('assets/image/medicalHeart.png', scale: 15, color: const Color(0xFF512F22)),
                                           const SizedBox(height: 5),
-                                          textBase('미검진', 'bold', 12)
+                                          label('noncheckup'.tr, 'bold', 12, 'base100')
                                         ],
                                       )
                                   ),
@@ -283,7 +242,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                                         children: [
                                           Image.asset('assets/image/medicalHeart.png', scale: 15, color: const Color(0xfffb8665)),
                                           const SizedBox(height: 5),
-                                          text('검진', 'bold', 12, const Color(0xfffb8665))
+                                          label('checkup'.tr, 'bold', 12, 'primary')
                                         ],
                                       )
                                   )
@@ -291,14 +250,14 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                               )
                           ),
                           const SizedBox(height: 10),
-                          textBase('검진시기 : ${checkUp.checkTimingToString()}', 'bold', 14),
-                          textBase('권장기간 : ${checkUp.checkPeriod}', 'bold', 14),
+                          label('${'check_period'.tr} : ${checkUp.checkTimingToString()}', 'bold', 14, 'base100'),
+                          label('${'check_recommend'.tr} : ${checkUp.checkPeriod}', 'bold', 14, 'base100'),
                           const SizedBox(height: 20),
                           SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     foregroundColor: Colors.white,
                                     backgroundColor: const Color(0xfffb8665),
                                   ),
@@ -308,7 +267,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                                     }
                                     Get.back();
                                   },
-                                  child: const Text('확인')
+                                  child: label('confirm'.tr, 'extra-bold', 16, 'white')
                               )
                           )
                         ],
@@ -319,10 +278,12 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
         )
     );
   }
+
+  /// method for record MedicalCheckUp (API 연결)
   setMedicalCheckInfo(MedicalCheckUp checkUp) async{
     var result = await vaccineSetService(widget.baby.relationInfo.BabyId, checkUp.title, 50 + checkUp.ID, 'y');
     if(result['result'] == 'success'){
-      Get.snackbar('건강검진 완료', '${checkUp.title} 검진을 완료하였습니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      Get.snackbar('checkup_done'.tr, '${checkUp.title} ${'checkup_finish'.tr}', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
       checkUp.isInoculation = true;
       checkUp.checkUpDate = DateTime.now();
       _loadingFuture = reload();

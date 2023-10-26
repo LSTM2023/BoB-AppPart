@@ -1,3 +1,4 @@
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class _BabyAvgTallStatistics extends State<BabyAvgTallStatistics> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12.0))
         ),
-        contentPadding: EdgeInsets.only(top: 15,right: 5),
+        contentPadding: const EdgeInsets.only(top: 15,right: 10),
         backgroundColor: const Color(0xffF9F8F8),
         //default 패딩값을 없앨 수 있다.
         content: SizedBox(
@@ -26,7 +27,7 @@ class _BabyAvgTallStatistics extends State<BabyAvgTallStatistics> {
           height: 650,
           child: Column(
             children: [
-              Text('Infant 0~72 months height percentile'.tr, style: const TextStyle(fontSize: 17, color: Color(0xff512F22), fontFamily: 'NanumSquareRound')),
+              label('Infant 0~72 months height percentile'.tr, 'bold', 16, 'base100'),
               const SizedBox(height: 20),
               SizedBox(
                 height: 550,
@@ -42,8 +43,9 @@ class _BabyAvgTallStatistics extends State<BabyAvgTallStatistics> {
                   children: [
                     Column(
                       children: [
-                        Text('male'.tr, style: const TextStyle(color: Colors.blue),),
-                        Text('female'.tr, style: const TextStyle(color: Colors.red),),
+                        label('male'.tr, 'bold', 16, 'blue'),
+                        const SizedBox(height: 5),
+                        label('female'.tr, 'bold', 16, 'red'),
                       ],
                     ),
                   ],
@@ -76,10 +78,10 @@ FlTitlesData get titlesData => FlTitlesData(
   bottomTitles: AxisTitles(
     sideTitles: bottomTitles,
   ),
-  rightTitles: AxisTitles(
+  rightTitles: const AxisTitles(
     sideTitles: SideTitles(showTitles: false),
   ),
-  topTitles: AxisTitles(
+  topTitles: const AxisTitles(
     sideTitles: SideTitles(showTitles: false),
   ),
   leftTitles: AxisTitles(
@@ -129,69 +131,63 @@ Widget leftTitlesWidget(double value, TitleMeta meta){
   return Text(text, style: style, textAlign: TextAlign.center,);
 }
 
-SideTitles leftTitles() => SideTitles(
+SideTitles leftTitles() => const SideTitles(
   getTitlesWidget: leftTitlesWidget,
   showTitles: true,
   interval: 1,
-  reservedSize: 40
+  reservedSize: 35
 );
 
 Widget bottomTitlesWidget(double value, TitleMeta meta){
-  const style = TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.bold,
-      color: Colors.grey,
-      fontFamily: 'NanumSquareRound'
-  );
   Widget text;
   switch (value.toInt()){
     case 0:
-      text = const Text('0', style: style);
+      text = label('0', 'bold', 12, 'Grey');
       break;
     case 5:
-      text = const Text('5', style: style);
+      text = label('5', 'bold', 12, 'Grey');
       break;
     case 10:
-      text = const Text('10', style: style);
+      text = label('10', 'bold', 12, 'Grey');
       break;
     case 15:
-      text = const Text('15', style: style);
+      text = label('15', 'bold', 12, 'Grey');
       break;
     case 20:
-      text = const Text('20', style: style);
+      text = label('20', 'bold', 12, 'Grey');
       break;
     case 25:
-      text = const Text('25', style: style);
+      text = label('25', 'bold', 12, 'Grey');
       break;
     case 30:
-      text = const Text('30', style: style);
+      text = label('30', 'bold', 12, 'Grey');
       break;
     case 35:
-      text = const Text('35', style: style);
+      text = label('35', 'bold', 12, 'Grey');
       break;
     case 40:
-      text = const Text('40', style: style);
+      text = label('40', 'bold', 12, 'Grey');
       break;
     case 45:
-      text = const Text('45', style: style);
+      text = label('45', 'bold', 12, 'Grey');
       break;
     case 50:
-      text = const Text('50', style: style);
+      text = label('50', 'bold', 12, 'Grey');
       break;
     case 55:
-      text = const Text('55', style: style);
+      text = label('55', 'bold', 12, 'Grey');
       break;
     case 60:
-      text = const Text('60', style: style);
+      text = label('60', 'bold', 12, 'Grey');
       break;
     case 65:
-      text = const Text('65', style: style);
+      text = label('65', 'bold', 12, 'Grey');
       break;
     case 70:
-      text = const Text('70', style: style);
+      text = label('70', 'bold', 12, 'Grey');
       break;
     default:
-      text = const Text('');
+      text = label('', 'bold', 12, 'Grey');
       break;
   }
   return SideTitleWidget(
@@ -201,14 +197,14 @@ Widget bottomTitlesWidget(double value, TitleMeta meta){
   );
 }
 
-SideTitles get bottomTitles => SideTitles(
+SideTitles get bottomTitles => const SideTitles(
   showTitles: true,
-  reservedSize: 40,
-  interval: 1,
+  reservedSize: 35,
+  interval: 5,
   getTitlesWidget: bottomTitlesWidget,
 );
 
-FlGridData get gridData => FlGridData(show: true);
+FlGridData get gridData => const FlGridData(show: true);
 
 FlBorderData get borderData => FlBorderData(
   show: true,
@@ -225,7 +221,7 @@ LineChartBarData get maleTallData => LineChartBarData(
   color: Colors.blue,
   barWidth: 2,
   isStrokeCapRound: true,
-  dotData: FlDotData(show: false),
+  dotData: const FlDotData(show: false),
   belowBarData: BarAreaData(show: false),
   spots: const [
     FlSpot(0, 49.8842), FlSpot(1, 54.7244), FlSpot(2, 58.4249), FlSpot(3, 61.4292), FlSpot(4, 63.886), FlSpot(5, 65.9026), FlSpot(6, 67.6236), FlSpot(7, 69.1645), FlSpot(8, 70.5994), FlSpot(9, 71.9687),
@@ -245,7 +241,7 @@ LineChartBarData get femaleTallData => LineChartBarData(
     color: Colors.red,
     barWidth: 2,
     isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
+    dotData: const FlDotData(show: false),
     belowBarData: BarAreaData(show: false),
     spots: const [
       FlSpot(0, 49.1477), FlSpot(1, 53.6872), FlSpot(2, 57.0673), FlSpot(3, 59.8029), FlSpot(4, 62.0899), FlSpot(5, 64.0301), FlSpot(6, 65.7311), FlSpot(7, 67.2873), FlSpot(8, 68.7498), FlSpot(9, 70.1435),

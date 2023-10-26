@@ -1,18 +1,18 @@
 import 'package:bob/widgets/pharse.dart';
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 import 'package:get/get.dart';
-
 import '../../../services/backend.dart';
+import '../../../widgets/form.dart';
 
 class SleepBottomSheet extends StatefulWidget {
 
   final int babyId;
   final void Function(int mode, String id, DateTime date) timeSleep;
   const SleepBottomSheet (this.babyId, this.timeSleep, {Key? key}) : super(key: key);
-  //final String feedingTime;
 
   @override
   _SleepBottomSheet createState() => _SleepBottomSheet();
@@ -22,12 +22,9 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
 
   List<DateTime>? dateTimeList;
 
-  GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   String? yearMonthDayTime;
   TextEditingController ymdtController = TextEditingController();
   TextEditingController memoController = TextEditingController();
-
-  bool autovalidate = false;
 
   @override
   void initState() {
@@ -36,10 +33,9 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.45,
+    return Container(
+      padding: bottomSheetPadding(context, 0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -48,7 +44,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('life4'.tr, style: TextStyle(fontSize: 32, color: Color(0xff5086BC), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('life4'.tr, 'bold', 30, 'sleep'),
                 ],
               ),
             ),
@@ -59,19 +55,17 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
+                    GestureDetector(      // 수면 시간 입력
                       onTap: () async {
                         dateTimeList = await showOmniDateTimeRangePicker(
                           context: context,
                           startInitialDate: DateTime.now(),
-                          startFirstDate:
-                          DateTime(1600).subtract(const Duration(days: 3652)),
+                          startFirstDate: DateTime(1600).subtract(const Duration(days: 3652)),
                           startLastDate: DateTime.now().add(
                             const Duration(days: 3652),
                           ),
                           endInitialDate: DateTime.now(),
-                          endFirstDate:
-                          DateTime(1600).subtract(const Duration(days: 3652)),
+                          endFirstDate: DateTime(1600).subtract(const Duration(days: 3652)),
                           endLastDate: DateTime.now().add(
                             const Duration(days: 3652),
                           ),
@@ -105,7 +99,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                             }
                           },
                         );
-                        ymdtController.text = '${DateFormat('yyyy년 MM월 dd일 HH:mm').format(dateTimeList![0])} ~ '
+                        ymdtController.text = '${DateFormat('yyyy${'year'.tr} MM${'month'.tr} dd${'day'.tr} HH:mm').format(dateTimeList![0])} ~ '
                             '${DateFormat('HH:mm').format(dateTimeList![1])}';
 
                         print("Start dateTime: ${dateTimeList?[0]}");
@@ -118,14 +112,14 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                             controller: ymdtController,
                             decoration: InputDecoration(
                                 labelText: 'enter_sleep'.tr,
-                                labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                                suffixIcon: Icon(Icons.access_time_filled, color: Color(0xff5086BC), size: 22),
+                                labelStyle: const TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                                suffixIcon: const Icon(Icons.access_time_filled, color: Color(0xff5086BC), size: 22),
                                 filled: false, //색 지정
-                                enabledBorder:OutlineInputBorder(
+                                enabledBorder: const OutlineInputBorder(
                                     borderRadius: BorderRadius.all(Radius.circular(10)),
                                     borderSide: BorderSide(color: Color(0x4d512F22))
                                 ),
-                                contentPadding: EdgeInsets.all(12)
+                                contentPadding: const EdgeInsets.all(12)
                             ),
                             onSaved: (val) {
                               yearMonthDayTime = ymdtController.text;
@@ -141,9 +135,9 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                    label('memo'.tr, 'bold', 15, 'base100'),
                     const SizedBox(height: 3),
-                    GestureDetector(
+                    GestureDetector(            // 메모 입력
                       onTap: () {
                         Navigator.pop(context);
                       },
@@ -156,23 +150,23 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                           decoration: InputDecoration(
                               floatingLabelBehavior:FloatingLabelBehavior.never,
                               labelText: 'enter_content'.tr,
-                              labelStyle: TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
-                              enabledBorder: OutlineInputBorder(
+                              labelStyle: const TextStyle(color: Color(0x99512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold),
+                              enabledBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(color: Color(0x4d512F22))
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(color: Color(0x4d512F22))
                               ),
-                              contentPadding: EdgeInsets.only(left: 10, bottom: 20,)
+                              contentPadding: const EdgeInsets.only(left: 10, bottom: 20,)
                           ),
                           keyboardType: TextInputType.text,   //키보드 타입
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
+                    SizedBox(                                 // 수면 기록 제출
                       width: double.infinity,
                       child: OutlinedButton(
                         onPressed: () async{
@@ -196,13 +190,14 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                               borderRadius: BorderRadius.all(Radius.circular(30))
                           ),
                         ),
-                        child: Text('register_record'.tr,style: TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                        child: label('register_record'.tr, 'extra-bold', 20, 'white'),
                       ),
                     )
                   ],
                 ),
               ),
             ),
+            const SizedBox(height: 28),
           ],
         ),
       ),

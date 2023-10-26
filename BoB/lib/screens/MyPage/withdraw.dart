@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../services/storage.dart';
 import '../../services/backend.dart';
+import '../../widgets/form.dart';
 import '../../widgets/text.dart';
 import '../Login/initPage.dart';
 
@@ -10,61 +11,61 @@ class WithdrawBottomSheet extends StatefulWidget{
   @override
   State<WithdrawBottomSheet> createState() => _WithdrawBottomSheet();
 }
+
 class _WithdrawBottomSheet extends State<WithdrawBottomSheet> {
-  bool _isCheked = false;
+
+  bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 360,
-      padding: EdgeInsets.only(top: 20, left: 16, right: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: text('main4_withdrawal'.tr, 'bold', 20, Color(0xffFB8665)),
-          ),
-          const SizedBox(height: 52),
-          textBase('withdraw_title'.tr, 'bold', 16),
-          const SizedBox(height: 10),
-          text('withdraw_content'.tr, 'bold', 14, Color(0x99512F22)),
-          const SizedBox(height: 42),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Checkbox(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+      padding: bottomSheetPadding(context, 16.0),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 25),
+            Center(
+                child: label('main4_withdrawal'.tr, 'bold', 20, 'base100')
+            ),
+            const SizedBox(height: 42),
+            label('withdraw_title'.tr, 'bold', 16, 'base100'),
+            const SizedBox(height: 10),
+            label('withdraw_content'.tr, 'bold', 14, 'base60'),
+            const SizedBox(height: 32),
+            Row(
+              children: [
+                Checkbox(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  activeColor: const Color(0xffFB8665),
+                  value: isChecked,
+                  onChanged: (val){
+                    setState(() {isChecked = val!;});
+                  },
                 ),
-                activeColor: const Color(0xffFB8665),
-                value: _isCheked,
-                onChanged: (val){
-                  setState(() {_isCheked = val!;});
-                },
-              ),
-              text('withdraw_checkPhrase'.tr, 'bold', 14, Color(0x99512F22)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          ElevatedButton(
-              style:ElevatedButton.styleFrom(
-                  elevation: 0.2,
-                  foregroundColor: Colors.white,
-                  backgroundColor: (_isCheked?const Color(0xfffb8665):Color(0xffC1C1C1)),
-                  minimumSize: const Size.fromHeight(55),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))
-              ),
-              onPressed: () => serviceWithdraw(),
-              child: Text('withdraw_btn'.tr)
-          )
-        ],
-      ),
+                label('withdraw_checkPhrase'.tr, 'bold', 14, 'base60')
+              ],
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+                style: btnStyleForm('white', (isChecked? 'primary': 'grey'), 25),
+                onPressed: () => serviceWithdraw(),
+                child: label('withdraw_btn'.tr, 'extra-bold,', 16, 'white')
+            ),
+            const SizedBox(height: 15),
+          ],
+        ),
+      )
     );
   }
+  /// method for delete user
   serviceWithdraw() async{
-    // 1. 삭제 - dio 사용
+    // call DeleteUser API & delete local DB
     if(await deleteUserService() == 204){
-      await storage.delete(key: 'login');    // 2. 로컬 DB & secureStorage 삭제
-      Get.offAll(LoginInit());            // 2. initPage로 이동
+      await storage.delete(key: 'login');
+      Get.offAll(LoginInit());
     }
   }
 }

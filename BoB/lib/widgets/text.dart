@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
+import 'form.dart';
 
 Map<String, FontWeight> weightList = {
   'normal' : FontWeight.w400,
   'bold' : FontWeight.w700,
   'extra-bold' : FontWeight.w800,
 };
-Text text(String str, String weight, double size, Color color){
+
+
+Text label(String str, String weight, double size, String colorTxt){
   return Text(
       str,
       style: TextStyle(
-        color: color,
-        fontWeight: weightList[weight!],
-        fontFamily: 'NanumSquareRound',
-        fontSize: size
+          color: str2color[colorTxt],
+          fontWeight: weightList[weight!],
+          fontFamily: 'NanumSquareRound',
+          fontSize: size,
+        overflow: TextOverflow.ellipsis
       )
   );
 }
-
-Text textBase(String str, String weight, double size){
+Text label_notEclipsis(String str, String weight, double size, String colorTxt){
   return Text(
       str,
       style: TextStyle(
-          color: const Color(0xff512F22),
+          color: str2color[colorTxt],
           fontWeight: weightList[weight!],
           fontFamily: 'NanumSquareRound',
-          fontSize: size
+          fontSize: size,
+
       )
   );
 }

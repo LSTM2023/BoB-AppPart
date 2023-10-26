@@ -1,10 +1,11 @@
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
-import 'package:bottom_picker/bottom_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:get/get.dart';
 import '../../../services/backend.dart';
 import 'package:bob/widgets/pharse.dart';
+
+import '../../../widgets/form.dart';
 
 class FeedingBottleStopwatchBottomSheet extends StatefulWidget {
 
@@ -13,7 +14,6 @@ class FeedingBottleStopwatchBottomSheet extends StatefulWidget {
   final DateTime endT;
   final Function(int mode, String data, DateTime date) changeRecord;
   const FeedingBottleStopwatchBottomSheet(this.babyId, this.startT, this.endT, {Key? key, required this.changeRecord}) : super(key: key);
-  //final String feedingTime;
 
   @override
   _FeedingBottleStopwatchBottomSheet createState() => _FeedingBottleStopwatchBottomSheet();
@@ -32,17 +32,16 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: Container(
-        decoration: const BoxDecoration(
-            color: Color(0xffF9F8F8),
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20)
-            )
-        ),
-        height: MediaQuery.of(context).size.height * 0.49,
+    return Container(
+      decoration: const BoxDecoration(
+          color: Color(0xffF9F8F8),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              topLeft: Radius.circular(20)
+          )
+      ),
+      padding: bottomSheetPadding(context, 0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -51,7 +50,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('life1'.tr, style: const TextStyle(fontSize: 32, color: Color(0xffffb1a2), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('life1'.tr, 'bold', 30, 'feedingBottle')
                 ],
               ),
             ),
@@ -60,18 +59,18 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Row(  // 수유 타이머 시간 출력
                     children: [
-                      Text('feeding_time'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      label('feeding_time'.tr, 'bold', 15, 'base100'),
                       const SizedBox(width: 5),
-                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', style: const TextStyle(color: Color(0xff512F22), fontSize: 21, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      label('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', 'bold', 20, 'base100')
                     ],
                   ),
                   const SizedBox(height: 15),
-                  Text('type_feed'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('type_feed'.tr, 'bold', 15, 'base100'),
                   Padding(
                     padding: const EdgeInsets.only(top:5, bottom:8),
-                    child: Row(
+                    child: Row(     // 수유 타입 설정
                       children: [
                         Expanded(
                           flex: 1,
@@ -83,12 +82,11 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                             },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(color: Color(0x4d512F22)),
-                              foregroundColor: isSelect ? Colors.white : Colors.grey,
                               backgroundColor: isSelect ? const Color(0xffffb1a2) : null,
                             ),
                             child: Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: Text('life0'.tr,style: const TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))
+                                child: label('life0'.tr, 'bold', 15, (isSelect ? 'white' : 'Grey'))
                             ),
                           ),
                         ),
@@ -103,21 +101,20 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                               },
                               style: OutlinedButton.styleFrom(
                                 side: const BorderSide(color: Color(0x4d512F22)),
-                                foregroundColor: !isSelect ? Colors.white : Colors.grey,
                                 backgroundColor: !isSelect ? const Color(0xffffb1a2) : null,
                               ),
                               child: Padding(
-                                  padding:const EdgeInsets.all(10),
-                                  child:Text('powdered_milk'.tr, style: const TextStyle(fontSize: 16, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold))),
+                                  padding: const EdgeInsets.all(10),
+                                  child: label('powdered_milk'.tr, 'bold', 15, (!isSelect ? 'white' : 'Grey'))),
                             )
                         )
                       ],
                     ),
                   ),
                   const SizedBox(height: 3),
-                  Text('amount_feed'.tr, style: const TextStyle(fontSize: 15, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('amount_feed'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  SizedBox(
+                  SizedBox(   // 수유량 입력
                     width: MediaQuery.of(context).size.width*0.9,
                     child: TextFormField(
                       controller: amountController,
@@ -162,9 +159,9 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Text('memo'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  GestureDetector(
+                  GestureDetector(      // 메모 입력
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -193,7 +190,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                     ),
                   ),
                   const SizedBox(height: 15),
-                  SizedBox(
+                  SizedBox(   // 수유 타이머 기록 제출
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{
@@ -201,7 +198,6 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                         String memo = memoController.text;
                         String amount = amountController.text;
                         var content = {"type": side, "amount": amount, "startTime": widget.startT.toString(), "endTime": widget.endT.toString(), "memo": memo};
-                        print(content);
                         var result = await lifesetService(widget.babyId, 1, content.toString());
                         print(result);
                         Duration diff = (DateTime.now()).difference(widget.endT);
@@ -216,12 +212,13 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: Text('registration'.tr,style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: label('register_record'.tr, 'extra-bold', 20, 'white'),
                     ),
                   )
                 ],
               )
             ),
+            const SizedBox(height: 28),
           ],
         ),
       ),

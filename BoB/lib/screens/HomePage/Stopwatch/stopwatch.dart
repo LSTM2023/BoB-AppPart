@@ -43,11 +43,11 @@ class StopwatchState extends State<StopWatch> {
     _stopWatchTimer.setPresetTime(mSec: 0000);
   }
   Map<int, String> type2phrase = {
-    0 : '모유 수유중..',
-    1 : '젖병 수유중..',
-    2 : '이유식 먹는중..',
+    0 : 'life0_ing'.tr,
+    1 : 'life1_ing'.tr,
+    2 : 'life2_ing'.tr,
     //3:['배변중..',
-    4 : '수면중..',
+    4 : 'life4_ing'.tr
   };
 
   @override
@@ -72,7 +72,7 @@ class StopwatchState extends State<StopWatch> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: [     // 타이머 타입 설정
           if(timerType==0)
             drawRecordButton('life0'.tr, 'assets/icon/feeding_icon.svg', const Color(0xffff7a7a), const Color(0xb3ffffff), 0),
           if(timerType==1)
@@ -91,13 +91,13 @@ class StopwatchState extends State<StopWatch> {
               builder: (context, snap) {
                 final value = snap.data!;
                 final displayTime = StopWatchTimer.getDisplayTime(value, milliSecond: false);
-                return text(displayTime, 'bold', 17, const Color(0xcc512F22));
+                return label(displayTime, 'bold', 17, 'base80');
               },
             ),
           ),
           Row(
             children: [
-              IconButton(
+              IconButton(       // 타이머 입력 버튼
                   onPressed: () async {
                     int val = _stopWatchTimer.rawTime.value;
                     int re = StopWatchTimer.getRawHours(val)*60*60 + StopWatchTimer.getRawMinute(val)*60 + StopWatchTimer.getRawSecond(val);
@@ -111,7 +111,7 @@ class StopwatchState extends State<StopWatch> {
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero
               ),
-              IconButton( // reset
+              IconButton(       // reset
                 onPressed: () {
                   closeWidget();
                 },
@@ -125,12 +125,12 @@ class StopwatchState extends State<StopWatch> {
       )
     );
   }
-  closeWidget(){
+  closeWidget(){   // 타이머 종료
     _stopWatchTimer.setPresetTime(mSec: 0000);
     _stopWatchTimer.onStopTimer();
     widget.closeFuction();
   }
-  openWidget(int n, Baby t){
+  openWidget(int n, Baby t){      // 타이머 시작
     _stopWatchTimer.onResetTimer();
     _stopWatchTimer.onStartTimer();
     setState(() {
@@ -167,7 +167,7 @@ class StopwatchState extends State<StopWatch> {
             children: <Widget>[
               SvgPicture.asset(iconData, color: background ), // <-- Icon
               const SizedBox(height: 3),
-              text(type, 'bold', 12, background)
+              //text(type, 'bold', 12, background)
             ],
           ),
         )

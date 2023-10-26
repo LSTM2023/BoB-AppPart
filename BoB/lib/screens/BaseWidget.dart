@@ -19,15 +19,16 @@ class _BaseWidget extends State<BaseWidget>{
   GlobalKey<MainCCTVState> _cctvKey = GlobalKey();
   GlobalKey<MainMyPageState> _mypageKey = GlobalKey();
   GlobalKey<MainHomeState> _homepageKey = GlobalKey();
+  GlobalKey<MainHomeState> _diaryKey = GlobalKey();
   late List<Baby> activeBabies;
   late List<Baby> disactiveBabies;
   int cIdx = 0;
   int _selectedIndex = 0; // 인덱싱
 
-  // 앱에서 지원하는 언어 리스트 변수
+  // 앱에서 지원하는 언어 리스트
   final supportedLocales = [
-    Locale('en', 'US'),
-    Locale('ko', 'KR')
+    const Locale('en', 'US'),
+    const Locale('ko', 'KR')
   ];
 
   String selectedLanguageMode = '한국어';
@@ -35,6 +36,9 @@ class _BaseWidget extends State<BaseWidget>{
   @override
   void initState() {
     super.initState();
+    if(widget.MyBabies.isEmpty){
+      _selectedIndex = 3; // 인덱싱
+    }
     classifyByActive();
   }
   // 1. active / disActive 분류
@@ -53,7 +57,7 @@ class _BaseWidget extends State<BaseWidget>{
         disactiveBabies.add(b);
       }
     }
-    print('classify 결과 : {active : ${activeBabies.length}, disactive : ${disactiveBabies.length}}');
+    //print('classify 결과 : {active : ${activeBabies.length}, disactive : ${disactiveBabies.length}}');
   }
   void _onItemTapped(int index) {
     setState(() {
@@ -78,7 +82,7 @@ class _BaseWidget extends State<BaseWidget>{
   reloadBabies() async{
     activeBabies.clear();
     disactiveBabies.clear();
-    List<dynamic> babyRelationList = await getMyBabies();
+    List<dynamic> babyRelationList = await getMyBabiesService();
     for(int i=0; i < babyRelationList.length; i++){
       var baby = await getBaby(babyRelationList[i]['baby']);
       baby['relationInfo'] = (Baby_relation.fromJson(babyRelationList[i])).toJson();
@@ -91,7 +95,7 @@ class _BaseWidget extends State<BaseWidget>{
       });
     }
   }
-  // 다국어처리부
+  // 다국어 처리
   changeLanguageMode(String value){
     if(value == '한국어'){
       Get.updateLocale(const Locale('ko','KR'));
@@ -105,8 +109,8 @@ class _BaseWidget extends State<BaseWidget>{
   Widget build(BuildContext context) {
     final List<Widget> widgetOptions = <Widget>[
       Main_Home(widget.userinfo, key : _homepageKey, getBabiesFunction: getBabies,getCurrentBabyFunction: getCurrentBaby, changeCurrentBabyFunction: changeCurrentBaby),
-      Main_Cctv(widget.userinfo, key:_cctvKey, getMyBabyFuction: getCurrentBaby),
-      const MainDiary(),
+      MainCctv(widget.userinfo, key:_cctvKey, getMyBabyFuction: getCurrentBaby),
+      MainDiary(widget.userinfo, key:_diaryKey, getMyBabyFuction: getCurrentBaby),
       MainMyPage(widget.userinfo, selectedLanguageMode, key: _mypageKey, getBabiesFuction: getBabies, reloadBabiesFunction: reloadBabies, changeLanguage: changeLanguageMode)
     ];
 

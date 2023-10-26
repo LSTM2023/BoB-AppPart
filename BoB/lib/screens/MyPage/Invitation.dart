@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:bob/models/model.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:get/get.dart';
+import 'InvitationNew.dart';
 import '../../services/backend.dart';
-import './InvitationNew.dart';
-import 'package:badges/badges.dart' as badges;
+import '../../widgets/form.dart';
 
 class Invitation extends StatefulWidget{
-  final List<Baby> activebabies;
-  final List<Baby> disactivebabies;
-  const Invitation(this.activebabies, this.disactivebabies, {super.key});
+  final String myEmail;
+  final List<Baby> activeBabies;
+  final List<Baby> disActiveBabies;
+  const Invitation(this.myEmail, this.activeBabies, this.disActiveBabies, {super.key});
   @override
   State<Invitation> createState() => _Invitation();
 }
@@ -21,23 +22,9 @@ class _Invitation extends State<Invitation> {
     return Scaffold(
       appBar: homeAppbar('main4_InviteBabysitter'.tr),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'invitation',
         backgroundColor: const Color(0xFFFB8665),
-        onPressed: (){
-          showModalBottomSheet(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20)
-                  )
-              ),
-              backgroundColor: const Color(0xffF9F8F8),
-              isScrollControlled: true,
-              context: context,
-              builder: (BuildContext context) {
-                return InvitationBottomSheet(widget.activebabies);
-              }
-          );
-        },
+        onPressed: () => openInvitationForm(),
         child: const Icon(Icons.add)
       ),
       body: Container(
@@ -48,93 +35,86 @@ class _Invitation extends State<Invitation> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 28, bottom: 24),
-              child: text('invitation_notList'.tr, 'bold', 14, const Color(0xff512F22))
+              child: label('invitation_notList'.tr, 'bold', 14, 'base100')
             ),
             Expanded(
                 child: ListView.builder(
                   scrollDirection : Axis.vertical,
-                  itemCount: widget.disactivebabies.length,
+                  itemCount: widget.disActiveBabies.length,
                   itemBuilder: (BuildContext context, int index){
-                    return drawBaby(widget.disactivebabies[index]);
+                    Baby baby = widget.disActiveBabies[index];
+                    return Container(
+                      margin: const EdgeInsets.only(left: 16, right: 16),
+                      padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                            left: BorderSide(
+                                color: colorList[baby.relationInfo.relation],
+                                width: 5.0
+                            ),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 1,
+                            )
+                          ],
+                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            label(baby.name, 'extra-bold', 12, 'base100'),
+                            OutlinedButton(
+                              style: outlineButtonForm(9, 4, const Color(0xFFFB8665)),
+                              onPressed: () => invitationAcceptance(baby.relationInfo.BabyId),
+                              child: label('accept'.tr, 'bold', 10, 'primary')
+                            )
+                          ]
+                      )
+                    );
                   },
                 )
             )
-
           ],
         ),
       ),
     );
   }
-  Widget drawBaby(Baby baby){
-    Color col;
-    if(baby.relationInfo.relation == 0){
-      col = const Color(0xffFF766A);
-    }
-    else if(baby.relationInfo.relation == 1){
-      col = Colors.blueAccent;
-    }
-    else{
-      col = Colors.grey;
-    }
-    return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
 
-        border: Border(
-          left: BorderSide(
-              color: col,
-              width: 5.0
-          ),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 1,
-          )
-        ],
-      ),
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          textBase(baby.name, 'extra-bold', 12),
-          OutlinedButton(
+  /// 추가 양육자 초대를 위한 bottom sheet 폼 open
+  openInvitationForm(){
+    showModalBottomSheet(
+        shape: modalBottomSheetFormRound(),
+        backgroundColor: const Color(0xffF9F8F8),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return InvitationBottomSheet(widget.myEmail, widget.activeBabies);
+        }
+    );
+  }
+  /// 양육자 초대 수락
+  invitationAcceptance(int babyId){
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        title: label('invitation_accept'.tr,'extra-bold', 16, 'primary'),
+        content: label('invitation_acceptC'.tr, 'bold', 12, 'base'),
+        actions: [
+          ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.fromLTRB(9, 4, 9, 4),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5.0)
-                  )
-                ),
-                side: const BorderSide(width: 1.5, color: Color(0xFFFB8665)),
+                  minimumSize: const Size.fromHeight(50),
+                  backgroundColor: const Color(0xFFFB8665),
+                  foregroundColor: Colors.white
               ),
-              onPressed: (){
-                Get.dialog(
-                  AlertDialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                    title: text('invitation_accept'.tr,'extra-bold', 16, const Color(0xFFFB8665)),
-                    content: textBase('invitation_acceptC'.tr, 'bold', 12),
-                    actions: [
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: const Size.fromHeight(50),
-                              backgroundColor: const Color(0xFFFB8665),
-                              foregroundColor: Colors.white
-                          ),
-                          onPressed: () async{
-                            // 1. 초대 수락하는 API 보내기
-                            var result = await acceptInvitationService(baby.relationInfo.BabyId);
-                            Navigator.pop(context);
-                            Get.back();
-                          },
-                          child: text('accept'.tr,'extra-bold', 14, Colors.white)
-                      )
-                    ],
-                  ),
-                );
+              onPressed: () async{
+                // 1. 초대 수락하는 API 보내기
+                var result = await acceptInvitationService(babyId);
+                Navigator.pop(context);
+                Get.back();
               },
-              child: text('accept'.tr, 'bold', 10, const Color(0xFFFB8665))
+              child: label('accept'.tr,'extra-bold', 14, 'white')
           )
         ],
       ),

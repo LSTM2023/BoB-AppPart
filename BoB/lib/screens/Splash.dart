@@ -1,13 +1,15 @@
-import 'dart:convert';
-
-import 'package:bob/models/model.dart';
-import 'package:bob/screens/BaseWidget.dart';
-import 'package:bob/services/backend.dart';
 import 'package:flutter/material.dart';
-import 'package:bob/services/storage.dart';
-import 'package:jwt_decode/jwt_decode.dart';
-import './Login/initPage.dart';
-//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:get/get.dart';
+import 'package:safe_device/safe_device.dart';
+import '../models/model.dart';
+import '../widgets/text.dart';
+import '../services/storage.dart';
+import '../services/loginService.dart';
+import 'BaseWidget.dart';
+import 'Login/initPage.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -16,14 +18,25 @@ class Splash extends StatefulWidget {
 }
 
 class _Splash extends State<Splash>{
-  late Future InitInfo;
 
+  late Future InitInfo;
   @override
   void initState() {
     super.initState();
+    securityCheck();
     // 초기 로그인 불러오기
     InitInfo = getInitInfo();
-    print('s');
+
+  }
+
+  securityCheck() async{
+    final bool isJailBroken = await SafeDevice.isJailBroken;
+    if(isJailBroken){
+      // if. Platform.isAndroid   >>  'Rooted'
+      // if. Platform.isIOS       >>  'Jailbroken'
+      Get.snackbar('Warning', '비허가 접근이 감지되었습니다.');
+      //SystemNavigator.pop();
+    }
   }
 
   @override
@@ -36,18 +49,13 @@ class _Splash extends State<Splash>{
               return Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                    color: Color(0xfffa625f),
+                    color: Color(0xFFFFCCBF),
                   ),
-                  child : const Column(
+                  child : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //Image.asset('assets/images/baby.png', width: 150),
-                      SizedBox(height: 50),
-                      CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(
-                          Colors.white,
-                        ),
-                      ),
+                      Image.asset('assets/image/logo.png', width: 120),
+                      label('BoB: Best of Baby', 'bold', 14, 'base100')
                     ],
                   )
               );
@@ -75,35 +83,18 @@ class _Splash extends State<Splash>{
     );
   }
   Future getInitInfo() async{
-    var autoLogin = await storage.read(key: 'login');
-    print(autoLogin);
-    if(autoLogin != null){
-      // 자동 login
-      Login loginInfo = Login.fromJson(jsonDecode(autoLogin));
-      var loginData = await loginService(loginInfo.userEmail, loginInfo.userPassword);
-      String token = loginData['access_token']; // response의 token키에 담긴 값을 token 변수에 담아서
-      Map<dynamic, dynamic> payload = Jwt.parseJwt(token);
-      User uinfo = User(loginData['email'], loginInfo.userPassword, loginData['name'], loginData['phone'], 0, "");
-      // 로그인 정보 저장
-      Login newloginInfo = Login(token, loginData['refresh_token'], payload['user_id'], loginData['email'], loginInfo.userPassword);
-      await writeLogin(newloginInfo);
-      // 2. babyList 가져오기
-      List<Baby> MyBabies = [];
-      List<dynamic> babyList = await getMyBabies();
-      //print(babyList);
-      for(int i=0; i<babyList.length;i++){
-        // 2. 아기 등록
-        Baby_relation relation = Baby_relation.fromJson(babyList[i]);
-        var baby = await getBaby(babyList[i]['baby']);
-        baby['relationInfo'] = relation.toJson();
-        MyBabies.add(Baby.fromJson(baby));
-      }
-      return [uinfo, MyBabies];
-    }
-    else{
-      // login 정보 X
+    // 1. storage에서 로그인 정보 가져 오기
+    var existLogin = await getLoginStorage();
+    if(existLogin == null){
       return LoginInit();
     }
+    Login loginInfo = Login.fromJson(jsonDecode(existLogin));
+    Map<String, dynamic> informs = await login(loginInfo.userEmail, loginInfo.userPassword);
+    User userInfo = informs['user'];
+    List<Baby> myBabies = informs['babies'];
+    if(userInfo == null){
+      return LoginInit();
+    }
+    return [userInfo, myBabies];
   }
-  
 }

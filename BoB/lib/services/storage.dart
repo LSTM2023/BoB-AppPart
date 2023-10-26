@@ -15,12 +15,14 @@ getLoginStorage() async{
   var login = await storage.read(key: "login");
   return login;
 }
+
 editPasswordLoginStorage(String password) async{
   var login = await storage.read(key: "login");
   Login newLogin = Login.fromJson(jsonDecode(login!));
   newLogin.changePassword(password);
   await storage.write(key: 'login', value: jsonEncode(newLogin));
 }
+
 getToken() async{
   var tmp = (await storage.read(key: "login"));
   Map<String,dynamic> jsonData = jsonDecode(tmp!);

@@ -1,17 +1,17 @@
 import 'package:bob/models/model.dart';
 import 'package:bob/screens/Login/initPage.dart';
+import 'package:bob/screens/MyPage/OpenSourceLicenses.dart';
 import 'package:bob/screens/MyPage/withdraw.dart';
-import 'package:bob/services/login_platform.dart';
 import 'package:bob/services/storage.dart';
 import 'package:bob/widgets/appbar.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../services/backend.dart';
+import '../widgets/form.dart';
 import './MyPage/Invitation.dart';
-import './MyPage/AddBaby.dart';
+import './MyPage/BabyBottomSheet.dart';
 import 'package:badges/badges.dart' as badges;
 
 import 'MyPage/modifyUserInfo.dart';
@@ -20,32 +20,41 @@ class MainMyPage extends StatefulWidget{
   final getBabiesFuction; // 아기 불러오는 fuction
   final reloadBabiesFunction;
   final changeLanguage;
-  final c_language;
-  const MainMyPage(this.userinfo, this.c_language, {Key?key, this. getBabiesFuction, this.reloadBabiesFunction, this.changeLanguage}):super(key:key);
+  final Clanguage;
+  const MainMyPage(this.userinfo, this.Clanguage, {Key?key, this. getBabiesFuction, this.reloadBabiesFunction, this.changeLanguage}):super(key:key);
   @override
   State<MainMyPage> createState() => MainMyPageState();
 }
 class MainMyPageState extends State<MainMyPage>{
 
   CarouselController carouselController = CarouselController();
-
-  //int cLanIdx = 0;
-  List<Color> colorList = [const Color(0xffFB8665), const Color(0xff22513E), const Color(0xff222551)];
   late List<Baby> activateBabies;
   late List<Baby> disActivateBabies;
 
-
   @override
   void initState() {
+    print(widget.userinfo.qaType);
     activateBabies = widget.getBabiesFuction(true);
     disActivateBabies = widget.getBabiesFuction(false);
-    super.initState();
-    if(activateBabies.length==0 && disActivateBabies.length==0){
-      WidgetsBinding.instance.addPostFrameCallback((_){
-        openAddBabyScreen();
+
+    if(activateBabies.isEmpty && disActivateBabies.isEmpty){
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await showModalBottomSheet(
+            isDismissible: false,
+          shape: modalBottomSheetFormRound(),
+          backgroundColor: const Color(0xffF9F8F8),
+          isScrollControlled: true,
+          context: context,
+          builder: (BuildContext context) {
+            return const AddBabyBottomSheet();
+          }
+        );
+        await widget.reloadBabiesFunction();
       });
     }
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +66,8 @@ class MainMyPageState extends State<MainMyPage>{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('main4_manageBaby'.tr, style: TextStyle(color: Color(0xff512F22), fontSize: 14, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
+              // 아이 관리 리스트
+              label('main4_manageBaby'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               CarouselSlider.builder(
                 itemCount: activateBabies.length+1,
@@ -68,67 +78,125 @@ class MainMyPageState extends State<MainMyPage>{
                   aspectRatio: 5.0,
                 ),
                 itemBuilder: (context, i, id){
-                  if(i < activateBabies.length) {
-                    return drawBaby(activateBabies[i], 0);
-                  }else{
-                    return drawAddBaby(0);
-                  }
+                  return drawBabyOne((i<activateBabies.length ? activateBabies[i] : null));
                 },
               ),
               const SizedBox(height: 86),
-              drawSettingScreen('main4_InviteBabysitter'.tr, Icons.favorite,() => invitation()),
-              drawDivider(),
-              drawLanguageScreen(),
-              drawDivider(),
-              drawSettingScreen('main4_modifyUserInfo'.tr, Icons.settings, ()=>modifyUserInfo()),
-              drawDivider(),
-              drawSettingScreen('main4_logout'.tr, Icons.logout,() => logout()),
-              drawDivider(),
-              drawSettingScreen('main4_withdrawal'.tr, Icons.ac_unit,()=>withdraw()),
-              drawDivider(),
+              // setting list - invitation / language / user info / logout
+              drawSettingSpace('main4_InviteBabysitter'.tr, Icons.favorite,() => invitation()),
+              drawSettingSpace('main4_changeLanguage'.tr, Icons.language, (){}),
+              drawSettingSpace('main4_modifyUserInfo'.tr, Icons.settings, ()=>modifyUserInfo()),
+              drawSettingSpace('main4_logout'.tr, Icons.logout,() => logout()),
+              drawSettingSpace('main4_withdrawal'.tr, Icons.ac_unit,()=>withdraw()),
+              drawSettingSpace('license'.tr, Icons.receipt_long,()=>viewOpenSourceLicenses()),
               const SizedBox(height: 20),
-
             ],
           ),
         ),
       )
     );
   }
-  Container drawLanguageScreen(){
-    return Container(
-        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        height: 30,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.language, size:18, color: Color(0xFFFB8665)),
-                const SizedBox(width: 20),
-                textBase('main4_changeLanguage'.tr, 'bold', 10)
-              ],
-            ),
-            DropdownButton(
-              underline: SizedBox.shrink(),
-              value: widget.c_language,
-              items: ['한국어', 'english'].map((String item){
+  /*  ----------------------------  DRAW  ----------------------------------------*/
+  /// setting 메뉴 그리기
+  Column drawSettingSpace(String title, IconData icon, dynamic func){
+    Row content = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(icon, size:18, color: const Color(0xFFFB8665)),
+        const SizedBox(width: 20),
+        label(title, 'bold', 10, 'base100')
+      ],
+    );
+    if(icon == Icons.language){
+      content = Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          content,
+          DropdownButton(
+              underline: const SizedBox.shrink(),
+              value: widget.Clanguage,
+              items: ['한국어', 'English'].map((String item){
                 return DropdownMenuItem<String>(
-                  child: text(item, 'bold', 10, Color(0x99512F22)),
                   value: item,
+                  child: label(item, 'bold', 10, 'base60'),
                 );
               }).toList(),
-              onChanged: (dynamic value) {
-                  setState(() {
-                    widget.changeLanguage(value);
-                  });
-              },
-            ),
-          ],
+              onChanged: (dynamic value) => changeLanguageMode(value)
+          ),
+        ],
+      );
+    }
+    return Column(
+      children: [
+        InkWell(
+            onTap: func,
+            child: Container(
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                height: 30,
+                child: content
+            )
+        ),
+        const Padding(
+            padding: EdgeInsets.all(11.5),
+            child: Divider(
+              thickness: 1,
+              color: Color(0xffC4C4C4),
+            )
         )
+      ],
     );
   }
-  Widget drawBaby(Baby baby, int seed){
+
+  /// baby 그리기
+  Widget drawBabyOne(Baby? baby){
+    late Widget imgSpace;
+    late Widget nameSpace;
+    if(baby != null){
+      imgSpace = Container(
+        height: 100,
+        width: 100,
+        alignment: Alignment.center,
+        decoration: containerStyleFormRound(),
+        child: Image.asset('assets/image/baby${baby.gender==0?'F':'M'}.png', width: 70),
+      );
+      nameSpace = badges.Badge(
+        position: badges.BadgePosition.topEnd(top: -13, end: -20),
+        badgeContent: label(baby.relationInfo.getRelationString(), 'normal', 6, 'white'),
+        badgeStyle: badges.BadgeStyle(
+          shape: badges.BadgeShape.square,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          badgeColor: colorList[baby.relationInfo.relation],
+        ),
+        child: label((baby!=null?baby.name:'New'), 'bold', 12, 'rel${baby.relationInfo.relation}')
+      );
+    }
+    else{
+      imgSpace = InkWell(
+          onTap: () async {
+            await showModalBottomSheet(
+                shape: modalBottomSheetFormRound(),
+                backgroundColor: const Color(0xffF9F8F8),
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  //return BabyBottomSheet(null);
+                  return const AddBabyBottomSheet();
+                }
+            );
+            await widget.reloadBabiesFunction();
+          },
+          child: Container(
+            height: 100,
+            width: 100,
+            alignment: Alignment.center,
+            decoration: containerStyleFormRound(),
+            child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
+          )
+      );
+      nameSpace = label((baby!=null?baby.name:'New'), 'bold', 12, 'base100');
+    }
     Container content = Container(
         height: 230,
         width: double.infinity,
@@ -149,38 +217,9 @@ class MainMyPageState extends State<MainMyPage>{
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 100,
-              width: 100,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: const Color(0xCCFFFFFF),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xffC1C1C1),
-                    width: 0.5,
-                  ),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x29000000),
-                      offset: Offset(0, 3),
-                      blurRadius: 6,
-                    )
-                  ]
-              ),
-              child: Image.asset('assets/image/baby${baby.gender==0?0:1}.png', width: 70),
-            ),
+            imgSpace,
             const SizedBox(height: 12),
-            badges.Badge(
-              position: badges.BadgePosition.topEnd(top: -13, end: -20),
-              badgeContent: text(baby.relationInfo.getRelationString(), 'normal', 6, Colors.white),
-              badgeStyle: badges.BadgeStyle(
-                shape: badges.BadgeShape.square,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                badgeColor: colorList[baby.relationInfo.relation],
-              ),
-              child: Text(baby.name, style: TextStyle(color: colorList[baby.relationInfo.relation], fontSize: 12, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,)),
-            ),
+            nameSpace,
             const SizedBox(height: 13),
             Container(
               width: double.infinity,
@@ -193,8 +232,8 @@ class MainMyPageState extends State<MainMyPage>{
                       height: 12,
                       child: Row(
                         children: [
-                          Text('${'birth'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                          Text('${baby.birth.year}${'year'.tr} ${baby.birth.month}${'month'.tr} ${baby.birth.day}${'day_birth'.tr}', style: TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          label('${'birth'.tr} : ', 'bold', 10, 'base100'),
+                          label((baby!=null?'${baby.birth.year}${'year'.tr} ${baby.birth.month}${'month'.tr} ${baby.birth.day}${'day_birth'.tr}':''), 'bold', 10, 'base63'),
                         ],
                       )
                   ),
@@ -203,46 +242,45 @@ class MainMyPageState extends State<MainMyPage>{
                       height: 12,
                       child: Row(
                         children: [
-                          Text('${'gender'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                          Text(baby.gender==1?'genderM'.tr:'genderF'.tr, style: const TextStyle(color: Color(0xa1512f22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                          label('${'gender'.tr} : ', 'bold', 10, 'base100'),
+                          label((baby!=null?(baby.gender==1?'genderM'.tr:'genderF'.tr):''), 'bold', 10, 'base63')
                         ],
                       )
                   )
                 ],
               ),
             )
-
           ],
         )
     );
-    if(baby.relationInfo.relation == 0){
+    if(baby!=null && baby?.relationInfo.relation == 0){
       return Stack(
         children: [
           content,
           Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
             Container(
               margin: const EdgeInsets.only(top: 10),
               height: 20,
               child: FloatingActionButton(
                 elevation: 0,
-                backgroundColor: Color(0xffB4B4B4),
+                backgroundColor: const Color(0xffB4B4B4),
                 onPressed: (){
                   Get.dialog(
                       AlertDialog(
-                        title: text('warning', 'extra-bold', 18, Color(0xffFB8665)),
-                        content: textBase('once_delete'.tr, 'bold', 14),
+                        title: label('warning', 'extra-bold', 18, 'primary'),
+                        content:label_notEclipsis('once_delete'.tr, 'bold', 14, 'base100'),
                         actions: [
                           TextButton(
                               onPressed: ()=> deleteBaby(baby.relationInfo.BabyId),
-                              child: textBase('delete'.tr, 'bold', 14)
+                              child: label('delete'.tr, 'bold', 14, 'base100')
                           ),
                           TextButton(
                               onPressed: (){
                                 Get.back();
                               },
-                              child: textBase('cancle'.tr, 'bold', 14)
+                              child: label('cancel'.tr, 'bold', 14, 'base100')
                           )
                         ],
                       ),
@@ -258,22 +296,7 @@ class MainMyPageState extends State<MainMyPage>{
               child: FloatingActionButton(
                 elevation: 0,
                 backgroundColor: colorList[baby.relationInfo.relation],
-                onPressed: () async {
-                     await showModalBottomSheet(
-                         shape: const RoundedRectangleBorder(
-                             borderRadius: BorderRadius.only(
-                                 topRight: Radius.circular(20),
-                                 topLeft: Radius.circular(20)
-                             )
-                         ),
-                         backgroundColor: const Color(0xffF9F8F8),
-                         isScrollControlled: true,
-                         context: context,
-                         builder: (BuildContext context) {
-                           return BabyBottomSheet(baby);
-                         });
-                    await widget.reloadBabiesFunction();
-                },
+                onPressed: () async => await editBaby(baby),
                 child: const Icon(Icons.edit, size:12),
               ),
             ),
@@ -281,76 +304,15 @@ class MainMyPageState extends State<MainMyPage>{
         )
         ],
       );
-    }else{
+    }
+    else{
       return content;
     }
   }
-  Widget drawAddBaby(int seed){
-    return Container(
-        height: 230,
-        width: double.infinity,
-        margin: const EdgeInsets.only(right: 10),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF9F8F8),
-          borderRadius: BorderRadius.circular(6),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x29512F22),
-              spreadRadius: 0,
-              blurRadius: 6.0,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-                onTap: () => openAddBabyScreen(),
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: const Color(0xCCFFFFFF),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xffC1C1C1),
-                        width: 0.5,
-                      ),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x29000000),
-                          offset: Offset(0, 3),
-                          blurRadius: 6,
-                        )
-                      ]
-                  ),
-                  child: const Icon(Icons.add, color: Color(0xFFFB8665), size:40),
-                )
-            ),
-            const SizedBox(height: 12),
-            text('New'.tr, 'bold', 12, colorList[seed%3]),
-            const SizedBox(height: 13),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.only(left: 41, right: 41),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('${'birth'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 5),
-                  Text('${'gender'.tr} : ', style: TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
-                ],
-              ),
-            )
-          ],
-        )
-    );
-  }
-  openAddBabyScreen() async {
+
+  /*  ----------------------------  METHOD  ----------------------------------------*/
+  /// [0-a] method for edit baby
+  editBaby(Baby baby) async {
     await showModalBottomSheet(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -362,39 +324,12 @@ class MainMyPageState extends State<MainMyPage>{
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return AddBabyBottomSheet();
-        }
-    );
+          return ModifyBabyBottomSheet(baby);
+        });
     await widget.reloadBabiesFunction();
   }
-  invitation() async {
-    await Get.to(() => Invitation(activateBabies, disActivateBabies));
-    await widget.reloadBabiesFunction();
-  }
-  modifyUserInfo() async {
-    var modifyInfo = await Get.to(() => ModifyUser(widget.userinfo));
-    if(modifyInfo != null){
-      setState((){
-        widget.userinfo.modifyUserInfo(modifyInfo['pass'], modifyInfo['name'], modifyInfo['phone']);
-      });
-    }
-  }
-  withdraw() {
-    showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20)
-            )
-        ),
-        backgroundColor: const Color(0xffF9F8F8),
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return WithdrawBottomSheet();
-        }
-    );
-  }
+
+  /// [0-b] method for delete baby
   deleteBaby(int targetBabyID) async {
      var re = await deleteBabyService(targetBabyID);
      if(re != 200){
@@ -404,38 +339,45 @@ class MainMyPageState extends State<MainMyPage>{
      Get.back();
      await widget.reloadBabiesFunction();
   }
-}
-
-InkWell drawSettingScreen(String title, IconData icon, dynamic func){
-  return InkWell(
-    onTap: func,
-    child: Container(
-        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        height: 30,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(icon, size:18, color: const Color(0xFFFB8665)),
-            const SizedBox(width: 20),
-            Text(title, style: const TextStyle(color: Color(0xff512F22), fontSize: 10, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold,))
-          ],
-        )
-    )
-  );
-}
-
-Padding drawDivider(){
-  return const Padding(
-      padding: EdgeInsets.all(11.5),
-      child: Divider(
-        thickness: 1,
-        color: Color(0xffC4C4C4),
-      )
-  );
-}
-
-logout() async{
-  await deleteLogin();
-  Get.offAll(LoginInit());
+  /// [1] method for invite additional caregivers
+  invitation() async {
+    await Get.to(() => Invitation(widget.userinfo.email, activateBabies, disActivateBabies));
+    await widget.reloadBabiesFunction();
+  }
+  /// [2] method for change language mode
+  changeLanguageMode(changedLanguage){
+    setState(() {
+      widget.changeLanguage(changedLanguage);
+    });
+  }
+  /// [3] method for modify user information
+  modifyUserInfo() async {
+    var modifyInfo = await Get.to(() => ModifyUser(widget.userinfo));
+    if(modifyInfo != null){
+      setState((){
+        widget.userinfo.modifyUserInfo(modifyInfo['name'], modifyInfo['phone'], modifyInfo['qaType'], modifyInfo['qaAnswer']);
+      });
+    }
+  }
+  /// [4] method for logout
+  logout() async{
+    await deleteLogin();
+    Get.offAll(LoginInit());
+  }
+  /// [5] method for withdraw
+  withdraw() {
+    showModalBottomSheet(
+        shape: modalBottomSheetFormRound(),
+        backgroundColor: const Color(0xffF9F8F8),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return const WithdrawBottomSheet();
+        }
+    );
+  }
+  /// [6] method for view opensource licenses
+  viewOpenSourceLicenses() {
+    Get.to(() => OpenSourceLicenses());
+  }
 }

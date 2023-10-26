@@ -8,7 +8,7 @@ Widget getErrorPharse(String comment){
       const SizedBox(width: 2),
       const Icon(Icons.error_outline, color: Color(0xff512F22)),
       const SizedBox(width: 10),
-      textBase(comment, 'bold', 12)
+      label(comment, 'bold', 12, 'base100')
     ],
   );
 }

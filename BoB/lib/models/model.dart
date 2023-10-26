@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class User {
   late final String email;
@@ -13,20 +12,22 @@ class User {
   User(this.email, this.password1, this.name, this.phone, this.qaType, this.qaAnswer);
 
   User.fromJson(Map<dynamic, dynamic> json)
-      : email = json['email'], password1 = json['password1'], name = json['name'], phone = json['phone'], qaType = (json['qaType']), qaAnswer = (json['qaAnswer']);
+      : email = json['email'], password1 = json['password1'], name = json['name'], phone = json['phone'],
+        qaType = (json['qatype'] ?? 0), qaAnswer = (json['qaAnswer']??'');
 
   Map<String, dynamic> toJson() => {
     "email": email,
     "password1": password1,
     "name": name,
     "phone": phone,
-    "qaType" : qaType,
+    "qatype" : qaType,
     "qaAnswer" : qaAnswer
   };
-  modifyUserInfo(_pass, _name, _phone){
-    this.password1 = _pass;
-    this.name = _name;
-    this.phone = _phone;
+  modifyUserInfo(_name, _phone, _qaType, _answer){
+    name = _name;
+    phone = _phone;
+    qaType = _qaType;
+    qaAnswer = _answer;
   }
 }
 
@@ -65,9 +66,14 @@ class Baby_relation{
   final bool active;
 
   String getRelationString(){
-    if(relation==0) return '부모';
-    if(relation==1) return '가족';
-    else return '베이비시터';
+    if(relation==0){
+      return 'relation0'.tr;
+    }
+    if(relation==1) {
+      return 'relation1'.tr;
+    } else {
+      return 'relation2'.tr;
+    }
   }
   Baby_relation(this.BabyId, this.relation, this.Access_week, this.Access_startTime, this.Access_endTime, this.active);
   Baby_relation.fromJson(Map<dynamic, dynamic> json)
@@ -155,11 +161,27 @@ class Vaccine {
   final int ID;
   final String title;    // 타이틀
   final String times;   // 몇회
-  final String recommendationDate;  // 권장 시기
+  final Map<String, List<int>> checkTiming;   // 검진 시기
   final String detail;   // 내용
+  late String recommendationDate;  // 권장 시기
   late DateTime inoculationDate;    // 접종 날짜
   late bool isInoculation = false;    // 접종 여부
-  Vaccine({required this.ID, required this.title, required this.times, required this.recommendationDate, required this.detail});
+
+  Vaccine(this.ID, this.title, this.times, this.checkTiming, this.detail);
+  //Vaccine({required this.ID, required this.title, required this.times, required this.recommendationDate, required this.detail});
+
+  setCheckPeriod(DateTime birth){
+    List<String> keys = checkTiming.keys.toList();
+    DateTime periodS = birth;
+    DateTime periodE = birth;
+    for(int i=0; i < keys.length; i++){
+      String key = keys[i];
+      List<int>? val = checkTiming[key];
+      periodS = DateTime(periodS.year + ((key == 'Y') ? val![0] : 0), periodS.month +((key == 'M') ? val![0] : 0), periodS.day);
+      periodE = DateTime(periodE.year +((key == 'Y') ? val![1] : 0), periodE.month +((key == 'M') ? val![1] : 0), periodE.day);
+    }
+    recommendationDate = '${DateFormat('yyyy.MM.dd').format(periodS)} ~ ${DateFormat('yyyy.MM.dd').format(periodE)}';
+  }
 }
 class MedicalCheckUp {
   final int ID;
@@ -178,20 +200,40 @@ class MedicalCheckUp {
     }else{
       checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[1], birth.day))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[2], birth.day))}';
     }
-    //print(isInoculation);
   }
-  /*
-  MedicalCheckUp(this.ID, this.title, this.checkTiming, DateTime birth){
-    if(checkTiming[0] == 1){
-      checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month, birth.day + checkTiming[1]))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month, birth.day + checkTiming[2]))}';
-    }else{
-      checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[1], birth.day))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[2], birth.day))}';
-    }
-  }*/
+
   String checkTimingToString(){
-    return '생후 ${checkTiming[1]}~${checkTiming[2]}${checkTiming[0]==0?'개월':'일'}';
+    return '${'after_birth'.tr} ${checkTiming[1]}~${checkTiming[2]}${checkTiming[0]==0?'months'.tr:'days'.tr}';
   }
   String drawDateString(){
     return '${checkPeriod.substring(0,4)}.${checkPeriod.substring(5,7)}';
+  }
+}
+
+class Diary {
+  int? relation; // relation
+  final String writtenTime; // written time
+  String title;    // title
+  String content; // content
+  String? imagePath; // image path
+
+  Diary(this.relation, this.writtenTime, this.title, this.content, this.imagePath);
+
+  Diary.fromJson(Map<dynamic, dynamic> json)
+      : relation = json['userbaby_relation'], writtenTime = json['date'],
+        title = json['title'], content = json['content'], imagePath = json['photo'];
+
+  Map<String, dynamic> toJson() => {
+    "userbaby_relation": relation,
+    "date" : writtenTime,
+    "title" : title,
+    "content" : content,
+    "photo" : imagePath
+  };
+
+  modifyDiary(title, content, imagePath){
+    this.title = title;
+    this.content = content;
+    this.imagePath = imagePath;
   }
 }

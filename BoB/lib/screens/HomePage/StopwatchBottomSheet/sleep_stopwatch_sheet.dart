@@ -1,9 +1,9 @@
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
-import 'package:bottom_picker/bottom_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:get/get.dart';
 import '../../../services/backend.dart';
+import '../../../widgets/form.dart';
 import '../../../widgets/pharse.dart';
 
 
@@ -14,7 +14,6 @@ class SleepStopwatchBottomSheet extends StatefulWidget {
   final DateTime endT;
   final Function(int mode, String data, DateTime date) changeRecord;
   const SleepStopwatchBottomSheet(this.babyId, this.startT, this.endT, {Key? key, required this.changeRecord}) : super(key: key);
-  //final String feedingTime;
 
   @override
   State<SleepStopwatchBottomSheet> createState() => _SleepStopwatchBottomSheet();
@@ -31,17 +30,16 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: Container(
-        decoration: const BoxDecoration(
-            color: Color(0xffF9F8F8),
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20)
-            )
-        ),
-        height: MediaQuery.of(context).size.height * 0.33,
+    return Container(
+      decoration: const BoxDecoration(
+          color: Color(0xffF9F8F8),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              topLeft: Radius.circular(20)
+          )
+      ),
+      padding: bottomSheetPadding(context, 0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -50,7 +48,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('life4'.tr, style: const TextStyle(fontSize: 32, color: Color(0xff5086BC), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('life4'.tr, 'bold', 30, 'sleep')
                 ],
               ),
             ),
@@ -59,17 +57,17 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Row(        // 수면 타미어 시간 출력
                     children: [
-                      Text('sleeping_time'.tr, style: TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      label('sleeping_time'.tr, 'bold', 15, 'base100'),
                       const SizedBox(width: 5),
-                      Text('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}',style: const TextStyle(color: Color(0xff512F22), fontSize: 21, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                      label('${DateFormat('HH:mm:ss').format(widget.startT)} ~ ${DateFormat('HH:mm:ss').format(widget.endT)}', 'bold', 20, 'base100')
                     ],
                   ),
                   const SizedBox(height: 15),
-                  Text('memo'.tr, style: const TextStyle(fontSize: 16, color: Color(0xff512F22), fontFamily: 'NanumSquareRound', fontWeight: FontWeight.bold)),
+                  label('memo'.tr, 'bold', 15, 'base100'),
                   const SizedBox(height: 5),
-                  SizedBox(
+                  SizedBox(       // 메모 입력
                     width: double.infinity,
                     child: TextFormField(
                       controller: memoController,
@@ -87,17 +85,16 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                               borderRadius: BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(color: Color(0x4d512F22))
                           ),
-                          contentPadding: EdgeInsets.only(left: 10, bottom: 20,)
+                          contentPadding: const EdgeInsets.only(left: 10, bottom: 20,)
                       ),
                       keyboardType: TextInputType.text,   //키보드 타입
                     ),
                   ),
                   const SizedBox(height: 15),
-                  SizedBox(
+                  SizedBox(     // 수면 타이머 기록 제출
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () async{
-
                         String memo = memoController.text;
                         var content = {"startTime": widget.startT.toString(), "endTime": widget.endT.toString(), "memo": memo};
                         var result = await lifesetService(widget.babyId, 4, content.toString());
@@ -114,12 +111,13 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
                       ),
-                      child: Text('registration'.tr,style: const TextStyle(fontSize: 20, fontFamily: 'NanumSquareRound', fontWeight: FontWeight.w800),),
+                      child: label('register_record'.tr, 'extra-bold', 20, 'white'),
                     ),
                   )
                 ],
               )
             ),
+            const SizedBox(height: 28),
           ],
         ),
       ),
