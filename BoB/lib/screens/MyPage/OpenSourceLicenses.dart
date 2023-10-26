@@ -1,10 +1,8 @@
 import 'package:bob/oss_licenses.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:bob/widgets/appbar.dart';
-import '../../models/model.dart';
 import '../../widgets/text.dart';
 import 'OSSLicenseSingle.dart';
 
