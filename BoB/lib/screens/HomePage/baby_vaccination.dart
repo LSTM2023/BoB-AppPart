@@ -300,7 +300,7 @@ class _BabyVaccination extends State<BabyVaccination> {
   setVaccineInfo(int mode, String checkName, String state) async{
     var result = await vaccineSetService(widget.baby.relationInfo.BabyId, checkName, mode, state);
     if(result['result'] == 'success'){
-      Get.snackbar('예방접종 완료', '$checkName 접종을 작성하였습니다');
+      Get.snackbar('Vaccination_completed'.tr, '$checkName ${'Vaccination_finish'.tr}');
       setState(() {
         getMyVaccineFuture = getMyVaccineInfo();
       });
