@@ -119,13 +119,13 @@ class _ModifyBabyBottomSheet extends State<ModifyBabyBottomSheet>{
                   isSelected: bGender,
                   children:  [
                     SizedBox(
-                        width: 174,
+                        width: MediaQuery.of(context).size.width/2 - 30,
                         child: Center(
                             child: label('genderM'.tr, 'bold', 14, 'base100')
                         )
                     ),
                     SizedBox(
-                        width: 174,
+                        width: MediaQuery.of(context).size.width/2 - 30,
                         child: Center(
                             child: label('genderF'.tr, 'bold', 14, 'base100')
                         )
@@ -153,6 +153,7 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
 
   @override
   void initState() {
+    super.initState();
     bNameClr = TextEditingController();
     bGender = [true, false];
     bBirth = DateTime.now();
@@ -264,13 +265,13 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
                   isSelected: bGender,
                   children: [
                     SizedBox(
-                        width: 174,
+                        width: MediaQuery.of(context).size.width/2 - 30,
                         child: Center(
                             child: label('genderM'.tr, 'bold', 14, 'base100')
                         )
                     ),
                     SizedBox(
-                        width: 174,
+                        width: MediaQuery.of(context).size.width/2 - 30,
                         child: Center(
                             child: label('genderF'.tr, 'bold', 14, 'base100')
                         )

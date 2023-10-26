@@ -35,7 +35,7 @@ class _Splash extends State<Splash>{
       // if. Platform.isAndroid   >>  'Rooted'
       // if. Platform.isIOS       >>  'Jailbroken'
       Get.snackbar('Warning', '비허가 접근이 감지되었습니다.');
-      SystemNavigator.pop();
+      //SystemNavigator.pop();
     }
   }
 

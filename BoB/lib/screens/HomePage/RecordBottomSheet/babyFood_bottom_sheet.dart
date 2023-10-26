@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart' hide StringTranslateEx
 import 'package:get/get.dart';
 
 import '../../../services/backend.dart';
+import '../../../widgets/form.dart';
 
 class BabyFoodBottomSheet extends StatefulWidget {
 
@@ -34,10 +35,9 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.51,
+    return Container(
+      padding: bottomSheetPadding(context, 0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -251,6 +251,7 @@ class _BabyFoodBottomSheet extends State<BabyFoodBottomSheet> {
                 ),
               ),
             ),
+            const SizedBox(height: 28),
           ],
         ),
       ),

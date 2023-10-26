@@ -6,6 +6,7 @@ import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 import 'package:get/get.dart';
 import '../../../services/backend.dart';
+import '../../../widgets/form.dart';
 
 class FeedingBottleBottomSheet extends StatefulWidget {
 
@@ -34,10 +35,9 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.58,
+    return Container(
+      padding: bottomSheetPadding(context, 0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -291,6 +291,7 @@ class _FeedingBottleBottomSheet extends State<FeedingBottleBottomSheet> {
                 ],
               ),
             ),
+            const SizedBox(height: 28),
           ],
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import '../../../services/backend.dart';
+import '../../../widgets/form.dart';
 import '../../../widgets/pharse.dart';
 
 
@@ -29,17 +30,16 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: Container(
-        decoration: const BoxDecoration(
-            color: Color(0xffF9F8F8),
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20)
-            )
-        ),
-        height: MediaQuery.of(context).size.height * 0.37,
+    return Container(
+      decoration: const BoxDecoration(
+          color: Color(0xffF9F8F8),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              topLeft: Radius.circular(20)
+          )
+      ),
+      padding: bottomSheetPadding(context, 0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -117,6 +117,7 @@ class _SleepStopwatchBottomSheet extends State<SleepStopwatchBottomSheet> {
                 ],
               )
             ),
+            const SizedBox(height: 28),
           ],
         ),
       ),

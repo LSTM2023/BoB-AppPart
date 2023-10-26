@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
        );
      },
      translations: Languages(),
-     locale: Get.deviceLocale,  // 기기에 설정한 언어
+     locale: const Locale('ko','KR'),  // 기기에 설정한 언어
      localizationsDelegates: const [
        GlobalMaterialLocalizations.delegate,
        GlobalCupertinoLocalizations.delegate,

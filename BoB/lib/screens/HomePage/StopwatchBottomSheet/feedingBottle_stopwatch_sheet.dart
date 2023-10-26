@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import '../../../services/backend.dart';
 import 'package:bob/widgets/pharse.dart';
 
+import '../../../widgets/form.dart';
+
 class FeedingBottleStopwatchBottomSheet extends StatefulWidget {
 
   final int babyId;
@@ -30,17 +32,16 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: Container(
-        decoration: const BoxDecoration(
-            color: Color(0xffF9F8F8),
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20)
-            )
-        ),
-        height: MediaQuery.of(context).size.height * 0.55,
+    return Container(
+      decoration: const BoxDecoration(
+          color: Color(0xffF9F8F8),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              topLeft: Radius.circular(20)
+          )
+      ),
+      padding: bottomSheetPadding(context, 0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -217,6 +218,7 @@ class _FeedingBottleStopwatchBottomSheet extends State<FeedingBottleStopwatchBot
                 ],
               )
             ),
+            const SizedBox(height: 28),
           ],
         ),
       ),
