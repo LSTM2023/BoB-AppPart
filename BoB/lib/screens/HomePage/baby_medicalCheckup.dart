@@ -257,7 +257,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                               width: double.infinity,
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     foregroundColor: Colors.white,
                                     backgroundColor: const Color(0xfffb8665),
                                   ),

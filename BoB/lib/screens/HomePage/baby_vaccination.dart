@@ -59,19 +59,19 @@ class _BabyVaccination extends State<BabyVaccination> {
                           onPressed: (){
                             setState(() { currentMode = 0; });
                           },
-                          child: label('0~6개월', 'bold', 16, (currentMode == 0? 'black' : 'grey'))
+                          child: label('0~6 months'.tr, 'bold', 16, (currentMode == 0? 'black' : 'grey'))
                       ),
                       TextButton(
                           onPressed: (){
                             setState(() { currentMode = 1; });
                           },
-                          child: label('12~35개월', 'bold', 16, (currentMode == 1? 'black' : 'grey'))
+                          child: label('12~35 months'.tr, 'bold', 16, (currentMode == 1? 'black' : 'grey'))
                       ),
                       TextButton(
                           onPressed: (){
                             setState(() { currentMode = 2; });
                           },
-                          child: label('만 4~12세', 'bold', 16, (currentMode == 2? 'black' : 'grey'))
+                          child: label('ages 4-12'.tr, 'bold', 16, (currentMode == 2? 'black' : 'grey'))
                       )
                     ],
                   )
@@ -178,8 +178,8 @@ class _BabyVaccination extends State<BabyVaccination> {
                         label(vaccine.times, 'bold', 12, 'base80'),
                         label(
                             vaccine.isInoculation
-                                ?'접종일 : ${DateFormat.yMMMd().format(vaccine.inoculationDate)}'
-                                :'접종 권장일 : ${vaccine.recommendationDate}'
+                                ?'${'Vaccination_date'.tr}${DateFormat.yMMMd().format(vaccine.inoculationDate)}'
+                                :'${'Recommended_vaccination'.tr}${vaccine.recommendationDate}'
                             , 'bold', 12, 'base80'),
                       ],
                     )
@@ -222,10 +222,10 @@ class _BabyVaccination extends State<BabyVaccination> {
                           label(vaccine.title, 'extra-bold', 16, 'base100'),
                           label(vaccine.times, 'bold', 16, 'base80'),
                           label(vaccine.detail, 'bold', 12, 'base80'),
-                          label('권장시기 : ${vaccine.recommendationDate}', 'bold', 12, 'base80'),
+                          label('${'Recommend_date'.tr}${vaccine.recommendationDate}', 'bold', 12, 'base80'),
                           Padding(
                               padding: const EdgeInsets.fromLTRB(0, 20, 0, 15),
-                              child: Container(
+                              child: SizedBox(
                                   width: double.infinity,
                                   child: ToggleButtons(
                                     selectedColor: const Color(0xfffa625f),
@@ -243,9 +243,9 @@ class _BabyVaccination extends State<BabyVaccination> {
                                           child: Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Image.asset('assets/image/injection.png',scale: 15),
+                                              Image.asset('assets/image/injection.png',scale: 15, color: const Color(0xFF512F22)),
                                               const SizedBox(height: 5,),
-                                              const Text('미접종', style: TextStyle(color: Colors.grey),)
+                                              label('Unvaccinated'.tr, 'bold', 12, 'base100')
                                             ],
                                           )
                                       ),
@@ -254,9 +254,9 @@ class _BabyVaccination extends State<BabyVaccination> {
                                           child: Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Image.asset('assets/image/injection.png',scale: 15,color: Color(0xfffb8665)),
+                                              Image.asset('assets/image/injection.png',scale: 15,color: const Color(0xfffb8665)),
                                               const SizedBox(height: 5,),
-                                              const Text('접종', style: TextStyle(color: Color(0xfffb8665)))
+                                              label('Vaccinated'.tr, 'bold', 12, 'primary')
                                             ],
                                           )
                                       )
@@ -272,7 +272,7 @@ class _BabyVaccination extends State<BabyVaccination> {
                                 }
                                 Get.back();
                               },
-                              child: label('확인', 'extra-bold', 16, 'white')
+                              child: label('confirm'.tr, 'extra-bold', 16, 'white')
                           )
                         ],
                       )

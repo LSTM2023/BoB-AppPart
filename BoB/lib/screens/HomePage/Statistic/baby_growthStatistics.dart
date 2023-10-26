@@ -79,7 +79,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: homeAppbar('성장 통계'),
+      appBar: homeAppbar('graph_growth'.tr),
       body: Column(
         children: [
           Container(
