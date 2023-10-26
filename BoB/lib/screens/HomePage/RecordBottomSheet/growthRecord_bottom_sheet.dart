@@ -1,4 +1,5 @@
 import 'package:bob/models/model.dart';
+import 'package:bob/widgets/form.dart';
 import 'package:bob/widgets/text.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +36,11 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.62,
+    return Container(
+      padding: bottomSheetPadding(context, 0),
+      child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               padding: const EdgeInsets.only(top: 15),
@@ -181,7 +182,8 @@ class _GrowthRecordBottomSheet extends State<GrowthRecordBottomSheet> {
                       child: label('register_record'.tr, 'extra-bold', 20, 'white'),
                     )
                   ],
-                )
+                ),
+                const SizedBox(height: 30)
               ],
             ),
           ],
