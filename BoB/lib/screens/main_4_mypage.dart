@@ -148,6 +148,7 @@ class MainMyPageState extends State<MainMyPage>{
       ],
     );
   }
+
   /// baby 그리기
   Widget drawBabyOne(Baby? baby){
     late Widget imgSpace;
@@ -158,7 +159,7 @@ class MainMyPageState extends State<MainMyPage>{
         width: 100,
         alignment: Alignment.center,
         decoration: containerStyleFormRound(),
-        child: Image.asset('assets/image/baby${baby.gender==0?0:1}.png', width: 70),
+        child: Image.asset('assets/image/baby${baby.gender==0?'F':'M'}.png', width: 70),
       );
       nameSpace = badges.Badge(
         position: badges.BadgePosition.topEnd(top: -13, end: -20),
@@ -269,7 +270,7 @@ class MainMyPageState extends State<MainMyPage>{
                   Get.dialog(
                       AlertDialog(
                         title: label('warning', 'extra-bold', 18, 'primary'),
-                        content: label('once_delete'.tr, 'bold', 14, 'base100'),
+                        content:label_notEclipsis('once_delete'.tr, 'bold', 14, 'base100'),
                         actions: [
                           TextButton(
                               onPressed: ()=> deleteBaby(baby.relationInfo.BabyId),
@@ -308,6 +309,7 @@ class MainMyPageState extends State<MainMyPage>{
       return content;
     }
   }
+
   /*  ----------------------------  METHOD  ----------------------------------------*/
   /// [0-a] method for edit baby
   editBaby(Baby baby) async {
@@ -326,6 +328,7 @@ class MainMyPageState extends State<MainMyPage>{
         });
     await widget.reloadBabiesFunction();
   }
+
   /// [0-b] method for delete baby
   deleteBaby(int targetBabyID) async {
      var re = await deleteBabyService(targetBabyID);

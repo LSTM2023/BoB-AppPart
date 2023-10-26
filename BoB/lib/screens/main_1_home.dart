@@ -786,10 +786,7 @@ Widget drawBaby(String name, DateTime birth, int gender){
           children:[
             Row(
               children: [
-                if(gender == 0)
-                  Image.asset('assets/image/baby4.png',scale: 3.0,),
-                if(gender == 1)
-                  Image.asset('assets/image/baby1.png',scale: 3.0,),
+                Image.asset('assets/image/baby${gender==0?'F':'M'}.png', width: 100, height: 100),
                 const SizedBox(width: 40),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

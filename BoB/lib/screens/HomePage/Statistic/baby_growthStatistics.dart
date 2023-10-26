@@ -193,11 +193,11 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                     child : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/image/baby0.png', width: 150),
+                        Image.asset('assets/image/logo.png', width: 100),
                         const SizedBox(height: 50),
                         const CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(
-                            Colors.black,
+                            Colors.white,
                           ),
                         ),
                       ],
@@ -307,7 +307,7 @@ class _BabyGrowthStatisticsState extends State<BabyGrowthStatistics> with Ticker
                     child : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/image/baby0.png', width: 150),
+                        Image.asset('assets/image/logo.png', width: 100),
                         const SizedBox(height: 50),
                         const CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(

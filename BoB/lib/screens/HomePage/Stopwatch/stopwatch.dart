@@ -43,11 +43,11 @@ class StopwatchState extends State<StopWatch> {
     _stopWatchTimer.setPresetTime(mSec: 0000);
   }
   Map<int, String> type2phrase = {
-    0 : '모유 수유중..',
-    1 : '젖병 수유중..',
-    2 : '이유식 먹는중..',
+    0 : 'life0_ing'.tr,
+    1 : 'life1_ing'.tr,
+    2 : 'life2_ing'.tr,
     //3:['배변중..',
-    4 : '수면중..',
+    4 : 'life4_ing'.tr
   };
 
   @override

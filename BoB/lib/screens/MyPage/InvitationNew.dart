@@ -94,7 +94,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                 child: Row(
                   children: [
                     SizedBox(
-                        width: 120,
+                        width: 100,
                         child: DropDownTextField(
                           textFieldDecoration: formDecoration(''),
                           clearOption: false,
@@ -114,7 +114,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                           dropDownItemCount: babyValueList.length,
                         )
                     ),
-                    const SizedBox(width: 23),
+                    const SizedBox(width: 20),
                     ToggleButtons(
                       borderRadius: BorderRadius.circular(5.0),
                       fillColor: const Color(0xFFFB8665),
@@ -128,19 +128,19 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                       isSelected: [selectedRel==0,selectedRel==1,selectedRel==2],
                       children: [
                         SizedBox(
-                            width: 70,
+                            width: (MediaQuery.of(context).size.width - 120)/5,
                             child: Center(
                                 child: label('relation0'.tr, 'bold', 12, (selectedRel==0)?'white':'base100')
                             )
                         ),
                         SizedBox(
-                            width: 70,
+                            width: (MediaQuery.of(context).size.width - 120)/4,
                             child: Center(
                                 child: label('relation1'.tr, 'bold', 12, (selectedRel==1)?'white':'base100')
                             )
                         ),
                         SizedBox(
-                            width: 90,
+                            width: (MediaQuery.of(context).size.width - 120)/3,
                             child: Center(
                                 child: label('relation2'.tr, 'bold', 12, (selectedRel==2)?'white':'base100')
                             )

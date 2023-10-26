@@ -20,3 +20,15 @@ Text label(String str, String weight, double size, String colorTxt){
       )
   );
 }
+Text label_notEclipsis(String str, String weight, double size, String colorTxt){
+  return Text(
+      str,
+      style: TextStyle(
+          color: str2color[colorTxt],
+          fontWeight: weightList[weight!],
+          fontFamily: 'NanumSquareRound',
+          fontSize: size,
+
+      )
+  );
+}

@@ -99,7 +99,7 @@ class _SleepBottomSheet extends State<SleepBottomSheet> {
                             }
                           },
                         );
-                        ymdtController.text = '${DateFormat('yyyy년 MM월 dd일 HH:mm').format(dateTimeList![0])} ~ '
+                        ymdtController.text = '${DateFormat('yyyy${'year'.tr} MM${'month'.tr} dd${'day'.tr} HH:mm').format(dateTimeList![0])} ~ '
                             '${DateFormat('HH:mm').format(dateTimeList![1])}';
 
                         print("Start dateTime: ${dateTimeList?[0]}");

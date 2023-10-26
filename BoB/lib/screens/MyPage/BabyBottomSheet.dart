@@ -22,9 +22,9 @@ class _ModifyBabyBottomSheet extends State<ModifyBabyBottomSheet>{
   @override
   void initState() {
     super.initState();
-    bNameClr = TextEditingController(text: widget.baby?.name);
-    bGender = [widget.baby?.gender==1, widget.baby?.gender==0];
-    bBirth = widget.baby!.birth;
+    bNameClr = TextEditingController(text: widget.baby.name);
+    bGender = [widget.baby.gender==1, widget.baby.gender==0];
+    bBirth = widget.baby.birth;
   }
   @override
   void dispose() {
@@ -45,7 +45,7 @@ class _ModifyBabyBottomSheet extends State<ModifyBabyBottomSheet>{
               Center(
                   child: InkWell(
                       onTap: () => babyModifyService(
-                          widget.baby!.relationInfo.BabyId,
+                          widget.baby.relationInfo.BabyId,
                           bNameClr.text.trim(),
                           bBirth,
                           bGender[1]==true ? 'F' : 'M'
@@ -289,7 +289,7 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
 /// Method for Modify Baby Information
 void babyModifyService(int bId, String bName, DateTime bBirth, String bGender) async {
   // [0] validate
-  if(!validateName(bName) || !validateGender(bGender) || !validateGender(bGender)){
+  if(!validateBabyName(bName) || !validateGender(bGender) || !validateBirth(bBirth)){
     Get.snackbar('warning'.tr, 'warning_form'.tr);
     return;
   }

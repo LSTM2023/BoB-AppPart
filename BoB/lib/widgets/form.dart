@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 import 'package:badges/badges.dart' as badges;
-
+import 'package:get/get.dart';
 import '../models/validate.dart';
 
 // color
@@ -54,14 +54,14 @@ InputDecoration formDecoration(String title){
 
 /*      */
 Map<String, String> title2hint = {
-  'id':'아이디 또는 이메일을 입력해주세요',
-  'pw':'비밀번호는 8~16자를 입력해주세요.',
-  'pw_check':'비밀번호 재입력.',
-  'nickname':'닉네임을 입력해주세요',
-  'phone':'휴대폰 번호를 입력해주세요',
-  'qa_answer':'답변',
-  'babyName' : '아기의 이름 또는 별명을 입력해주세요.',
-  'babyBirth' : '아기의 생일을 입력해 주세요.'
+  'id' : 'id_input_hint'.tr,
+  'pw' : 'pw_input_hint'.tr,
+  'pw_check' : 'pwCheck_input_hint'.tr,
+  'nickname' : 'name_input_hint'.tr,
+  'phone' : 'phone_input_hint'.tr,
+  'qa_answer' : 'qaAnswer_input_hint'.tr,
+  'babyName' : 'babyName_input_hint'.tr,
+  'babyBirth' : 'babyBirth_input_hint'.tr
 };
 
 Map<String, TextInputType> title2keyType = {

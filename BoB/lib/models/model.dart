@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class User {
   late final String email;
@@ -65,9 +66,14 @@ class Baby_relation{
   final bool active;
 
   String getRelationString(){
-    if(relation==0) return '부모';
-    if(relation==1) return '가족';
-    else return '베이비시터';
+    if(relation==0){
+      return 'relation0'.tr;
+    }
+    if(relation==1) {
+      return 'relation1'.tr;
+    } else {
+      return 'relation2'.tr;
+    }
   }
   Baby_relation(this.BabyId, this.relation, this.Access_week, this.Access_startTime, this.Access_endTime, this.active);
   Baby_relation.fromJson(Map<dynamic, dynamic> json)
@@ -194,16 +200,8 @@ class MedicalCheckUp {
     }else{
       checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[1], birth.day))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[2], birth.day))}';
     }
-    //print(isInoculation);
   }
-  /*
-  MedicalCheckUp(this.ID, this.title, this.checkTiming, DateTime birth){
-    if(checkTiming[0] == 1){
-      checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month, birth.day + checkTiming[1]))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month, birth.day + checkTiming[2]))}';
-    }else{
-      checkPeriod = '${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[1], birth.day))} ~ ${DateFormat('yyyy.MM.dd').format(DateTime(birth.year, birth.month + checkTiming[2], birth.day))}';
-    }
-  }*/
+
   String checkTimingToString(){
     return '생후 ${checkTiming[1]}~${checkTiming[2]}${checkTiming[0]==0?'개월':'일'}';
   }

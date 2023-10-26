@@ -1,3 +1,4 @@
+import 'package:bob/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -45,7 +46,6 @@ PreferredSize homeAppbar(String title){
   return PreferredSize(
       preferredSize: const Size.fromHeight(55),
       child: AppBar(
-
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Color(0xFFFFCCBF), // <-- SEE HERE
             statusBarIconBrightness: Brightness.light,
@@ -56,9 +56,9 @@ PreferredSize homeAppbar(String title){
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text('BoB', style: TextStyle(color:Color(0xFFFB8665), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound', fontSize: 20)),
+                  label('BoB', 'bold', 20, 'primary'),
                   const SizedBox(width: 10),
-                  Text(title, style: const TextStyle(color:Color(0xFF512F22), fontWeight: FontWeight.bold, fontFamily: 'NanumSquareRound', fontSize: 18))
+                  label(title, 'bold', 18, 'base100'),
                 ],
               )
           ),

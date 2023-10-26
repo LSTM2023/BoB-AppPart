@@ -110,8 +110,8 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
 
                 )
               ),
-              getErrorPharse('생후 71개월전까지 검진'),
-              getErrorPharse('기준 : 국민건강보험 영유아건강검진')
+              getErrorPharse('pharse_medicalCheck1'.tr),
+              getErrorPharse('pharse_medicalCheck2'.tr)
             ],
           )
       ),
@@ -211,7 +211,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                           Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                               child: ToggleButtons(
-                                selectedBorderColor: Color(0xfffa625f),
+                                selectedBorderColor: const Color(0xfffa625f),
                                 selectedColor : Colors.white,
                                 fillColor: const Color(0xffffdad1),
                                 color: Colors.grey,

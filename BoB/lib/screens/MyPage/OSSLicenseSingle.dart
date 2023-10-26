@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../oss_licenses.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/text.dart';
@@ -18,19 +19,27 @@ class MiscOssLicenseSingle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppbar('${package.name} ${package.version}'),
+      appBar: homeAppbar('license'.tr),
       body: Container(
           padding: const EdgeInsets.fromLTRB(15,20,15,20),
           child: ListView(children: <Widget>[
+            Row(
+              children: [
+                label_notEclipsis(package.name, 'extra-bold', 18, 'primary'),
+                const SizedBox(width: 5),
+                label_notEclipsis(package.version, 'extra-bold', 18, 'base100'),
+              ],
+            ),
+            const SizedBox(height: 20),
             if (package.description.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),
-                child:  label(package.description, 'extra-bold', 13, 'base100'),
+                child:  label_notEclipsis(package.description, 'bold', 13, 'base100'),
               ),
             if (package.homepage != null)
-              label(package.homepage!, 'bold', 13, 'grey'),
+              label_notEclipsis(package.homepage!, 'bold', 13, 'grey'),
             if (package.description.isNotEmpty || package.homepage != null) const Divider(),
-            label(_bodyText(), 'bold', 12, 'base100')
+            label_notEclipsis(_bodyText(), 'bold', 12, 'base100')
           ])),
     );
   }
