@@ -203,7 +203,7 @@ class MedicalCheckUp {
   }
 
   String checkTimingToString(){
-    return '생후 ${checkTiming[1]}~${checkTiming[2]}${checkTiming[0]==0?'개월':'일'}';
+    return '${'after_birth'.tr} ${checkTiming[1]}~${checkTiming[2]}${checkTiming[0]==0?'months'.tr:'days'.tr}';
   }
   String drawDateString(){
     return '${checkPeriod.substring(0,4)}.${checkPeriod.substring(5,7)}';

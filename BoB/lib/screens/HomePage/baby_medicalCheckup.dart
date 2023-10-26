@@ -157,7 +157,7 @@ class _BabyMedicalCheckup extends State<BabyMedicalCheckup> {
                         children: [
                           label(medicalCheckUp.title, 'bold', 16, medicalCheckUp.isInoculation?'primary':'base100'),
                           const SizedBox(width: 10),
-                          label(medicalCheckUp.checkTimingToString(), 'regular', 12, 'grey'),
+                          label(medicalCheckUp.checkTimingToString(), 'normal', 12, 'Grey'),
                         ],
                       ),
                       const SizedBox(height: 10),
