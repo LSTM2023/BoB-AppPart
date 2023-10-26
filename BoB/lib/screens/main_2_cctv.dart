@@ -167,10 +167,13 @@ class MainCCTVState extends State<MainCctv>{
                                   });
                                 }
                               },
-                              child: Icon(
-                                  _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                                  size: 40,
-                                  color: Colors.white),
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Icon(
+                                    _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                                    size: 40,
+                                    color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
