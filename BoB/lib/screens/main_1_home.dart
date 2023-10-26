@@ -347,7 +347,7 @@ class MainHomeState extends State<Main_Home> {
                       onTap: () async{
                         List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
                         if(growthRecordList.isEmpty){     // 성장 기록 데이터가 없으면 에러 알림 출력
-                          Get.snackbar('데이터 오류', '먼저 키, 몸무게를 입력해 주세요', backgroundColor: const Color(0xa3ffffff), snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+                          Get.snackbar('warning'.tr, 'grow_input_warn'.tr, backgroundColor: const Color(0xa3ffffff));
                           // ignore: use_build_context_synchronously
                           showModalBottomSheet(
                               shape: const RoundedRectangleBorder(

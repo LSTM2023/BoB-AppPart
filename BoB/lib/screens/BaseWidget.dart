@@ -57,7 +57,7 @@ class _BaseWidget extends State<BaseWidget>{
         disactiveBabies.add(b);
       }
     }
-    print('classify 결과 : {active : ${activeBabies.length}, disactive : ${disactiveBabies.length}}');
+    //print('classify 결과 : {active : ${activeBabies.length}, disactive : ${disactiveBabies.length}}');
   }
   void _onItemTapped(int index) {
     setState(() {

@@ -197,24 +197,28 @@ class Languages extends Translations{
       'pwCheck_input_hint' : '비밀번호 재입력.',
       'name_input_hint' : '닉네임을 입력해주세요.',
       'phone_input_hint' : '휴대폰 번호를 입력해주세요.',
+      'qaType_input_hint' : '설정한 질문 유형을 선택해주세요.',
       'qaAnswer_input_hint' : '답변을 입력해주세요.',
       'babyName_input_hint' : '아기의 이름 또는 별명을 입력해주세요.',
       'babyBirth_input_hint' : '아기의 생일을 입력해 주세요.',
-
+      'grow_input_warn' : '먼저 키, 몸무게를 입력해 주세요',
       'qa_val0' : '다른 이메일 주소는?',
       'qa_val1' : '나의 보물 1호는?',
       'qa_val2' : '나의 출신 초등학교는?',
       'qa_val3' : '나의 이상형은?',
       'qa_val4' : '어머니 성함은?',
       'qa_val5' : '아버지 성함은?',
-
       'life0_ing' : '모유 수유중..',
       'life1_ing' : '젖병 수유중..',
       'life2_ing' : '이유식 먹는중..',
       'life4_ing' : '수면중..',
-
       'pharse_medicalCheck1' : '생후 71개월전까지 검진',
       'pharse_medicalCheck2' : '기준 : 국민건강보험 영유아건강검진',
+      'change_pw' : '비밀번호 변경하기',
+      'fail_modify' : '수정에 실패하였습니다',
+      'vaild_time_range' : '올바른 시간 범위가 아닙니다.',
+      'vaild_week' : '올바른 접근 요일이 아닙니다.',
+      'vaild_select_baby' : '초대할 아기와 관계를 선택해주세요.',
 
     },
     'en_US':{
@@ -310,7 +314,6 @@ class Languages extends Translations{
       'female' : 'Female ---',
       'vaccination' : 'Vaccination',
       'next_vaccination' : 'next vaccination',
-      'medical_checkup' : 'Medical Check-Up',
       '0~6_months' : '0~6 months',
       '12~35_months' : '12~35 months',
       'ages_4-12' : 'ages 4~12',
@@ -319,6 +322,7 @@ class Languages extends Translations{
       'Recommend_date' : 'Recommend date \: ',
       'Vaccinated' : 'vaccinated',
       'Unvaccinated' : 'unvaccinated',
+      'medical_checkup' : 'Medical Check-Up',
       'next_medical_checkup' : 'next medical check-up',
       'timer_explanation' : 'Press and hold the button to start the timer',
       'life0' : 'Mom\'s',
@@ -397,18 +401,18 @@ class Languages extends Translations{
       'finish_previous_check' : 'Finish your previous checkup first',
       'checkup' : 'checkup',
       'noncheckup' : 'noncheckup',
-      'check_period' : 'When you check up',
-      'check_recommend' : 'Recommed',
+      'check_recommend' : 'Recommended',
       'checkup_done' : 'Checkup done',
       'checkup_finish' : 'Finished checkup',
       'id_input_hint' : 'Please enter your e-mail',
       'pw_input_hint' : 'Please enter 8 to 16 characters for the password.',
       'pwCheck_input_hint' : 'Re-enter password.',
-      'name_input_hint' : 'Please enter your nickname.',
-      'phone_input_hint' : 'Please enter your Phone Number',
-      'qaAnswer_input_hint' : 'Please enter your Phone Answer',
-      'babyName_input_hint' : 'Please enter the name or nickname of the baby.',
-      'babyBirth_input_hint' : 'Please enter your baby''s birthday.',
+      'name_input_hint' : 'Enter your nickname.',
+      'phone_input_hint' : 'Enter your Phone Number',
+      'qaType_input_hint' : 'Select the type of question you have set up.',
+      'qaAnswer_input_hint' : 'Enter your Phone Answer',
+      'babyName_input_hint' : 'Enter the name or nickname of the baby.',
+      'babyBirth_input_hint' : 'Enter your baby''s birthday.',
 
       'qa_val0' : 'Any other email addresses?',
       'qa_val1' : 'What''s your number one treasure?',
@@ -424,6 +428,14 @@ class Languages extends Translations{
 
       'pharse_medicalCheck1' : 'Check-up until 71 months before birth',
       'pharse_medicalCheck2' : 'Criteria: National Health Insurance Infant Health \nExamination',
+      'change_pw' : 'Change Password',
+      'fail_modify' : 'The modification has failed.',
+
+      'vaild_time_range' : "The time range is not valid.",
+      'vaild_week' : "The access day is not valid.",
+      'vaild_select_baby' : "Select your relationship with the baby you are inviting.",
+      'grow_input_warn' : 'Enter height and weight first.',
+
     }
   };
 }

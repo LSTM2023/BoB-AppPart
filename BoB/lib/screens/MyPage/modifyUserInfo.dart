@@ -68,7 +68,7 @@ class _ModifyUser extends State<ModifyUser> {
                   onPressed: () {
                     Get.to(() => ChangePassword(widget.userInfo));
                   },
-                  child: label('비밀번호 변경하기', 'bold', 16, 'base100'),
+                  child: label('change_pw'.tr, 'bold', 16, 'base100'),
                 ),
               ),
               label('login_nickname'.tr, 'bold', 14, 'base100'),
@@ -82,7 +82,7 @@ class _ModifyUser extends State<ModifyUser> {
               label('질문 & 답변', 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               DropDownTextField(
-                textFieldDecoration: formDecoration('설정한 질문 유형을 선택해주세요'),
+                textFieldDecoration: formDecoration('qaType_input_hint'.tr),
                 controller: qaTypeCtr,
                 clearOption: false,
                 validator: (value) {
@@ -131,7 +131,7 @@ class _ModifyUser extends State<ModifyUser> {
     if (re == "Success") {
       Get.back(result: {"name": name, "phone": phone, "qaType": qaType, "qaAnswer": qaAnswer});
     } else {
-      Get.snackbar('수정 실패', '수정에 실패하였습니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
+      Get.snackbar('warning'.tr, 'fail_modify'.tr);
     }
   }
 }

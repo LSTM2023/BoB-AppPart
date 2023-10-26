@@ -189,25 +189,25 @@ class MainCCTVState extends State<MainCctv>{
         if (week[i] == '1') {
           switch (i) {
             case 0:
-              accessDay += '월 ';
+              accessDay += '${'week0'.tr} ';
               break;
             case 1:
-              accessDay += '화 ';
+              accessDay += '${'week1'.tr} ';
               break;
             case 2:
-              accessDay += '수 ';
+              accessDay += '${'week2'.tr} ';
               break;
             case 3:
-              accessDay += '목 ';
+              accessDay += '${'week3'.tr} ';
               break;
             case 4:
-              accessDay += '금 ';
+              accessDay += '${'week4'.tr} ';
               break;
             case 5:
-              accessDay += '토 ';
+              accessDay += '${'week5'.tr} ';
               break;
             case 6:
-              accessDay += '일 ';
+              accessDay += '${'week6'.tr} ';
               break;
           }
         }

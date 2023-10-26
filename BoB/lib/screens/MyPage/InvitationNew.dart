@@ -29,7 +29,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
   bool additionalInfoFlag = false;          // Offstage flag
   bool selectedTargetID = false;
 
-  final List<String> week = ['월', '화', '수', '목', '금', '토', '일'];
+  final List<String> week = ['week0'.tr[0], 'week1'.tr[0], 'week2'.tr[0], 'week3'.tr[0], 'week4'.tr[0], 'week5'.tr[0], 'week6'.tr[0]];
 
   @override
   void initState() {
@@ -287,16 +287,16 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
       return;
     }
     if(selectedRel < 0 || selectedRel > 3){
-      Get.snackbar('warning'.tr, '초대할 아기와 관계를 선택해주세요');
+      Get.snackbar('warning'.tr, 'vaild_select_baby'.tr);
       return;
     }
     int allowedW = int.parse(allowedWeek.join(), radix: 2);
     if(!validateWeek(allowedW)){
-      Get.snackbar('warning'.tr, '올바른 접근 요일이 아닙니다.');
+      Get.snackbar('warning'.tr, 'vaild_week'.tr);
       return;
     }
     if(!validateTimeRange(allowedTime)){
-      Get.snackbar('warning'.tr, '올바른 시간 범위가 아닙니다.');
+      Get.snackbar('warning'.tr, 'vaild_time_range'.tr);
       return;
     }
 
