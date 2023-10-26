@@ -350,10 +350,9 @@ class MainMyPageState extends State<MainMyPage>{
   /// [3] method for modify user information
   modifyUserInfo() async {
     var modifyInfo = await Get.to(() => ModifyUser(widget.userinfo));
-    print(modifyInfo);
     if(modifyInfo != null){
       setState((){
-        widget.userinfo.modifyUserInfo(modifyInfo['pass'], modifyInfo['name'], modifyInfo['phone'], modifyInfo['qaType'], modifyInfo['qaAnswer']);
+        widget.userinfo.modifyUserInfo(modifyInfo['name'], modifyInfo['phone'], modifyInfo['qaType'], modifyInfo['qaAnswer']);
       });
     }
   }

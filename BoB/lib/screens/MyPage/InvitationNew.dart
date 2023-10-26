@@ -296,7 +296,7 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
       return;
     }
     if(!validateTimeRange(allowedTime)){
-      Get.snackbar('warning'.tr, '올바른 접근 요일이 아닙니다.');
+      Get.snackbar('warning'.tr, '올바른 시간 범위가 아닙니다.');
       return;
     }
 
@@ -308,9 +308,8 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
     var relationJson = relation.toJson();
     relationJson['email'] = targetIdClr.text.trim();
     var result = await invitationService(relationJson);
-    print(result);
-    //if(result['result'] == 'success'){
-      //Get.back();
-    //}
+    if(result['result'] == 'success'){
+      Get.back();
+    }
   }
 }

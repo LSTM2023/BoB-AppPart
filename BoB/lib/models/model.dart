@@ -22,8 +22,7 @@ class User {
     "qatype" : qaType,
     "qaAnswer" : qaAnswer
   };
-  modifyUserInfo(_pass, _name, _phone, _qaType, _answer){
-    password1 = _pass;
+  modifyUserInfo(_name, _phone, _qaType, _answer){
     name = _name;
     phone = _phone;
     qaType = _qaType;

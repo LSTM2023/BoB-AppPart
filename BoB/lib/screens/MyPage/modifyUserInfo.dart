@@ -1,3 +1,4 @@
+import 'package:bob/screens/MyPage/passwordChange.dart';
 import 'package:bob/widgets/appbar.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
@@ -20,23 +21,18 @@ class ModifyUser extends StatefulWidget{
 
 class _ModifyUser extends State<ModifyUser> {
 
-  late TextEditingController passCtr;
-  late TextEditingController passCheckCtr;
+
   late TextEditingController nickNameCtr;
   late TextEditingController phoneCtr;
   late SingleValueDropDownController qaTypeCtr;
   late TextEditingController answerCtr;
   bool passwordVisible = true;
-
+  String newPass = '';
   @override
   void initState() {
-    print(widget.userInfo.qaType);
-    passCtr = TextEditingController(text: widget.userInfo.password1);
-    passCheckCtr = TextEditingController(text: widget.userInfo.password1);
     nickNameCtr = TextEditingController(text: widget.userInfo.name);
     phoneCtr = TextEditingController(text: widget.userInfo.phone);
     qaTypeCtr = SingleValueDropDownController(data: qaDataModelList[widget.userInfo.qaType]);
-    print(widget.userInfo.qaAnswer);
     answerCtr = TextEditingController(text: widget.userInfo.qaAnswer);
     super.initState();
   }
@@ -44,7 +40,7 @@ class _ModifyUser extends State<ModifyUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppbar('main4_modifyUserInfo'.tr),
+      appBar: homeAppbar('passChange'.tr),
       body: Container(
         padding: const EdgeInsets.fromLTRB(16, 46, 16, 50),
         child: SingleChildScrollView(
@@ -62,11 +58,19 @@ class _ModifyUser extends State<ModifyUser> {
               ),
               const SizedBox(height: 30),
               label('login_pass'.tr, 'bold', 14, 'base100'),
-              const SizedBox(height: 10),
-              makePWFormField('pw', passCtr, passwordVisible),
-              const SizedBox(height: 10),
-              makePWFormField('pw_check', passCheckCtr, passwordVisible),
-              const SizedBox(height: 30),
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(top: 10, bottom: 30),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.all(15)
+                  ),
+                  onPressed: () {
+                    Get.to(() => ChangePassword(widget.userInfo));
+                  },
+                  child: label('비밀번호 변경하기', 'bold', 16, 'base100'),
+                ),
+              ),
               label('login_nickname'.tr, 'bold', 14, 'base100'),
               const SizedBox(height: 10),
               makeTextFormField('nickname', nickNameCtr),
@@ -97,7 +101,6 @@ class _ModifyUser extends State<ModifyUser> {
               ElevatedButton(
                   style: btnStyleForm('white', 'primary', 25),
                   onPressed: () async => await serviceModifyUserinfo(
-                      passCtr.text.trim(),
                       nickNameCtr.text.trim(),
                       phoneCtr.text.trim(),
                       qaTypeCtr.dropDownValue?.value,
@@ -113,10 +116,9 @@ class _ModifyUser extends State<ModifyUser> {
   }
 
   /// method for modify user information
-  serviceModifyUserinfo(String pass, String name, String phone, int qaType, String qaAnswer) async {
+  serviceModifyUserinfo( String name, String phone, int qaType, String qaAnswer) async {
     // [0] validate
-    if (!validatePassword(pass) ||
-        !validateName(name) ||
+    if (!validateName(name) ||
         !validatePhone(phone) ||
         !validateQaType(qaType) ||
         !validateQaAnswer(qaAnswer)
@@ -124,16 +126,10 @@ class _ModifyUser extends State<ModifyUser> {
       Get.snackbar('warning'.tr, 'warning_form'.tr);
       return;
     }
-
-    // call modifyUser API & edit local DB
-    var re = await editUserService({"password": pass, "name": name, "phone": phone, "qatype": qaType, "qaAnswer": qaAnswer});
+    // call modifyUser API
+    var re = await editUserService({"name": name, "phone": phone, "qaType": qaType, "qaAnswer": qaAnswer});
     if (re == "Success") {
-      // (1) 비번 변경시 -> 내부 저장소 변경
-      if (pass != widget.userInfo.password1) {
-        await editPasswordLoginStorage(pass); // 내부 저장소 변경
-      }
-      //Get.back();
-      Get.back(result: {"pass": pass, "name": name, "phone": phone, "qaType": qaType, "qaAnswer": qaAnswer});
+      Get.back(result: {"name": name, "phone": phone, "qaType": qaType, "qaAnswer": qaAnswer});
     } else {
       Get.snackbar('수정 실패', '수정에 실패하였습니다', snackPosition: SnackPosition.TOP, duration: const Duration(seconds: 2));
     }

@@ -10,6 +10,12 @@ bool validatePassword(String pass){
   if(pass.isEmpty || pass.length<8) return false;
   return true;
 }
+
+bool validatePasswordCheck(String pass, String passCheck){
+  if(passCheck.isEmpty || passCheck.length < 8 || pass != passCheck) return false;
+  return true;
+}
+
 bool validateBabyName(String nickname){
   if(nickname.isEmpty) return false;
   return true;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:safe_device/safe_device.dart';
 import '../models/model.dart';
 import '../widgets/text.dart';
@@ -18,7 +20,6 @@ class Splash extends StatefulWidget {
 class _Splash extends State<Splash>{
 
   late Future InitInfo;
-  String? _result;
   @override
   void initState() {
     super.initState();
@@ -30,18 +31,11 @@ class _Splash extends State<Splash>{
 
   securityCheck() async{
     final bool isJailBroken = await SafeDevice.isJailBroken;
-    if (Platform.isAndroid) {
-      setState(() {
-        _result = isJailBroken ? 'Rooted' : 'Not rooted';
-      });
-    } else if (Platform.isIOS) {
-      setState(() {
-        _result = isJailBroken ? 'Jailbroken' : 'Not jailbroken';
-      });
-    } else {
-      setState(() {
-        _result = '-';
-      });
+    if(isJailBroken){
+      // if. Platform.isAndroid   >>  'Rooted'
+      // if. Platform.isIOS       >>  'Jailbroken'
+      Get.snackbar('Warning', '비허가 접근이 감지되었습니다.');
+      SystemNavigator.pop();
     }
   }
 
@@ -95,7 +89,6 @@ class _Splash extends State<Splash>{
       return LoginInit();
     }
     Login loginInfo = Login.fromJson(jsonDecode(existLogin));
-
     Map<String, dynamic> informs = await login(loginInfo.userEmail, loginInfo.userPassword);
     User userInfo = informs['user'];
     List<Baby> myBabies = informs['babies'];

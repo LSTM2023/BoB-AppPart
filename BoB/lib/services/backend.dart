@@ -61,6 +61,7 @@ deleteUserService() async{
 }
 // 회원 정보 수정
 editUserService(data) async{
+  print(data);
   try{
     dio.options.headers['Authorization'] = await refresh(); //await getToken();
     Response response = await dio.post('$PATH/api/user/edit/', data: data);
@@ -71,6 +72,7 @@ editUserService(data) async{
     return response.data;
   }
 }
+
 getMyBabiesService() async{
   try{
     dio.options.headers['Authorization'] = await getToken();
@@ -86,6 +88,7 @@ getMyBabiesService() async{
     }
   }
 }
+
 getBaby(int id) async{
   try{
     dio.options.headers['Authorization'] = await getToken();
@@ -142,6 +145,7 @@ deleteBabyService(int babyID) async{
     return response.statusCode;
   }
 }
+
 // 토큰 갱신
 refresh() async{
   var refreshDio = Dio();   // 토큰 갱신 요청을 담당할 dio 객체
@@ -154,7 +158,6 @@ refresh() async{
   await updateTokenInfo(newAccessToken);
   return "Bearer ${newAccessToken}";
 }
-
 // 중복 검사 서비스 - login 상태
 emailOverlapService(String id) async{
   try{
@@ -166,6 +169,7 @@ emailOverlapService(String id) async{
     return response.data;
   }
 }
+
 // 중복 검사 서비스
 emailOverlapServiceFresh(String id) async{
   try{
@@ -259,6 +263,19 @@ vaccineSetService(int id, String checkName, int mode, String state) async {
   }
 }
 
+passwordChangeService(String pass) async{
+  try{
+    dio.options.headers['Authorization'] = await getToken();
+    Response response = await dio.post('$PATH/api/user/password/change/',data: {'new_password1': pass, 'new_password2': pass});
+    //print(response);
+    return response;
+  } catch (e) {
+    dio.options.headers['Authorization'] = await refresh();
+    Response response = await dio.post('$PATH/api/user/password/change/',data: {'new_password1': pass, 'new_password2': pass});
+    return response;
+  }
+}
+
 updateFbToken(String id, String pass, String token) async{
   try {
     dio.options.headers['Authorization'] = await getToken();
@@ -294,8 +311,10 @@ writesDiary(Map<String, dynamic> diary) async{
   try{
     dio.options.headers['Authorization'] = await getToken();
     Response response = await dio.post('$PATH/api/daily/set/',data: diary);
+    print(response.statusMessage);
     return response.data;
   } catch (e) {
+
     dio.options.headers['Authorization'] = await refresh();
     Response response = await dio.post('$PATH/api/daily/set/',data: diary);
     return response.data;
