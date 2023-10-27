@@ -1,19 +1,10 @@
 # BoB-AppPart
 ![프레젠테이션1](https://github.com/LSTM2023/BoB-AppPart/assets/87134443/a6e0bae9-ad96-44b4-82f3-4157707e2e69)
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FLSTM2023%2FBoB-AppPart&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)]
+
 <p align="center">
-  ![hits](https://hits.seeyoufarm.com)
-  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/clymene-project/clymene)
-<img alt="GitHub" src="https://img.shields.io/github/license/readme-generator/alreadyme-backend">
-<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Freadme-generator%2Falreadyme-backend?ref=badge_shield">
-	<img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Freadme-generator%2Falreadyme-backend.svg?type=shield" />
-</a>
-  
-<a href="">
-   <img alt="Top Language" src="https://img.shields.io/github/languages/top/readme-generator/alreadyme-backend?color=684A3B">
-</a>
-<br><br>
-<em><b>An easiest way to build README.md for your repository</b></em>
+	
+[
+![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FLSTM2023%2FBoB-AppPart&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![language](https://img.shields.io/badge/language-flutter-yellow)
 </p>
 
 ## 개발 환경
