@@ -21,6 +21,17 @@
     - Flutter : 3.13.7
     - Device : Samsung Galaxy S10 (Android 12.0)
 
+## Tech Stack & Open-source libraries
+- 100% [Flutter](https://flutter.dev/) based.
+- What is [Flutter?](https://aws.amazon.com/ko/what-is/flutter/)
+- [Multi-Platform](https://flutter.dev/multi-platform) development for iOS and Android.
+- Use [Dart](https://dart.dev/) programming language
+- It is Flutter [documentation](https://docs.flutter.dev/)
+- The official [package repository](https://pub.dev/) for Dart and Flutter apps.
+- Can [installing](https://docs.flutter.dev/get-started/install) in the environment you want
+
+
+
 ## 개발 배경
 
 1. 육아 기록 및 건강 관리가 가능한 스마트 육아 수첩의 필요성
