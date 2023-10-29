@@ -163,6 +163,7 @@
 
 ## 📎 References
 - Firebase Cloud Messaging connection: https://firebase.google.com/docs/cloud-messaging 
+- Social SignIn: https://firebase.google.com/docs/auth/flutter/federated-auth?hl=ko
 
 <br>
 
