@@ -172,4 +172,4 @@
 <br>
 
 ## 🔡 README_EN
-- If you want to see the one translated to English, refer to this [link](https://github.com/LSTM2023/BoB-AppPart/edit/main/README_EN.md)
+- If you want to see the one translated to English, refer to this [link](https://github.com/LSTM2023/BoB-AppPart/blob/main/README_EN.md)
