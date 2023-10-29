@@ -159,6 +159,17 @@
 - IoT 스타트업 / 제조업체
 	- IoT 카메라 제조업체나 스타트업들도 해당 기술과 협력하여 자신들의 제품 가치를 높일 수 있다. 이 기술을 내장한 카메라를 제공하면 소비자들에게 더 큰 가치를 제공할 수 있다.
 
+<br>
 
+## 📎 참고 자료
+- Firebase Cloud Messaging 연결: https://firebase.google.com/docs/cloud-messaging 
 
+<br>
 
+## 📖 라이센스
+- Apache License 2.0, Copyright (c) 2023 LSTM2023, see this [link](https://github.com/LSTM2023/BoB-AppPart/blob/main/LICENSE) for more details
+
+<br>
+
+### README_EN
+- If you want to see the one translated to English, refer to this [link](https://github.com/LSTM2023/BoB-AppPart/edit/main/README_EN.md)
