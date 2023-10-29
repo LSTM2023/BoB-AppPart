@@ -1,5 +1,5 @@
 # BoB-AppPart
-![프레젠테이션1](https://github.com/LSTM2023/BoB-AppPart/assets/87134443/a6e0bae9-ad96-44b4-82f3-4157707e2e69)
+![presentation1](https://github.com/LSTM2023/BoB-AppPart/assets/87134443/a6e0bae9-ad96-44b4-82f3-4157707e2e69)
 
 <p align="center">
 	
@@ -39,22 +39,22 @@
 
 ## Development Background
 
-1. 육아 기록 및 건강 관리가 가능한 스마트 육아 수첩의 필요성
-2. 수면 중 갑작스럽게 사망하는 영아 돌연사 증후군 예방
+1. The need for smart parenting notebook that allows childcare records and health management
+2. Prevention from Sudden Infant Death Syndrome(SIDS), a sudden death during sleep
 
-&Rightarrow; &nbsp; 생활 기록 및 홈캠을 이용한 수면 자세 판별 기능을 제공하여 부모들의 육아 스트레스를 줄여주는 통합 육아 수첩 애플리케이션을 개발하고자 함
+&Rightarrow; &nbsp; We aim to develop an application that reduces parenting stress for parents by providing sleep position detection alert function using life records and homecam.
 
 <br>
 
 ## Main Features
 
-- 홈캠 및 온습도 센서를 통한 아이 수면 실시간 모니터링
-- 딥러닝 기반 수면 자세 포즈 추정 및 비정상 수면 자세 알림 서비스
-- 수유, 이유식, 수면 시간 등을 기록할 수 있는 편리한 방식의 생활 기록 서비스
-- 키, 몸무게를 기록하여 아이의 발달 상태를 한 눈에 그래프로 확인할 수 있는 성장 기록 서비스
-- 질병 관리청의 정보를 기반으로 한 건강 검진, 예방 접종 관리
-- 가족, 베이비시터 등 부모 외 공동 양육자와 함께 편리하게 아이 정보를 관리할 수 있도록 하는 공동 육아 서비스
-- 아이에 대한 그날의 추억을 사진과 함께 담아낼 수 있는 육아 일기
+- Real-time monitoring of child sleeping through homecamm, temperature and humidity sensor
+- Deep learning-based sleeping pose estimation and abnormal sleeping notification service
+- Convenient lifestyle record service that records feeding, baby food, sleep time, etc.
+- Growth record service that records height and weight and allows to check child’s growth status in a graph at a glance.
+- Health checkup and vaccination management based on the information from Korea Disease Control and Prevention Agency(KDCA)
+- Co-parenting service that manages your child's information with co-caregivers, such as family members and babysitters.
+- Parenting diary that captures the memories of your child with photos.
 
 <br>
 <hr>
@@ -127,37 +127,37 @@
 
 ## Expected Impacts & Application field
 ### ⭐️ Expected Impacts 
-- 육아 스트레스 완화
-	- 육아 경험이 부족하거나 시간적 제약이 있는 양육자들을 위해 성장 정보와 생활 정보를 기록하는 서비스는 효율적인 육아 환경을 조성한다. 이 서비스를 통해 육아 스트레스를 완화하고 아기들에게 질 높은 육아 환경을 제공할 수 있다.
+- Relieve parenting stress
+	- A service that records growth and living information for caregivers who lack childcare experience or have time constraints creates an efficient childcare environment. This service can alleviate parenting stress and provide a high-quality childcare environment for babies.
 
-- 수면 중 위험 상황 사전 예방
-	- 홈캠 서비스를 통해 아기의 수면 동안 비정상적인 자세가 감지된 경우, 즉각적으로 부모에게 알림을 보내어, 부모가 즉각 조치를 취할 수 있도록 도와준다. 또한, 아기가 있는 환경의 온/습도를 실시간으로 확인 가능하여 최적의 환경을 만들 수 있다. 이러한 기능을 통해 잠재적인 위험 상황을 미리 예방할 수 있어 아기의 안전을 확보할 수 있다.
+- Prevent dangerous situations during sleep
+	- If an abnormal posture is detected while the baby is sleeping through the home cam service, a notification is immediately sent to parents, helping parents take immediate action. Additionally, you can check the temperature/humidity of your baby's environment in real time, creating an optimal environment. Through these functions, you can prevent potentially dangerous situations in advance and ensure the safety of your baby.
 
-- 육아 효율성 향상
-	- 육아 시 아기의 일상생활이나 건강검진/예방접종 기록을 정리해두면 아기의 건강 상태를 쉽게 파악할 수 있으며 동시에 규칙적인 활동으로 좋은 생활 습관을 만들 수 있다. 하지만 그것을 일일이 수기로 작성한다면 관리하기에 많은 어려움이 따른다. 본 서비스는 원터치로 손쉽게 일상생활을 기록할 수 있고 관리하기 매우 간편하기 때문에 육아 시 효율이 높아지게 되는 이점이 생기게 된다.
- 	- 뿐만 아니라 본 서비스는 부모와 베이비시터 사이에 아기의 돌봄 및 일상 상황을 실시간으로 기록하고 공유할 수 있는 기능을 통해 부모가 아기를 지켜보지 않아도 원활하게 아기의 일상생활을 공유 받을 수 있다. 이로 인해 부모는 아기의 상황을 실시간으로 파악할 수 있어 육아에서 오는 부담을 덜어준다.
+- Improve parenting efficiency
+	- When raising your baby, if you organize your baby's daily life or health checkup/vaccination records, you can easily determine the baby's health status and at the same time create good lifestyle habits through regular activities. However, if you write it all by hand, it becomes very difficult to manage. This service allows you to easily record your daily life with one touch and is very easy to manage, so it has the advantage of increasing efficiency when raising children.
+ 	- In addition, this service has a function that allows parents and babysitters to record and share the baby's care and daily life in real time, allowing parents to smoothly share the baby's daily life without having to watch the baby. This allows parents to understand their baby's situation in real time, relieving the burden of childcare.
 
-- 추억 저장과 공유
-  	- 양육자는 소중한 순간들을 육아일기 서비스를 통해 영구히 기록하고 보관할 수 있어, 그들의 자녀와 함께한 소중한 순간들을 언제든지 되새기며 공유할 수 있다. 이를 통해 자녀와의 유대감을 더욱 강화하고 가족 간 소통과 연결을 촉진할 수 있다.
-	- 기록된 세부적인 정보는 전문가와의 상담이나 협의에 유용한 자료로 활용될 수 있으며, 이를 통해 양육자에게 아기의 개인적인 특성을 파악하고 상황에 맞는 양육방법을 적용하는 데 도움을 준다.
+- Save and share memories with child
+  	- Caregivers can permanently record and store precious moments through the parenting diary service, so they can reflect on and share the precious moments with their children at any time. This can further strengthen the bond with your child and promote communication and connection between family members.
+	- The recorded detailed information can be used as useful material for consultations or discussions with experts, and it helps caregivers understand the baby's individual characteristics and apply parenting methods appropriate to the situation.
 
 <br>
 
 ### 🌍 Application field
-- 육아 지원 서비스
-	- 이 앱을 통해 부모나 보호자가 아기의 안전을 실시간으로 확인할 수 있으며, 필요한 경우 즉시 대응할 수 있도록 돕는 훌륭한 도구가 될 것이다. 부모들이 밤새 일어나서 아기를 확인하지 않아도 되므로, 부모의 스트레스를 줄이고 더 편안하게 잠을 취할 수 있다.
+- Parenting support services
+	- This app will be a great tool to help parents or guardians check their baby's safety in real time and respond immediately if necessary. Because parents don't have to get up all night to check on their baby, it reduces their stress and allows them to sleep more restfully.
 
-- 보육 시설
-	- 보육원, 어린이집 등의 어린 아기들을 돌보는 시설에서도 많은 도움이 될 것이다. 많은 아동을 동시에 관리해야 하는 교사나 직원들에게 실시간 모니터링 기능은 큰 도움이 될 것이다.
+- Child care facility
+	- It will also be of great help in facilities that care for young babies, such as nurseries and daycare centers. The real-time monitoring function will be of great help to teachers and staff who must manage many children at the same time.
 
-- 병원 및 의료 시설
-	- 병원에서는 아기의 건강 상태를 지속적으로 모니터링하는 것이 중요하다. 이 앱은 병원 내 신생아실 또는 소아과에서 활용될 수 있으며, 의료진에게 아동 환자들의 수면 상태를 실시간으로 파악할 수 있는 능력을 제공한다.
+- Hospitals and medical facilities
+	- In hospitals, it is important to continuously monitor the baby's health. This app can be used in the neonatal unit or pediatric department within a hospital, and provides medical staff with the ability to monitor the sleep status of child patients in real time.
 
-- 데이터 분석 및 연구
-	- 해당 애플리케이션으로부터 얻어진 데이터는 아동 발달 연구, 잠 패턴 연구 등 다양한 과학적 연구에 사용될 수 있다.
+- Data analysis and research
+	- Data obtained from the application can be used for various scientific research, such as child development research and sleep pattern research.
 
-- IoT 스타트업 / 제조업체
-	- IoT 카메라 제조업체나 스타트업들도 해당 기술과 협력하여 자신들의 제품 가치를 높일 수 있다. 이 기술을 내장한 카메라를 제공하면 소비자들에게 더 큰 가치를 제공할 수 있다.
+- IoT startup / manufacturer
+	- IoT camera manufacturers and startups can also increase the value of their products by collaborating with this technology. Offering cameras with this technology built-in can provide greater value to consumers.
 
 <br>
 
