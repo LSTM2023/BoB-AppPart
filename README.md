@@ -162,7 +162,8 @@
 <br>
 
 ## 📎 참고 자료
-- Firebase Cloud Messaging 연결: https://firebase.google.com/docs/cloud-messaging 
+- Firebase Cloud Messaging 연결: https://firebase.google.com/docs/cloud-messaging
+- 소셜 로그인: https://firebase.google.com/docs/auth/flutter/federated-auth?hl=ko
 
 <br>
 
