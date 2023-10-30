@@ -4,19 +4,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:io';
-import 'package:bob/models/model.dart';
+import '../database/database.dart';
+import '../database/diaryDB.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
-
-import '../services/backend.dart';
 
 /// 앱에서 지원하는 언어 리스트 변수
 final supportedLocales = [const Locale('en', 'US'), const Locale('ko', 'KR')];
 
 class MainDiary extends StatefulWidget {
-  final User userinfo;
-  final getMyBabyFuction;
-  const MainDiary(this.userinfo, {super.key, this.getMyBabyFuction});
+  const MainDiary({super.key});
 
   @override
   State<MainDiary> createState() => MainDiaryState();
@@ -24,11 +21,9 @@ class MainDiary extends StatefulWidget {
 
 class MainDiaryState extends State<MainDiary> {
   final _formKey = GlobalKey<FormState>();
-  late Baby baby;
   @override
   void initState() {
     super.initState();
-    baby = widget.getMyBabyFuction();
   }
 
   @override
@@ -99,6 +94,7 @@ class MainDiaryState extends State<MainDiary> {
               setState(() {
                 this.selectedDay = selectedDay;
                 this.focusedDay = focusedDay;
+                DatabaseHelper.instance.isDiary(selectedDay);
               });
             },
             selectedDayPredicate: (DateTime day) {
@@ -133,7 +129,7 @@ class MainDiaryState extends State<MainDiary> {
           const SizedBox(height: 20),
           /// 선택된 날짜 일기 리스팅
           FutureBuilder<Diary>(
-            future: listDiary(DateFormat('yyyy-MM-dd').format(selectedDay), baby.relationInfo.BabyId),
+            future: DatabaseHelper.instance.getDiary(selectedDay),
             builder: (BuildContext context, AsyncSnapshot<Diary> snapshot) {
               /// 선택된 날짜에 일기가 없으면 작성 버튼
               if (!snapshot.hasData || snapshot.data == null) {
@@ -197,7 +193,7 @@ class MainDiaryState extends State<MainDiary> {
                               children: [
                                 label(snapshot.data!.title, 'bold', 16, 'base100'),
                                 Expanded(
-                                  child: Text(snapshot.data!.writtenTime, textAlign: TextAlign.right,
+                                  child: Text(snapshot.data!.date, textAlign: TextAlign.right,
                                     style: const TextStyle(
                                       color: Color(0x99512F22),
                                       fontWeight: FontWeight.w700,
@@ -208,13 +204,13 @@ class MainDiaryState extends State<MainDiary> {
                               ],
                             ),
                             Center(
-                              child: snapshot.data!.imagePath == null
+                              child: snapshot.data!.image == null
                                   ? const SizedBox(
                                 height: 10,
                                 width: double.infinity,
                               )
                                   : Image.file(
-                                  File(snapshot.data!.imagePath ?? 'default'),
+                                  File(snapshot.data!.image ?? 'default'),
                                   width: MediaQuery.of(context).size.width /
                                       2),
                             ),
@@ -300,7 +296,7 @@ class MainDiaryState extends State<MainDiary> {
                                                       onPressed: (() async {
                                                         /// 다이얼로그 확인 후 삭제
                                                         setState(() {
-                                                          deleteDiary(baby.relationInfo.BabyId, DateFormat('yyyy-MM-dd').format(selectedDay));
+                                                          DatabaseHelper.instance.remove(selectedDay);
                                                         });
                                                         Navigator.of(context).pop();
                                                       }),
@@ -333,8 +329,8 @@ class MainDiaryState extends State<MainDiary> {
   writeDiary(DateTime selectedDay, Diary? diary) {
     String title = diary?.title ?? '';
     String content = diary?.content ?? '';
-    String? image = diary?.imagePath;
-    String selDay = DateFormat('yyyy-MM-dd').format(selectedDay);
+    String? image = diary?.image;
+    String selDay = DateFormat('yyyy.MM.dd').format(selectedDay);
     final ImagePicker picker = ImagePicker();
 
     return Column(
@@ -434,11 +430,11 @@ class MainDiaryState extends State<MainDiary> {
                       _formKey.currentState!.save();
                       /// 다이어리 수정
                       if (diary?.title != null) {
-                        updateDiary({'babyid': baby.relationInfo.BabyId, 'date': selDay, 'title': title, 'content': content, 'photo': image});
+                        DatabaseHelper.instance.update(Diary(date: selDay, title: title, content: content, image: image));
                       }
                       /// 다이어리 작성
                       else {
-                        writesDiary({'babyid': baby.relationInfo.BabyId, 'date': selDay, 'title': title, 'content': content, 'photo': image});
+                        DatabaseHelper.instance.add(Diary(date: selDay, title: title, content: content, image: image));
                       }
                       _formKey.currentState?.reset();
                       Navigator.of(context).pop();
