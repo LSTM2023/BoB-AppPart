@@ -128,30 +128,30 @@
 ## Expected Impacts & Application field
 ### ⭐️ Expected Impacts 
 - Relieve parenting stress
-	- A service that records growth and living information for caregivers who lack childcare experience or have time constraints creates an efficient childcare environment. This service can alleviate parenting stress and provide a high-quality childcare environment for babies.
+	- A service that records growth and living information for caregivers who lack childcare experience or have time constraints creates an efficient childcare environment. This service can alleviate parenting stress and provide a high-quality childcare environment.
 
 - Prevent dangerous situations during sleep
-	- If an abnormal posture is detected while the baby is sleeping through the home cam service, a notification is immediately sent to parents, helping parents take immediate action. Additionally, you can check the temperature/humidity of your baby's environment in real time, creating an optimal environment. Through these functions, you can prevent potentially dangerous situations in advance and ensure the safety of your baby.
+	- If an abnormal posture is detected while child is sleeping through the homecam service, a notification is immediately sent to parents, helping parents take immediate action. Additionally, you can check the temperature and humidity of child's environment in real-time, creating an optimal environment. Through these functions, you can prevent potentially dangerous situations in advance and ensure the safety of your child.
 
 - Improve parenting efficiency
-	- When raising your baby, if you organize your baby's daily life or health checkup/vaccination records, you can easily determine the baby's health status and at the same time create good lifestyle habits through regular activities. However, if you write it all by hand, it becomes very difficult to manage. This service allows you to easily record your daily life with one touch and is very easy to manage, so it has the advantage of increasing efficiency when raising children.
- 	- In addition, this service has a function that allows parents and babysitters to record and share the baby's care and daily life in real time, allowing parents to smoothly share the baby's daily life without having to watch the baby. This allows parents to understand their baby's situation in real time, relieving the burden of childcare.
+	- When raising your baby, if you organize your child's daily life or health checkup/vaccination records, you can easily check the child's health status and at the same time create good lifestyle habits through regular activities. This service allows you to easily record your daily life with one touch and is very easy to manage.
+ 	- In addition, this service has a function which allows parents and babysitters to record and share the child's care and daily life in real time, allowing parents to smoothly share the child's daily life without keeping watching child. This allows parents to understand their baby's situation in real-time, relieving the burden of childcare.
 
 - Save and share memories with child
   	- Caregivers can permanently record and store precious moments through the parenting diary service, so they can reflect on and share the precious moments with their children at any time. This can further strengthen the bond with your child and promote communication and connection between family members.
-	- The recorded detailed information can be used as useful material for consultations or discussions with experts, and it helps caregivers understand the baby's individual characteristics and apply parenting methods appropriate to the situation.
+	- The recorded detailed information can be used as useful material for consultations or discussions with experts, and it helps caregivers understand the child's individual characteristics and apply parenting methods appropriate to the situation.
 
 <br>
 
 ### 🌍 Application field
 - Parenting support services
-	- This app will be a great tool to help parents or guardians check their baby's safety in real time and respond immediately if necessary. Because parents don't have to get up all night to check on their baby, it reduces their stress and allows them to sleep more restfully.
+	- This app will be a great tool to help parents or co-caregivers to check child's safety in real time and respond immediately if necessary. Because parents don't have to get up all night to check on their child, it reduces their stress and allows them to sleep more restfully.
 
 - Child care facility
-	- It will also be of great help in facilities that care for young babies, such as nurseries and daycare centers. The real-time monitoring function will be of great help to teachers and staff who must manage many children at the same time.
+	- It will also be of great help in facilities that care for children, such as nurseries and daycare centers. The real-time monitoring function will be of great help to teachers and staff who manage many children at the same time.
 
 - Hospitals and medical facilities
-	- In hospitals, it is important to continuously monitor the baby's health. This app can be used in the neonatal unit or pediatric department within a hospital, and provides medical staff with the ability to monitor the sleep status of child patients in real time.
+	- In hospitals, it is important to continuously monitor the child's health. This app can be used in the neonatal unit or pediatric department within a hospital, and provides medical staff with the ability to monitor the sleep status of child patients in real-time.
 
 - Data analysis and research
 	- Data obtained from the application can be used for various scientific research, such as child development research and sleep pattern research.
