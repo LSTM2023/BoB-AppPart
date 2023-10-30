@@ -121,7 +121,7 @@ class _LoginInit extends State<LoginInit>{
         Get.snackbar('google 로그인', '로그인에 실패하였습니다');
         return;
       }
-      autoInfo['email'] = googleUser!.email;
+      autoInfo['email'] = googleUser.email;
       autoInfo['nickname'] = googleUser.displayName.toString();
     }
     //print(autoInfo);

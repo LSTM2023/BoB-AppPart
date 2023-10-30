@@ -6,7 +6,7 @@ import '../../../models/model.dart';
 import '../../../widgets/text.dart';
 
 class StopWatch extends StatefulWidget{
-  Baby targetBaby;
+  Baby? targetBaby;
   final closeFuction;
   final saveFuction;
   StopWatch(this.targetBaby, {Key? key, this.closeFuction, this.saveFuction}) : super(key: key);

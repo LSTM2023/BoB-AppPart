@@ -51,6 +51,7 @@ login(String email, String pw) async{
 
     // 2. fc token 설정
     String? fbToken = await fcmSetting();
+    print(fbToken);
     await updateFbToken(email, pw, fbToken!);
 
     // 3. baby list 가져오기

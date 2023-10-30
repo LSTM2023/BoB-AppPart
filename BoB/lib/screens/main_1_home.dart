@@ -28,7 +28,8 @@ class Main_Home extends StatefulWidget {
   final getBabiesFunction;
   final getCurrentBabyFunction;
   final changeCurrentBabyFunction;
-  const Main_Home(this.userinfo, {Key? key, this.getBabiesFunction, this.getCurrentBabyFunction, this.changeCurrentBabyFunction}) : super(key: key);
+  final notBabyCallFunction;
+  const Main_Home(this.userinfo, {Key? key, this.getBabiesFunction, this.getCurrentBabyFunction, this.changeCurrentBabyFunction, this.notBabyCallFunction}) : super(key: key);
   @override
   State<Main_Home> createState() => MainHomeState();
 }
@@ -36,7 +37,7 @@ class Main_Home extends StatefulWidget {
 class MainHomeState extends State<Main_Home> {
   GlobalKey<StopwatchState> _stopwatchKey = GlobalKey();
   late List<Baby> activeBabies;   // 로그인 된 계정 아기 리스트
-  late Baby currentBaby;          // 현재 선택한 아기
+  late Baby? currentBaby;          // 현재 선택한 아기
 
   String _feeding = '-';        // 모유
   String _feedingBottle = '-';  // 젖병
@@ -96,21 +97,30 @@ class MainHomeState extends State<Main_Home> {
   late Future getGrowthRecord;                    // 성장 기록 가져오기
   late List<dynamic> getGrowthRecordList = [];    // 성장 기록 리스트
 
+  bool babyListEmpty = true;
   @override
   void initState() {    // 초기 호출 메서드
     // TODO: implement initState
     super.initState();
     activeBabies = widget.getBabiesFunction(true);
-    currentBaby = widget.getCurrentBabyFunction();
-    stopWatchWidget = StopWatch(currentBaby, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
+    currentBaby = null;
+    if(activeBabies.length > 0){
+      currentBaby = widget.getCurrentBabyFunction();
+      getGrowthRecord = getMyGrowthInfo();
+      loadMyBabyMedicalInfo();
+      loadLastLifeRecord();
+      stopWatchWidget = StopWatch(currentBaby!, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
+      babyListEmpty = false;
+    }else{
+      babyListEmpty = true;
+      currentBaby = null;
+    }
 
-    getGrowthRecord = getMyGrowthInfo();
-    loadMyBabyMedicalInfo();
-    loadLastLifeRecord();
+    //stopWatchWidget = StopWatch(currentBaby!, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
   }
 
   Future getMyGrowthInfo() async{     // 성장 기록 정보 불러오기
-    List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
+    List<dynamic> growthRecordList = await growthGetService(currentBaby!.relationInfo.BabyId);
     getGrowthRecordList = growthRecordList;
 
     // print(getGrowthRecordList);
@@ -118,7 +128,7 @@ class MainHomeState extends State<Main_Home> {
   }
 
   Future<void> loadLastLifeRecord() async{      // 생활 기록 정보 불러오기
-    List<dynamic> data = await lifeGetService(currentBaby.relationInfo.BabyId);
+    List<dynamic> data = await lifeGetService(currentBaby!.relationInfo.BabyId);
     List<DateTime> map = [DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now()];
     for(int i=0; i<data.length;i++){
       var content = data[i]['content'];
@@ -134,13 +144,13 @@ class MainHomeState extends State<Main_Home> {
     myBabyMedicalCheckList = medicalCheckupsSample;
     // 현재 관리 중인 아기 생일에 맞춰 접종 권장시기 설정
     for(int i=0; i< myBabyMedicalCheckList.length; i++){
-      myBabyMedicalCheckList[i].setCheckPeriod(currentBaby.birth);
+      myBabyMedicalCheckList[i].setCheckPeriod(currentBaby!.birth);
     }
     for(int i=0; i< myBabyVaccineList.length; i++){
-      myBabyVaccineList[i].setCheckPeriod(currentBaby.birth);
+      myBabyVaccineList[i].setCheckPeriod(currentBaby!.birth);
     }
     // 아기의 접종 현황 불러오기
-    List<dynamic> data = await vaccineCheckByIdService(currentBaby.relationInfo.BabyId);
+    List<dynamic> data = await vaccineCheckByIdService(currentBaby!.relationInfo.BabyId);
     List<bool> vaccs = List.filled(45, false);
     List<bool> meds = List.filled(12, false);
     for(int i=0; i<data.length; i++){
@@ -245,7 +255,7 @@ class MainHomeState extends State<Main_Home> {
                     )
                   ]),
               child: Center(
-                child: drawBaby(currentBaby.name, currentBaby.birth, currentBaby.gender),   // 아기 정보 출력
+                child: drawBaby(babyListEmpty),   // 아기 정보 출력
               ),
             ),
             GestureDetector(    // 생활 기록 box 시작
@@ -337,15 +347,18 @@ class MainHomeState extends State<Main_Home> {
                 ),
               ),
             ),
-            //생활 기록 box
-            const SizedBox(height: 3),
+            // 생활 기록 입력 버튼
             Row(
               children: [
                 Expanded(     // 성장 기록 box 시작
                     flex:1,
                     child: GestureDetector(
                       onTap: () async{
-                        List<dynamic> growthRecordList = await growthGetService(currentBaby.relationInfo.BabyId);
+                        if(babyListEmpty){
+                          Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
+                          return;
+                        }
+                        List<dynamic> growthRecordList = await growthGetService(currentBaby!.relationInfo.BabyId);
                         if(growthRecordList.isEmpty){     // 성장 기록 데이터가 없으면 에러 알림 출력
                           Get.snackbar('warning'.tr, 'grow_input_warn'.tr, backgroundColor: const Color(0xa3ffffff));
                           // ignore: use_build_context_synchronously
@@ -360,11 +373,11 @@ class MainHomeState extends State<Main_Home> {
                               isScrollControlled: true,
                               context: context,
                               builder: ( BuildContext context ) {
-                                return GrowthRecordBottomSheet(currentBaby, currentBaby.relationInfo.BabyId);
+                                return GrowthRecordBottomSheet(currentBaby!, currentBaby!.relationInfo.BabyId);
                               }
                           );
                         }else {       // 성장 통계 페이지로 이동
-                          Get.to(()=>BabyGrowthStatistics(currentBaby, myBabyGrowthRecordList));
+                          Get.to(()=>BabyGrowthStatistics(currentBaby!, myBabyGrowthRecordList));
                           await getMyGrowthInfo();
                         }
                       },
@@ -394,6 +407,10 @@ class MainHomeState extends State<Main_Home> {
                                     constraints: const BoxConstraints(),
                                     padding: const EdgeInsets.only(right: 8),
                                     onPressed: () {
+                                      if(babyListEmpty){
+                                        Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
+                                        return;
+                                      }
                                       showModalBottomSheet(
                                           shape: const RoundedRectangleBorder(
                                               borderRadius: BorderRadius.only(
@@ -405,7 +422,7 @@ class MainHomeState extends State<Main_Home> {
                                           isScrollControlled: true,
                                           context: context,
                                           builder: ( BuildContext context ) {
-                                            return GrowthRecordBottomSheet(currentBaby, currentBaby.relationInfo.BabyId);    // 성장 기록 sheet
+                                            return GrowthRecordBottomSheet(currentBaby!, currentBaby!.relationInfo.BabyId);    // 성장 기록 sheet
                                           }
                                       );
                                     },
@@ -434,8 +451,8 @@ class MainHomeState extends State<Main_Home> {
                                 if(getGrowthRecordList.isEmpty)
                                   Center(child: label('0kg', 'normal', 15, 'base80')),
                                 if(getGrowthRecordList.isNotEmpty)
-                                Center(child: label('${getGrowthRecordList.last['weight'].toString()}kg', 'normal', 15, 'base80')),
-                                 ],
+                                  Center(child: label('${getGrowthRecordList.last['weight'].toString()}kg', 'normal', 15, 'base80')),
+                              ],
                             )
                           ],
                         ),
@@ -452,7 +469,11 @@ class MainHomeState extends State<Main_Home> {
                             //예방 접종 페이지 이동
                             GestureDetector(
                                 onTap: () async{
-                                  await Get.to(() => BabyVaccination(currentBaby, myBabyVaccineList));
+                                  if(babyListEmpty){
+                                    Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
+                                    return;
+                                  }
+                                  await Get.to(() => BabyVaccination(currentBaby!, myBabyVaccineList));
                                   await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
@@ -487,7 +508,11 @@ class MainHomeState extends State<Main_Home> {
                             //건강 검진 페이지 이동
                             GestureDetector(
                                 onTap: () async{
-                                  await Get.to(()=>BabyMedicalCheckup(currentBaby, myBabyMedicalCheckList));
+                                  if(babyListEmpty){
+                                    Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
+                                    return;
+                                  }
+                                  await Get.to(()=>BabyMedicalCheckup(currentBaby!, myBabyMedicalCheckList));
                                   await loadMyBabyMedicalInfo();
                                 },
                                 child: Container(
@@ -512,7 +537,7 @@ class MainHomeState extends State<Main_Home> {
                                         label('next_medical_checkup'.tr, 'bold', 10, 'base80'),
                                         const SizedBox(height: 16),
                                         Center(
-                                          child: label(nextMedicalCheckDate, 'extra-bold', 14, 'primary80')
+                                            child: label(nextMedicalCheckDate, 'extra-bold', 14, 'primary80')
                                         )
                                       ]
                                   ),
@@ -556,16 +581,24 @@ class MainHomeState extends State<Main_Home> {
                 ),
               ),
             ),
-            // 생활 기록 입력 버튼
-            Offstage(
-                offstage: timerClosed,
-                child: stopWatchWidget
-            ),
+            drawStopWatch()
             //타이머 구현
           ],
         ),
       ),
     );
+  }
+  Widget drawStopWatch(){
+    if(!babyListEmpty) {
+      return
+        Offstage(
+            offstage: timerClosed,
+            child: stopWatchWidget
+        );
+    }
+    else{
+      return const SizedBox(height: 10);
+    }
   }
 
   //Drawer 데이터(아기 리스트)
@@ -628,8 +661,18 @@ class MainHomeState extends State<Main_Home> {
   // 생활 기록 버튼 롱 클릭 시
   InkWell drawRecordButton(BuildContext rootContext, String type, String iconData, Color background, Color color, int tapMode){
     return InkWell(
-        onTap: () => record_with_ModalBottomSheet(rootContext, tapMode),
+        onTap: (){
+          if(babyListEmpty){
+            Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
+            return;
+          }
+          record_with_ModalBottomSheet(rootContext, tapMode);
+        },
         onLongPress: (){
+          if(babyListEmpty){
+            Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
+            return;
+          }
           if(tapMode==3){
             DateTime now = DateTime.now();
             // 1. 시간 저장
@@ -643,7 +686,7 @@ class MainHomeState extends State<Main_Home> {
                         TextButton(
                             onPressed: () async {
                               var content = {"type": 0, "startTime": now, "endTime": now, "memo": null};
-                              var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
+                              var result = await lifesetService(currentBaby!.relationInfo.BabyId, 3, content.toString());
                               addLifeRecord(3, getlifeRecordPharse(const Duration(seconds: 0)), now);
                               print(result);
                               Get.back();
@@ -654,7 +697,7 @@ class MainHomeState extends State<Main_Home> {
                         TextButton(
                           onPressed: () async{
                             var content = {"type": 1, "startTime": now, "endTime": now, "memo": null};
-                            var result = await lifesetService(currentBaby.relationInfo.BabyId, 3, content.toString());
+                            var result = await lifesetService(currentBaby!.relationInfo.BabyId, 3, content.toString());
                             addLifeRecord(3, getlifeRecordPharse(const Duration(seconds: 0)), now);
                             print(result);
                             Get.back();
@@ -673,7 +716,7 @@ class MainHomeState extends State<Main_Home> {
             setState(() {
               timerClosed = false;
               // 타이머 시작
-              _stopwatchKey.currentState?.openWidget(tapMode, currentBaby);
+              _stopwatchKey.currentState?.openWidget(tapMode, currentBaby!);
             });
           }
           //globalKeys[tapMode].currentState?.start();
@@ -719,18 +762,18 @@ class MainHomeState extends State<Main_Home> {
         context: rootContext,
         builder: (BuildContext context) {
           if(tapMode==0){
-            return FeedingBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+            return FeedingBottomSheet(currentBaby!.relationInfo.BabyId, addLifeRecord);
           }else if(tapMode==1){
-            return FeedingBottleBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+            return FeedingBottleBottomSheet(currentBaby!.relationInfo.BabyId, addLifeRecord);
           }
           else if(tapMode==2){
-            return BabyFoodBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+            return BabyFoodBottomSheet(currentBaby!.relationInfo.BabyId, addLifeRecord);
           }
           else if(tapMode==3){
-            return DiaperBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+            return DiaperBottomSheet(currentBaby!.relationInfo.BabyId, addLifeRecord);
           }
           else{
-            return SleepBottomSheet(currentBaby.relationInfo.BabyId, addLifeRecord);
+            return SleepBottomSheet(currentBaby!.relationInfo.BabyId, addLifeRecord);
           }
         }
     );
@@ -742,7 +785,7 @@ class MainHomeState extends State<Main_Home> {
       Get.bottomSheet(
           SizedBox(
               child: FeedingStopwatchBottomSheet(
-                  currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
+                  currentBaby!.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
           ),
           isScrollControlled: true
       );
@@ -751,7 +794,7 @@ class MainHomeState extends State<Main_Home> {
       Get.bottomSheet(
           SizedBox(
               child: FeedingBottleStopwatchBottomSheet(
-                  currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
+                  currentBaby!.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
           ),
           isScrollControlled: true
       );
@@ -760,7 +803,7 @@ class MainHomeState extends State<Main_Home> {
       Get.bottomSheet(
           SizedBox(
               child: BabyFoodStopwatchBottomSheet(
-                  currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
+                  currentBaby!.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord)
           ),
           isScrollControlled: true
       );
@@ -769,38 +812,68 @@ class MainHomeState extends State<Main_Home> {
       Get.bottomSheet(
           SizedBox(
             child: SleepStopwatchBottomSheet(
-                currentBaby.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord),
+                currentBaby!.relationInfo.BabyId, startTime, endTime, changeRecord: addLifeRecord),
           ),
           isScrollControlled: true
       );
     }
   }
-}
-
-// 홈 아기 정보 표시
-Widget drawBaby(String name, DateTime birth, int gender){
-  final now = DateTime.now();
-  return Container(
-      padding: const EdgeInsets.only(left: 22),
-      child: Column(
-          children:[
-            Row(
-              children: [
-                Image.asset('assets/image/baby${gender==0?'F':'M'}.png', width: 100, height: 100),
-                const SizedBox(width: 40),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+  // 홈 아기 정보 표시
+  Widget drawBaby(bool isBabyNotExists){
+    if(!isBabyNotExists){
+      //String name, DateTime birth, int gender
+      final now = DateTime.now();
+      return Container(
+          padding: const EdgeInsets.only(left: 22),
+          child: Column(
+              children:[
+                Row(
                   children: [
-                    label(name, 'extra-bold', 32, 'base100'),
-                    const SizedBox(height: 8),
-                    label('${birth.year}.${birth.month}.${birth.day}', 'bold', 15, 'base100'),
-                    const SizedBox(height: 5),
-                    label('D+ ${DateTime(now.year, now.month, now.day).difference(birth).inDays+2}', 'bold', 15, 'base100'),
+                    Image.asset('assets/image/baby${currentBaby!.gender==0?'F':'M'}.png', width: 100, height: 100),
+                    const SizedBox(width: 40),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        label(currentBaby!.name, 'extra-bold', 32, 'base100'),
+                        const SizedBox(height: 8),
+                        label('${currentBaby!.birth.year}.${currentBaby!.birth.month}.${currentBaby!.birth.day}', 'bold', 15, 'base100'),
+                        const SizedBox(height: 5),
+                        label('D+ ${DateTime(now.year, now.month, now.day).difference(currentBaby!.birth).inDays+2}', 'bold', 15, 'base100'),
+                      ],
+                    )
                   ],
                 )
-              ],
+              ]
+          )
+      );
+    }
+    else{
+      return InkWell(
+        onTap: (){
+          widget.notBabyCallFunction();
+        },
+        child: Container(
+            padding: const EdgeInsets.only(left: 22),
+            child: Column(
+                children:[
+                  Row(
+                    children: [
+                      Image.asset('assets/image/babyF.png', width: 100, height: 100),
+                      const SizedBox(width: 40),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          label('아기를 먼저 입력해주세요', 'extra-bold', 14, 'base100'),
+                        ],
+                      )
+                    ],
+                  )
+                ]
             )
-          ]
-      )
-  );
+        )
+      );
+    }
+    
+  }
 }
+

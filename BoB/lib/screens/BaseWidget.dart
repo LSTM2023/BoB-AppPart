@@ -64,6 +64,11 @@ class _BaseWidget extends State<BaseWidget>{
       _selectedIndex = index;
     });
   }
+  void notBaby(){
+    setState(() {
+      _selectedIndex = 3;
+    });
+  }
   changeCurrentBaby(int i){
     setState(() {
       cIdx = i;
@@ -108,7 +113,7 @@ class _BaseWidget extends State<BaseWidget>{
   @override
   Widget build(BuildContext context) {
     final List<Widget> widgetOptions = <Widget>[
-      Main_Home(widget.userinfo, key : _homepageKey, getBabiesFunction: getBabies,getCurrentBabyFunction: getCurrentBaby, changeCurrentBabyFunction: changeCurrentBaby),
+      Main_Home(widget.userinfo, key : _homepageKey, getBabiesFunction: getBabies,getCurrentBabyFunction: getCurrentBaby, changeCurrentBabyFunction: changeCurrentBaby, notBabyCallFunction : notBaby),
       MainCctv(widget.userinfo, key:_cctvKey, getMyBabyFuction: getCurrentBaby),
       MainDiary(key:_diaryKey),
       MainMyPage(widget.userinfo, selectedLanguageMode, key: _mypageKey, getBabiesFuction: getBabies, reloadBabiesFunction: reloadBabies, changeLanguage: changeLanguageMode)
