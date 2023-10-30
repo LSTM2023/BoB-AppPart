@@ -97,21 +97,23 @@ class MainHomeState extends State<Main_Home> {
   late Future getGrowthRecord;                    // 성장 기록 가져오기
   late List<dynamic> getGrowthRecordList = [];    // 성장 기록 리스트
 
-  bool babyListEmpty = true;
+  bool babyListEmpty = true;    // 아기 리스트가 비어 있는 경우
+
   @override
   void initState() {    // 초기 호출 메서드
     // TODO: implement initState
     super.initState();
     activeBabies = widget.getBabiesFunction(true);
     currentBaby = null;
-    if(activeBabies.length > 0){
+
+    if(activeBabies.isNotEmpty) {
       currentBaby = widget.getCurrentBabyFunction();
       getGrowthRecord = getMyGrowthInfo();
       loadMyBabyMedicalInfo();
       loadLastLifeRecord();
       stopWatchWidget = StopWatch(currentBaby!, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
       babyListEmpty = false;
-    }else{
+    } else{     // 등록된 아기가 없다면
       babyListEmpty = true;
       currentBaby = null;
     }
@@ -119,15 +121,16 @@ class MainHomeState extends State<Main_Home> {
     //stopWatchWidget = StopWatch(currentBaby!, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
   }
 
-  Future getMyGrowthInfo() async{     // 성장 기록 정보 불러오기
+  /// 성장 기록 정보 불러오기
+  Future getMyGrowthInfo() async{
     List<dynamic> growthRecordList = await growthGetService(currentBaby!.relationInfo.BabyId);
     getGrowthRecordList = growthRecordList;
 
-    // print(getGrowthRecordList);
     return getGrowthRecordList;
   }
 
-  Future<void> loadLastLifeRecord() async{      // 생활 기록 정보 불러오기
+  /// 생활 기록 정보 불러오기
+  Future<void> loadLastLifeRecord() async{
     List<dynamic> data = await lifeGetService(currentBaby!.relationInfo.BabyId);
     List<DateTime> map = [DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now(), DateTime.now()];
     for(int i=0; i<data.length;i++){
@@ -347,14 +350,14 @@ class MainHomeState extends State<Main_Home> {
                 ),
               ),
             ),
-            // 생활 기록 입력 버튼
+            // 생활 기록 box
             Row(
               children: [
                 Expanded(     // 성장 기록 box 시작
                     flex:1,
                     child: GestureDetector(
                       onTap: () async{
-                        if(babyListEmpty){
+                        if(babyListEmpty) {
                           Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
                           return;
                         }
@@ -459,7 +462,7 @@ class MainHomeState extends State<Main_Home> {
                       ),
                     )
                 ),
-                //성장기록 box
+                //성장 기록 box
                 Expanded(
                     flex:1,
                     child: Container(
@@ -469,7 +472,7 @@ class MainHomeState extends State<Main_Home> {
                             //예방 접종 페이지 이동
                             GestureDetector(
                                 onTap: () async{
-                                  if(babyListEmpty){
+                                  if(babyListEmpty) {
                                     Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
                                     return;
                                   }
@@ -508,7 +511,7 @@ class MainHomeState extends State<Main_Home> {
                             //건강 검진 페이지 이동
                             GestureDetector(
                                 onTap: () async{
-                                  if(babyListEmpty){
+                                  if(babyListEmpty) {
                                     Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
                                     return;
                                   }
@@ -588,7 +591,9 @@ class MainHomeState extends State<Main_Home> {
       ),
     );
   }
-  Widget drawStopWatch(){
+
+  /// 타이머 출력 위젯
+  Widget drawStopWatch() {
     if(!babyListEmpty) {
       return
         Offstage(
@@ -601,7 +606,7 @@ class MainHomeState extends State<Main_Home> {
     }
   }
 
-  //Drawer 데이터(아기 리스트)
+  /// Drawer 데이터(아기 리스트)
   List<InkWell> getDrawerDatas(int relation, BuildContext context, Color color){
     List<InkWell> datas = [];
     for(int i=0; i<activeBabies.length; i++){
@@ -658,7 +663,7 @@ class MainHomeState extends State<Main_Home> {
     return datas;
   }
 
-  // 생활 기록 버튼 롱 클릭 시
+  /// 생활 기록 버튼 롱 클릭 시
   InkWell drawRecordButton(BuildContext rootContext, String type, String iconData, Color background, Color color, int tapMode){
     return InkWell(
         onTap: (){
@@ -748,7 +753,7 @@ class MainHomeState extends State<Main_Home> {
     );
   }
 
-  //기록 버튼 클릭 시
+  /// 생활 기록 버튼 클릭 시
   record_with_ModalBottomSheet(BuildContext rootContext, int tapMode){
     showModalBottomSheet(
         shape: const RoundedRectangleBorder(
@@ -779,7 +784,7 @@ class MainHomeState extends State<Main_Home> {
     );
   }
 
-  //타이머 종료 시 bottomsheet
+  /// 타이머 종료 시 bottomsheet
   showTimerBottomSheet(int type, DateTime startTime, DateTime endTime){
     if(type == 0){          // 모유
       Get.bottomSheet(
@@ -818,10 +823,10 @@ class MainHomeState extends State<Main_Home> {
       );
     }
   }
-  // 홈 아기 정보 표시
+
+  /// 홈 아기 정보 표시
   Widget drawBaby(bool isBabyNotExists){
     if(!isBabyNotExists){
-      //String name, DateTime birth, int gender
       final now = DateTime.now();
       return Container(
           padding: const EdgeInsets.only(left: 22),
@@ -829,7 +834,7 @@ class MainHomeState extends State<Main_Home> {
               children:[
                 Row(
                   children: [
-                    Image.asset('assets/image/baby${currentBaby!.gender==0?'F':'M'}.png', width: 100, height: 100),
+                    Image.asset('assets/image/baby${currentBaby!.gender==0?'F':'M'}.png', width: 120, height: 100),
                     const SizedBox(width: 40),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -858,12 +863,12 @@ class MainHomeState extends State<Main_Home> {
                 children:[
                   Row(
                     children: [
-                      Image.asset('assets/image/babyF.png', width: 100, height: 100),
-                      const SizedBox(width: 40),
+                      Image.asset('assets/image/babyF.png', width: 120, height: 100),
+                      const SizedBox(width: 20),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          label('아기를 먼저 입력해주세요', 'extra-bold', 14, 'base100'),
+                          label('아기를 먼저 입력해주세요', 'extra-bold', 16, 'base100'),
                         ],
                       )
                     ],
@@ -873,7 +878,6 @@ class MainHomeState extends State<Main_Home> {
         )
       );
     }
-    
   }
 }
 
