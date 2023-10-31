@@ -843,7 +843,7 @@ class MainHomeState extends State<Main_Home> {
                         const SizedBox(height: 8),
                         label('${currentBaby!.birth.year}.${currentBaby!.birth.month}.${currentBaby!.birth.day}', 'bold', 15, 'base100'),
                         const SizedBox(height: 5),
-                        label('D+ ${DateTime(now.year, now.month, now.day).difference(currentBaby!.birth).inDays+2}', 'bold', 15, 'base100'),
+                        label('D+ ${DateTime(now.year, now.month, now.day).difference(currentBaby!.birth).inDays+1}', 'bold', 15, 'base100'),
                       ],
                     )
                   ],
