@@ -9,8 +9,7 @@ import '../database/diaryDB.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:easy_localization/easy_localization.dart' hide StringTranslateExtension;
 
-/// 앱에서 지원하는 언어 리스트 변수
-final supportedLocales = [const Locale('en', 'US'), const Locale('ko', 'KR')];
+import '../widgets/appbar.dart';
 
 class MainDiary extends StatefulWidget {
   const MainDiary({super.key});
@@ -29,44 +28,16 @@ class MainDiaryState extends State<MainDiary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // Appbar
-        appBar: AppBar(
-          backgroundColor: const Color(0xD9FFE1C7),
-          flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: <Color>[Color(0xFFFFCCBF), Color(0xD9FFE1C7)],
-                  ))),
-          elevation: 4.0,
-          centerTitle: false,
-          iconTheme: const IconThemeData(color: Colors.black),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(15),
-            ),
-          ),
-          title: Align(
-            alignment: Alignment.centerRight,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                label('BoB'.tr, 'bold', 20, 'primary'),
-                label('Calendar'.tr, 'bold', 20, 'base100'),
-              ],
-            ),
-          ),
-        ),
-        /// 다이어리 주기능 출력
         resizeToAvoidBottomInset: false,
+        appBar: homeAppbar('Calendar'),
         body: SingleChildScrollView(
           child: Column(
             children: [
               diaryList(),
             ],
           ),
-        ));
+        )
+    );
   }
 
   DateTime selectedDay = DateTime(
