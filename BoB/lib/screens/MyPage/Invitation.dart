@@ -24,7 +24,13 @@ class _Invitation extends State<Invitation> {
       floatingActionButton: FloatingActionButton(
         heroTag: 'invitation',
         backgroundColor: const Color(0xFFFB8665),
-        onPressed: () => openInvitationForm(),
+        onPressed: (){
+          if(widget.activeBabies.isEmpty){
+            Get.snackbar('warning'.tr, '등록된 아기가 없습니다.');
+            return;
+          }
+          openInvitationForm();
+        },
         child: const Icon(Icons.add)
       ),
       body: Container(
