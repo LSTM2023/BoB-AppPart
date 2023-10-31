@@ -33,7 +33,6 @@ class MainMyPageState extends State<MainMyPage>{
 
   @override
   void initState() {
-    print(widget.userinfo.qaType);
     activateBabies = widget.getBabiesFuction(true);
     disActivateBabies = widget.getBabiesFuction(false);
 
@@ -57,43 +56,46 @@ class MainMyPageState extends State<MainMyPage>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: homeAppbar('My Page'),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.white,
-          padding: const EdgeInsets.fromLTRB(25.5, 42, 25.5, 42),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 아이 관리 리스트
-              label('main4_manageBaby'.tr, 'bold', 14, 'base100'),
-              const SizedBox(height: 10),
-              CarouselSlider.builder(
-                itemCount: activateBabies.length+1,
-                options: CarouselOptions(
-                  enlargeCenterPage: true,
-                  height: 230,
-                  reverse: false,
-                  aspectRatio: 5.0,
+    return WillPopScope(
+        child: Scaffold(
+            appBar: homeAppbar('My Page'),
+            body: SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                padding: const EdgeInsets.fromLTRB(25.5, 42, 25.5, 42),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 아이 관리 리스트
+                    label('main4_manageBaby'.tr, 'bold', 14, 'base100'),
+                    const SizedBox(height: 10),
+                    CarouselSlider.builder(
+                      itemCount: activateBabies.length+1,
+                      options: CarouselOptions(
+                        enlargeCenterPage: true,
+                        height: 230,
+                        reverse: false,
+                        aspectRatio: 5.0,
+                      ),
+                      itemBuilder: (context, i, id){
+                        return drawBabyOne((i<activateBabies.length ? activateBabies[i] : null));
+                      },
+                    ),
+                    const SizedBox(height: 86),
+                    // setting list - invitation / language / user info / logout
+                    drawSettingSpace('main4_InviteBabysitter'.tr, Icons.favorite,() => invitation()),
+                    drawSettingSpace('main4_changeLanguage'.tr, Icons.language, (){}),
+                    drawSettingSpace('main4_modifyUserInfo'.tr, Icons.settings, ()=>modifyUserInfo()),
+                    drawSettingSpace('main4_logout'.tr, Icons.logout,() => logout()),
+                    drawSettingSpace('main4_withdrawal'.tr, Icons.ac_unit,()=>withdraw()),
+                    drawSettingSpace('license'.tr, Icons.receipt_long,()=>viewOpenSourceLicenses()),
+                    const SizedBox(height: 20),
+                  ],
                 ),
-                itemBuilder: (context, i, id){
-                  return drawBabyOne((i<activateBabies.length ? activateBabies[i] : null));
-                },
               ),
-              const SizedBox(height: 86),
-              // setting list - invitation / language / user info / logout
-              drawSettingSpace('main4_InviteBabysitter'.tr, Icons.favorite,() => invitation()),
-              drawSettingSpace('main4_changeLanguage'.tr, Icons.language, (){}),
-              drawSettingSpace('main4_modifyUserInfo'.tr, Icons.settings, ()=>modifyUserInfo()),
-              drawSettingSpace('main4_logout'.tr, Icons.logout,() => logout()),
-              drawSettingSpace('main4_withdrawal'.tr, Icons.ac_unit,()=>withdraw()),
-              drawSettingSpace('license'.tr, Icons.receipt_long,()=>viewOpenSourceLicenses()),
-              const SizedBox(height: 20),
-            ],
-          ),
+            )
         ),
-      )
+        onWillPop:  () async => false,
     );
   }
   /*  ----------------------------  DRAW  ----------------------------------------*/
@@ -378,6 +380,6 @@ class MainMyPageState extends State<MainMyPage>{
   }
   /// [6] method for view opensource licenses
   viewOpenSourceLicenses() {
-    Get.to(() => OpenSourceLicenses());
+    Get.to(() => const OpenSourceLicenses());
   }
 }

@@ -82,7 +82,11 @@ class _BaseWidget extends State<BaseWidget>{
     }
   }
   getCurrentBaby(){
-    return activeBabies[cIdx];
+    if(cIdx < activeBabies.length) {
+      return activeBabies[cIdx];
+    } else{
+      return null;
+    }
   }
   reloadBabies() async{
     activeBabies.clear();
