@@ -59,19 +59,19 @@ class _BabyVaccination extends State<BabyVaccination> {
                           onPressed: (){
                             setState(() { currentMode = 0; });
                           },
-                          child: label('0~6 months'.tr, 'bold', 16, (currentMode == 0? 'black' : 'grey'))
+                          child: label('0~6_months'.tr, 'bold', 16, (currentMode == 0? 'black' : 'grey'))
                       ),
                       TextButton(
                           onPressed: (){
                             setState(() { currentMode = 1; });
                           },
-                          child: label('12~35 months'.tr, 'bold', 16, (currentMode == 1? 'black' : 'grey'))
+                          child: label('12~35_months'.tr, 'bold', 16, (currentMode == 1? 'black' : 'grey'))
                       ),
                       TextButton(
                           onPressed: (){
                             setState(() { currentMode = 2; });
                           },
-                          child: label('ages 4-12'.tr, 'bold', 16, (currentMode == 2? 'black' : 'grey'))
+                          child: label('ages_4-12'.tr, 'bold', 16, (currentMode == 2? 'black' : 'grey'))
                       )
                     ],
                   )
