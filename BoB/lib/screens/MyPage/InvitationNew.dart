@@ -180,6 +180,13 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                               style: outlineButtonForm(12, 7, const Color(0xFFFB8665)),
                               onPressed: () async {
                                   TimeRange result = await showTimeRangePicker(
+                                    labelStyle: TextStyle(
+                                      color: const Color(0xffffffff),
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'NanumSquareRound',
+                                      fontSize: 10,
+
+                                    ),
                                     context: context,
                                     start: TimeOfDay(hour: allowedTime[0], minute: allowedTime[1]),
                                     end: TimeOfDay(hour: allowedTime[2], minute: allowedTime[3]),
