@@ -180,8 +180,8 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
                               style: outlineButtonForm(12, 7, const Color(0xFFFB8665)),
                               onPressed: () async {
                                   TimeRange result = await showTimeRangePicker(
-                                    labelStyle: TextStyle(
-                                      color: const Color(0xffffffff),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xffffffff),
                                       fontWeight: FontWeight.w700,
                                       fontFamily: 'NanumSquareRound',
                                       fontSize: 10,
@@ -316,7 +316,8 @@ class _InvitationBottomSheet extends State<InvitationBottomSheet> {
     relationJson['email'] = targetIdClr.text.trim();
     var result = await invitationService(relationJson);
     if(result['result'] == 'success'){
-      Get.back();
+      Navigator.pop(context);
+      //Get.back();
     }
   }
 }

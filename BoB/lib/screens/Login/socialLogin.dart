@@ -101,6 +101,6 @@ class _SLogAddiInfo extends State<SLogAddiInfo>{
     }
     // 2. call register API
     var response = await registerService(widget.autoInfo['email'], 'lstm123!@#', widget.autoInfo['nickname'], phone, qaType, qaAnswer);
-    Get.back();
+    Navigator.pop(context);
   }
 }

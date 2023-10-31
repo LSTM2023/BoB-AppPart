@@ -138,6 +138,23 @@ class _ModifyBabyBottomSheet extends State<ModifyBabyBottomSheet>{
       ),
     );
   }
+  /// Method for Modify Baby Information
+  void babyModifyService(int bId, String bName, DateTime bBirth, String bGender) async {
+    // [0] validate
+    if(!validateBabyName(bName) || !validateGender(bGender) || !validateBirth(bBirth)){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('warning_form'.tr),
+        ),
+      );
+      return;
+    }
+    // modify baby data API
+    var response = await editBabyService(bId, bName, bBirth, bGender);
+    if(response == 200){
+      Navigator.pop(context);
+    }
+  }
 }
 
 class AddBabyBottomSheet extends StatefulWidget {
@@ -284,32 +301,26 @@ class _AddBabyBottomSheet extends State<AddBabyBottomSheet>{
       ),
     );
   }
+  /// Method for Register New Baby
+  void babyRegisterService(String bName, DateTime bBirth, String bGender) async {
+    // [0] validate
+    if(!validateBabyName(bName) || !validateGender(bGender) || !validateBirth(bBirth)){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('warning_form'.tr),
+        ),
+      );
+      return;
+    }
+    // register baby API
+    var response = await setBabyService(bName, bBirth, bGender);
+    if(response['result'] == 'success'){
+
+      Navigator.pop(context);
+    }
+  }
+
 }
 
-/// Method for Modify Baby Information
-void babyModifyService(int bId, String bName, DateTime bBirth, String bGender) async {
-  // [0] validate
-  if(!validateBabyName(bName) || !validateGender(bGender) || !validateBirth(bBirth)){
-    Get.snackbar('warning'.tr, 'warning_form'.tr);
-    return;
-  }
-  // modify baby data API
-  var response = await editBabyService(bId, bName, bBirth, bGender);
-  if(response == 200){
-    Get.back();
-  }
-}
 
-/// Method for Register New Baby
-void babyRegisterService(String bName, DateTime bBirth, String bGender) async {
-  // [0] validate
-  if(!validateBabyName(bName) || !validateGender(bGender) || !validateBirth(bBirth)){
-    Get.snackbar('warning'.tr, 'warning_form'.tr);
-    return;
-  }
-  // register baby API
-  var response = await setBabyService(bName, bBirth, bGender);
-  if(response['result'] == 'success'){
-    Get.back();
-  }
-}
+

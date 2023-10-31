@@ -93,8 +93,7 @@ class MainHomeState extends State<Main_Home> {
 
   String nextVaccineCheckDate = '-';    // 다음 예방 접종 데이터
   String nextMedicalCheckDate = '-';    // 다음 건강 검진 데이터
-
-  late Future getGrowthRecord;                    // 성장 기록 가져오기
+   // 성장 기록 가져오기
   late List<dynamic> getGrowthRecordList = [];    // 성장 기록 리스트
 
   bool babyListEmpty = true;    // 아기 리스트가 비어 있는 경우
@@ -108,8 +107,8 @@ class MainHomeState extends State<Main_Home> {
 
     if(activeBabies.isNotEmpty) {
       currentBaby = widget.getCurrentBabyFunction();
-      getGrowthRecord = getMyGrowthInfo();
       loadMyBabyMedicalInfo();
+      getMyGrowthInfo();
       loadLastLifeRecord();
       stopWatchWidget = StopWatch(currentBaby!, key : _stopwatchKey, closeFuction: closeOffset, saveFuction: showTimerBottomSheet);
       babyListEmpty = false;
@@ -122,11 +121,11 @@ class MainHomeState extends State<Main_Home> {
   }
 
   /// 성장 기록 정보 불러오기
-  Future getMyGrowthInfo() async{
+  getMyGrowthInfo() async{
     List<dynamic> growthRecordList = await growthGetService(currentBaby!.relationInfo.BabyId);
-    getGrowthRecordList = growthRecordList;
-
-    return getGrowthRecordList;
+    setState(() {
+      getGrowthRecordList = growthRecordList;
+    });
   }
 
   /// 생활 기록 정보 불러오기
@@ -143,8 +142,67 @@ class MainHomeState extends State<Main_Home> {
   /// 현재 관리중인 아기의 건강 검진/예방접종 정보 가져오기
   Future<void> loadMyBabyMedicalInfo() async{
     // sample 가져오기
-    myBabyVaccineList = vaccineCheckupsSample;
-    myBabyMedicalCheckList = medicalCheckupsSample;
+    myBabyVaccineList = vaccineCheckupsSample = [
+      Vaccine(0, '결핵 경피용', 'BCG 1회/기타', {'M': [0, 1]}, '생후 4주 이내 접종, 민간의료기관, 유료'),
+      Vaccine(1, '결핵 피내용', 'BCG 1회/기타', {'M': [0, 1]}, '생후 4주 이내 접종, 민간의료기관, 유료'),
+      Vaccine(2, 'B형 간염', 'HepB 1차/국가', {'M': [0, 1]}, '생후 12시간 이내 접종(모체가 양성일 경우 HBIG와 함께 접종)'),
+      Vaccine(3, 'B형 간염', 'HepB 2차/국가', {'M': [1, 2]}, '만 1개월에 접종'),
+      Vaccine(4, '디프테리아, 파상풍, 백일해', 'DTaP 1회/국가', {'M':[2, 3]}, 'DTaP-IPV 폴리오와 혼합 접종 가능'),
+      Vaccine(5, '폴리오', 'IPV 1회/국가', {'M': [2, 3]}, 'DTaP-IPV 혼합 접종 가능'),
+      Vaccine(6, 'b형 헤모필루스인플루엔자', 'Hib 1차/국가', {'M': [2, 3]}, '뇌수막염 예방접종'),
+      Vaccine(7, '폐렴구균', 'PCV(단백결합) 1차/국가', {'M': [2, 3]},  ''),
+      Vaccine(8, '로타바이러스(로타릭스)', 'RV1 1차/기타', {'M': [2, 3]}, '유료, 로타릭스/로타텍 중 선택 접종'),
+      Vaccine(9, '로타바이러스(로타텍)', 'RV5 1차/기타', {'M': [2, 3]}, '유료, 로타릭스/로타텍 중 선택 접종'),
+      Vaccine(10, '디프테리아, 파상풍, 백일해', 'DTaP 2차/국가', {'M': [4,5]}, 'DTaP-IPV 폴리오와 혼합 접종 가능'),
+      Vaccine(11, '폴리오', 'IPV 2차/국가', {'M': [4,5]}, 'DTaP-IPV 혼합 접종 가능'),
+      Vaccine(12,  'b형 헤모필루스인플루엔자','Hib 2차/국가', {'M': [4,5]}, '뇌수막염 예방접종, 만 4개월에 접종'),
+      Vaccine(13,  '폐렴구균', 'PCV(단백결합) 2차/국가', {'M': [4,5]}, '만 4개월에 접종'),
+      Vaccine(14,  '로타바이러스(로타릭스)', 'RV1 2차/기타', {'M': [4,5]}, '유료, 로타릭스/로타텍 중 선택 접종'),
+      Vaccine(15,  '로타바이러스(로타텍)', 'RV5 2차/기타', {'M': [4,5]}, '유료, 로타릭스/로타텍 중 선택 접종'),
+      Vaccine(16,  'B형 간염', 'HepB 3차/국가', {'M': [6,7]}, '만 6개월에 접종'),
+      Vaccine(17,  '디프테리아, 파상풍, 백일해', 'DTaP 3차/국가', {'M': [6,7]}, 'DTaP-IPV 폴리오와 혼합 접종 가능'),
+      Vaccine(18,  '폴리오', 'IPV 3차/국가',{'M': [6,7]}, 'DTaP-IPV 혼합 접종 가능'),
+      Vaccine(19, 'b형 헤모필루스인플루엔자', 'Hib 3차/국가', {'M': [6,7]}, '뇌수막염 예방접종, 만 6개월에 접종'),
+      Vaccine(20, '폐렴구균', 'PCV(단백결합) 3차/국가', {'M': [6,7]}, '만 6개월에 접종'),
+      Vaccine(21, '로타바이러스(로타텍)', 'RV5 3차/기타', {'M': [6,7]}, '유료, 로타릭스/로타텍 중 선택 접종'),
+      Vaccine(22, '인플루엔자', 'IIV 1차/국가', {'M': [6,7]}, '만 6개월 후 지정기간에서 접종\n생애 최초 시 4주 후 2차 접종'),
+      Vaccine(23, '인플루엔자', 'IIV 2차/국가', {'M': [6,7]}, '만 6개월 후 지정기간에서 접종\n생애 최초 시 4주 후 2차 접종'),
+      Vaccine(24, 'b형 헤모필루스인플루엔자', 'Hib 추가 4차/국가', {'M': [12, 15]}, '뇌수막염 접종, 만 12~15개월에 접종'),
+      Vaccine(25, '폐렴구균', 'PCV(단백결합) 추가 4차/국가', {'M': [12, 15]}, '만 12~15개월 접종'),
+      Vaccine(26, '홍역, 유행성이하선염, 풍진', 'MMR 1차/국가', {'M': [12, 15]}, '만 12~15개월 접종'),
+      Vaccine(27, '수두', 'VAR 1회/국가', {'M': [12, 15]}, '만 12~15개월 접종'),
+      Vaccine(28, '디프테리아 / 파상풍 / 백일해', 'DTaP 추가 4차/국가', {'M': [15, 18]}, '만 15~18개월 접종'),
+      Vaccine(29, 'A형 간염',  'HepA 1차/국가', {'M': [12, 23]}, '만 12~23개월 접종'),
+      Vaccine(30, 'A형 간염',  'HepA 2차/국가', {'M': [12, 23]}, '만 12~23개월 접종'),
+      Vaccine(31, '일본뇌염 사백신', 'IJEV 1차/국가', {'M': [12, 23]}, '사백신 총 5회 접종'),
+      Vaccine(32, '일본뇌염 사백신', 'IJEV 2차/국가', {'M': [12, 23]}, '1차 접종 1개월 후 접종'),
+      Vaccine(33, '일본뇌염 사백신', 'IJEV 3차/국가', {'M': [35,36]}, '2차 접종 11개월 후 접종'),
+      Vaccine(34, '일본뇌염 생백신', 'LJEV 1차/국가', {'M': [12, 35]}, '총 2회 접종, 1차 접종 12개월 후 2차 접종(무료/유료)'),
+      Vaccine(35, '일본뇌염 생백신', 'LJEV 2차/국가', {'M': [12, 35]}, '총 2회 접종, 1차 접종 12개월 후 2차 접종(무료/유료)'),
+      Vaccine(36, '인플루엔자', 'IIV 1회/국가', {'M': [23,24]}, '국가지정기간에서 접종(보통 10월중순 즘 시작)'),
+      Vaccine(37, '인플루엔자', 'IIV 2회/국가', {'M': [35,36]}, '국가지정기간에서 접종(보통 10월중순 즘 시작)'),
+      Vaccine(38, '디프테리아 / 파상풍 / 백일해', 'DTaP 추가 5차/국가', {'Y': [4, 6]}, '만 4~6세 접종'),
+      Vaccine(39, '디프테리아 / 파상풍 / 백일해', 'DTaP 추가 6차/국가', {'Y': [11, 12]}, '만 11~12세 접종'),
+      Vaccine(40, '폴리오', 'IPV 추가 4차/국가', {'Y': [4,6]}, '만 4~6세 접종'),
+      Vaccine(41, '홍역 / 유행성 이하선염 / 풍진', 'MMR 2차/국가', {'Y': [4,6]}, '만 4~6세 접종'),
+      Vaccine(42, '일본뇌염 사백신', 'IJEV(사백신) 추가 4차/국가', {'Y': [6,7]}, '총 5회 접종, 4차 접종'),
+      Vaccine(43, '일본뇌염 사백신', 'IJEV(사백신) 추가 5차/국가', {'Y': [12,13]}, '총 5회 접종, 5차 접종'),
+      Vaccine(44, '인유두종 바이러스 감염증', 'HPV 1차/국가', {'Y': [12,13]}, '자궁경부암백신, 여아만 해당\n만 12세에 6개월 간격으로 2회 접종')
+    ];
+    myBabyMedicalCheckList = [
+      MedicalCheckUp(0, '1차 건강검진',[1, 14, 35]),
+      MedicalCheckUp(1, '2차 건강검진',[0, 4, 6]),
+      MedicalCheckUp(2, '3차 건강검진',[0, 9, 12]),
+      MedicalCheckUp(3, '4차 건강검진',[0, 18, 24]),
+      MedicalCheckUp(4, '1차 구강검진',[0, 18, 24]),
+      MedicalCheckUp(5, '5차 건강검진',[0, 30, 36]),
+      MedicalCheckUp(6, '2차 구강검진',[0, 30, 41]),
+      MedicalCheckUp(7, '6차 건강검진',[0, 42, 48]),
+      MedicalCheckUp(8, '3차 구강검진',[0, 42, 53]),
+      MedicalCheckUp(9, '7차 건강검진',[0, 54, 60]),
+      MedicalCheckUp(10, '4차 구강검진',[0, 54, 65]),
+      MedicalCheckUp(11, '8차 건강검진',[0, 66, 71])
+    ];
     // 현재 관리 중인 아기 생일에 맞춰 접종 권장시기 설정
     for(int i=0; i< myBabyMedicalCheckList.length; i++){
       myBabyMedicalCheckList[i].setCheckPeriod(currentBaby!.birth);
@@ -153,7 +211,9 @@ class MainHomeState extends State<Main_Home> {
       myBabyVaccineList[i].setCheckPeriod(currentBaby!.birth);
     }
     // 아기의 접종 현황 불러오기
+    print(currentBaby!.relationInfo.BabyId);
     List<dynamic> data = await vaccineCheckByIdService(currentBaby!.relationInfo.BabyId);
+    print(data);
     List<bool> vaccs = List.filled(45, false);
     List<bool> meds = List.filled(12, false);
     for(int i=0; i<data.length; i++){
@@ -380,7 +440,7 @@ class MainHomeState extends State<Main_Home> {
                               }
                           );
                         }else {       // 성장 통계 페이지로 이동
-                          Get.to(()=>BabyGrowthStatistics(currentBaby!, myBabyGrowthRecordList));
+                          await Get.to(()=>BabyGrowthStatistics(currentBaby!, myBabyGrowthRecordList));
                           await getMyGrowthInfo();
                         }
                       },
@@ -409,12 +469,12 @@ class MainHomeState extends State<Main_Home> {
                                 IconButton(
                                     constraints: const BoxConstraints(),
                                     padding: const EdgeInsets.only(right: 8),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       if(babyListEmpty){
                                         Get.snackbar('warning'.tr, '아기를 먼저 등록해주세요');
                                         return;
                                       }
-                                      showModalBottomSheet(
+                                      await showModalBottomSheet(
                                           shape: const RoundedRectangleBorder(
                                               borderRadius: BorderRadius.only(
                                                   topRight: Radius.circular(25),
@@ -428,6 +488,7 @@ class MainHomeState extends State<Main_Home> {
                                             return GrowthRecordBottomSheet(currentBaby!, currentBaby!.relationInfo.BabyId);    // 성장 기록 sheet
                                           }
                                       );
+                                      await getMyGrowthInfo();
                                     },
                                     icon: const Icon(Icons.add_circle_outline, size: 21, color: Color(0xff512F22))
                                 ),

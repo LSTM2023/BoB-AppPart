@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:bob/models/model.dart';
 import 'package:bob/services/backend.dart';
 import 'package:get/get.dart';
+import '../../models/medicalList.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/form.dart';
 import '../../widgets/pharse.dart';
@@ -178,7 +179,7 @@ class _BabyVaccination extends State<BabyVaccination> {
                         label(vaccine.times, 'bold', 12, 'base80'),
                         label(
                             vaccine.isInoculation
-                                ?'${'Vaccination_date'.tr}${DateFormat.yMMMd().format(vaccine.inoculationDate)}'
+                                ?'${'Vaccination_date'.tr}${DateFormat('yyyy-MM-dd').format(vaccine.inoculationDate)}'
                                 :'${'Recommended_vaccination'.tr}${vaccine.recommendationDate}'
                             , 'bold', 12, 'base80'),
                       ],
@@ -286,10 +287,11 @@ class _BabyVaccination extends State<BabyVaccination> {
   /// My 접종 리스트 가져오기
   Future getMyVaccineInfo() async{
     List<dynamic> vaccineList = await vaccineCheckByIdService(widget.baby.relationInfo.BabyId);
+
     for(int i=0; i<vaccineList.length; i++){
       int mode = vaccineList[i]['mode'];
       if(mode>44) continue; // 예외 처리
-
+      print(vaccineList[i]['check_name']);
       widget.vaccines[mode].isInoculation = true;
       widget.vaccines[mode].inoculationDate = DateTime.parse(vaccineList[i]['date']);
     }
@@ -298,6 +300,7 @@ class _BabyVaccination extends State<BabyVaccination> {
 
   /// method for record vaccination (API 연결)
   setVaccineInfo(int mode, String checkName, String state) async{
+    // call API
     var result = await vaccineSetService(widget.baby.relationInfo.BabyId, checkName, mode, state);
     if(result['result'] == 'success'){
       Get.snackbar('Vaccination_completed'.tr, '$checkName ${'Vaccination_finish'.tr}');

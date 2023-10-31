@@ -26,7 +26,11 @@ class _Invitation extends State<Invitation> {
         backgroundColor: const Color(0xFFFB8665),
         onPressed: (){
           if(widget.activeBabies.isEmpty){
-            Get.snackbar('warning'.tr, '등록된 아기가 없습니다.');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('등록된 아기가 없습니다.'),
+              ),
+            );
             return;
           }
           openInvitationForm();
@@ -118,7 +122,8 @@ class _Invitation extends State<Invitation> {
                 // 1. 초대 수락하는 API 보내기
                 var result = await acceptInvitationService(babyId);
                 Navigator.pop(context);
-                Get.back();
+                //Navigator.pop(context);
+                //Get.back();
               },
               child: label('accept'.tr,'extra-bold', 14, 'white')
           )

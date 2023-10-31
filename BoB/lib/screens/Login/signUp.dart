@@ -170,7 +170,7 @@ class _SignUp extends State<SignUp>{
     }
     // 2. call register API
     var response = await registerService(email, pass, nickname, phone, qaType, qaAnswer);
-    Get.snackbar('회원가입 성공', '회원가입에 성공하였습니다. 횐영합니다 \u{1F606}');
+    //Get.snackbar('회원가입 성공', '회원가입에 성공하였습니다. 횐영합니다 \u{1F606}');
     Get.to(() => LoginInit());
   }
 }
