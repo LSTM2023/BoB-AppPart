@@ -122,7 +122,7 @@ class _Invitation extends State<Invitation> {
                 // 1. 초대 수락하는 API 보내기
                 var result = await acceptInvitationService(babyId);
                 Navigator.pop(context);
-                //Navigator.pop(context);
+                Navigator.pop(context);
                 //Get.back();
               },
               child: label('accept'.tr,'extra-bold', 14, 'white')
