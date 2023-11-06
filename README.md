@@ -25,7 +25,7 @@
 <br>
 <hr>
 
-## Tech Stack & Open-source libraries
+## 📚 Tech Stack & Open-source libraries
 - 100% [Flutter](https://flutter.dev/) based.
 - What is [Flutter?](https://aws.amazon.com/ko/what-is/flutter/)
 - [Multi-Platform](https://flutter.dev/multi-platform) development for iOS and Android.
@@ -37,7 +37,7 @@
 <br>
 <hr>
 
-## 개발 배경
+## 💡 개발 배경
 
 1. 육아 기록 및 건강 관리가 가능한 스마트 육아 수첩의 필요성
 2. 수면 중 갑작스럽게 사망하는 영아 돌연사 증후군 예방
@@ -46,7 +46,7 @@
 
 <br>
 
-## 주요 기능
+## ⚡️ 주요 기능
 
 - 홈캠 및 온습도 센서를 통한 아이 수면 실시간 모니터링
 - 딥러닝 기반 수면 자세 포즈 추정 및 비정상 수면 자세 알림 서비스
