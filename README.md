@@ -1,14 +1,13 @@
-# BoB-AppPart
-![프레젠테이션1](https://github.com/LSTM2023/BoB-AppPart/assets/87134443/a6e0bae9-ad96-44b4-82f3-4157707e2e69)
+<h1 align="center">BoB - App Part</h1>
 
 <p align="center">
-	
-[
-![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FLSTM2023%2FBoB-AppPart&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)
-![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![language](https://img.shields.io/badge/language-flutter-yellow)
+<img src="https://github.com/LSTM2023/Infant-Pose-Detection/assets/99634832/d5bea421-6b9e-4c92-8b96-5bded0d1dcce" alt="Alt text" width="500"/></br>
 </p>
-
+<p align="center">
+<a href="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FLSTM2023%2FBoB-AppPart&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FLSTM2023%2FBoB-AppPart&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"></a>
+<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
+<img src="https://img.shields.io/badge/language-flutter-yellow" alt="language">
+</p>
 
 ## 🧑🏻‍💻 개발 환경
 -	Android Studio in MacOS 📱
